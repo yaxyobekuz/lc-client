@@ -21,7 +21,7 @@ const useLogin = () => {
   return useMutation({
     mutationFn: (body) => authAPI.login(body).then((r) => r.data.data),
     onSuccess: async (data) => {
-      // Access tokenni saqlash; refresh esa httpOnly cookie'da keladi
+      // Refresh stays in the httpOnly cookie; only the access token lives in localStorage
       localStorage.setItem("authToken", data.accessToken);
       await queryClient.invalidateQueries({ queryKey: qk.auth.me() });
       toast.success("Tizimga muvaffaqiyatli kirildi");
