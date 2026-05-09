@@ -1,17 +1,6 @@
 // Utils
 import { cn } from "@/shared/utils/cn";
 
-/**
- * Card - Basic container with optional title.
- *
- * @param {object} props
- * @param {string} [props.className=""] - Extra class names.
- * @param {React.ReactNode} props.children - Card content.
- * @param {boolean} [props.responsive=false] - Apply responsive padding/rounding.
- * @param {string} [props.title=""] - Optional title text.
- * @param {React.ElementType} [props.icon=null] - Optional icon component for title.
- * @returns {JSX.Element}
- */
 const Card = ({
   children,
   title = "",

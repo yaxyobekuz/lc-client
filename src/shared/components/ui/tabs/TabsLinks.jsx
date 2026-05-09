@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 // Utils
 import { cn } from "@/shared/utils/cn";
 
-// shadcn TabsList/TabsTrigger bilan bir xil stillarni qayta ishlatamiz
+// Mirrors shadcn TabsList/TabsTrigger classes so styling stays identical
 const LIST_CLASS =
   "inline-flex h-10 items-center justify-center rounded-sm bg-gray-100 p-1 text-muted-foreground";
 
@@ -13,14 +13,6 @@ const TRIGGER_CLASS =
 
 const TRIGGER_ACTIVE_CLASS = "bg-primary text-white shadow-sm";
 
-/**
- * Route-bazasi tab. Stillari TabsButtons (shadcn) bilan bir xil.
- * @param {Object[]} items                       — { to, label, exact?, disabled? }
- * @param {string}   className                   — root (TabsList) override
- * @param {string}   itemClassName               — har bir trigger uchun
- * @param {string}   activeClassName             — faol trigger uchun
- * @param {boolean}  end                         — NavLink end (default true)
- */
 const TabsLinks = ({
   items = [],
   className = "",

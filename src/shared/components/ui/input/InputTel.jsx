@@ -7,11 +7,7 @@ import { IMaskInput } from "react-imask";
 // Components
 import { inputBaseClasses } from "./Input";
 
-/**
- * Masked telephone input that emits event-like payload for form handlers.
- * @param {{className?: string, onChange?: function, name?: string, value?: string}} props
- * @returns {JSX.Element}
- */
+// Adapts IMaskInput's onAccept(value) to a synthetic { target: { name, value } } event
 const InputTel = ({ className = "", onChange, name, ...props }) => {
   const handleAccept = (value) => {
     if (!onChange) return;

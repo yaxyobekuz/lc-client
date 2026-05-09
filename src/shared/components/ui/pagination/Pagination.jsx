@@ -7,19 +7,6 @@ import Button from "@/shared/components/ui/button/Button";
 // React
 import { memo, useEffect, useMemo, useState } from "react";
 
-/**
- * Reusable Pagination Component
- * @param {Object} props
- * @param {number} props.currentPage - Current active page number
- * @param {number} props.totalPages - Total number of pages
- * @param {boolean} props.hasNextPage - Whether there is a next page
- * @param {boolean} props.hasPrevPage - Whether there is a previous page
- * @param {function} props.onPageChange - Callback function when page changes
- * @param {boolean} props.showPageNumbers - Whether to show page number buttons (default: true)
- * @param {number} props.maxPageButtons - Maximum number of page buttons to show (default: 5)
- * @param {string} props.className - Additional CSS classes for the container
- * @param {number} props.contentTop - The top position of the content to scroll to
- */
 const Pagination = ({
   contentRef,
   currentPage,
@@ -31,7 +18,6 @@ const Pagination = ({
   hasPrevPage = false,
   showPageNumbers = true,
 }) => {
-  // Don't render if only one page
   if (totalPages <= 1 && !showPageNumbers) {
     return null;
   }
@@ -68,7 +54,6 @@ const Pagination = ({
     }
   };
 
-  // Generate page numbers to display
   const getPageNumbers = () => {
     if (totalPages <= maxPageButtons) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -80,7 +65,6 @@ const Pagination = ({
     let startPage = Math.max(1, currentPage - halfMaxButtons);
     let endPage = Math.min(totalPages, currentPage + halfMaxButtons);
 
-    // Adjust if we're near the start or end
     if (currentPage <= halfMaxButtons) {
       endPage = Math.min(totalPages, maxPageButtons);
     } else if (currentPage >= totalPages - halfMaxButtons) {
