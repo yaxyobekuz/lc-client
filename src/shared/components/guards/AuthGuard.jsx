@@ -1,11 +1,9 @@
 // Router
 import { Navigate, Outlet } from "react-router-dom";
 
-// Hooks
-import useAuth from "@/shared/hooks/useAuth";
-
 const AuthGuard = () => {
-  const { isLoading, isError, isAuthenticated } = useAuth();
+  const isLoading = false;
+  const isError = false;
   const token = localStorage.getItem("authToken");
 
   if (!token) return <Navigate to="/login" replace />;
@@ -18,10 +16,7 @@ const AuthGuard = () => {
     );
   }
 
-  if (isError || !isAuthenticated) {
-    localStorage.removeItem("authToken");
-    return <Navigate to="/login" replace />;
-  }
+  if (isError) return <Navigate to="/login" replace />;
 
   return <Outlet />;
 };
