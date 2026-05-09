@@ -13,7 +13,6 @@ client/src/
 │  ├─ components/
 │  │  ├─ shadcn/            # Used ONLY inside shared
 │  │  ├─ ui/                # ModalWrapper, Pagination, ... (wrappers over shadcn)
-│  │  ├─ form/              # combobox, multi-select
 │  │  ├─ guards/            # AuthGuard, GuestGuard, RoleGuard, PermissionGuard
 │  │  ├─ layout/            # AppHeader, AppSidebar, ...
 │  │  └─ bg/
