@@ -1,5 +1,5 @@
 // Icons
-import { LogOut, PanelLeft, TrendingUp, ChevronRight } from "lucide-react";
+import { LogOut, PanelLeft, ChevronRight, ArrowLeftToLine } from "lucide-react";
 
 // Router
 import { Link } from "react-router-dom";
@@ -15,7 +15,6 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarMenuSub,
-  SidebarTrigger,
   SidebarMenuItem,
   SidebarGroupLabel,
   SidebarMenuButton,
@@ -47,12 +46,13 @@ import usePermissions from "@/shared/hooks/usePermissions";
 import { useIsMobile } from "@/shared/hooks/useMobile";
 
 // Constants
-import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
+import { ROLES } from "@/shared/constants/roles";
 
 // Rol-spec sidebar konfiguratsiyalari
 import { ownerSidebar } from "@/owner";
 import { teacherSidebar } from "@/teacher";
 import { studentSidebar } from "@/student";
+import { logoIcon } from "@/shared/assets/icons";
 
 const ROLE_SIDEBAR = {
   [ROLES.OWNER]: ownerSidebar,
@@ -72,8 +72,7 @@ const AppSidebar = ({ ...props }) => {
 };
 
 const Header = () => {
-  const { toggleSidebar, open } = useSidebar();
-  const { role } = useAuth();
+  const { toggleSidebar } = useSidebar();
 
   return (
     <SidebarHeader>
@@ -84,22 +83,21 @@ const Header = () => {
             onClick={() => toggleSidebar()}
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
-            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-400 to-blue-700 text-white text-sm font-semibold">
-              B
-            </div>
+            <img
+              width={32}
+              alt="Logo"
+              height={32}
+              src={logoIcon}
+              className="size-8"
+            />
+
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-semibold">Bayyina</span>
-              <p className="flex items-center gap-1.5 text-green-500">
-                <span className="truncate text-xs">{ROLE_LABELS[role] || ""}</span>
-                <TrendingUp size={18} strokeWidth={1.5} />
-              </p>
             </div>
-            <PanelLeft className="ml-auto" size={24} strokeWidth={1.5} />
+            <ArrowLeftToLine className="ml-auto" size={24} strokeWidth={1.5} />
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
-
-      {!open && <SidebarTrigger className="size-8" />}
     </SidebarHeader>
   );
 };
@@ -136,7 +134,10 @@ const Main = () => {
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title} className="h-auto py-2.5">
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    className="h-auto py-2.5"
+                  >
                     {item.icon && <item.icon strokeWidth={1.5} />}
                     <span>{item.title}</span>
                     <ChevronRight
@@ -191,7 +192,7 @@ const Footer = () => {
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
-                <div className="flex items-center justify-center size-8 shrink-0 bg-background rounded-lg uppercase">
+                <div className="flex items-center justify-center size-8 shrink-0 bg-primary rounded-[2px] uppercase text-white">
                   {initial}
                 </div>
 
@@ -202,7 +203,11 @@ const Footer = () => {
                   <span className="truncate text-xs">{user.username}</span>
                 </div>
 
-                <ChevronRight size={20} strokeWidth={1.5} className="ml-auto !size-5" />
+                <ChevronRight
+                  size={20}
+                  strokeWidth={1.5}
+                  className="ml-auto !size-5"
+                />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
 
@@ -214,14 +219,17 @@ const Footer = () => {
             >
               <DropdownMenuLabel className="!p-0 font-normal">
                 <div className="flex items-center gap-2 text-left text-sm">
-                  <div className="flex items-center justify-center size-8 shrink-0 bg-background rounded-md uppercase">
+                  <div className="flex items-center justify-center size-8 shrink-0 bg-primary rounded-[2px] uppercase text-white">
                     {initial}
                   </div>
+
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">
                       {user.firstName || user.username}
                     </span>
-                    <span className="truncate text-xs opacity-70">{user.username}</span>
+                    <span className="truncate text-xs opacity-70">
+                      {user.username}
+                    </span>
                   </div>
                 </div>
               </DropdownMenuLabel>

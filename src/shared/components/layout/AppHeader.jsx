@@ -1,5 +1,6 @@
 // Components
 import { useSidebar } from "../shadcn/sidebar";
+import NotificationBell from "../notification/NotificationBell";
 
 // Icons
 import { TextAlignJustify } from "lucide-react";
@@ -23,15 +24,13 @@ const AppHeader = () => {
           height={24}
           src={logoIcon}
           className="size-6"
-          alt="MBSI School logo svg"
+          alt="System logo svg"
         />
-        <span className="font-medium">MBSI School</span>
+        <span className="font-medium">Bayyina</span>
       </div>
 
-      {/* Profile */}
-      <div className="flex items-center justify-center size-7 rounded-full bg-gradient-to-tr from-blue-400 to-blue-700 text-white text-sm">
-        :D
-      </div>
+      {/* Bell */}
+      <NotificationBell />
     </header>
   );
 };
