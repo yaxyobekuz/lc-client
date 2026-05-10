@@ -6,7 +6,7 @@ export const ROLES = Object.freeze({
 });
 
 export const ROLE_LABELS = Object.freeze({
-  owner: "Egasi",
+  owner: "Ega",
   teacher: "O'qituvchi",
   student: "O'quvchi",
 });
