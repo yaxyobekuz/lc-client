@@ -5,7 +5,10 @@ import SelectField from "./SelectField";
 import { useQuery } from "@tanstack/react-query";
 
 // API
-import { usersAPI } from "@/features/users/api/users.api";
+import { usersAPI } from "@/owner/features/users/api/users.api";
+
+// Query keys
+import { qk } from "@/shared/lib/query/keys";
 
 const defaultFormatUserFunc = (user) => ({
   value: user._id,
@@ -15,12 +18,15 @@ const defaultFormatUserFunc = (user) => ({
 const SelectAllUsers = ({
   label = "Foydalanuvchi",
   formatUsers = defaultFormatUserFunc,
+  role,
   ...props
 }) => {
-  const { data: users = [] } = useQuery({
-    queryKey: ["users", "all-users-short"],
-    queryFn: () => usersAPI.getAllShort().then((res) => res.data.data),
+  const params = role ? { role, limit: 200 } : { limit: 200 };
+  const { data } = useQuery({
+    queryKey: qk.users.list(params),
+    queryFn: () => usersAPI.list(params).then((res) => res.data.data),
   });
+  const users = data || [];
 
   return (
     <SelectField
