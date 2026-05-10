@@ -1,0 +1,47 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { holidaysAPI } from "../api/holidays.api";
+import { qk } from "@/shared/lib/query/keys";
+
+const handleErr = (err) =>
+  toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+
+export const useHolidayCreateMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body) => holidaysAPI.create(body).then((r) => r.data.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.holidays.all() });
+      toast.success("Bayram qo'shildi");
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: handleErr,
+  });
+};
+
+export const useHolidayUpdateMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }) =>
+      holidaysAPI.update(id, body).then((r) => r.data.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.holidays.all() });
+      toast.success("Saqlandi");
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: handleErr,
+  });
+};
+
+export const useHolidayRemoveMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => holidaysAPI.remove(id).then((r) => r.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.holidays.all() });
+      toast.success("O'chirildi");
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: handleErr,
+  });
+};
