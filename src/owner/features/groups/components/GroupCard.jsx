@@ -15,11 +15,8 @@ const GroupCard = ({ group }) => {
     .join(", ");
 
   return (
-    <Link
-      to={`/owner/groups/${group._id}`}
-      className="block transition hover:shadow-md"
-    >
-      <Card className="h-full flex flex-col gap-3">
+    <Link to={`/owner/groups/${group._id}`} className="block group">
+      <Card className="h-full flex flex-col gap-3 transition-colors group-hover:border-primary">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-base">{group.name}</h3>
           <Badge variant="secondary">{group.studentsCount || 0} talaba</Badge>

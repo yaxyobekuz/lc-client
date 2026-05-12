@@ -27,6 +27,7 @@ import { MODAL } from "@/shared/constants/modals";
 // Utils
 import { formatSchedule } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import BackLink from "@/shared/components/ui/link/BackLink";
 
 const GroupDetailPage = () => {
   const { id } = useParams();
@@ -34,7 +35,11 @@ const GroupDetailPage = () => {
   const { data: group, isLoading, isError } = useGroupQuery(id);
 
   if (isLoading) {
-    return <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>;
+    return (
+      <div className="p-8 text-center text-muted-foreground">
+        Yuklanmoqda...
+      </div>
+    );
   }
 
   if (isError || !group) {
@@ -57,12 +62,8 @@ const GroupDetailPage = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Link
-            to="/owner/groups"
-            className="size-9 inline-flex items-center justify-center rounded-md border bg-white hover:bg-gray-50"
-          >
-            <ArrowLeft className="size-4" />
-          </Link>
+          <BackLink to="/owner/groups" />
+
           <h1 className="text-2xl font-semibold">{group.name}</h1>
           <Badge variant="secondary">{group.studentsCount} talaba</Badge>
         </div>
