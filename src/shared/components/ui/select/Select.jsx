@@ -13,7 +13,10 @@ import {
 // Hooks
 import useSound from "@/shared/hooks/useSound";
 
+const EMPTY_SENTINEL = "__empty__";
+
 const Select = ({
+  value,
   onChange,
   onOpenChange,
   options = [],
@@ -22,16 +25,25 @@ const Select = ({
   ...props
 }) => {
   const { playSound } = useSound();
-  const handleChange = (e) => onChange?.(e);
+
+  const handleChange = (next) => {
+    onChange?.(next === EMPTY_SENTINEL ? "" : next);
+  };
 
   const handleOpenChange = (e) => {
     onOpenChange?.(e);
     playSound("notification-pop");
   };
 
+  const isControlled = value !== undefined;
+  const valueProp = isControlled
+    ? { value: value === "" || value == null ? EMPTY_SENTINEL : value }
+    : {};
+
   return (
     <SelectWrapper
       id={props.id || props.name}
+      {...valueProp}
       onValueChange={handleChange}
       name={props.name || props.id}
       onOpenChange={handleOpenChange}
@@ -51,15 +63,21 @@ const Select = ({
       <SelectContent>
         {/* Options */}
         {!isLoading &&
-          options.map((opt) => (
-            <SelectItem
-              key={opt.value}
-              value={opt.value}
-              disabled={opt.disabled}
-            >
-              {opt.label}
-            </SelectItem>
-          ))}
+          options.map((opt) => {
+            const itemValue =
+              opt.value === "" || opt.value == null
+                ? EMPTY_SENTINEL
+                : opt.value;
+            return (
+              <SelectItem
+                key={itemValue}
+                value={itemValue}
+                disabled={opt.disabled}
+              >
+                {opt.label}
+              </SelectItem>
+            );
+          })}
 
         {/* Loading */}
         {isLoading && (
