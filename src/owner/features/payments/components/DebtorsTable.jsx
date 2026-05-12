@@ -13,9 +13,9 @@ const DebtorsTable = ({ items = [] }) => {
   }
 
   return (
-    <div className="border rounded-lg overflow-hidden bg-white">
+    <div className="border rounded-sm overflow-hidden bg-white">
       <table className="w-full text-sm">
-        <thead className="bg-gray-50 text-left">
+        <thead className=" text-left">
           <tr>
             <th className="px-4 py-2 font-medium">#</th>
             <th className="px-4 py-2 font-medium">Talaba</th>

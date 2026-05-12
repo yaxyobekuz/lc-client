@@ -25,7 +25,7 @@ const LeadsTable = ({ items = [] }) => {
   return (
     <div className="overflow-x-auto rounded-lg border bg-white">
       <table className="w-full text-sm">
-        <thead className="bg-gray-50 text-left">
+        <thead className=" text-left">
           <tr>
             <th className="px-3 py-2">Ism</th>
             <th className="px-3 py-2">Telefon</th>

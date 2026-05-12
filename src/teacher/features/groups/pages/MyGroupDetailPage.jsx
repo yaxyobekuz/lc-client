@@ -66,7 +66,7 @@ const MyGroupDetailPage = () => {
           <p className="text-muted-foreground text-sm">Talabalar yo'q</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left">
+            <thead className=" text-left">
               <tr>
                 <th className="px-3 py-2 font-medium">#</th>
                 <th className="px-3 py-2 font-medium">Ism familiya</th>
