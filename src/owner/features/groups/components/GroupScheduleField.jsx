@@ -47,7 +47,7 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
       {value.map((row, idx) => (
         <div
           key={idx}
-          className="grid grid-cols-1 md:grid-cols-[1fr_120px_120px_auto] gap-2 items-end p-3 border rounded-lg bg-gray-50"
+          className="grid grid-cols-2 gap-2 items-end p-3 border rounded-lg bg-gray-50"
         >
           <SelectField
             label="Kun"
@@ -56,6 +56,17 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
             options={DAY_OPTIONS}
             disabled={disabled}
           />
+          <Button
+            size="icon"
+            type="button"
+            variant="danger"
+            className="w-full"
+            disabled={disabled}
+            playClickSound={false}
+            onClick={() => removeRow(idx)}
+          >
+            <Trash2 className="size-4" />
+          </Button>
           <InputField
             label="Boshlanish"
             type="time"
@@ -70,17 +81,6 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
             onChange={(e) => update(idx, "endTime", e.target.value)}
             disabled={disabled}
           />
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => removeRow(idx)}
-            disabled={disabled}
-            playClickSound={false}
-            className="text-red-500 hover:text-red-700"
-          >
-            <Trash2 className="size-4" />
-          </Button>
         </div>
       ))}
     </div>
