@@ -1,9 +1,12 @@
 // Redux Store
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialModalData = { isOpen: false, data: {}, isLoading: false };
+const createInitialModalData = () => ({
+  isOpen: false,
+  data: {},
+  isLoading: false,
+});
 
-// Initial state
 const initialState = {};
 
 export const modalSlice = createSlice({
@@ -12,38 +15,37 @@ export const modalSlice = createSlice({
   reducers: {
     open: (state, action) => {
       const { modal, data } = action.payload;
-      if (!state[modal]) state[modal] = initialModalData;
+      if (!state[modal]) state[modal] = createInitialModalData();
 
       state[modal].isOpen = true;
-      Object.assign(state[modal].data, data || {});
+      state[modal].data = { ...(data || {}) };
     },
 
     close: (state, action) => {
       const { modal, data } = action.payload;
-      if (!state[modal]) state[modal] = initialModalData;
-      
+      if (!state[modal]) state[modal] = createInitialModalData();
+
       state[modal].isOpen = false;
-      Object.assign(state[modal].data, data || {});
+      state[modal].isLoading = false;
+      state[modal].data = { ...(data || {}) };
     },
 
     updateData: (state, action) => {
       const { modal, data } = action.payload;
-      if (!state[modal]) state[modal] = initialModalData;
+      if (!state[modal]) state[modal] = createInitialModalData();
 
-      Object.assign(state[modal].data, data || {});
+      state[modal].data = { ...state[modal].data, ...(data || {}) };
     },
 
     updateLoading: (state, action) => {
       const { modal, value } = action.payload;
-      if (!state[modal]) state[modal] = initialModalData;
+      if (!state[modal]) state[modal] = createInitialModalData();
 
       state[modal].isLoading = value;
     },
   },
 });
 
-// Export actions
 export const { open, close, updateLoading, updateData } = modalSlice.actions;
 
-// Export reducer
 export default modalSlice.reducer;
