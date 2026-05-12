@@ -12,7 +12,7 @@ const IncomeByTeacherTable = ({ items = [] }) => (
       <>
         <div className="overflow-hidden rounded border mt-3">
           <table className="w-full text-sm">
-            <thead className="bg-zinc-50 text-left">
+            <thead className="text-left">
               <tr>
                 <th className="px-3 py-2 font-medium">O'qituvchi</th>
                 <th className="px-3 py-2 font-medium text-right">
