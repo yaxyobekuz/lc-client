@@ -31,16 +31,38 @@ const CommandInput = React.forwardRef(({ className, ...props }, ref) => (
 ));
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 
-const CommandList = React.forwardRef(({ className, ...props }, ref) => (
-  <CommandPrimitive.List
-    ref={ref}
-    className={cn(
-      "max-h-[300px] overflow-y-auto overflow-x-hidden hidden-scrollbar",
-      className,
-    )}
-    {...props}
-  />
-));
+const CommandList = React.forwardRef(
+  ({ className, onWheel, ...props }, ref) => {
+    const innerRef = React.useRef(null);
+    const setRefs = React.useCallback(
+      (node) => {
+        innerRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      },
+      [ref],
+    );
+
+    // cmdk ichki sizer wheel hodisasini ushlab qoladi — qo'lda forward qilamiz
+    const handleWheel = (e) => {
+      onWheel?.(e);
+      if (!innerRef.current || e.defaultPrevented) return;
+      innerRef.current.scrollTop += e.deltaY;
+    };
+
+    return (
+      <CommandPrimitive.List
+        ref={setRefs}
+        onWheel={handleWheel}
+        className={cn(
+          "max-h-[300px] overflow-y-auto overflow-x-hidden overscroll-contain",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
 CommandList.displayName = CommandPrimitive.List.displayName;
 
 const CommandEmpty = React.forwardRef((props, ref) => (
@@ -68,7 +90,7 @@ const CommandItem = React.forwardRef(({ className, ...props }, ref) => (
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected=true]:bg-gray-100 data-[disabled=true]:opacity-50",
+      "relative flex cursor-pointer select-none items-center gap-2 rounded-none px-2 py-2 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected=true]:bg-gray-100 data-[disabled=true]:opacity-50",
       className,
     )}
     {...props}
