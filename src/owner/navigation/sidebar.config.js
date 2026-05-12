@@ -1,21 +1,22 @@
 import {
   Users,
   GraduationCap,
-  Settings,
   Wallet,
   CalendarCheck,
   HandCoins,
   TrendingUp,
   Bell,
-  BarChart3,
   ShieldCheck,
+  MessageSquare,
+  Receipt,
+  LayoutDashboard,
 } from "lucide-react";
 
 const ownerSidebar = [
   {
     title: "Boshqaruv paneli",
-    icon: BarChart3,
-    isActive: true,
+    icon: LayoutDashboard,
+    isActive: false,
     items: [
       {
         title: "Bosh sahifa",
@@ -24,35 +25,40 @@ const ownerSidebar = [
       },
     ],
   },
+
   {
-    title: "Boshqaruv",
+    title: "Guruhlar",
     icon: GraduationCap,
-    isActive: true,
+    isActive: false,
     items: [
       {
-        title: "Guruhlar",
+        title: "Asosiy",
         url: "/owner/groups",
         permission: "groups.read",
       },
+    ],
+  },
+
+  {
+    title: "Foydalanuvchilar",
+    icon: Users,
+    isActive: false,
+    items: [
       {
-        title: "Foydalanuvchilar",
+        title: "Asosiy",
         url: "/owner/users",
         permission: "users.read",
       },
-      {
-        title: "Lead manbalari",
-        url: "/owner/lead-sources",
-        permission: "lead_sources.manage",
-      },
     ],
   },
+
   {
     title: "Davomat",
     icon: CalendarCheck,
-    isActive: true,
+    isActive: false,
     items: [
       {
-        title: "Davomat belgilash",
+        title: "Belgilash",
         url: "/owner/attendance/mark",
         permission: "attendance.record",
       },
@@ -66,15 +72,21 @@ const ownerSidebar = [
         url: "/owner/attendance/correlation",
         permission: "attendance.read",
       },
+      {
+        title: "Sozlamalar",
+        url: "/owner/settings/attendance",
+        permission: "attendance.manage",
+      },
     ],
   },
+
   {
-    title: "Moliya",
+    title: "To'lovlar",
     icon: Wallet,
-    isActive: true,
+    isActive: false,
     items: [
       {
-        title: "To'lovlar",
+        title: "Asosiy",
         url: "/owner/payments",
         permission: "payments.read",
       },
@@ -89,19 +101,33 @@ const ownerSidebar = [
         permission: "discount_kinds.manage",
       },
       {
-        title: "Xarajatlar",
+        title: "Sozlamalar",
+        url: "/owner/settings/payments",
+        permission: "payment_settings.manage",
+      },
+    ],
+  },
+
+  {
+    title: "Xarajatlar",
+    icon: Receipt,
+    isActive: false,
+    items: [
+      {
+        title: "Asosiy",
         url: "/owner/expenses",
         permission: "expenses.read",
       },
     ],
   },
+
   {
     title: "Maoshlar",
     icon: HandCoins,
-    isActive: true,
+    isActive: false,
     items: [
       {
-        title: "Maoshlar",
+        title: "Asosiy",
         url: "/owner/salaries",
         permission: "salaries.read",
       },
@@ -110,15 +136,21 @@ const ownerSidebar = [
         url: "/owner/salaries/dashboard",
         permission: "salaries.read",
       },
+      {
+        title: "Sozlamalar",
+        url: "/owner/settings/salaries",
+        permission: "salaries.manage",
+      },
     ],
   },
+
   {
-    title: "CRM",
+    title: "Lidlar",
     icon: TrendingUp,
-    isActive: true,
+    isActive: false,
     items: [
       {
-        title: "Lidlar",
+        title: "Asosiy",
         url: "/owner/leads",
         permission: "leads.read",
       },
@@ -133,16 +165,27 @@ const ownerSidebar = [
         permission: "lead_directions.manage",
       },
       {
-        title: "Lid statuslari",
+        title: "Statuslar",
         url: "/owner/lead-statuses",
         permission: "lead_statuses.manage",
       },
+      {
+        title: "Manbalar",
+        url: "/owner/lead-sources",
+        permission: "lead_sources.manage",
+      },
+      {
+        title: "Sozlamalar",
+        url: "/owner/settings/leads",
+        permission: "leads.update",
+      },
     ],
   },
+
   {
-    title: "Aloqa",
+    title: "Bildirishnomalar",
     icon: Bell,
-    isActive: true,
+    isActive: false,
     items: [
       {
         title: "Inbox",
@@ -168,27 +211,36 @@ const ownerSidebar = [
         url: "/owner/holidays",
         permission: "holidays.manage",
       },
+    ],
+  },
+
+  {
+    title: "Feedback",
+    icon: MessageSquare,
+    isActive: false,
+    items: [
       {
-        title: "Feedback",
+        title: "Asosiy",
         url: "/owner/feedback",
         permission: "feedback.read",
       },
       {
-        title: "Feedback hisoboti",
+        title: "Hisobotlar",
         url: "/owner/feedback/dashboard",
         permission: "feedback.read",
       },
       {
-        title: "Feedback turlari",
+        title: "Turlari",
         url: "/owner/feedback-types",
         permission: "feedback_types.manage",
       },
     ],
   },
+
   {
     title: "Audit",
     icon: ShieldCheck,
-    isActive: true,
+    isActive: false,
     items: [
       {
         title: "Faoliyat loglari",
@@ -197,32 +249,7 @@ const ownerSidebar = [
       },
     ],
   },
-  {
-    title: "Sozlamalar",
-    icon: Settings,
-    items: [
-      {
-        title: "To'lov sozlamalari",
-        url: "/owner/settings/payments",
-        permission: "payment_settings.manage",
-      },
-      {
-        title: "Davomat sozlamalari",
-        url: "/owner/settings/attendance",
-        permission: "attendance.manage",
-      },
-      {
-        title: "Maosh sozlamalari",
-        url: "/owner/settings/salaries",
-        permission: "salaries.manage",
-      },
-      {
-        title: "Lid sozlamalari",
-        url: "/owner/settings/leads",
-        permission: "leads.update",
-      },
-    ],
-  },
+
   {
     title: "Hisob",
     icon: Users,
