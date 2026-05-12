@@ -29,7 +29,7 @@ const ExpenseDeleteModal = ({ expense, close, isLoading, setIsLoading }) => {
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate(expense._id);

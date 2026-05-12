@@ -51,7 +51,7 @@ const FeedbackActionsBar = ({ feedback }) => {
           </Button>
           <Button
             size="sm"
-            variant="destructive"
+            variant="danger"
             onClick={() =>
               openModal(MODAL.FEEDBACK_REJECT, { feedbackId: feedback._id })
             }

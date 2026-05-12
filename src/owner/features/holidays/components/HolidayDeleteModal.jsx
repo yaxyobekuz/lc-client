@@ -28,7 +28,7 @@ const HolidayDeleteModal = ({ holiday, close, isLoading, setIsLoading }) => {
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate(holiday._id);

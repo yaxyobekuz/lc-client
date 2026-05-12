@@ -52,7 +52,7 @@ const RejectModal = ({ feedbackId, close, isLoading, setIsLoading }) => {
         </Button>
         <Button
           type="submit"
-          variant="destructive"
+          variant="danger"
           disabled={isLoading || !reason.trim()}
           className="flex-1"
         >

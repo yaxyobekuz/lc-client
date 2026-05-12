@@ -47,7 +47,7 @@ const AdjustmentRemoveModal = ({
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate({ id: salaryId, adjId });

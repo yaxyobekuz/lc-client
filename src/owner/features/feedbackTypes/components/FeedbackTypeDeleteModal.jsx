@@ -33,7 +33,7 @@ const FeedbackTypeDeleteModal = ({
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate(feedbackType._id);

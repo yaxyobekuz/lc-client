@@ -67,7 +67,7 @@ const PaymentRefundModal = ({ payment, close, isLoading, setIsLoading }) => {
         </Button>
         <Button
           type="submit"
-          variant="destructive"
+          variant="danger"
           disabled={isLoading}
           className="flex-1"
         >

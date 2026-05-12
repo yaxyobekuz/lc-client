@@ -68,7 +68,7 @@ const SalaryActionsBar = ({ salary }) => {
       {canCancel && (
         <Button
           size="sm"
-          variant="destructive"
+          variant="danger"
           onClick={() =>
             openModal(MODAL.SALARY_CANCEL_CONFIRM, { salaryId: salary._id })
           }

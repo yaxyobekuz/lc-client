@@ -28,7 +28,7 @@ const TemplateDeleteModal = ({ template, close, isLoading, setIsLoading }) => {
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate(template._id);

@@ -42,7 +42,7 @@ const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={handleConfirm}
           disabled={isLoading}
           className="flex-1"

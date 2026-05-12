@@ -33,7 +33,7 @@ const PaymentMethodDeleteModal = ({ paymentMethod, close, isLoading, setIsLoadin
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={handleConfirm}
           disabled={isLoading}
           className="flex-1"

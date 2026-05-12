@@ -39,7 +39,7 @@ const LeadDeleteConfirmModal = ({
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate(lead._id);

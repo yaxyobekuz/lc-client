@@ -72,7 +72,7 @@ const RatesTable = ({ items = [], onAdd, canEdit = false }) => {
                         </Button>
                         <Button
                           size="sm"
-                          variant="destructive"
+                          variant="danger"
                           onClick={() =>
                             openModal(MODAL.TEACHER_GROUP_RATE_DELETE, {
                               rateId: r._id,

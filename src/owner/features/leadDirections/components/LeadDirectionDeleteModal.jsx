@@ -33,7 +33,7 @@ const LeadDirectionDeleteModal = ({
         </Button>
         <Button
           type="button"
-          variant="destructive"
+          variant="danger"
           onClick={() => {
             setIsLoading(true);
             mutate(leadDirection._id);
