@@ -26,25 +26,28 @@ const GroupsListPage = () => {
 
   return (
     <div className="space-y-4">
-      <header className="flex items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold">Guruhlar</h1>
+      {/* Title */}
+      <h1 className="text-2xl font-semibold">Guruhlar</h1>
+
+      <div className="flex flex-col gap-4 sm:flex-row">
+        <InputField
+          name="search"
+          type="search"
+          value={search}
+          placeholder="Guruh nomi bo'yicha qidirish..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
         <Button onClick={() => openModal(MODAL.GROUP_CREATE)}>
           <Plus className="size-4" />
           Yangi guruh
         </Button>
-      </header>
-
-      <div className="max-w-sm">
-        <InputField
-          name="search"
-          placeholder="Guruh nomi bo'yicha qidirish..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
       </div>
 
       {isLoading && (
-        <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
+        <div className="p-8 text-center text-muted-foreground">
+          Yuklanmoqda...
+        </div>
       )}
 
       {!isLoading && groups.length === 0 && (
