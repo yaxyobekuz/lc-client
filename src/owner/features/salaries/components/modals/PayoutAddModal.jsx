@@ -69,6 +69,7 @@ const PayoutAddModal = ({
       <InputField
         name="note"
         label="Izoh (ixtiyoriy)"
+        type="textarea"
         value={obj.note}
         onChange={(e) => obj.setField("note", e.target.value)}
         disabled={isLoading}

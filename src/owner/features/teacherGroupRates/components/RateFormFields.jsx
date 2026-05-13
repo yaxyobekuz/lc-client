@@ -93,6 +93,7 @@ const RateFormFields = ({ obj, disabled = false, lockGroup = false }) => {
       <InputField
         name="notes"
         label="Izoh (ixtiyoriy)"
+        type="textarea"
         value={obj.notes}
         onChange={(e) => obj.setField("notes", e.target.value)}
         disabled={disabled}

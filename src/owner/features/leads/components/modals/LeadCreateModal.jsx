@@ -97,8 +97,9 @@ const LeadCreateModal = ({ close, isLoading, setIsLoading }) => {
       />
       <InputField
         name="notes"
-        label="Izoh (ixtiyoriy)"
+        type="textarea"
         value={obj.notes}
+        label="Izoh (ixtiyoriy)"
         onChange={(e) => obj.setField("notes", e.target.value)}
         disabled={isLoading}
       />

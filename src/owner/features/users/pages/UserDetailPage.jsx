@@ -69,6 +69,7 @@ import useUserGroupHistoryQuery from "../hooks/useUserGroupHistoryQuery";
 import { MODAL } from "@/shared/constants/modals";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import BackLink from "@/shared/components/ui/link/BackLink";
 
 const PaymentSummaryCard = ({ summary }) => {
   if (!summary) return null;
@@ -88,7 +89,9 @@ const PaymentSummaryCard = ({ summary }) => {
       </div>
       <div className="bg-white border rounded-lg p-3">
         <p className="text-xs text-muted-foreground">Ochiq hisoblar</p>
-        <p className="text-xl font-semibold">{summary.openInvoicesCount || 0}</p>
+        <p className="text-xl font-semibold">
+          {summary.openInvoicesCount || 0}
+        </p>
       </div>
     </div>
   );
@@ -145,7 +148,9 @@ const StudentPaymentsTab = ({ studentId, paymentSummary }) => {
       <div>
         <h3 className="text-base font-semibold mb-2">Hisoblar</h3>
         {invLoading ? (
-          <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>
+          <div className="p-4 text-sm text-muted-foreground">
+            Yuklanmoqda...
+          </div>
         ) : (
           <InvoicesTable items={invoices?.data || []} showStudent={false} />
         )}
@@ -154,7 +159,9 @@ const StudentPaymentsTab = ({ studentId, paymentSummary }) => {
       <div>
         <h3 className="text-base font-semibold mb-2">To'lovlar tarixi</h3>
         {payLoading ? (
-          <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>
+          <div className="p-4 text-sm text-muted-foreground">
+            Yuklanmoqda...
+          </div>
         ) : (
           <PaymentsTable items={payments?.data || []} showStudent={false} />
         )}
@@ -208,7 +215,9 @@ const StudentAttendanceTab = ({ studentId, attendanceSummary }) => {
       <AttendanceSummaryCard summary={attendanceSummary} />
       <Card>
         {isLoading ? (
-          <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>
+          <div className="p-4 text-sm text-muted-foreground">
+            Yuklanmoqda...
+          </div>
         ) : (
           <MonthlyAttendanceCalendar
             data={data}
@@ -330,7 +339,9 @@ const UserDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
+      <div className="p-8 text-center text-muted-foreground">
+        Yuklanmoqda...
+      </div>
     );
   }
 
@@ -364,10 +375,7 @@ const UserDetailPage = () => {
               />
             )}
             {profile.role === ROLES.TEACHER && (
-              <UserTaughtGroupsList
-                groups={profile.groups || []}
-                ownerLinks
-              />
+              <UserTaughtGroupsList groups={profile.groups || []} ownerLinks />
             )}
           </div>
         </div>
@@ -386,6 +394,7 @@ const UserDetailPage = () => {
         />
       ),
     });
+
     tabsItems.push({
       value: "exemptions",
       label: "Ozod davrlari",
@@ -442,16 +451,12 @@ const UserDetailPage = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <button
-            type="button"
-            onClick={() => navigate("/owner/users")}
-            className="size-9 inline-flex items-center justify-center rounded-md border bg-white hover:bg-gray-50"
-          >
-            <ArrowLeft className="size-4" />
-          </button>
+          <BackLink to="/owner/users" />
+
           <h1 className="text-2xl font-semibold truncate">
             {profile.firstName} {profile.lastName}
           </h1>
+
           <Badge variant="secondary">
             {ROLE_LABELS[profile.role] || profile.role}
           </Badge>
@@ -479,7 +484,11 @@ const UserDetailPage = () => {
       <TabsButtons items={tabsItems} />
 
       {/* Profil modallari */}
-      <ModalWrapper name={MODAL.USER_EDIT} title="Profilni tahrirlash" className="max-w-xl">
+      <ModalWrapper
+        name={MODAL.USER_EDIT}
+        title="Profilni tahrirlash"
+        className="max-w-xl"
+      >
         <UserEditModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini o'chirish">
@@ -509,7 +518,10 @@ const UserDetailPage = () => {
           <ModalWrapper name={MODAL.PAYMENT_REFUND} title="To'lovni qaytarish">
             <PaymentRefundModal />
           </ModalWrapper>
-          <ModalWrapper name={MODAL.INVOICE_CANCEL} title="Hisobni bekor qilish">
+          <ModalWrapper
+            name={MODAL.INVOICE_CANCEL}
+            title="Hisobni bekor qilish"
+          >
             <InvoiceCancelModal />
           </ModalWrapper>
           <ModalWrapper name={MODAL.INVOICE_EDIT} title="Hisobni tahrirlash">
@@ -520,7 +532,10 @@ const UserDetailPage = () => {
           <ModalWrapper name={MODAL.DISCOUNT_CREATE} title="Yangi chegirma">
             <DiscountCreateModal />
           </ModalWrapper>
-          <ModalWrapper name={MODAL.DISCOUNT_DELETE} title="Chegirmani o'chirish">
+          <ModalWrapper
+            name={MODAL.DISCOUNT_DELETE}
+            title="Chegirmani o'chirish"
+          >
             <DiscountDeleteModal />
           </ModalWrapper>
 

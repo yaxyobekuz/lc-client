@@ -51,6 +51,7 @@ const StatusChangeModal = ({
       <InputField
         name="message"
         label="Izoh (ixtiyoriy)"
+        type="textarea"
         value={obj.message}
         onChange={(e) => obj.setField("message", e.target.value)}
         disabled={isLoading}

@@ -26,6 +26,7 @@ const InvoiceCancelModal = ({ invoice, close, isLoading, setIsLoading }) => {
       </p>
       <InputField
         name="reason"
+        type="textarea"
         label="Sabab"
         value={reason}
         onChange={(e) => setReason(e.target.value)}

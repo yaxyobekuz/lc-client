@@ -64,6 +64,7 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
 
       <InputField
         name="reason"
+        type="textarea"
         label="Sabab"
         value={obj.reason}
         onChange={(e) => obj.setField("reason", e.target.value)}

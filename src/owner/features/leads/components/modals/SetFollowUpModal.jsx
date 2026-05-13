@@ -47,6 +47,7 @@ const SetFollowUpModal = ({
         name="note"
         label="Izoh (ixtiyoriy)"
         placeholder="Masalan: ertaga 14:00 da chiroqlash"
+        type="textarea"
         value={obj.note}
         onChange={(e) => obj.setField("note", e.target.value)}
         disabled={isLoading}

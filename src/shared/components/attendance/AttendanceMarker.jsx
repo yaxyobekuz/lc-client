@@ -30,11 +30,10 @@ const AttendanceMarker = ({ value = {}, onChange, disabled = false }) => {
       )}
       {status === "excused" && (
         <InputField
-          placeholder="Sabab (kasallik, oilaviy, ...)"
           value={reason}
-          onChange={(e) => update({ reason: e.target.value })}
           disabled={disabled}
-          className="!gap-1"
+          placeholder="Sabab (kasallik, oilaviy, ...)"
+          onChange={(e) => update({ reason: e.target.value })}
         />
       )}
     </div>

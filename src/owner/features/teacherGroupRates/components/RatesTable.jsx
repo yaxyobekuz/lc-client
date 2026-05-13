@@ -35,7 +35,7 @@ const RatesTable = ({ items = [], onAdd, canEdit = false }) => {
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-muted/50 text-left">
+            <thead className="text-left">
               <tr>
                 <th className="px-3 py-2">Guruh</th>
                 <th className="px-3 py-2">Turi</th>

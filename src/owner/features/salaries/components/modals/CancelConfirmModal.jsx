@@ -34,6 +34,7 @@ const CancelConfirmModal = ({
       <InputField
         name="reason"
         label="Sabab (ixtiyoriy)"
+        type="textarea"
         value={obj.reason}
         onChange={(e) => obj.setField("reason", e.target.value)}
         disabled={isLoading}

@@ -22,10 +22,11 @@ const AttendanceMarkPage = () => {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">Davomat belgilash</h1>
 
-      <div className="flex items-end gap-3 flex-wrap">
+      <div className="flex items-end gap-4">
         <div className="min-w-[280px] flex-1">
           <GroupPicker value={groupId} onChange={setGroupId} />
         </div>
+
         <InputField
           type="date"
           name="date"

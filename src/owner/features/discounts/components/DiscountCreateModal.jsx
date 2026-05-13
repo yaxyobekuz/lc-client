@@ -74,6 +74,7 @@ const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
       <InputField
         name="reason"
         label="Sabab"
+        type="textarea"
         value={obj.reason}
         onChange={(e) => obj.setField("reason", e.target.value)}
         disabled={isLoading}

@@ -55,6 +55,7 @@ const AdjustmentAddModal = ({
       />
       <InputField
         name="reason"
+        type="textarea"
         label="Sabab (ixtiyoriy)"
         value={obj.reason}
         onChange={(e) => obj.setField("reason", e.target.value)}

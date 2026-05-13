@@ -86,6 +86,7 @@ const PaymentRecordModal = ({
         label="Izoh (ixtiyoriy)"
         value={obj.note}
         onChange={(e) => obj.setField("note", e.target.value)}
+        type="textarea"
         disabled={isLoading}
       />
       <div className="flex gap-2 pt-1">
