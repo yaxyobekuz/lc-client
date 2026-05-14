@@ -22,9 +22,9 @@ const FeedbackDashboardPage = () => {
             </Card>
             {(data?.byStatus || []).map((s) => (
               <Card key={s._id}>
-                <p className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground">
                   <FeedbackStatusBadge status={s._id} />
-                </p>
+                </div>
                 <p className="text-2xl font-semibold">{s.count}</p>
               </Card>
             ))}

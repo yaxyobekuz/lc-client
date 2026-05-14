@@ -10,6 +10,7 @@ import ReplyModal from "../components/modals/ReplyModal";
 import ResolveModal from "../components/modals/ResolveModal";
 import RejectModal from "../components/modals/RejectModal";
 import { useFeedbackDetailQuery } from "../hooks/useFeedbackQueries";
+import BackLink from "@/shared/components/ui/link/BackLink";
 
 const InfoRow = ({ label, children }) => (
   <div className="flex justify-between gap-3 text-sm">
@@ -24,7 +25,9 @@ const FeedbackDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
+      <div className="p-8 text-center text-muted-foreground">
+        Yuklanmoqda...
+      </div>
     );
   }
   if (!f) {
@@ -42,23 +45,17 @@ const FeedbackDetailPage = () => {
 
   return (
     <div className="space-y-4">
-      <div>
-        <Link
-          to="/owner/feedback"
-          className="text-sm text-muted-foreground hover:underline"
-        >
-          ← Feedback'lar
-        </Link>
-        <header className="flex items-center gap-3 flex-wrap mt-1">
-          <h1 className="text-2xl font-semibold">{f.type?.name || "Feedback"}</h1>
-          <FeedbackStatusBadge status={f.status} />
-          {isAnonymous && (
-            <span className="text-sm text-muted-foreground italic">
-              Anonim
-            </span>
-          )}
-        </header>
-      </div>
+      <header className="flex items-center gap-3 flex-wrap mt-1">
+        <BackLink to="/owner/feedback" />
+
+        <h1 className="text-2xl font-semibold">{f.type?.name || "Feedback"}</h1>
+
+        <FeedbackStatusBadge status={f.status} />
+
+        {isAnonymous && (
+          <span className="text-sm text-muted-foreground italic">Anonim</span>
+        )}
+      </header>
 
       <FeedbackActionsBar feedback={f} />
 
@@ -71,7 +68,9 @@ const FeedbackDetailPage = () => {
         <Card className="space-y-2">
           <h3 className="font-semibold">Ma'lumot</h3>
           <InfoRow label="Muallif">
-            {isAnonymous ? "Anonim" : `${f.author.firstName} ${f.author.lastName}`}
+            {isAnonymous
+              ? "Anonim"
+              : `${f.author.firstName} ${f.author.lastName}`}
           </InfoRow>
           <InfoRow label="Rol">{f.authorRoleSnapshot}</InfoRow>
           <InfoRow label="Guruh">{f.group?.name}</InfoRow>
@@ -98,7 +97,7 @@ const FeedbackDetailPage = () => {
       </div>
 
       {f.adminReply && (
-        <Card className="space-y-2 border-blue-200 bg-blue-50/40">
+        <Card className="space-y-2">
           <h3 className="font-semibold">Admin javobi</h3>
           <p className="text-sm whitespace-pre-wrap">{f.adminReply}</p>
         </Card>
@@ -111,13 +110,27 @@ const FeedbackDetailPage = () => {
         </Card>
       )}
 
-      <ModalWrapper name={MODAL.FEEDBACK_REPLY} title="Javob yozish">
+      <ModalWrapper
+        title="Javob yozish"
+        name={MODAL.FEEDBACK_REPLY}
+        description="Javob foydalanuvchiga xabar sifatida yuboriladi"
+      >
         <ReplyModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.FEEDBACK_RESOLVE} title="Hal qilingan">
+
+      <ModalWrapper
+        title="Hal qilingan"
+        name={MODAL.FEEDBACK_RESOLVE}
+        description="Status Hal qilindi ga o'zgaradi va muallifga avto-xabar yuboriladi"
+      >
         <ResolveModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.FEEDBACK_REJECT} title="Rad etish">
+
+      <ModalWrapper
+        title="Rad etish"
+        name={MODAL.FEEDBACK_REJECT}
+        description="Status Rad etildi ga o'zgaradi va muallifga avto-xabar yuboriladi"
+      >
         <RejectModal />
       </ModalWrapper>
     </div>
