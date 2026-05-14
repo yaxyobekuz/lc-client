@@ -44,8 +44,8 @@ import {
   FeedbackListPage,
   FeedbackDetailPage,
   FeedbackDashboardPage,
+  FeedbackTypesListPage,
 } from "@/owner/features/feedback";
-import { FeedbackTypesListPage } from "@/owner/features/feedbackTypes";
 import { AdminDashboardPage } from "@/owner/features/adminDashboard";
 import { ExpensesListPage } from "@/owner/features/expenses";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
