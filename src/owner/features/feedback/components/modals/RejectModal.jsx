@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "@/shared/components/ui/button/Button";
 import { useRejectMutation } from "../../hooks/useFeedbackMutations";
+import InputField from "@/shared/components/ui/input/InputField";
 
 const RejectModal = ({ feedbackId, close, isLoading, setIsLoading }) => {
   const [reason, setReason] = useState("");
@@ -22,24 +23,20 @@ const RejectModal = ({ feedbackId, close, isLoading, setIsLoading }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <p className="text-xs text-amber-700">
-        Status "Rad etildi" ga o'zgaradi va muallifga avto-xabar yuboriladi
-        (anonim bo'lmasa). Sabab majburiy.
+        
       </p>
-      <div>
-        <label className="text-sm font-medium block mb-1">
-          Rad etish sababi
-        </label>
-        <textarea
-          rows={4}
-          className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Sababini yozing..."
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          required
-          autoFocus
-          disabled={isLoading}
-        />
-      </div>
+
+      <InputField
+        required
+        type="textarea"
+        value={reason}
+        disabled={isLoading}
+        name="reason-message"
+        placeholder="Sabab..."
+        label="Rad etish sababi"
+        onChange={(e) => setReason(e.target.value)}
+      />
+
       <div className="flex gap-2">
         <Button
           type="button"

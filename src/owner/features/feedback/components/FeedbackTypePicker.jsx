@@ -1,5 +1,5 @@
 import SelectField from "@/shared/components/ui/select/SelectField";
-import useFeedbackTypesQuery from "@/owner/features/feedbackTypes/hooks/useFeedbackTypesQuery";
+import useFeedbackTypesQuery from "../hooks/useFeedbackTypesQuery";
 
 const FeedbackTypePicker = ({
   value,
