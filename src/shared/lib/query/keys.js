@@ -86,6 +86,7 @@ export const qk = Object.freeze({
     studentMonthly: (sid, params) => ["attendance", "studentMonthly", sid, params],
     studentSummary: (sid, params) => ["attendance", "studentSummary", sid, params],
     groupSummary: (gid, params) => ["attendance", "groupSummary", gid, params],
+    groupMonthly: (gid, params) => ["attendance", "groupMonthly", gid, params],
     teacherSummary: (params) => ["attendance", "teacherSummary", params],
     dashboard: (params) => ["attendance", "dashboard", params],
     correlation: (params) => ["attendance", "correlation", params],
