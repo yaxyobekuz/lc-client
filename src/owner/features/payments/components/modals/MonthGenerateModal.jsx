@@ -1,6 +1,6 @@
 import { useState } from "react";
-import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
+import SelectYear from "@/shared/components/ui/select/SelectYear";
 import Button from "@/shared/components/ui/button/Button";
 import useGenerateMonthMutation from "../../hooks/useGenerateMonthMutation";
 
@@ -21,7 +21,7 @@ const MONTHS = [
 
 const MonthGenerateModal = ({ close, isLoading, setIsLoading }) => {
   const now = new Date();
-  const [year, setYear] = useState(String(now.getFullYear()));
+  const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(String(now.getMonth() + 1));
   const [result, setResult] = useState(null);
 
@@ -47,14 +47,9 @@ const MonthGenerateModal = ({ close, isLoading, setIsLoading }) => {
         (mavjudlari o'tkazib yuboriladi).
       </p>
       <div className="grid grid-cols-2 gap-3">
-        <InputField
-          name="year"
-          label="Yil"
-          type="number"
-          min="2024"
-          max="2100"
+        <SelectYear
           value={year}
-          onChange={(e) => setYear(e.target.value)}
+          onChange={setYear}
           required
           disabled={isLoading}
         />

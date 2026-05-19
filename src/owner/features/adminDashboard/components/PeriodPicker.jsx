@@ -1,4 +1,5 @@
 import SelectField from "@/shared/components/ui/select/SelectField";
+import SelectYear from "@/shared/components/ui/select/SelectYear";
 import { MONTH_LABELS } from "@/shared/constants/salary";
 
 const MONTH_OPTIONS = MONTH_LABELS.map((label, i) => ({
@@ -6,23 +7,12 @@ const MONTH_OPTIONS = MONTH_LABELS.map((label, i) => ({
   label,
 }));
 
-const yearOptions = (() => {
-  const now = new Date().getFullYear();
-  const arr = [];
-  for (let y = now - 3; y <= now + 1; y += 1) {
-    arr.push({ value: String(y), label: String(y) });
-  }
-  return arr;
-})();
-
 const PeriodPicker = ({ year, month, onChange }) => (
   <div className="flex items-end gap-2">
     <div className="min-w-[120px]">
-      <SelectField
-        label="Yil"
-        value={String(year)}
-        onChange={(v) => onChange("year", Number(v))}
-        options={yearOptions}
+      <SelectYear
+        value={year}
+        onChange={(v) => onChange("year", v)}
       />
     </div>
     <div className="min-w-[140px]">

@@ -1,5 +1,6 @@
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
+import SelectYear from "@/shared/components/ui/select/SelectYear";
 import Switch from "@/shared/components/ui/switch/Switch";
 import {
   HOLIDAY_AUDIENCE_OPTIONS,
@@ -57,14 +58,10 @@ const HolidayFormFields = ({ obj, disabled = false }) => (
         disabled={disabled}
       />
       {!obj.isRecurring && (
-        <InputField
+        <SelectYear
           name="year"
-          label="Yil"
-          type="number"
-          min="2024"
-          max="2100"
           value={obj.year}
-          onChange={(e) => obj.setField("year", e.target.value)}
+          onChange={(v) => obj.setField("year", v)}
           required
           disabled={disabled}
         />

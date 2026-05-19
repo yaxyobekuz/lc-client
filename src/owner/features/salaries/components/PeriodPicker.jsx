@@ -1,5 +1,5 @@
-import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
+import SelectYear from "@/shared/components/ui/select/SelectYear";
 import { MONTH_OPTIONS } from "@/shared/constants/salary";
 
 const monthOptions = MONTH_OPTIONS.map((o) => ({
@@ -16,16 +16,9 @@ const PeriodPicker = ({ year, month, onChange }) => (
       options={monthOptions}
       className="!gap-1"
     />
-    <InputField
-      name="year"
-      label="Yil"
-      type="number"
-      min="2024"
-      max="2100"
+    <SelectYear
       value={year}
-      onChange={(e) =>
-        onChange({ year: Number(e.target.value), month: Number(month) })
-      }
+      onChange={(v) => onChange({ year: v, month: Number(month) })}
       className="!gap-1 w-28"
     />
   </div>
