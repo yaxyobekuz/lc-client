@@ -12,6 +12,8 @@ export const attendanceAPI = {
     http.get(ENDPOINTS.attendance.studentSummary(studentId), { params }),
   groupSummary: (groupId, params) =>
     http.get(ENDPOINTS.attendance.groupSummary(groupId), { params }),
+  groupMonthly: (groupId, params) =>
+    http.get(ENDPOINTS.attendance.groupMonthly(groupId), { params }),
   teacherSummary: (params) =>
     http.get(ENDPOINTS.attendance.teacherSummary, { params }),
   dashboard: (params) => http.get(ENDPOINTS.attendance.dashboard, { params }),
