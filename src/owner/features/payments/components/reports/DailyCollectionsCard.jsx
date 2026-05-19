@@ -17,9 +17,8 @@ const DailyCollectionsCard = () => {
           type="date"
           name="date"
           value={date}
+          className="w-max"
           onChange={(e) => setDate(e.target.value)}
-          className="!gap-0"
-          inputClassName="h-9"
         />
       </div>
 
