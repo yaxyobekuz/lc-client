@@ -49,6 +49,7 @@ import {
 import { AdminDashboardPage } from "@/owner/features/adminDashboard";
 import { ExpensesListPage } from "@/owner/features/expenses";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
+import { ProfilePage } from "@/owner/features/profile";
 
 const OwnerRoutes = () => (
   <Routes>
@@ -106,7 +107,7 @@ const OwnerRoutes = () => (
     <Route path="settings/salaries" element={<SalarySettingsPage />} />
     <Route path="settings/leads" element={<LeadSettingsPage />} />
 
-    <Route path="profile" element={<div className="p-4">Profil sahifasi</div>} />
+    <Route path="profile" element={<ProfilePage />} />
     <Route path="*" element={<Navigate to="dashboard" replace />} />
   </Routes>
 );

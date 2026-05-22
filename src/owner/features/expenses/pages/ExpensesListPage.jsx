@@ -82,7 +82,7 @@ const ExpensesListPage = () => {
             <p className="text-xl font-semibold mt-1">
               {stats.byCategory?.[0]?._id
                 ? formatMoney(stats.byCategory[0].sum)
-                : "—"}
+                : "-"}
             </p>
           </div>
         </div>

@@ -45,7 +45,7 @@ const MyAttendancePage = () => {
           <p className="text-2xl font-semibold text-blue-600">
             {summary?.attendanceRate !== null && summary?.attendanceRate !== undefined
               ? `${summary.attendanceRate}%`
-              : "—"}
+              : "-"}
           </p>
         </Card>
         <Card>

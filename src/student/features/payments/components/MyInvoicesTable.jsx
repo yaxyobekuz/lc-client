@@ -17,7 +17,7 @@ const STATUS_CLASS = {
 };
 
 const formatPeriod = (p) => {
-  if (!p) return "—";
+  if (!p) return "-";
   return `${String(p.month).padStart(2, "0")}.${p.year}`;
 };
 
@@ -50,7 +50,7 @@ const MyInvoicesTable = ({ items = [] }) => {
             return (
               <tr key={inv._id} className="border-t">
                 <td className="px-4 py-2 font-medium">{formatPeriod(inv.period)}</td>
-                <td className="px-4 py-2">{inv.group?.name || "—"}</td>
+                <td className="px-4 py-2">{inv.group?.name || "-"}</td>
                 <td className="px-4 py-2">{formatMoney(inv.totalDue)}</td>
                 <td className="px-4 py-2">{formatMoney(inv.paidAmount)}</td>
                 <td className="px-4 py-2 font-medium">{formatMoney(remaining)}</td>

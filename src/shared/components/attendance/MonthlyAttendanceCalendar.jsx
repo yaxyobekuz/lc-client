@@ -31,7 +31,7 @@ const buildMonthDays = (year, month) => {
 
 // data: { groups: [{group, days: [{dateKey, attendance, defaultStatus}]}] }
 // Map quramiz: dateKey → eng dolzarb status (multi-group bo'lsa ham bitta hujayrada
-// "complex" rejim — barcha guruhlar uchun statuslar massiv)
+// "complex" rejim - barcha guruhlar uchun statuslar massiv)
 const aggregateByDateKey = (data) => {
   const map = new Map();
   for (const g of data?.groups || []) {
@@ -49,7 +49,7 @@ const aggregateByDateKey = (data) => {
 
 const cellTitle = (entries) =>
   entries
-    .map((e) => `${e.groupName}: ${e.status ? STATUS_LABEL[e.status] : "—"}`)
+    .map((e) => `${e.groupName}: ${e.status ? STATUS_LABEL[e.status] : "-"}`)
     .join("\n");
 
 const cellColor = (entries) => {

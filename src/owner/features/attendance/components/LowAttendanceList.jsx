@@ -30,7 +30,7 @@ const LowAttendanceList = ({ items = [], threshold }) => (
               </Link>
             </span>
             <span className="font-medium text-red-600 shrink-0">
-              {s.rate !== null ? `${s.rate}%` : "—"}
+              {s.rate !== null ? `${s.rate}%` : "-"}
             </span>
           </li>
         ))}

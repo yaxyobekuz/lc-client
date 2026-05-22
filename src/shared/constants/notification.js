@@ -77,7 +77,7 @@ export const AUDIENCE_TYPE_LABEL = {
   auto_system: "Avto-tizim",
 };
 
-// Template kategoriyalari (alohida — notification kategoriyalaridan farq qiladi)
+// Template kategoriyalari (alohida - notification kategoriyalaridan farq qiladi)
 export const TEMPLATE_CATEGORIES = [
   "payment",
   "debt",

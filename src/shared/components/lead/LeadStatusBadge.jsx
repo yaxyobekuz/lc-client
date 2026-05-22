@@ -4,7 +4,7 @@ const LeadStatusBadge = ({ status }) => {
   if (!status) {
     return (
       <Badge variant="outline" className="text-muted-foreground">
-        —
+        -
       </Badge>
     );
   }

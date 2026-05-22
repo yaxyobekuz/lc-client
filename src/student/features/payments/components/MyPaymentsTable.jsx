@@ -3,7 +3,7 @@ import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
 const formatPeriod = (p) => {
-  if (!p) return "—";
+  if (!p) return "-";
   return `${String(p.month).padStart(2, "0")}.${p.year}`;
 };
 
@@ -34,7 +34,7 @@ const MyPaymentsTable = ({ items = [] }) => {
             <tr key={p._id} className="border-t">
               <td className="px-4 py-2">{formatDateUz(p.paidAt)}</td>
               <td className="px-4 py-2">{formatPeriod(p.invoice?.period)}</td>
-              <td className="px-4 py-2">{p.invoice?.group?.name || "—"}</td>
+              <td className="px-4 py-2">{p.invoice?.group?.name || "-"}</td>
               <td className="px-4 py-2 font-medium">
                 <span className={p.type === "refund" ? "text-red-600" : ""}>
                   {p.type === "refund" ? "−" : ""}
@@ -50,7 +50,7 @@ const MyPaymentsTable = ({ items = [] }) => {
                   <Badge className="bg-green-100 text-green-700">To'lov</Badge>
                 )}
               </td>
-              <td className="px-4 py-2">{p.method?.name || "—"}</td>
+              <td className="px-4 py-2">{p.method?.name || "-"}</td>
             </tr>
           ))}
         </tbody>

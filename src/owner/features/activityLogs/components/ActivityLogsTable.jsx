@@ -6,7 +6,7 @@ import { cn } from "@/shared/utils/cn";
 import MethodBadge from "./MethodBadge";
 
 const formatTime = (d) => {
-  if (!d) return "—";
+  if (!d) return "-";
   const dt = new Date(d);
   return dt.toLocaleString("uz-UZ", {
     day: "2-digit",
@@ -20,8 +20,8 @@ const formatTime = (d) => {
 
 const fullName = (u) =>
   u
-    ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || u.username || "—"
-    : "—";
+    ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || u.username || "-"
+    : "-";
 
 const statusClass = (status) => {
   if (!status) return "text-zinc-500";
@@ -75,7 +75,7 @@ const ActivityLogsTable = ({ items = [] }) => {
                 </div>
               </td>
               <td className={cn("px-3 py-2 font-mono", statusClass(log.status))}>
-                {log.status || "—"}
+                {log.status || "-"}
               </td>
               <td className="px-3 py-2 text-xs text-muted-foreground">
                 {log.durationMs}ms

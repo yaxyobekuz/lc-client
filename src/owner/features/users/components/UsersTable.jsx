@@ -55,7 +55,7 @@ const UsersTable = ({ users = [] }) => {
                   {u.firstName} {u.lastName}
                 </Link>
               </td>
-              <td className="px-4 py-2">{formatPhone(u.phone) || "—"}</td>
+              <td className="px-4 py-2">{formatPhone(u.phone) || "-"}</td>
               <td className="px-4 py-2 text-muted-foreground">@{u.username}</td>
               <td className="px-4 py-2">{ROLE_LABELS[u.role] || u.role}</td>
               <td className="px-4 py-2">

@@ -45,18 +45,18 @@ const LeadsTable = ({ items = [] }) => {
                 {l.firstName} {l.lastName}
               </td>
               <td className="px-3 py-2">{formatPhone(l.phone) || l.phone}</td>
-              <td className="px-3 py-2">{l.source?.name || "—"}</td>
-              <td className="px-3 py-2">{l.direction?.name || "—"}</td>
+              <td className="px-3 py-2">{l.source?.name || "-"}</td>
+              <td className="px-3 py-2">{l.direction?.name || "-"}</td>
               <td className="px-3 py-2">
                 <LeadStatusBadge status={l.status} />
               </td>
               <td className="px-3 py-2">
                 {l.assignedTo
                   ? `${l.assignedTo.firstName} ${l.assignedTo.lastName}`
-                  : "—"}
+                  : "-"}
               </td>
               <td className="px-3 py-2 text-muted-foreground">
-                {l.lastContactAt ? formatDateUz(l.lastContactAt) : "—"}
+                {l.lastContactAt ? formatDateUz(l.lastContactAt) : "-"}
                 {l.contactCount > 0 && (
                   <span className="ml-1 text-xs">({l.contactCount})</span>
                 )}
@@ -73,7 +73,7 @@ const LeadsTable = ({ items = [] }) => {
                     {formatDateUz(l.followUpDate)}
                   </span>
                 ) : (
-                  "—"
+                  "-"
                 )}
               </td>
               <td className="px-3 py-2 text-right">

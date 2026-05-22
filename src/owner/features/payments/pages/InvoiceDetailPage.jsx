@@ -20,7 +20,7 @@ import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
 const formatPeriod = (p) => {
-  if (!p) return "—";
+  if (!p) return "-";
   return `${String(p.month).padStart(2, "0")}.${p.year}`;
 };
 
@@ -111,7 +111,7 @@ const InvoiceDetailPage = () => {
             to={`/owner/groups/${invoice.group?._id}`}
             className="font-medium hover:underline"
           >
-            {invoice.group?.name || "—"}
+            {invoice.group?.name || "-"}
           </Link>
         </div>
         <div>

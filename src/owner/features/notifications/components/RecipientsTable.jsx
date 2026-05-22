@@ -28,10 +28,10 @@ const RecipientsTable = ({ items = [] }) => {
               <td className="px-3 py-2">
                 {r.user
                   ? `${r.user.firstName} ${r.user.lastName}`
-                  : "—"}
+                  : "-"}
               </td>
               <td className="px-3 py-2 text-muted-foreground">
-                {r.user?.phone || "—"}
+                {r.user?.phone || "-"}
               </td>
               <td className="px-3 py-2">
                 {r.botDeliveredAt ? (
@@ -40,7 +40,7 @@ const RecipientsTable = ({ items = [] }) => {
                   </Badge>
                 ) : (
                   <Badge variant="outline" className="text-muted-foreground">
-                    —
+                    -
                   </Badge>
                 )}
               </td>

@@ -8,7 +8,7 @@ const SalaryCard = ({ salary, period }) => {
     ? `${MONTH_LABELS[period.month - 1]} ${period.year}`
     : salary
       ? `${MONTH_LABELS[salary.period.month - 1]} ${salary.period.year}`
-      : "—";
+      : "-";
 
   if (!salary) {
     return (

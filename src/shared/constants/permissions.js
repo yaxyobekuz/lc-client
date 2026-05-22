@@ -1,4 +1,4 @@
-// Permission keys — same strings live in the DB
+// Permission keys - same strings live in the DB
 export const PERMISSIONS = Object.freeze({
   // Users
   USERS_READ: "users.read",

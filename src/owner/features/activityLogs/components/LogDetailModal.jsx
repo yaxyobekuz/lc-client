@@ -3,7 +3,7 @@ import useActivityLogDetailQuery from "../hooks/useActivityLogDetailQuery";
 
 const fullName = (u) =>
   u
-    ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || u.username || "—"
+    ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || u.username || "-"
     : "Tizim";
 
 const Row = ({ label, value, mono = false }) => (
@@ -43,12 +43,12 @@ const LogDetailModal = ({ logId }) => {
         />
         <Row label="Yo'l" value={log.path} mono />
         <Row label="Foydalanuvchi" value={fullName(log.user)} />
-        <Row label="Roli" value={log.userRole || "—"} />
-        <Row label="Holat" value={log.status || "—"} mono />
+        <Row label="Roli" value={log.userRole || "-"} />
+        <Row label="Holat" value={log.status || "-"} mono />
         <Row label="Davomiyligi" value={`${log.durationMs} ms`} mono />
-        <Row label="IP" value={log.ip || "—"} mono />
-        <Row label="Resurs turi" value={log.resourceType || "—"} />
-        <Row label="Resurs ID" value={log.resourceId || "—"} mono />
+        <Row label="IP" value={log.ip || "-"} mono />
+        <Row label="Resurs turi" value={log.resourceType || "-"} />
+        <Row label="Resurs ID" value={log.resourceId || "-"} mono />
       </div>
 
       {log.userAgent && (
@@ -63,7 +63,7 @@ const LogDetailModal = ({ logId }) => {
       <div>
         <div className="text-sm text-zinc-500 mb-1">So'rov tanasi (body)</div>
         <pre className="font-mono text-xs bg-zinc-50 border rounded p-2 max-h-[300px] overflow-auto">
-          {log.body ? JSON.stringify(log.body, null, 2) : "—"}
+          {log.body ? JSON.stringify(log.body, null, 2) : "-"}
         </pre>
       </div>
     </div>

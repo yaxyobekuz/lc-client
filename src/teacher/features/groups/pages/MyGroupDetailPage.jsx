@@ -80,7 +80,7 @@ const MyGroupDetailPage = () => {
                   <td className="px-3 py-2">
                     {s.firstName} {s.lastName}
                   </td>
-                  <td className="px-3 py-2">{formatPhone(s.phone) || "—"}</td>
+                  <td className="px-3 py-2">{formatPhone(s.phone) || "-"}</td>
                 </tr>
               ))}
             </tbody>

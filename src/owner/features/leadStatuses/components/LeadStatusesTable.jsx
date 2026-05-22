@@ -55,7 +55,7 @@ const LeadStatusesTable = ({ items = [] }) => {
                     </Badge>
                   )}
                   {!s.isInitial && !s.isFinal && !s.isConverted && (
-                    <span className="text-muted-foreground text-xs">—</span>
+                    <span className="text-muted-foreground text-xs">-</span>
                   )}
                 </div>
               </td>

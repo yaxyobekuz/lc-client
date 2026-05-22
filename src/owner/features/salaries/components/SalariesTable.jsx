@@ -37,7 +37,7 @@ const SalariesTable = ({ items = [] }) => {
                 <td className="px-3 py-2">
                   {s.teacher
                     ? `${s.teacher.firstName} ${s.teacher.lastName}`
-                    : "—"}
+                    : "-"}
                 </td>
                 <td className="px-3 py-2">
                   {MONTH_LABELS[s.period.month - 1]} {s.period.year}

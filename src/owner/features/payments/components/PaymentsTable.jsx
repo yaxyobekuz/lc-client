@@ -55,11 +55,11 @@ const PaymentsTable = ({ items = [], showStudent = true, showActions = true }) =
                   <Badge className="bg-green-100 text-green-700">To'lov</Badge>
                 )}
               </td>
-              <td className="px-4 py-2">{p.method?.name || "—"}</td>
+              <td className="px-4 py-2">{p.method?.name || "-"}</td>
               <td className="px-4 py-2 text-muted-foreground">
                 {p.receivedBy
                   ? `${p.receivedBy.firstName} ${p.receivedBy.lastName}`
-                  : "—"}
+                  : "-"}
               </td>
               {showActions && (
                 <td className="px-4 py-2">

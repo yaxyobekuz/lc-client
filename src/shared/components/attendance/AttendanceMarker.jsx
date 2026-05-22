@@ -13,7 +13,7 @@ const AttendanceMarker = ({ value = {}, onChange, disabled = false }) => {
       <SelectField
         value={status}
         onChange={(v) => update({ status: v })}
-        options={[{ value: "", label: "— tanlang —" }, ...STATUS_OPTIONS]}
+        options={[{ value: "", label: "- tanlang -" }, ...STATUS_OPTIONS]}
         disabled={disabled}
         className="!gap-1"
       />

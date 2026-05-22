@@ -35,9 +35,9 @@ const FeedbackTable = ({ items = [] }) => {
                   `${f.author.firstName} ${f.author.lastName}`
                 )}
               </td>
-              <td className="px-3 py-2">{f.type?.name || "—"}</td>
+              <td className="px-3 py-2">{f.type?.name || "-"}</td>
               <td className="px-3 py-2 text-muted-foreground">
-                {f.group?.name || "—"}
+                {f.group?.name || "-"}
               </td>
               <td className="px-3 py-2 max-w-md truncate">{f.message}</td>
               <td className="px-3 py-2">

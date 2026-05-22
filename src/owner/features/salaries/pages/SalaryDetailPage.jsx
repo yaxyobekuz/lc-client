@@ -58,7 +58,7 @@ const SalaryDetailPage = () => {
             ← Maoshlar
           </Link>
           <h1 className="text-2xl font-semibold flex items-center gap-3 mt-1">
-            {salary.teacher?.firstName} {salary.teacher?.lastName} —{" "}
+            {salary.teacher?.firstName} {salary.teacher?.lastName} -{" "}
             {MONTH_LABELS[salary.period.month - 1]} {salary.period.year}
             <SalaryStatusBadge status={salary.status} />
           </h1>

@@ -35,7 +35,7 @@ const OverallPanel = ({ year, month }) => {
         <Card>
           <p className="text-sm text-muted-foreground">Umumiy davomat</p>
           <p className="text-2xl font-semibold text-blue-600">
-            {data.overallRate !== null ? `${data.overallRate}%` : "—"}
+            {data.overallRate !== null ? `${data.overallRate}%` : "-"}
           </p>
         </Card>
         <Card>

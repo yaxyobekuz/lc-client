@@ -117,7 +117,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                     {r.student.firstName} {r.student.lastName}
                   </td>
                   <td className="px-4 py-2 text-muted-foreground">
-                    {formatPhone(r.student.phone) || "—"}
+                    {formatPhone(r.student.phone) || "-"}
                   </td>
                   <td className="px-4 py-2">
                     <AttendanceMarker

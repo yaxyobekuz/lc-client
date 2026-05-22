@@ -22,7 +22,7 @@ export const STATUS_EMOJI = {
   absent: "✕",
   excused: "!",
   late: "⏰",
-  exempt: "—",
+  exempt: "-",
 };
 
 export const STATUS_OPTIONS = ATTENDANCE_STATUSES.map((s) => ({

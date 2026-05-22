@@ -25,7 +25,7 @@ const Section = ({ title, items = [], emptyText, accentClass = "" }) => (
               </Link>
               <p className="text-xs text-muted-foreground">
                 {formatPhone(l.phone) || l.phone} •{" "}
-                {l.source?.name || "—"}
+                {l.source?.name || "-"}
                 {" • "}
                 {formatDateUz(l.followUpDate)}
               </p>

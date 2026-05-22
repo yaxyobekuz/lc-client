@@ -104,7 +104,7 @@ const AttendanceSummaryCard = ({ summary }) => {
       <Card>
         <p className="text-xs text-muted-foreground">Joriy oy davomati</p>
         <p className="text-xl font-semibold text-blue-600">
-          {summary.attendanceRate !== null ? `${summary.attendanceRate}%` : "—"}
+          {summary.attendanceRate !== null ? `${summary.attendanceRate}%` : "-"}
         </p>
       </Card>
       <Card>
@@ -241,19 +241,19 @@ const TeacherSalarySummaryCard = ({ summary }) => {
       <Card>
         <p className="text-xs text-muted-foreground">Joriy oy yakuniy</p>
         <p className="text-xl font-semibold text-blue-600">
-          {cur ? formatMoney(cur.finalAmount) : "—"}
+          {cur ? formatMoney(cur.finalAmount) : "-"}
         </p>
       </Card>
       <Card>
         <p className="text-xs text-muted-foreground">Joriy oy to'langan</p>
         <p className="text-xl font-semibold text-green-600">
-          {cur ? formatMoney(cur.paidAmount) : "—"}
+          {cur ? formatMoney(cur.paidAmount) : "-"}
         </p>
       </Card>
       <Card>
         <p className="text-xs text-muted-foreground">O'tgan oy</p>
         <p className="text-xl font-semibold">
-          {last ? formatMoney(last.finalAmount) : "—"}
+          {last ? formatMoney(last.finalAmount) : "-"}
         </p>
       </Card>
       <Card>

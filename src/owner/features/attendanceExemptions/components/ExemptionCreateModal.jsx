@@ -49,7 +49,7 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
           type="date"
           name="endDate"
           label="Tugash sanasi"
-          description="Bo'sh — doimiy"
+          description="Bo'sh - doimiy"
           value={obj.endDate}
           onChange={(e) => obj.setField("endDate", e.target.value)}
           disabled={isLoading}

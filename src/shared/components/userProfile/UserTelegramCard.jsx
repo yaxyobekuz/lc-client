@@ -26,7 +26,7 @@ const UserTelegramCard = ({ telegram }) => {
         <div className="min-w-0 flex-1">
           <p className="font-medium">Telegram</p>
           <p className="text-sm text-muted-foreground">
-            {display || "—"}
+            {display || "-"}
             {telegram.username && (
               <span className="ml-1">@{telegram.username}</span>
             )}

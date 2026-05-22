@@ -1,4 +1,4 @@
-// Salary domain constants — UI labels and visual classes
+// Salary domain constants - UI labels and visual classes
 
 export const SALARY_STATUSES = Object.freeze([
   "calculated",

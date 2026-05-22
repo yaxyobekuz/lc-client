@@ -13,7 +13,7 @@ const summarizeRate = (r) => {
   if (r.percentageRate > 0) parts.push(`${r.percentageRate}%`);
   if (r.minMonthlyAmount > 0)
     parts.push(`min ${formatMoney(r.minMonthlyAmount)}`);
-  return parts.join(" • ") || "—";
+  return parts.join(" • ") || "-";
 };
 
 const RatesTable = ({ items = [], onAdd, canEdit = false }) => {
@@ -47,7 +47,7 @@ const RatesTable = ({ items = [], onAdd, canEdit = false }) => {
               {items.map((r) => (
                 <tr key={String(r._id)} className="border-t">
                   <td className="px-3 py-2 font-medium">
-                    {r.group?.name || "—"}
+                    {r.group?.name || "-"}
                   </td>
                   <td className="px-3 py-2">
                     <CalculationTypeBadge type={r.calculationType} />

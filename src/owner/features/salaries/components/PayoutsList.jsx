@@ -41,7 +41,7 @@ const PayoutsList = ({ salaryId, items = [], canEdit = false }) => {
               <div className="min-w-0">
                 <p className="font-medium">{formatMoney(p.amount)}</p>
                 <p className="text-xs text-muted-foreground">
-                  {formatDateUz(p.paidAt)} • {p.method?.name || "—"}
+                  {formatDateUz(p.paidAt)} • {p.method?.name || "-"}
                   {p.paidBy?.firstName
                     ? ` • ${p.paidBy.firstName} ${p.paidBy.lastName}`
                     : ""}

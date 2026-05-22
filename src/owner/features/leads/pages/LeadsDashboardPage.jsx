@@ -122,7 +122,7 @@ const LeadsDashboardPage = () => {
                 {data?.avgConversionDays !== null &&
                 data?.avgConversionDays !== undefined
                   ? `${data.avgConversionDays} kun`
-                  : "—"}
+                  : "-"}
               </p>
             </Card>
             <Card>

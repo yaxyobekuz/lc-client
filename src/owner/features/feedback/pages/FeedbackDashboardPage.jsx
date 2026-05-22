@@ -41,7 +41,7 @@ const FeedbackDashboardPage = () => {
                     key={String(t.typeId)}
                     className="flex items-center justify-between border-b last:border-0 pb-2 last:pb-0"
                   >
-                    <span className="text-sm">{t.name || "—"}</span>
+                    <span className="text-sm">{t.name || "-"}</span>
                     <span className="font-medium">{t.count}</span>
                   </li>
                 ))}

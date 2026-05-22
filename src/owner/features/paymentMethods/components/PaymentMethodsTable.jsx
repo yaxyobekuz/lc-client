@@ -32,7 +32,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
             <tr key={s._id} className="border-t">
               <td className="px-4 py-2 text-muted-foreground">{i + 1}</td>
               <td className="px-4 py-2">{s.name}</td>
-              <td className="px-4 py-2 text-muted-foreground">{s.code || "—"}</td>
+              <td className="px-4 py-2 text-muted-foreground">{s.code || "-"}</td>
               <td className="px-4 py-2">
                 {s.isActive ? (
                   <Badge className="bg-green-100 text-green-700">Faol</Badge>

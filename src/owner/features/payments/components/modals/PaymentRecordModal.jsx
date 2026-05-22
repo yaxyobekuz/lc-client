@@ -48,7 +48,7 @@ const PaymentRecordModal = ({
         <div className="bg-gray-50 border rounded-lg p-3 text-sm space-y-1">
           <div>
             <span className="text-muted-foreground">Hisob:</span>{" "}
-            {String(invoice.period?.month).padStart(2, "0")}.{invoice.period?.year} —{" "}
+            {String(invoice.period?.month).padStart(2, "0")}.{invoice.period?.year} -{" "}
             {invoice.group?.name}
           </div>
           <div>

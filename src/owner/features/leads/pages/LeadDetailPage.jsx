@@ -26,7 +26,7 @@ import useLeadDetailQuery from "../hooks/useLeadDetailQuery";
 const InfoRow = ({ label, value }) => (
   <div className="flex justify-between gap-3 text-sm">
     <span className="text-muted-foreground">{label}</span>
-    <span className="font-medium text-right">{value || "—"}</span>
+    <span className="font-medium text-right">{value || "-"}</span>
   </div>
 );
 
@@ -114,7 +114,7 @@ const LeadDetailPage = () => {
         <Card className="space-y-2">
           <h3 className="font-semibold">Asosiy ma'lumotlar</h3>
           <InfoRow label="Telefon" value={formatPhone(lead.phone) || lead.phone} />
-          <InfoRow label="Yoshi" value={age !== null ? `${age} yosh` : "—"} />
+          <InfoRow label="Yoshi" value={age !== null ? `${age} yosh` : "-"} />
           <InfoRow label="Manba" value={lead.source?.name} />
           <InfoRow label="Yo'nalish" value={lead.direction?.name} />
           <InfoRow

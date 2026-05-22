@@ -55,7 +55,7 @@ const DiscountsTable = ({ studentId }) => {
                   : formatMoney(d.value)}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
-                {d.reason || "—"}
+                {d.reason || "-"}
               </td>
               <td className="px-4 py-2">{formatDateUz(d.startDate)}</td>
               <td className="px-4 py-2">

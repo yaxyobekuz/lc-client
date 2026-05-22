@@ -28,7 +28,7 @@ const GroupBreakdownTable = ({ items = [] }) => (
               </td>
               <td className="py-2 text-muted-foreground">{g.totalClasses}</td>
               <td className="py-2 font-medium">
-                {g.groupRate !== null ? `${g.groupRate}%` : "—"}
+                {g.groupRate !== null ? `${g.groupRate}%` : "-"}
               </td>
             </tr>
           ))}

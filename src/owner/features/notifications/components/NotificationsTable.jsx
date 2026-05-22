@@ -40,7 +40,7 @@ const NotificationsTable = ({ items = [], inboxLink = "/owner/notifications" }) 
                 <CategoryBadge category={n.category} />
               </td>
               <td className="px-3 py-2 text-muted-foreground">
-                {AUDIENCE_TYPE_LABEL[n.audience?.type] || "—"}
+                {AUDIENCE_TYPE_LABEL[n.audience?.type] || "-"}
               </td>
               <td className="px-3 py-2 max-w-md">
                 <div className="truncate">

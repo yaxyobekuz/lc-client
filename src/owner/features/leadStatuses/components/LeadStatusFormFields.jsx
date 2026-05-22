@@ -33,7 +33,7 @@ const LeadStatusFormFields = ({ obj, disabled = false }) => (
       label="Tartib raqami"
       type="number"
       min="0"
-      description="Pipeline ichida tartib (kichik raqam — birinchi)"
+      description="Pipeline ichida tartib (kichik raqam - birinchi)"
       value={obj.order}
       onChange={(e) => obj.setField("order", e.target.value)}
       disabled={disabled}

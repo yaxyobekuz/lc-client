@@ -7,7 +7,7 @@ import { formatDateUz } from "@/shared/utils/formatDate";
 import ExpenseCategoryBadge from "./ExpenseCategoryBadge";
 
 const fullName = (u) =>
-  u ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || "—" : "—";
+  u ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || "-" : "-";
 
 const ExpensesTable = ({ items = [] }) => {
   const { openModal } = useModal();
@@ -44,7 +44,7 @@ const ExpensesTable = ({ items = [] }) => {
                 {formatMoney(e.amount)}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
-                {e.description || "—"}
+                {e.description || "-"}
               </td>
               <td className="px-4 py-2">{fullName(e.createdBy)}</td>
               <td className="px-4 py-2">

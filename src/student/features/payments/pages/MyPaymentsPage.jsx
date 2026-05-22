@@ -44,7 +44,7 @@ const MyPaymentsPage = () => {
         <Card>
           <p className="text-sm text-muted-foreground">Oxirgi to'lov</p>
           <p className="text-base font-medium">
-            {summary?.lastPaymentAt ? formatDateUz(summary.lastPaymentAt) : "—"}
+            {summary?.lastPaymentAt ? formatDateUz(summary.lastPaymentAt) : "-"}
           </p>
         </Card>
       </div>

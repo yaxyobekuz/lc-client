@@ -1,4 +1,4 @@
-// "New" badge cutoff — kept short on purpose so it actually disappears
+// "New" badge cutoff - kept short on purpose so it actually disappears
 export const isNewMarketProduct = (createdAt) => {
   const createdDate = new Date(createdAt);
   if (Number.isNaN(createdDate.getTime())) return false;

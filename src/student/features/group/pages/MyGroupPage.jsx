@@ -9,7 +9,7 @@ import { formatSchedule } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
 
 const fmtDate = (iso) => {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleDateString("uz-UZ", {
     year: "numeric",
     month: "long",
@@ -56,7 +56,7 @@ const MyGroupPage = () => {
 
         <div>
           <p className="text-xs text-muted-foreground">O'qituvchilar</p>
-          <p className="font-medium">{teachers || "—"}</p>
+          <p className="font-medium">{teachers || "-"}</p>
         </div>
 
         <div>

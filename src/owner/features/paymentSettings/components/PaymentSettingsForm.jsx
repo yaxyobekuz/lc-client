@@ -90,7 +90,7 @@ const PaymentSettingsForm = ({ settings }) => {
           label="Muddat o'tgandan keyin necha kunda takror"
           type="number"
           min="0"
-          description="0 — takrorlanmasin"
+          description="0 - takrorlanmasin"
           value={obj.repeatAfterOverdueDays}
           onChange={(e) => obj.setField("repeatAfterOverdueDays", e.target.value)}
           disabled={isPending || !obj.reminderEnabled}

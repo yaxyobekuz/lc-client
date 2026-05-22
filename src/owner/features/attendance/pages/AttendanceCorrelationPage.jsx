@@ -82,7 +82,7 @@ const AttendanceCorrelationPage = () => {
                     >
                       {it.attendanceRate !== null
                         ? `${it.attendanceRate}%`
-                        : "—"}
+                        : "-"}
                     </span>
                     <span className="text-xs text-muted-foreground ml-1">
                       ({it.attended}/{it.totalClasses})

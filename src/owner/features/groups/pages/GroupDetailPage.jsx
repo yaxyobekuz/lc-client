@@ -56,7 +56,7 @@ const GroupDetailPage = () => {
   const teachersText =
     (group.teachers || [])
       .map((t) => `${t.firstName} ${t.lastName || ""}`.trim())
-      .join(", ") || "—";
+      .join(", ") || "-";
 
   return (
     <div className="space-y-4">

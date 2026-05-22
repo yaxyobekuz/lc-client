@@ -6,14 +6,14 @@ import { formatDateUz } from "@/shared/utils/formatDate";
 import { formatPhone } from "@/shared/utils/formatPhone";
 
 const formatPeriod = (p) => {
-  if (!p) return "—";
+  if (!p) return "-";
   return `${String(p.month).padStart(2, "0")}.${p.year}`;
 };
 
 const Row = ({ label, value }) => (
   <div className="flex items-center justify-between gap-3 py-1 text-sm border-b last:border-b-0 border-dashed">
     <span className="text-gray-500">{label}</span>
-    <span className="font-medium">{value || "—"}</span>
+    <span className="font-medium">{value || "-"}</span>
   </div>
 );
 
@@ -79,7 +79,7 @@ const ReceiptPage = () => {
             value={
               receivedBy
                 ? `${receivedBy.firstName} ${receivedBy.lastName}`
-                : "—"
+                : "-"
             }
           />
 

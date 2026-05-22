@@ -28,7 +28,7 @@ const GroupBreakdownTable = ({ items = [] }) => (
             {items.map((bd, i) => (
               <tr key={String(bd.group?._id || bd.group || i)} className="border-t">
                 <td className="px-3 py-2 font-medium">
-                  {bd.group?.name || bd.groupName || "—"}
+                  {bd.group?.name || bd.groupName || "-"}
                 </td>
                 <td className="px-3 py-2">
                   <CalculationTypeBadge type={bd.calculationType} />
@@ -36,15 +36,15 @@ const GroupBreakdownTable = ({ items = [] }) => (
                 <td className="px-3 py-2 text-right">{bd.sessionsCount}</td>
                 <td className="px-3 py-2 text-right">{bd.totalHours}</td>
                 <td className="px-3 py-2 text-right">
-                  {bd.fixedAmount > 0 ? formatMoney(bd.fixedAmount) : "—"}
+                  {bd.fixedAmount > 0 ? formatMoney(bd.fixedAmount) : "-"}
                 </td>
                 <td className="px-3 py-2 text-right">
-                  {bd.hourlyAmount > 0 ? formatMoney(bd.hourlyAmount) : "—"}
+                  {bd.hourlyAmount > 0 ? formatMoney(bd.hourlyAmount) : "-"}
                 </td>
                 <td className="px-3 py-2 text-right">
                   {bd.percentageAmount > 0
                     ? `${formatMoney(bd.percentageAmount)} (${bd.percentageRate}%)`
-                    : "—"}
+                    : "-"}
                 </td>
                 <td className="px-3 py-2 text-right font-semibold">
                   {formatMoney(bd.subtotal)}

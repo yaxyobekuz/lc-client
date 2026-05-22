@@ -11,7 +11,7 @@ const REASON_LABEL = {
 };
 
 const fmtDate = (iso) => {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const d = new Date(iso);
   return d.toLocaleDateString("uz-UZ", {
     year: "numeric",
@@ -59,7 +59,7 @@ const GroupHistoryList = ({ groupId }) => {
                 <td className="px-4 py-2">
                   {s.firstName} {s.lastName}
                 </td>
-                <td className="px-4 py-2">{formatPhone(s.phone) || "—"}</td>
+                <td className="px-4 py-2">{formatPhone(s.phone) || "-"}</td>
                 <td className="px-4 py-2">{fmtDate(m.joinedAt)}</td>
                 <td className="px-4 py-2">{fmtDate(m.leftAt)}</td>
                 <td className="px-4 py-2">

@@ -1,4 +1,4 @@
-// Modal keys — also used as the Redux store name; never hardcode the string elsewhere
+// Modal keys - also used as the Redux store name; never hardcode the string elsewhere
 export const MODAL = Object.freeze({
   // Students
   STUDENT_CREATE: "student:create",
@@ -109,6 +109,10 @@ export const MODAL = Object.freeze({
   FEEDBACK_TYPE_CREATE: "feedbackType:create",
   FEEDBACK_TYPE_EDIT: "feedbackType:edit",
   FEEDBACK_TYPE_DELETE: "feedbackType:delete",
+
+  // Profil
+  PROFILE_EDIT: "profile:edit",
+  PROFILE_CHANGE_PASSWORD: "profile:changePassword",
 
   // Boshqaruv paneli (Bo'lak 9)
   EXPENSE_CREATE: "expense:create",

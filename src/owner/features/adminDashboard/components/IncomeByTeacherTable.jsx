@@ -2,7 +2,7 @@ import Card from "@/shared/components/ui/card/Card";
 import { formatMoney } from "@/shared/utils/formatMoney";
 
 const fullName = (row) =>
-  `${row.firstName || ""} ${row.lastName || ""}`.trim() || "—";
+  `${row.firstName || ""} ${row.lastName || ""}`.trim() || "-";
 
 const IncomeByTeacherTable = ({ items = [] }) => (
   <Card title="O'qituvchilar bo'yicha daromad" className="space-y-3">

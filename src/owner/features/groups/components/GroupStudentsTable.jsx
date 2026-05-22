@@ -47,7 +47,7 @@ const GroupStudentsTable = ({ group }) => {
               <td className="px-4 py-2">
                 {s.firstName} {s.lastName}
               </td>
-              <td className="px-4 py-2">{formatPhone(s.phone) || "—"}</td>
+              <td className="px-4 py-2">{formatPhone(s.phone) || "-"}</td>
               <td className="px-4 py-2 text-muted-foreground">@{s.username}</td>
               <td className="px-4 py-2">
                 <div className="flex items-center justify-end gap-1">

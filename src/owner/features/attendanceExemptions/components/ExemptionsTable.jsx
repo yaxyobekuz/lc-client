@@ -52,7 +52,7 @@ const ExemptionsTable = ({ studentId }) => {
                   : ex.daysOfWeek.map((d) => DAY_SHORT[d]).join(", ")}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
-                {ex.reason || "—"}
+                {ex.reason || "-"}
               </td>
               <td className="px-4 py-2">
                 {ex.isActive ? (

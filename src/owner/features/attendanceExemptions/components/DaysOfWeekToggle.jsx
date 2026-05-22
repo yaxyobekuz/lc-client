@@ -6,7 +6,7 @@ const DaysOfWeekToggle = ({
   onChange,
   disabled = false,
   label = "Hafta kunlari",
-  description = "Bo'sh qoldiring — barcha kunlar uchun",
+  description = "Bo'sh qoldiring - barcha kunlar uchun",
 }) => {
   const toggle = (day) => {
     if (disabled) return;

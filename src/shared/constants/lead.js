@@ -1,4 +1,4 @@
-// Lead domain constants — UI labels, options, history visualization
+// Lead domain constants - UI labels, options, history visualization
 
 export const REJECTION_REASONS = ["price", "time", "other_center", "other"];
 

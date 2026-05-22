@@ -41,7 +41,7 @@ const SourcePerformanceCard = ({ items = [] }) => (
                 <td className="px-3 py-2 text-right text-muted-foreground">
                   {it.avgConversionDays !== null
                     ? `${it.avgConversionDays} kun`
-                    : "—"}
+                    : "-"}
                 </td>
               </tr>
             ))}

@@ -15,7 +15,7 @@ import BackLink from "@/shared/components/ui/link/BackLink";
 const InfoRow = ({ label, children }) => (
   <div className="flex justify-between gap-3 text-sm">
     <span className="text-muted-foreground">{label}</span>
-    <span className="font-medium text-right">{children || "—"}</span>
+    <span className="font-medium text-right">{children || "-"}</span>
   </div>
 );
 

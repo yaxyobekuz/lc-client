@@ -12,7 +12,7 @@ const bgOf = (status) =>
   STATUS_BADGE_CLASS[status]?.split(" ").find((c) => c.startsWith("bg-")) || "bg-gray-300";
 
 const tooltipText = (dateKey, status, cell) => {
-  const parts = [`${dateKey} — ${STATUS_LABEL[status]}`];
+  const parts = [`${dateKey} - ${STATUS_LABEL[status]}`];
   if (status === "late" && cell.lateMinutes) parts.push(`${cell.lateMinutes} daq`);
   if (status === "excused" && cell.reason) parts.push(cell.reason);
   return parts.join(" · ");
@@ -106,7 +106,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
               return (
                 <tr key={sid}>
                   <td className="sticky left-0 z-10 bg-white border-r border-b border-gray-200 px-3 py-1.5 whitespace-nowrap">
-                    {name || row.student.username || "—"}
+                    {name || row.student.username || "-"}
                   </td>
                   {dates.map((d) => {
                     const cell = row.cells?.[d.dateKey];

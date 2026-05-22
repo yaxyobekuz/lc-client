@@ -39,7 +39,7 @@ const UserGroupHistoryTable = ({ items = [], isLoading = false }) => {
               : "Faol";
             return (
               <tr key={m._id} className="border-t">
-                <td className="px-4 py-2">{m.group?.name || "—"}</td>
+                <td className="px-4 py-2">{m.group?.name || "-"}</td>
                 <td className="px-4 py-2">{formatDateUz(m.joinedAt)}</td>
                 <td className="px-4 py-2">{formatDateUz(m.leftAt)}</td>
                 <td className="px-4 py-2">

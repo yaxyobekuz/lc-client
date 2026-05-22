@@ -29,7 +29,7 @@ const GroupCard = ({ group }) => {
           </div>
           <div>
             <span className="font-medium text-foreground">O'qituvchilar:</span>{" "}
-            {teachers || "—"}
+            {teachers || "-"}
           </div>
           <div>
             <span className="font-medium text-foreground">Oylik narx:</span>{" "}

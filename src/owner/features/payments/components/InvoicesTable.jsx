@@ -4,7 +4,7 @@ import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
 const formatPeriod = (p) => {
-  if (!p) return "—";
+  if (!p) return "-";
   return `${String(p.month).padStart(2, "0")}.${p.year}`;
 };
 
@@ -50,7 +50,7 @@ const InvoicesTable = ({ items = [], showStudent = true }) => {
                     {inv.student?.firstName} {inv.student?.lastName}
                   </td>
                 )}
-                <td className="px-4 py-2">{inv.group?.name || "—"}</td>
+                <td className="px-4 py-2">{inv.group?.name || "-"}</td>
                 <td className="px-4 py-2">{formatMoney(inv.totalDue)}</td>
                 <td className="px-4 py-2">{formatMoney(inv.paidAmount)}</td>
                 <td className="px-4 py-2 font-medium">{formatMoney(remaining)}</td>
