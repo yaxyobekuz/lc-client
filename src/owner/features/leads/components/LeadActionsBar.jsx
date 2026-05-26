@@ -1,3 +1,11 @@
+import {
+  Phone,
+  StickyNote,
+  AlarmClock,
+  GraduationCap,
+  RefreshCw,
+  UserCheck,
+} from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -18,7 +26,8 @@ const LeadActionsBar = ({ lead }) => {
           openModal(MODAL.LEAD_RECORD_CONTACT, { leadId: lead._id })
         }
       >
-        📞 Bog'lanish
+        <Phone className="size-4" />
+        Bog'lanish
       </Button>
       <Button
         size="sm"
@@ -27,7 +36,8 @@ const LeadActionsBar = ({ lead }) => {
           openModal(MODAL.LEAD_ADD_NOTE, { leadId: lead._id })
         }
       >
-        📝 Eslatma
+        <StickyNote className="size-4" />
+        Eslatma
       </Button>
       <Button
         size="sm"
@@ -42,7 +52,8 @@ const LeadActionsBar = ({ lead }) => {
           })
         }
       >
-        ⏰ Eslatma sozlash
+        <AlarmClock className="size-4" />
+        Eslatma sozlash
       </Button>
       <Button
         size="sm"
@@ -57,7 +68,8 @@ const LeadActionsBar = ({ lead }) => {
           })
         }
       >
-        🎓 Sinov darsi
+        <GraduationCap className="size-4" />
+        Sinov darsi
       </Button>
       {!isConverted && (
         <Button
@@ -70,7 +82,8 @@ const LeadActionsBar = ({ lead }) => {
             })
           }
         >
-          🔄 Status
+          <RefreshCw className="size-4" />
+          Status
         </Button>
       )}
       {!isConverted && !isFinal && (
@@ -80,7 +93,8 @@ const LeadActionsBar = ({ lead }) => {
             openModal(MODAL.LEAD_CONVERT, { lead })
           }
         >
-          ✅ O'quvchiga aylantirish
+          <UserCheck className="size-4" />
+          O'quvchiga aylantirish
         </Button>
       )}
     </div>
