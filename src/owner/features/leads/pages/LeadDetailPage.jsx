@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, UserCheck } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
+import BackLink from "@/shared/components/ui/link/BackLink";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import LeadStatusBadge from "@/shared/components/lead/LeadStatusBadge";
 import { formatPhone } from "@/shared/utils/formatPhone";
@@ -57,56 +58,50 @@ const LeadDetailPage = () => {
 
   return (
     <div className="space-y-4">
-      <div>
-        <Link
-          to="/owner/leads"
-          className="text-sm text-muted-foreground hover:underline"
-        >
-          ← Lidlar
-        </Link>
-        <header className="flex items-center justify-between gap-3 flex-wrap mt-1">
-          <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl font-semibold">
-              {lead.firstName} {lead.lastName}
-            </h1>
-            <LeadStatusBadge status={lead.status} />
-            {lead.convertedUser && (
-              <Link
-                to={`/owner/users/${lead.convertedUser._id || lead.convertedUser}`}
-                className="text-sm text-green-700 hover:underline"
-              >
-                ✅ O'quvchiga aylantirilgan
-              </Link>
-            )}
-          </div>
-          <div className="flex gap-2">
+      <header className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
+          <BackLink to="/owner/leads" />
+          <h1 className="text-2xl font-semibold">
+            {lead.firstName} {lead.lastName}
+          </h1>
+          <LeadStatusBadge status={lead.status} />
+          {lead.convertedUser && (
+            <Link
+              to={`/owner/users/${lead.convertedUser._id || lead.convertedUser}`}
+              className="inline-flex items-center gap-1 text-sm text-green-700 hover:underline"
+            >
+              <UserCheck className="size-4" />
+              O'quvchiga aylantirilgan
+            </Link>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => openModal(MODAL.LEAD_EDIT, { lead })}
+          >
+            <Pencil className="size-4" />
+            Tahrirlash
+          </Button>
+          {!lead.convertedUser && (
             <Button
               variant="outline"
               size="sm"
-              onClick={() => openModal(MODAL.LEAD_EDIT, { lead })}
+              className="text-red-600"
+              onClick={() =>
+                openModal(MODAL.LEAD_DELETE_CONFIRM, {
+                  lead,
+                  redirectAfter: true,
+                })
+              }
             >
-              <Pencil className="size-4" />
-              Tahrirlash
+              <Trash2 className="size-4" />
+              O'chirish
             </Button>
-            {!lead.convertedUser && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-red-600"
-                onClick={() =>
-                  openModal(MODAL.LEAD_DELETE_CONFIRM, {
-                    lead,
-                    redirectAfter: true,
-                  })
-                }
-              >
-                <Trash2 className="size-4" />
-                O'chirish
-              </Button>
-            )}
-          </div>
-        </header>
-      </div>
+          )}
+        </div>
+      </header>
 
       <LeadActionsBar lead={lead} />
 

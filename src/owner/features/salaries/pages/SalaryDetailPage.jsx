@@ -1,5 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "@/shared/components/ui/card/Card";
+import BackLink from "@/shared/components/ui/link/BackLink";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import SalaryStatusBadge from "@/shared/components/salary/SalaryStatusBadge";
 import { formatMoney } from "@/shared/utils/formatMoney";
@@ -50,14 +51,9 @@ const SalaryDetailPage = () => {
   return (
     <div className="space-y-4">
       <header className="flex items-center justify-between gap-3 flex-wrap">
-        <div>
-          <Link
-            to="/owner/salaries"
-            className="text-sm text-muted-foreground hover:underline"
-          >
-            ← Maoshlar
-          </Link>
-          <h1 className="text-2xl font-semibold flex items-center gap-3 mt-1">
+        <div className="flex items-center gap-3 flex-wrap">
+          <BackLink to="/owner/salaries" />
+          <h1 className="text-2xl font-semibold flex items-center gap-3">
             {salary.teacher?.firstName} {salary.teacher?.lastName} -{" "}
             {MONTH_LABELS[salary.period.month - 1]} {salary.period.year}
             <SalaryStatusBadge status={salary.status} />

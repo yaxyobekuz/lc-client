@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import Card from "@/shared/components/ui/card/Card";
+import BackLink from "@/shared/components/ui/link/BackLink";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import { AUDIENCE_TYPE_LABEL } from "@/shared/constants/notification";
 
@@ -48,20 +49,11 @@ const NotificationDetailPage = () => {
 
   return (
     <div className="space-y-4">
-      <div>
-        <Link
-          to="/owner/notifications"
-          className="text-sm text-muted-foreground hover:underline"
-        >
-          ← Bildirishnomalar
-        </Link>
-        <header className="flex items-center gap-3 flex-wrap mt-1">
-          <h1 className="text-2xl font-semibold">
-            {notif.title || "Xabar"}
-          </h1>
-          <CategoryBadge category={notif.category} />
-        </header>
-      </div>
+      <header className="flex items-center gap-3 flex-wrap">
+        <BackLink to="/owner/notifications" />
+        <h1 className="text-2xl font-semibold">{notif.title || "Xabar"}</h1>
+        <CategoryBadge category={notif.category} />
+      </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         <Card className="space-y-2 lg:col-span-2">

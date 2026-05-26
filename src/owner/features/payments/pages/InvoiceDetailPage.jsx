@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 
 import Button from "@/shared/components/ui/button/Button";
+import BackLink from "@/shared/components/ui/link/BackLink";
 import Card from "@/shared/components/ui/card/Card";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import useModal from "@/shared/hooks/useModal";
@@ -52,12 +53,7 @@ const InvoiceDetailPage = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <Link
-            to="/owner/payments"
-            className="size-9 inline-flex items-center justify-center rounded-md border bg-white hover:bg-gray-50"
-          >
-            <ArrowLeft className="size-4" />
-          </Link>
+          <BackLink to="/owner/payments" />
           <h1 className="text-2xl font-semibold">
             Hisob {formatPeriod(invoice.period)}
           </h1>
