@@ -25,7 +25,7 @@ import useGroupQuery from "../hooks/useGroupQuery";
 import { MODAL } from "@/shared/constants/modals";
 
 // Utils
-import { formatSchedule } from "@/shared/utils/formatSchedule";
+import { DAY_LABELS_FULL_UZ } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import BackLink from "@/shared/components/ui/link/BackLink";
 
@@ -87,20 +87,38 @@ const GroupDetailPage = () => {
         </div>
       </div>
 
-      <Card className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <p className="text-xs text-muted-foreground">Dars jadvali</p>
-          <p className="font-medium">{formatSchedule(group.schedule)}</p>
-        </div>
-        <div>
-          <p className="text-xs text-muted-foreground">O'qituvchilar</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card>
+          <p className="text-xs text-muted-foreground mb-2">O'qituvchilar</p>
           <p className="font-medium">{teachersText}</p>
-        </div>
-        <div>
-          <p className="text-xs text-muted-foreground">Oylik narx</p>
+        </Card>
+        <Card>
+          <p className="text-xs text-muted-foreground mb-2">Oylik narx</p>
           <p className="font-medium">{formatMoney(group.monthlyPrice)}</p>
-        </div>
-      </Card>
+        </Card>
+        <Card>
+          <p className="text-xs text-muted-foreground mb-2">Dars jadvali</p>
+          {!group.schedule || group.schedule.length === 0 ? (
+            <p className="text-sm text-muted-foreground">-</p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {group.schedule.map((s, i) => (
+                <div
+                  key={`${s.day}-${i}`}
+                  className="flex flex-col items-start gap-0.5 rounded-md border bg-muted/40 px-3 py-1.5"
+                >
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {DAY_LABELS_FULL_UZ[s.day] || s.day}
+                  </span>
+                  <span className="text-sm font-medium">
+                    {s.startTime}–{s.endTime}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+      </div>
 
       <TabsButtons
         items={[

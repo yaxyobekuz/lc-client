@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import SalaryStatusBadge from "@/shared/components/salary/SalaryStatusBadge";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import { MONTH_LABELS } from "@/shared/constants/salary";
@@ -57,9 +58,10 @@ const SalariesTable = ({ items = [] }) => {
                 <td className="px-3 py-2 text-right">
                   <Link
                     to={`/owner/salaries/${s._id}`}
-                    className="text-blue-600 hover:underline"
+                    title="Ochish"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-foreground transition hover:bg-accent hover:text-accent-foreground"
                   >
-                    Ochish
+                    <ArrowRight className="size-4" />
                   </Link>
                 </td>
               </tr>
