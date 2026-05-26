@@ -1,11 +1,18 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, RotateCcw, Trash2 } from "lucide-react";
 import Badge from "@/shared/components/ui/badge/Badge";
 import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
+import useDiscountKindUpdateMutation from "../hooks/useDiscountKindUpdateMutation";
 
 const DiscountKindsTable = ({ items = [] }) => {
   const { openModal } = useModal();
+  const { mutate: updateKind, isPending: isRestoring } =
+    useDiscountKindUpdateMutation();
+
+  const handleRestore = (item) => {
+    updateKind({ id: item._id, body: { isActive: true } });
+  };
 
   if (items.length === 0) {
     return (
@@ -17,21 +24,23 @@ const DiscountKindsTable = ({ items = [] }) => {
 
   return (
     <div className="border rounded-sm overflow-hidden bg-white">
-      <table className="w-full text-sm">
-        <thead className=" text-left">
+      <table className="w-full text-sm table-fixed">
+        <thead>
           <tr>
-            <th className="px-4 py-2 font-medium">#</th>
-            <th className="px-4 py-2 font-medium">Nom</th>
-            <th className="px-4 py-2 font-medium">Holat</th>
-            <th className="px-4 py-2 font-medium text-right">Amallar</th>
+            <th className="px-4 py-2 font-medium text-left w-12">#</th>
+            <th className="px-4 py-2 font-medium text-left">Nom</th>
+            <th className="px-4 py-2 font-medium text-left w-28">Holat</th>
+            <th className="px-4 py-2 font-medium text-right w-32">Amallar</th>
           </tr>
         </thead>
         <tbody>
           {items.map((s, i) => (
             <tr key={s._id} className="border-t">
-              <td className="px-4 py-2 text-muted-foreground">{i + 1}</td>
-              <td className="px-4 py-2">{s.name}</td>
-              <td className="px-4 py-2">
+              <td className="px-4 py-2 text-left text-muted-foreground">
+                {i + 1}
+              </td>
+              <td className="px-4 py-2 text-left">{s.name}</td>
+              <td className="px-4 py-2 text-left">
                 {s.isActive ? (
                   <Badge className="bg-green-100 text-green-700">Faol</Badge>
                 ) : (
@@ -51,7 +60,7 @@ const DiscountKindsTable = ({ items = [] }) => {
                   >
                     <Pencil className="size-4" />
                   </Button>
-                  {s.isActive && (
+                  {s.isActive ? (
                     <Button
                       type="button"
                       variant="ghost"
@@ -63,6 +72,19 @@ const DiscountKindsTable = ({ items = [] }) => {
                       playClickSound={false}
                     >
                       <Trash2 className="size-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-green-600 hover:text-green-700"
+                      onClick={() => handleRestore(s)}
+                      disabled={isRestoring}
+                      title="Tiklash"
+                      playClickSound={false}
+                    >
+                      <RotateCcw className="size-4" />
                     </Button>
                   )}
                 </div>
