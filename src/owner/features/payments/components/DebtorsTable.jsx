@@ -14,21 +14,23 @@ const DebtorsTable = ({ items = [] }) => {
 
   return (
     <div className="border rounded-sm overflow-hidden bg-white">
-      <table className="w-full text-sm">
-        <thead className=" text-left">
+      <table className="w-full text-sm table-fixed">
+        <thead>
           <tr>
-            <th className="px-4 py-2 font-medium">#</th>
-            <th className="px-4 py-2 font-medium">Talaba</th>
-            <th className="px-4 py-2 font-medium">Telefon</th>
-            <th className="px-4 py-2 font-medium">Hisoblar</th>
-            <th className="px-4 py-2 font-medium">Qarz</th>
+            <th className="px-4 py-2 font-medium text-left w-12">#</th>
+            <th className="px-4 py-2 font-medium text-left">Talaba</th>
+            <th className="px-4 py-2 font-medium text-left">Telefon</th>
+            <th className="px-4 py-2 font-medium text-left w-28">Hisoblar</th>
+            <th className="px-4 py-2 font-medium text-left w-40">Qarz</th>
           </tr>
         </thead>
         <tbody>
           {items.map((d, i) => (
             <tr key={d.studentId} className="border-t">
-              <td className="px-4 py-2 text-muted-foreground">{i + 1}</td>
-              <td className="px-4 py-2">
+              <td className="px-4 py-2 text-left text-muted-foreground">
+                {i + 1}
+              </td>
+              <td className="px-4 py-2 text-left">
                 <Link
                   to={`/owner/users/${d.studentId}`}
                   className="font-medium hover:underline"
@@ -36,13 +38,13 @@ const DebtorsTable = ({ items = [] }) => {
                   {d.firstName} {d.lastName}
                 </Link>
               </td>
-              <td className="px-4 py-2 text-muted-foreground">
+              <td className="px-4 py-2 text-left text-muted-foreground">
                 {formatPhone(d.phone) || "-"}
               </td>
-              <td className="px-4 py-2">
+              <td className="px-4 py-2 text-left">
                 <Badge variant="outline">{d.invoicesCount}</Badge>
               </td>
-              <td className="px-4 py-2 font-medium text-red-600">
+              <td className="px-4 py-2 text-left font-medium text-red-600">
                 {formatMoney(d.debt)}
               </td>
             </tr>

@@ -22,31 +22,31 @@ const ExpensesTable = ({ items = [] }) => {
 
   return (
     <div className="border rounded-sm overflow-hidden bg-white">
-      <table className="w-full text-sm">
-        <thead className=" text-left">
+      <table className="w-full text-sm table-fixed">
+        <thead>
           <tr>
-            <th className="px-4 py-2 font-medium">Sana</th>
-            <th className="px-4 py-2 font-medium">Kategoriya</th>
-            <th className="px-4 py-2 font-medium text-right">Summa</th>
-            <th className="px-4 py-2 font-medium">Izoh</th>
-            <th className="px-4 py-2 font-medium">Yaratdi</th>
-            <th className="px-4 py-2 font-medium text-right">Amallar</th>
+            <th className="px-4 py-2 font-medium text-left w-32">Sana</th>
+            <th className="px-4 py-2 font-medium text-left w-36">Kategoriya</th>
+            <th className="px-4 py-2 font-medium text-left w-36">Summa</th>
+            <th className="px-4 py-2 font-medium text-left">Izoh</th>
+            <th className="px-4 py-2 font-medium text-left w-40">Yaratdi</th>
+            <th className="px-4 py-2 font-medium text-right w-32">Amallar</th>
           </tr>
         </thead>
         <tbody>
           {items.map((e) => (
             <tr key={e._id} className="border-t">
-              <td className="px-4 py-2">{formatDateUz(e.date)}</td>
-              <td className="px-4 py-2">
+              <td className="px-4 py-2 text-left">{formatDateUz(e.date)}</td>
+              <td className="px-4 py-2 text-left">
                 <ExpenseCategoryBadge category={e.category} />
               </td>
-              <td className="px-4 py-2 text-right font-medium">
+              <td className="px-4 py-2 text-left font-medium">
                 {formatMoney(e.amount)}
               </td>
-              <td className="px-4 py-2 text-muted-foreground">
+              <td className="px-4 py-2 text-left text-muted-foreground">
                 {e.description || "-"}
               </td>
-              <td className="px-4 py-2">{fullName(e.createdBy)}</td>
+              <td className="px-4 py-2 text-left">{fullName(e.createdBy)}</td>
               <td className="px-4 py-2">
                 <div className="flex items-center justify-end gap-1">
                   <Button

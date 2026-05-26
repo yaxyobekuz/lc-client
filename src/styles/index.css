@@ -100,7 +100,16 @@
     }
 
     thead th {
-      @apply px-6 py-3 text-center text-white uppercase text-xs font-medium;
+      @apply px-6 py-3 text-white uppercase text-xs font-medium align-middle;
+      text-align: left;
+    }
+
+    thead th.text-right {
+      text-align: right;
+    }
+
+    thead th.text-center {
+      text-align: center;
     }
 
     tbody {
@@ -108,7 +117,11 @@
     }
 
     tbody tr {
-      @apply bg-white last:bg-gray-100;
+      @apply bg-white;
+    }
+
+    tbody td {
+      @apply align-middle;
     }
   }
 }
