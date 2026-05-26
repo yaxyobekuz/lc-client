@@ -42,7 +42,7 @@ const PaymentSettingsForm = ({ settings }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <Card className="space-y-3">
         <h3 className="font-semibold">Umumiy</h3>
         <InputField

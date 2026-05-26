@@ -51,10 +51,10 @@ const SalarySettingsPage = () => {
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Maosh sozlamalari</h1>
+    <div className="mx-auto w-full max-w-2xl space-y-6 py-6">
+      <h1 className="text-2xl font-semibold text-center">Maosh sozlamalari</h1>
 
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <Card className="space-y-3">
           <h3 className="font-semibold">Avto hisoblash</h3>
           <InputField

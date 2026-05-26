@@ -38,7 +38,7 @@ const ProfilePage = () => {
   const fullName = `${user.firstName} ${user.lastName}`.trim();
 
   return (
-    <div className="space-y-4 max-w-3xl">
+    <div className="space-y-4 mx-auto w-full max-w-3xl py-6">
       <header className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold">Profil</h1>

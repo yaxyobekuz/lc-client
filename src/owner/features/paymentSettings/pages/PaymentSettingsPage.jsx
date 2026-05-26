@@ -5,11 +5,13 @@ const PaymentSettingsPage = () => {
   const { data: settings, isLoading } = usePaymentSettingsQuery();
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">To'lov sozlamalari</h1>
+    <div className="mx-auto w-full max-w-2xl space-y-6 py-6">
+      <h1 className="text-2xl font-semibold text-center">To'lov sozlamalari</h1>
 
       {isLoading ? (
-        <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
+        <div className="p-8 text-center text-muted-foreground">
+          Yuklanmoqda...
+        </div>
       ) : (
         <PaymentSettingsForm settings={settings} />
       )}
