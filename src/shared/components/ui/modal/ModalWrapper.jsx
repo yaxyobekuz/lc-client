@@ -2,7 +2,7 @@
 import { cn } from "@/shared/utils/cn";
 
 // React
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -27,12 +27,23 @@ const ModalWrapper = ({
 }) => {
   const { closeModal, isOpen, data } = useModal(name);
   const [isLoading, setIsLoading] = useState(false);
+  const isLoadingRef = useRef(isLoading);
+  useEffect(() => {
+    isLoadingRef.current = isLoading;
+  }, [isLoading]);
   const isDesktop = useMediaQuery("(min-width: 480px)");
-  const hanldeCloseModal = (data) => !isLoading && closeModal(name, data);
+  const handleSetIsLoading = (value) => {
+    isLoadingRef.current = value;
+    setIsLoading(value);
+  };
+  const hanldeCloseModal = (data) => {
+    if (isLoadingRef.current) return;
+    closeModal(name, data);
+  };
 
   const body = cloneElement(children, {
     isLoading,
-    setIsLoading,
+    setIsLoading: handleSetIsLoading,
     close: hanldeCloseModal,
     ...(data || {}),
   });
