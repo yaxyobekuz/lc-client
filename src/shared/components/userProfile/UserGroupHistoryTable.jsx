@@ -22,7 +22,7 @@ const UserGroupHistoryTable = ({ items = [], isLoading = false }) => {
   }
 
   return (
-    <div className="border rounded-sm overflow-hidden bg-white">
+    <div className="border rounded-sm overflow-x-auto bg-white">
       <table className="w-full text-sm">
         <thead className=" text-left">
           <tr>
@@ -36,7 +36,7 @@ const UserGroupHistoryTable = ({ items = [], isLoading = false }) => {
           {items.map((m) => {
             const status = m.leftAt
               ? REASON_LABEL[m.leftReason] || "Chiqqan"
-              : "Faol";
+              : "O'qimoqda";
             return (
               <tr key={m._id} className="border-t">
                 <td className="px-4 py-2">{m.group?.name || "-"}</td>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
 import { FEEDBACK_STATUS_OPTIONS } from "@/shared/constants/feedback";
 
@@ -23,7 +24,7 @@ const FeedbackListPage = () => {
   const [page, setPage] = useState(1);
   const limit = 20;
 
-  const { data, isLoading } = useFeedbackListQuery({
+  const { data, isLoading, isError, refetch } = useFeedbackListQuery({
     search: filters.search || undefined,
     status: filters.status || undefined,
     type: filters.type || undefined,
@@ -72,7 +73,9 @@ const FeedbackListPage = () => {
         />
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>

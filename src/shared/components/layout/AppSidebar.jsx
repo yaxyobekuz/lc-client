@@ -49,7 +49,7 @@ import { useIsMobile } from "@/shared/hooks/useMobile";
 import { ROLES } from "@/shared/constants/roles";
 
 // Rol-spec sidebar konfiguratsiyalari
-import { ownerSidebar } from "@/owner";
+import { ownerSidebar, OwnerGlobalSearch } from "@/owner";
 import { teacherSidebar } from "@/teacher";
 import { studentSidebar } from "@/student";
 import { logoIcon } from "@/shared/assets/icons";
@@ -122,6 +122,11 @@ const Main = () => {
 
   return (
     <SidebarContent>
+      {role === ROLES.OWNER && (
+        <SidebarGroup className="pb-0">
+          <OwnerGlobalSearch />
+        </SidebarGroup>
+      )}
       <SidebarGroup>
         <SidebarGroupLabel>Platforma</SidebarGroupLabel>
         <SidebarMenu>

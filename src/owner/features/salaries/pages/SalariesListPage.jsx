@@ -4,6 +4,7 @@ import Button from "@/shared/components/ui/button/Button";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -33,7 +34,7 @@ const SalariesListPage = () => {
   const [page, setPage] = useState(1);
   const limit = 20;
 
-  const { data, isLoading } = useSalariesQuery({
+  const { data, isLoading, isError, refetch } = useSalariesQuery({
     teacherId: filters.teacherId || undefined,
     year: filters.year,
     month: filters.month,
@@ -87,7 +88,9 @@ const SalariesListPage = () => {
         </div>
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>

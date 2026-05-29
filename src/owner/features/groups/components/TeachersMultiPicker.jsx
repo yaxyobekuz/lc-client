@@ -25,8 +25,14 @@ const TeachersMultiPicker = ({ value = [], onChange, disabled = false }) => {
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">O'qituvchilar</label>
-      <div className="border rounded-lg max-h-48 overflow-y-auto bg-white">
+      {/* Header — schedule paneli bilan bir xil balandlikda */}
+      <div className="flex items-center justify-between h-6">
+        <label className="text-sm font-medium">O'qituvchilar</label>
+        <span className="text-xs text-muted-foreground">
+          {value.length > 0 ? `${value.length} ta tanlandi` : ""}
+        </span>
+      </div>
+      <div className="border rounded-md overflow-y-auto bg-white min-h-56 max-h-80">
         {isLoading && (
           <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>
         )}
@@ -45,7 +51,7 @@ const TeachersMultiPicker = ({ value = [], onChange, disabled = false }) => {
                 onClick={() => toggle(t._id)}
                 disabled={disabled}
                 className={cn(
-                  "w-full flex items-center justify-between gap-2 px-3 py-2 text-left text-sm border-b last:border-b-0",
+                  "w-full flex items-center justify-between gap-2 px-3 py-1.5 text-left text-sm border-b last:border-b-0",
                   selected ? "bg-blue-50" : "hover:bg-gray-50",
                 )}
               >

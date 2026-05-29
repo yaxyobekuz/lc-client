@@ -8,6 +8,7 @@ import { Plus, Search } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import Pagination from "@/shared/components/ui/pagination/Pagination";
 import GroupCard from "../components/GroupCard";
 import GroupCreateModal from "../components/modals/GroupCreateModal";
 
@@ -18,11 +19,21 @@ import useGroupsListQuery from "../hooks/useGroupsListQuery";
 // Constants
 import { MODAL } from "@/shared/constants/modals";
 
+const LIMIT = 24;
+
 const GroupsListPage = () => {
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const { openModal } = useModal();
-  const { data, isLoading } = useGroupsListQuery({ search, limit: 50 });
+
+  const { data, isLoading } = useGroupsListQuery({
+    search,
+    page,
+    limit: LIMIT,
+  });
   const groups = data?.data || [];
+  const total = data?.meta?.total || 0;
+  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
 
   return (
     <div className="space-y-4">
@@ -35,7 +46,10 @@ const GroupsListPage = () => {
           type="search"
           value={search}
           placeholder="Guruh nomi bo'yicha qidirish..."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
         />
 
         <Button onClick={() => openModal(MODAL.GROUP_CREATE)}>
@@ -65,7 +79,21 @@ const GroupsListPage = () => {
         ))}
       </div>
 
-      <ModalWrapper name={MODAL.GROUP_CREATE} title="Yangi guruh">
+      {!isLoading && totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          onPageChange={setPage}
+          totalPages={totalPages}
+          hasNextPage={page < totalPages}
+          hasPrevPage={page > 1}
+        />
+      )}
+
+      <ModalWrapper
+        name={MODAL.GROUP_CREATE}
+        title="Yangi guruh"
+        className="max-w-4xl"
+      >
         <GroupCreateModal />
       </ModalWrapper>
     </div>

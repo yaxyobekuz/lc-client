@@ -43,9 +43,20 @@ const GroupForm = ({
     })),
   ];
 
+  // Jadvalda takrorlangan kun bormi
+  const hasDuplicateDays = (() => {
+    const seen = new Set();
+    for (const s of schedule) {
+      if (seen.has(s.day)) return true;
+      seen.add(s.day);
+    }
+    return false;
+  })();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim()) return;
+    if (hasDuplicateDays) return;
     onSubmit({
       name: name.trim(),
       schedule,
@@ -56,17 +67,32 @@ const GroupForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <InputField
-        name="name"
-        label="Guruh nomi"
-        placeholder="Masalan: Arabcha A1"
-        value={name}
-        onChange={(e) => setField("name", e.target.value)}
-        required
-        disabled={isLoading}
-      />
+    <form onSubmit={handleSubmit} className="space-y-3">
+      {/* 1-qator: nom (kengroq) + narx (mobilda alohida) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="sm:col-span-2">
+          <InputField
+            name="name"
+            label="Guruh nomi"
+            placeholder="Masalan: Arabcha A1"
+            value={name}
+            onChange={(e) => setField("name", e.target.value)}
+            required
+            disabled={isLoading}
+          />
+        </div>
+        <InputField
+          name="monthlyPrice"
+          label="Oylik narx (so'm)"
+          type="number"
+          min="0"
+          value={monthlyPrice}
+          onChange={(e) => setField("monthlyPrice", e.target.value)}
+          disabled={isLoading}
+        />
+      </div>
 
+      {/* 2-qator: yo'nalish to'liq kenglikda */}
       <SelectField
         label="Yo'nalish"
         value={direction || NONE_DIRECTION}
@@ -75,41 +101,42 @@ const GroupForm = ({
         disabled={isLoading}
       />
 
-      <InputField
-        name="monthlyPrice"
-        label="Oylik narx (so'm)"
-        type="number"
-        min="0"
-        value={monthlyPrice}
-        onChange={(e) => setField("monthlyPrice", e.target.value)}
-        disabled={isLoading}
-      />
+      {/* 3-qator: jadval va o'qituvchilar yonma-yon (md+) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <GroupScheduleField
+          value={schedule}
+          onChange={(next) => setField("schedule", next)}
+          disabled={isLoading}
+        />
+        <TeachersMultiPicker
+          value={teachers}
+          onChange={(next) => setField("teachers", next)}
+          disabled={isLoading}
+        />
+      </div>
 
-      <GroupScheduleField
-        value={schedule}
-        onChange={(next) => setField("schedule", next)}
-        disabled={isLoading}
-      />
-
-      <TeachersMultiPicker
-        value={teachers}
-        onChange={(next) => setField("teachers", next)}
-        disabled={isLoading}
-      />
-
-      <div className="flex gap-2 pt-2">
+      <div className="flex gap-2 pt-2 justify-end">
         {onCancel && (
           <Button
             type="button"
             variant="outline"
             onClick={onCancel}
             disabled={isLoading}
-            className="flex-1"
+            className="min-w-28"
           >
             Bekor qilish
           </Button>
         )}
-        <Button type="submit" disabled={isLoading} className="flex-1">
+        <Button
+          type="submit"
+          disabled={isLoading || hasDuplicateDays}
+          className="min-w-28"
+          title={
+            hasDuplicateDays
+              ? "Jadvalda takrorlangan kun bor"
+              : undefined
+          }
+        >
           {isLoading ? "Saqlanmoqda..." : submitLabel}
         </Button>
       </div>

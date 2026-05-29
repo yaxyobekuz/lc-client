@@ -4,6 +4,7 @@ import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -29,7 +30,7 @@ const LeadsListPage = () => {
   const [page, setPage] = useState(1);
   const limit = 20;
 
-  const { data, isLoading } = useLeadsQuery({
+  const { data, isLoading, isError, refetch } = useLeadsQuery({
     ...filters.state,
     overdue: filters.overdue || undefined,
     status: filters.status || undefined,
@@ -107,7 +108,9 @@ const LeadsListPage = () => {
         </label>
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>

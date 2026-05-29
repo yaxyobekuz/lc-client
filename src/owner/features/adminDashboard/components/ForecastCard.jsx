@@ -18,7 +18,7 @@ const ForecastCard = ({ data }) => (
             {MONTH_LABELS[data.period.month - 1]} {data.period.year}
           </span>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="border rounded-lg p-3 bg-emerald-50 border-emerald-200">
             <p className="text-xs text-emerald-700 font-medium">Daromad</p>
             <p className="text-lg font-semibold text-emerald-700 mt-1">

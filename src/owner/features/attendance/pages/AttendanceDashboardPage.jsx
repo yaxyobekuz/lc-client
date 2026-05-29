@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import Card from "@/shared/components/ui/card/Card";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import useObjectState from "@/shared/hooks/useObjectState";
+import { Skeleton } from "@/shared/components/shadcn/skeleton";
 import PeriodPicker from "../components/PeriodPicker";
 import GroupPicker from "../components/GroupPicker";
 import LowAttendanceList from "../components/LowAttendanceList";
@@ -9,6 +10,34 @@ import TopAbsentList from "../components/TopAbsentList";
 import GroupBreakdownTable from "../components/GroupBreakdownTable";
 import GroupMonthlyMatrix from "../components/GroupMonthlyMatrix";
 import useDashboardQuery from "../hooks/useDashboardQuery";
+
+const DashboardSkeleton = () => (
+  <div className="space-y-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <Card key={i}>
+          <Skeleton className="h-4 w-24 mb-2" />
+          <Skeleton className="h-8 w-16" />
+        </Card>
+      ))}
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <Card>
+        <Skeleton className="h-5 w-32 mb-3" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Skeleton key={i} className="h-4 w-full mb-2" />
+        ))}
+      </Card>
+      <Card>
+        <Skeleton className="h-5 w-32 mb-3" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Skeleton key={i} className="h-4 w-full mb-2" />
+        ))}
+      </Card>
+    </div>
+    <GroupBreakdownTable isLoading />
+  </div>
+);
 
 const buildRange = (year, month) => {
   const fromDate = new Date(Date.UTC(year, month - 1, 1)).toISOString();
@@ -23,10 +52,14 @@ const OverallPanel = ({ year, month }) => {
   const { data, isLoading } = useDashboardQuery(range);
 
   if (isLoading) {
-    return <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>;
+    return <DashboardSkeleton />;
   }
   if (!data) {
-    return <div className="p-8 text-center text-muted-foreground">Ma'lumot yo'q</div>;
+    return (
+      <div className="border rounded-md bg-white p-12 text-center">
+        <p className="text-muted-foreground">Tanlangan davr uchun davomat ma'lumotlari topilmadi</p>
+      </div>
+    );
   }
 
   return (

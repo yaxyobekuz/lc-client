@@ -49,7 +49,11 @@ const ReplyModal = ({
         >
           Bekor qilish
         </Button>
-        <Button type="submit" disabled={isLoading} className="flex-1">
+        <Button
+          type="submit"
+          disabled={isLoading || !message.trim()}
+          className="flex-1"
+        >
           {isLoading ? "Saqlanmoqda..." : "Saqlash"}
         </Button>
       </div>

@@ -9,7 +9,7 @@ const IncomeByDirectionTable = ({ items = [] }) => {
       {items.length === 0 ? (
         <p className="text-muted-foreground text-sm mt-3">Ma'lumot yo'q</p>
       ) : (
-        <div className="overflow-hidden rounded border mt-3">
+        <div className="overflow-x-auto rounded border mt-3">
           <table className="w-full text-sm">
             <thead className="text-left">
               <tr>

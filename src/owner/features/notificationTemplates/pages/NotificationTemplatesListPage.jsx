@@ -4,6 +4,8 @@ import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import Pagination from "@/shared/components/ui/pagination/Pagination";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -20,21 +22,32 @@ const CATEGORY_OPTIONS = [
   ...TEMPLATE_CATEGORY_OPTIONS,
 ];
 
+const LIMIT = 20;
+
 const NotificationTemplatesListPage = () => {
   const filters = useObjectState({
     search: "",
     category: "",
     includeInactive: false,
   });
+  const [page, setPage] = useState(1);
   const { openModal } = useModal();
 
-  const { data, isLoading } = useNotificationTemplatesQuery({
+  const setFilter = (key, value) => {
+    filters.setField(key, value);
+    setPage(1);
+  };
+
+  const { data, isLoading, isError, refetch } = useNotificationTemplatesQuery({
     search: filters.search || undefined,
     category: filters.category || undefined,
     includeInactive: filters.includeInactive,
-    limit: 100,
+    page,
+    limit: LIMIT,
   });
   const items = data?.data || [];
+  const total = data?.meta?.total || 0;
+  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
 
   return (
     <div className="space-y-4">
@@ -52,30 +65,43 @@ const NotificationTemplatesListPage = () => {
           label="Qidirish"
           placeholder="Nom bo'yicha..."
           value={filters.search}
-          onChange={(e) => filters.setField("search", e.target.value)}
+          onChange={(e) => setFilter("search", e.target.value)}
         />
         <SelectField
           label="Kategoriya"
           value={filters.category}
-          onChange={(v) => filters.setField("category", v)}
+          onChange={(v) => setFilter("category", v)}
           options={CATEGORY_OPTIONS}
         />
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
             checked={filters.includeInactive}
-            onChange={(e) => filters.setField("includeInactive", e.target.checked)}
+            onChange={(e) => setFilter("includeInactive", e.target.checked)}
           />
           Arxivlanganlar
         </label>
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>
       ) : (
-        <TemplatesTable items={items} />
+        <>
+          <TemplatesTable items={items} />
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={page}
+              onPageChange={setPage}
+              totalPages={totalPages}
+              hasNextPage={page < totalPages}
+              hasPrevPage={page > 1}
+            />
+          )}
+        </>
       )}
 
       <ModalWrapper

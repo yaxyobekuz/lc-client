@@ -6,7 +6,6 @@ import Button from "@/shared/components/ui/button/Button";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
-import useGroupRemoveStudentMutation from "../hooks/useGroupRemoveStudentMutation";
 
 // Constants
 import { MODAL } from "@/shared/constants/modals";
@@ -16,7 +15,6 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 
 const GroupStudentsTable = ({ group }) => {
   const { openModal } = useModal();
-  const { mutate: removeStudent, isPending } = useGroupRemoveStudentMutation();
 
   const students = group?.students || [];
 
@@ -29,7 +27,7 @@ const GroupStudentsTable = ({ group }) => {
   }
 
   return (
-    <div className="border rounded-sm overflow-hidden bg-white">
+    <div className="border rounded-sm overflow-x-auto bg-white">
       <table className="w-full text-sm">
         <thead className=" text-left">
           <tr>
@@ -70,12 +68,15 @@ const GroupStudentsTable = ({ group }) => {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    disabled={isPending}
                     className="text-red-600 hover:text-red-700"
                     onClick={() =>
-                      removeStudent({ id: group._id, studentId: s._id })
+                      openModal(MODAL.GROUP_REMOVE_STUDENT, {
+                        groupId: group._id,
+                        student: s,
+                      })
                     }
                     playClickSound={false}
+                    aria-label="Talabani guruhdan chiqarish"
                   >
                     <Trash2 className="size-4" />
                     Chiqarish

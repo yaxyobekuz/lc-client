@@ -6,8 +6,10 @@ import { Plus } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
+import InputField from "@/shared/components/ui/input/InputField";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import Pagination from "@/shared/components/ui/pagination/Pagination";
 import UsersTable from "../components/UsersTable";
 import UserCreateModal from "../components/UserCreateModal";
 import UserDeleteModal from "../components/UserDeleteModal";
@@ -21,11 +23,58 @@ import useUsersListQuery from "../hooks/useUsersListQuery";
 import { MODAL } from "@/shared/constants/modals";
 import { ROLES } from "@/shared/constants/roles";
 
+const LIMIT = 20;
+
+const UsersTab = ({ role }) => {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  const { data, isLoading } = useUsersListQuery({
+    role,
+    search: search || undefined,
+    page,
+    limit: LIMIT,
+  });
+  const users = data?.data || [];
+  const total = data?.meta?.total || 0;
+  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
+
+  return (
+    <div className="pt-3 space-y-3">
+      <InputField
+        name="search"
+        type="search"
+        value={search}
+        placeholder="Ism, familiya yoki login bo'yicha qidirish..."
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(1);
+        }}
+      />
+
+      {isLoading ? (
+        <div className="p-4 text-muted-foreground">Yuklanmoqda...</div>
+      ) : (
+        <>
+          <UsersTable users={users} />
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={page}
+              onPageChange={setPage}
+              totalPages={totalPages}
+              hasNextPage={page < totalPages}
+              hasPrevPage={page > 1}
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
 const UsersListPage = () => {
   const [tab, setTab] = useState(ROLES.TEACHER);
   const { openModal } = useModal();
-  const { data, isLoading } = useUsersListQuery({ role: tab, limit: 100 });
-  const users = data?.data || [];
 
   return (
     <div className="space-y-4">
@@ -46,28 +95,12 @@ const UsersListPage = () => {
           {
             value: ROLES.TEACHER,
             label: "O'qituvchilar",
-            content: (
-              <div className="pt-3">
-                {isLoading ? (
-                  <div className="p-4 text-muted-foreground">Yuklanmoqda...</div>
-                ) : (
-                  <UsersTable users={users} />
-                )}
-              </div>
-            ),
+            content: <UsersTab role={ROLES.TEACHER} />,
           },
           {
             value: ROLES.STUDENT,
             label: "Talabalar",
-            content: (
-              <div className="pt-3">
-                {isLoading ? (
-                  <div className="p-4 text-muted-foreground">Yuklanmoqda...</div>
-                ) : (
-                  <UsersTable users={users} />
-                )}
-              </div>
-            ),
+            content: <UsersTab role={ROLES.STUDENT} />,
           },
         ]}
       />

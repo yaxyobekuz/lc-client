@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import DiscountKindsTable from "../components/DiscountKindsTable";
 import DiscountKindCreateModal from "../components/DiscountKindCreateModal";
 import DiscountKindEditModal from "../components/DiscountKindEditModal";
@@ -15,7 +16,7 @@ const DiscountKindsListPage = () => {
   const [search, setSearch] = useState("");
   const [includeInactive, setIncludeInactive] = useState(false);
   const { openModal } = useModal();
-  const { data, isLoading } = useDiscountKindsQuery({
+  const { data, isLoading, isError, refetch } = useDiscountKindsQuery({
     search,
     includeInactive,
     limit: 100,
@@ -51,7 +52,9 @@ const DiscountKindsListPage = () => {
         </label>
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : (
         <DiscountKindsTable items={items} />

@@ -29,13 +29,22 @@ const PaymentRecordModal = ({
     onError: () => setIsLoading(false),
   });
 
+  const amountNum = Number(obj.amount);
+  const overpay = amountNum > remaining;
+  const invalid =
+    !obj.amount ||
+    !obj.methodId ||
+    !Number.isInteger(amountNum) ||
+    amountNum <= 0 ||
+    overpay;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!obj.amount || !obj.methodId) return;
+    if (invalid) return;
     setIsLoading(true);
     mutate({
       invoiceId: invoice._id,
-      amount: Number(obj.amount),
+      amount: amountNum,
       methodId: obj.methodId,
       paidAt: obj.paidAt || undefined,
       note: obj.note,
@@ -57,17 +66,26 @@ const PaymentRecordModal = ({
           </div>
         </div>
       )}
-      <InputField
-        name="amount"
-        label="Summa"
-        type="number"
-        min="0"
-        value={obj.amount}
-        onChange={(e) => obj.setField("amount", e.target.value)}
-        required
-        autoFocus
-        disabled={isLoading}
-      />
+      <div className="space-y-1">
+        <InputField
+          name="amount"
+          label="Summa"
+          type="number"
+          min="1"
+          max={remaining}
+          step="1"
+          value={obj.amount}
+          onChange={(e) => obj.setField("amount", e.target.value)}
+          required
+          autoFocus
+          disabled={isLoading}
+        />
+        {overpay && (
+          <p className="text-xs text-red-600">
+            Summa qarzdan ko'p bo'lmasligi kerak ({formatMoney(remaining)})
+          </p>
+        )}
+      </div>
       <PaymentMethodPicker
         value={obj.methodId}
         onChange={(v) => obj.setField("methodId", v)}
@@ -99,7 +117,11 @@ const PaymentRecordModal = ({
         >
           Bekor qilish
         </Button>
-        <Button type="submit" disabled={isLoading} className="flex-1">
+        <Button
+          type="submit"
+          disabled={isLoading || invalid}
+          className="flex-1"
+        >
           {isLoading ? "Yozilmoqda..." : "To'lov yozish"}
         </Button>
       </div>

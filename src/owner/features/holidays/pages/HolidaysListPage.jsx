@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -21,7 +22,7 @@ const HolidaysListPage = () => {
   });
   const { openModal } = useModal();
 
-  const { data, isLoading } = useHolidaysQuery({
+  const { data, isLoading, isError, refetch } = useHolidaysQuery({
     search: filters.search || undefined,
     includeInactive: filters.includeInactive,
     includePast: filters.includePast,
@@ -68,7 +69,9 @@ const HolidaysListPage = () => {
         </label>
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>

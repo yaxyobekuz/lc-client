@@ -1,15 +1,18 @@
 import Card from "@/shared/components/ui/card/Card";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import FeedbackStatusBadge from "../components/FeedbackStatusBadge";
 import { useFeedbackStatsQuery } from "../hooks/useFeedbackQueries";
 
 const FeedbackDashboardPage = () => {
-  const { data, isLoading } = useFeedbackStatsQuery();
+  const { data, isLoading, isError, refetch } = useFeedbackStatsQuery();
 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">Feedback hisoboti</h1>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>

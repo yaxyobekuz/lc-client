@@ -8,7 +8,6 @@ import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import Card from "@/shared/components/ui/card/Card";
-import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import GroupStudentsTable from "../components/GroupStudentsTable";
 import GroupHistoryList from "../components/GroupHistoryList";
@@ -16,6 +15,7 @@ import GroupEditModal from "../components/modals/GroupEditModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
+import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -120,40 +120,35 @@ const GroupDetailPage = () => {
         </Card>
       </div>
 
-      <TabsButtons
-        items={[
-          {
-            value: "students",
-            label: "Talabalar",
-            content: (
-              <div className="space-y-3 pt-3">
-                <div className="flex justify-end">
-                  <Button
-                    onClick={() =>
-                      openModal(MODAL.GROUP_ADD_STUDENT, { groupId: group._id })
-                    }
-                  >
-                    <Plus className="size-4" />
-                    Talaba qo'shish
-                  </Button>
-                </div>
-                <GroupStudentsTable group={group} />
-              </div>
-            ),
-          },
-          {
-            value: "history",
-            label: "Tarix",
-            content: (
-              <div className="pt-3">
-                <GroupHistoryList groupId={group._id} />
-              </div>
-            ),
-          },
-        ]}
-      />
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Talabalar</h2>
+          <Button
+            onClick={() =>
+              openModal(MODAL.GROUP_ADD_STUDENT, { groupId: group._id })
+            }
+          >
+            <Plus className="size-4" />
+            Talaba qo'shish
+          </Button>
+        </div>
+        <GroupStudentsTable group={group} />
+      </div>
 
-      <ModalWrapper name={MODAL.GROUP_EDIT} title="Guruhni tahrirlash">
+      <details className="group/details border rounded-sm bg-white">
+        <summary className="cursor-pointer px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground select-none">
+          Tarix (a'zolik o'zgarishlari)
+        </summary>
+        <div className="p-3 pt-0">
+          <GroupHistoryList groupId={group._id} />
+        </div>
+      </details>
+
+      <ModalWrapper
+        name={MODAL.GROUP_EDIT}
+        title="Guruhni tahrirlash"
+        className="max-w-4xl"
+      >
         <GroupEditModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni o'chirish">
@@ -167,6 +162,12 @@ const GroupDetailPage = () => {
         title="Boshqa guruhga ko'chirish"
       >
         <GroupTransferStudentModal />
+      </ModalWrapper>
+      <ModalWrapper
+        name={MODAL.GROUP_REMOVE_STUDENT}
+        title="Talabani guruhdan chiqarish"
+      >
+        <GroupRemoveStudentModal />
       </ModalWrapper>
     </div>
   );

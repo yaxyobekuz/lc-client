@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -38,7 +39,7 @@ const ExpensesListPage = () => {
     toDate: filters.toDate || undefined,
   };
 
-  const { data, isLoading } = useExpensesQuery(queryParams);
+  const { data, isLoading, isError, refetch } = useExpensesQuery(queryParams);
   const { data: stats } = useExpenseStatsQuery(statsParams);
 
   const items = data?.data || [];
@@ -90,7 +91,9 @@ const ExpensesListPage = () => {
 
       <ExpenseFilters filters={filters} onChange={onFilterChange} />
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">
           Yuklanmoqda...
         </div>

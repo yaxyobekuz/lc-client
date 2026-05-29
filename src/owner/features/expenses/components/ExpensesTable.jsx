@@ -21,16 +21,16 @@ const ExpensesTable = ({ items = [] }) => {
   }
 
   return (
-    <div className="border rounded-sm overflow-hidden bg-white">
-      <table className="w-full text-sm table-fixed">
+    <div className="border rounded-sm overflow-x-auto bg-white">
+      <table className="w-full min-w-[720px] text-sm">
         <thead>
           <tr>
-            <th className="px-4 py-2 font-medium text-left w-32">Sana</th>
-            <th className="px-4 py-2 font-medium text-left w-36">Kategoriya</th>
-            <th className="px-4 py-2 font-medium text-left w-36">Summa</th>
+            <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Sana</th>
+            <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Kategoriya</th>
+            <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Summa</th>
             <th className="px-4 py-2 font-medium text-left">Izoh</th>
-            <th className="px-4 py-2 font-medium text-left w-40">Yaratdi</th>
-            <th className="px-4 py-2 font-medium text-right w-32">Amallar</th>
+            <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Yaratdi</th>
+            <th className="px-4 py-2 font-medium text-right whitespace-nowrap">Amallar</th>
           </tr>
         </thead>
         <tbody>

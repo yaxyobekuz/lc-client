@@ -18,14 +18,23 @@ const PaymentRefundModal = ({ payment, close, isLoading, setIsLoading }) => {
     onError: () => setIsLoading(false),
   });
 
+  const amountNum = Number(obj.amount);
+  const overRefund = amountNum > (payment?.amount || 0);
+  const invalid =
+    !obj.amount ||
+    amountNum <= 0 ||
+    !Number.isInteger(amountNum) ||
+    overRefund ||
+    obj.reason.trim().length < 3;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!obj.amount) return;
+    if (invalid) return;
     setIsLoading(true);
     mutate({
       id: payment._id,
-      amount: Number(obj.amount),
-      reason: obj.reason,
+      amount: amountNum,
+      reason: obj.reason.trim(),
     });
   };
 
@@ -37,21 +46,33 @@ const PaymentRefundModal = ({ payment, close, isLoading, setIsLoading }) => {
           <span className="font-medium">{formatMoney(payment.amount)}</span>
         </div>
       )}
+      <div className="space-y-1">
+        <InputField
+          name="amount"
+          label="Qaytariladigan summa"
+          type="number"
+          min="1"
+          step="1"
+          max={payment?.amount || undefined}
+          value={obj.amount}
+          onChange={(e) => obj.setField("amount", e.target.value)}
+          required
+          autoFocus
+          disabled={isLoading}
+        />
+        {overRefund && (
+          <p className="text-xs text-red-600">
+            Qaytarish summasi asl to'lovdan ko'p bo'lmasligi kerak (
+            {formatMoney(payment?.amount || 0)})
+          </p>
+        )}
+      </div>
       <InputField
-        name="amount"
-        label="Qaytariladigan summa"
-        type="number"
-        min="0"
-        value={obj.amount}
-        onChange={(e) => obj.setField("amount", e.target.value)}
         required
-        autoFocus
-        disabled={isLoading}
-      />
-      <InputField
         name="reason"
         label="Sabab"
         type="textarea"
+        placeholder="Nima sababdan qaytarilmoqda? (kamida 3 belgi)"
         value={obj.reason}
         onChange={(e) => obj.setField("reason", e.target.value)}
         disabled={isLoading}
@@ -69,7 +90,7 @@ const PaymentRefundModal = ({ payment, close, isLoading, setIsLoading }) => {
         <Button
           type="submit"
           variant="danger"
-          disabled={isLoading}
+          disabled={isLoading || invalid}
           className="flex-1"
         >
           {isLoading ? "Qaytarilmoqda..." : "Qaytarish"}

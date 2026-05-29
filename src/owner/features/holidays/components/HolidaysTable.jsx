@@ -23,7 +23,7 @@ const HolidaysTable = ({ items = [] }) => {
   }
 
   return (
-    <div className="border rounded-sm overflow-hidden bg-white">
+    <div className="border rounded-sm overflow-x-auto bg-white">
       <table className="w-full text-sm">
         <thead className=" text-left">
           <tr>

@@ -30,7 +30,7 @@ const UsersTable = ({ users = [] }) => {
   }
 
   return (
-    <div className="border rounded-sm overflow-hidden bg-white">
+    <div className="border rounded-sm overflow-x-auto bg-white">
       <table className="w-full text-sm">
         <thead className=" text-left">
           <tr>
@@ -76,6 +76,8 @@ const UsersTable = ({ users = [] }) => {
                     className="text-red-600 hover:text-red-700"
                     onClick={() => openModal(MODAL.USER_DELETE, { user: u })}
                     playClickSound={false}
+                    aria-label="Foydalanuvchini o'chirish"
+                    title="O'chirish"
                   >
                     <Trash2 className="size-4" />
                   </Button>

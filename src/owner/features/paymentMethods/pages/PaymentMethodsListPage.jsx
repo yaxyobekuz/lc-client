@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import PaymentMethodsTable from "../components/PaymentMethodsTable";
 import PaymentMethodCreateModal from "../components/PaymentMethodCreateModal";
 import PaymentMethodEditModal from "../components/PaymentMethodEditModal";
@@ -15,7 +16,7 @@ const PaymentMethodsListPage = () => {
   const [search, setSearch] = useState("");
   const [includeInactive, setIncludeInactive] = useState(false);
   const { openModal } = useModal();
-  const { data, isLoading } = usePaymentMethodsQuery({
+  const { data, isLoading, isError, refetch } = usePaymentMethodsQuery({
     search,
     includeInactive,
     limit: 100,
@@ -51,7 +52,9 @@ const PaymentMethodsListPage = () => {
         </label>
       </div>
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorState onRetry={refetch} />
+      ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : (
         <PaymentMethodsTable items={items} />

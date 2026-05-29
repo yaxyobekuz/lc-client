@@ -19,8 +19,11 @@ const ResolveModal = ({
     onError: () => setIsLoading(false),
   });
 
+  const isInvalid = !adminReply.trim();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isInvalid) return;
     setIsLoading(true);
     mutate({ id: feedbackId, adminReply: adminReply.trim() });
   };
@@ -48,7 +51,11 @@ const ResolveModal = ({
         >
           Bekor qilish
         </Button>
-        <Button type="submit" disabled={isLoading} className="flex-1">
+        <Button
+          type="submit"
+          disabled={isLoading || isInvalid}
+          className="flex-1"
+        >
           {isLoading ? "Yopilmoqda..." : "Hal qilindi"}
         </Button>
       </div>

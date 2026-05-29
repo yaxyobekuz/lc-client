@@ -25,41 +25,33 @@ const RESOURCE_OPTIONS = [
 ];
 
 const LogFilters = ({ filters, onChange }) => (
-  <div className="flex items-end gap-3 flex-wrap">
-    <div className="min-w-[160px]">
-      <SelectField
-        label="Metod"
-        value={filters.method}
-        onChange={(v) => onChange("method", v)}
-        options={METHOD_OPTIONS}
-      />
-    </div>
-    <div className="min-w-[200px]">
-      <SelectField
-        label="Resurs"
-        value={filters.resourceType}
-        onChange={(v) => onChange("resourceType", v)}
-        options={RESOURCE_OPTIONS}
-      />
-    </div>
-    <div>
-      <InputField
-        type="date"
-        name="fromDate"
-        label="Kimdan"
-        value={filters.fromDate}
-        onChange={(e) => onChange("fromDate", e.target.value)}
-      />
-    </div>
-    <div>
-      <InputField
-        type="date"
-        name="toDate"
-        label="Kimgacha"
-        value={filters.toDate}
-        onChange={(e) => onChange("toDate", e.target.value)}
-      />
-    </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+    <SelectField
+      label="Metod"
+      value={filters.method}
+      onChange={(v) => onChange("method", v)}
+      options={METHOD_OPTIONS}
+    />
+    <SelectField
+      label="Resurs"
+      value={filters.resourceType}
+      onChange={(v) => onChange("resourceType", v)}
+      options={RESOURCE_OPTIONS}
+    />
+    <InputField
+      type="date"
+      name="fromDate"
+      label="Kimdan"
+      value={filters.fromDate}
+      onChange={(e) => onChange("fromDate", e.target.value)}
+    />
+    <InputField
+      type="date"
+      name="toDate"
+      label="Kimgacha"
+      value={filters.toDate}
+      onChange={(e) => onChange("toDate", e.target.value)}
+    />
   </div>
 );
 
