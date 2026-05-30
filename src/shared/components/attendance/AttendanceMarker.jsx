@@ -1,22 +1,56 @@
-import SelectField from "@/shared/components/ui/select/SelectField";
 import InputField from "@/shared/components/ui/input/InputField";
-import { STATUS_OPTIONS } from "@/shared/constants/attendance";
+import {
+  ATTENDANCE_STATUSES,
+  STATUS_LABEL,
+  STATUS_EMOJI,
+  STATUS_BADGE_CLASS,
+} from "@/shared/constants/attendance";
+import { cn } from "@/shared/utils/cn";
 
-// Bitta talaba qatori uchun status + (kerakli holatda) qo'shimcha maydon
+// Bitta talaba qatori uchun: 1 click bilan status tanlash (select emas, tap)
 const AttendanceMarker = ({ value = {}, onChange, disabled = false }) => {
   const { status = "", reason = "", lateMinutes = 0 } = value;
 
   const update = (patch) => onChange({ ...value, ...patch });
 
+  // Bitta clickda status o'rnatadi; "late"/"excused" uchun qo'shimcha maydon ochiladi
+  const pickStatus = (s) =>
+    update({
+      status: s,
+      lateMinutes: s === "late" ? lateMinutes || 5 : 0,
+      reason: s === "excused" ? reason : "",
+    });
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 items-end">
-      <SelectField
-        value={status}
-        onChange={(v) => update({ status: v })}
-        options={[{ value: "", label: "- tanlang -" }, ...STATUS_OPTIONS]}
-        disabled={disabled}
-        className="!gap-1"
-      />
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-1.5">
+        {ATTENDANCE_STATUSES.map((s) => {
+          const active = status === s;
+          return (
+            <button
+              key={s}
+              type="button"
+              disabled={disabled}
+              onClick={() => pickStatus(s)}
+              aria-pressed={active}
+              title={STATUS_LABEL[s]}
+              className={cn(
+                "inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium border transition-colors disabled:opacity-50",
+                active
+                  ? cn(
+                      STATUS_BADGE_CLASS[s],
+                      "border-transparent font-semibold ring-1 ring-black/10 shadow-sm",
+                    )
+                  : "bg-white border-gray-200 text-muted-foreground hover:bg-gray-50",
+              )}
+            >
+              <span>{STATUS_EMOJI[s]}</span>
+              <span>{STATUS_LABEL[s]}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {status === "late" && (
         <InputField
           type="number"
@@ -25,7 +59,7 @@ const AttendanceMarker = ({ value = {}, onChange, disabled = false }) => {
           value={lateMinutes || ""}
           onChange={(e) => update({ lateMinutes: Number(e.target.value) })}
           disabled={disabled}
-          className="!gap-1"
+          className="!gap-1 max-w-[220px]"
         />
       )}
       {status === "excused" && (
@@ -34,6 +68,7 @@ const AttendanceMarker = ({ value = {}, onChange, disabled = false }) => {
           disabled={disabled}
           placeholder="Sabab (kasallik, oilaviy, ...)"
           onChange={(e) => update({ reason: e.target.value })}
+          className="max-w-[320px]"
         />
       )}
     </div>

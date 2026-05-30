@@ -1,10 +1,11 @@
 import { useState } from "react";
 import InputField from "@/shared/components/ui/input/InputField";
+import Card from "@/shared/components/ui/card/Card";
 import { AttendanceGrid } from "@/shared/components/attendance";
 import GroupPicker from "../components/GroupPicker";
 import useAttendanceForGroupDateQuery from "../hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
-import { toDateInput, formatDateWithWeekday } from "@/shared/utils/formatDate";
+import { toDateInput } from "@/shared/utils/formatDate";
 
 const AttendanceMarkPage = () => {
   const [groupId, setGroupId] = useState("");
@@ -22,27 +23,20 @@ const AttendanceMarkPage = () => {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">Davomat belgilash</h1>
 
-      <div className="flex flex-wrap items-end gap-4">
-        <div className="min-w-[280px] flex-1">
+      <Card className="flex flex-col gap-4 sm:flex-row sm:items-start">
+        <div className="flex-1 min-w-0">
           <GroupPicker value={groupId} onChange={setGroupId} />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <InputField
-            type="date"
-            name="date"
-            label="Sana"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="!gap-1"
-          />
-          {date && (
-            <span className="text-xs text-muted-foreground">
-              {formatDateWithWeekday(date)}
-            </span>
-          )}
-        </div>
-      </div>
+        <InputField
+          type="date"
+          name="date"
+          label="Sana"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="w-full sm:w-56"
+        />
+      </Card>
 
       {!groupId ? (
         <div className="border rounded-lg p-8 text-center text-muted-foreground">
