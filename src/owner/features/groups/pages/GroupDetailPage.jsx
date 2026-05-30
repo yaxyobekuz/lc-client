@@ -25,7 +25,7 @@ import useGroupQuery from "../hooks/useGroupQuery";
 import { MODAL } from "@/shared/constants/modals";
 
 // Utils
-import { DAY_LABELS_FULL_UZ } from "@/shared/utils/formatSchedule";
+import { DAY_LABELS_FULL_UZ, sortSchedule } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import BackLink from "@/shared/components/ui/link/BackLink";
 
@@ -102,7 +102,7 @@ const GroupDetailPage = () => {
             <p className="text-sm text-muted-foreground">-</p>
           ) : (
             <div className="flex flex-wrap gap-2">
-              {group.schedule.map((s, i) => (
+              {sortSchedule(group.schedule).map((s, i) => (
                 <div
                   key={`${s.day}-${i}`}
                   className="flex flex-col items-start gap-0.5 rounded-md border bg-muted/40 px-3 py-1.5"

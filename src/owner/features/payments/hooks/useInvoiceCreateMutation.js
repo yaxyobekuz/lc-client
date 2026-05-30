@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { invoicesAPI } from "../api/invoices.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 const useInvoiceCreateMutation = (options = {}) => {
   const qc = useQueryClient();
@@ -13,7 +14,7 @@ const useInvoiceCreateMutation = (options = {}) => {
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
-      toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+      apiErrorToast(err);
       options.onError?.(err);
     },
   });

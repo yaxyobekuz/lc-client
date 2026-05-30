@@ -1,5 +1,6 @@
 // TanStack Query
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 // Router
 import { useNavigate } from "react-router-dom";
@@ -30,8 +31,7 @@ const useLoginMutation = () => {
       navigate(ROLE_HOME[data.user.role] || "/", { replace: true });
     },
     onError: (err) => {
-      const msg = err?.response?.data?.message || "Login yoki parol noto'g'ri";
-      toast.error(msg);
+      apiErrorToast(err, "Login yoki parol noto'g'ri");
     },
   });
 };

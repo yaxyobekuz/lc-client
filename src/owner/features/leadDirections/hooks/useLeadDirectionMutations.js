@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { leadDirectionsAPI } from "../api/leadDirections.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 const handleErr = (err) =>
-  toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+  apiErrorToast(err);
 
 export const useLeadDirectionCreateMutation = (options = {}) => {
   const qc = useQueryClient();

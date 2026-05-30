@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { discountKindsAPI } from "../api/discountKinds.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 const useDiscountKindUpdateMutation = (options = {}) => {
   const qc = useQueryClient();
@@ -14,7 +15,7 @@ const useDiscountKindUpdateMutation = (options = {}) => {
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
-      toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+      apiErrorToast(err);
       options.onError?.(err);
     },
   });

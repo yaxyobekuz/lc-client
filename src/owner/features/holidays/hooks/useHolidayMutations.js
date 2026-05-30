@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { holidaysAPI } from "../api/holidays.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 const handleErr = (err) =>
-  toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+  apiErrorToast(err);
 
 export const useHolidayCreateMutation = (options = {}) => {
   const qc = useQueryClient();

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { profileAPI } from "../api/profile.api";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 // Parol o'zgargach backend barcha sessiyalarni bekor qiladi -> qayta login kerak
 const useChangePasswordMutation = (options = {}) => {
@@ -18,8 +19,7 @@ const useChangePasswordMutation = (options = {}) => {
       navigate("/login", { replace: true });
     },
     onError: (err) => {
-      const msg = err?.response?.data?.message || "Xatolik yuz berdi";
-      toast.error(msg);
+      apiErrorToast(err);
       options.onError?.(err);
     },
   });

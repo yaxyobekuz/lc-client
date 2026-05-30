@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { notificationsAPI } from "../api/notifications.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 export const useInboxQuery = (params = {}) =>
   useQuery({
@@ -34,7 +35,6 @@ export const useMarkAllReadMutation = () => {
       qc.invalidateQueries({ queryKey: ["notifications", "inbox"] });
       toast.success("Hammasi o'qildi");
     },
-    onError: (err) =>
-      toast.error(err?.response?.data?.message || "Xatolik"),
+    onError: (err) => apiErrorToast(err),
   });
 };

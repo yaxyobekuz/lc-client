@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import { profileAPI } from "../api/profile.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 const useProfileUpdateMutation = (options = {}) => {
   const qc = useQueryClient();
@@ -15,8 +16,7 @@ const useProfileUpdateMutation = (options = {}) => {
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
-      const msg = err?.response?.data?.message || "Xatolik yuz berdi";
-      toast.error(msg);
+      apiErrorToast(err);
       options.onError?.(err);
     },
   });

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { attendanceSettingsAPI } from "../api/attendanceSettings.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 export const useAttendanceSettingsQuery = () =>
   useQuery({
@@ -21,7 +22,7 @@ export const useAttendanceSettingsUpdateMutation = (options = {}) => {
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
-      toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+      apiErrorToast(err);
       options.onError?.(err);
     },
   });

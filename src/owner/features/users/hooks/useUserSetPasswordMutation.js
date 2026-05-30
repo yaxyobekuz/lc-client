@@ -1,5 +1,6 @@
 // TanStack Query
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 // Sonner
 import { toast } from "sonner";
@@ -21,8 +22,7 @@ const useUserSetPasswordMutation = (options = {}) => {
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
-      const msg = err?.response?.data?.message || "Xatolik yuz berdi";
-      toast.error(msg);
+      apiErrorToast(err);
       options.onError?.(err);
     },
   });

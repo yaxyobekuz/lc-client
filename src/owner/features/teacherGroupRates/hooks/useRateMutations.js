@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { teacherGroupRatesAPI } from "../api/teacherGroupRates.api";
 import { qk } from "@/shared/lib/query/keys";
+import { apiErrorToast } from "@/shared/utils/apiError";
 
 const handleErr = (err) =>
-  toast.error(err?.response?.data?.message || "Xatolik yuz berdi");
+  apiErrorToast(err);
 
 export const useRateCreateMutation = (options = {}) => {
   const qc = useQueryClient();

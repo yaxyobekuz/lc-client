@@ -2,6 +2,9 @@
 import useObjectState from "@/shared/hooks/useObjectState";
 import useLeadDirectionsQuery from "@/owner/features/leadDirections/hooks/useLeadDirectionsQuery";
 
+// Sonner
+import { toast } from "sonner";
+
 // Components
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
@@ -55,13 +58,53 @@ const GroupForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name.trim()) return;
-    if (hasDuplicateDays) return;
+    const trimmedName = name.trim();
+    const priceNum = Number(monthlyPrice);
+
+    if (!trimmedName) {
+      toast.error("Guruh nomini kiriting");
+      return;
+    }
+    if (trimmedName.length < 2) {
+      toast.error("Guruh nomi kamida 2 belgidan iborat bo'lishi kerak");
+      return;
+    }
+    if (trimmedName.length > 120) {
+      toast.error("Guruh nomi 120 belgidan oshmasligi kerak");
+      return;
+    }
+    if (monthlyPrice === "" || Number.isNaN(priceNum)) {
+      toast.error("Oylik narxni kiriting");
+      return;
+    }
+    if (priceNum < 0) {
+      toast.error("Oylik narx 0 dan kichik bo'lmasin");
+      return;
+    }
+    for (const s of schedule) {
+      if (!s.day) {
+        toast.error("Jadval kunini tanlang");
+        return;
+      }
+      if (!s.startTime || !s.endTime) {
+        toast.error("Jadvaldagi vaqtlarni to'liq kiriting");
+        return;
+      }
+      if (s.startTime >= s.endTime) {
+        toast.error("Tugash vaqti boshlanish vaqtidan keyin bo'lishi kerak");
+        return;
+      }
+    }
+    if (hasDuplicateDays) {
+      toast.error("Jadvalda bir kun bir necha marta takrorlangan");
+      return;
+    }
+
     onSubmit({
-      name: name.trim(),
+      name: trimmedName,
       schedule,
       teachers,
-      monthlyPrice: Number(monthlyPrice) || 0,
+      monthlyPrice: priceNum,
       direction: direction && direction !== NONE_DIRECTION ? direction : null,
     });
   };

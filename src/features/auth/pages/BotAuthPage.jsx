@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@/shared/hooks/useAuth";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useBotAuthMutation from "../hooks/useBotAuthMutation";
+import { extractApiErrorMessage } from "@/shared/utils/apiError";
 import useBotAuthLoginMutation from "../hooks/useBotAuthLoginMutation";
 
 // Components
@@ -52,8 +53,7 @@ const BotAuthPage = () => {
       }
       ui.setField(
         "errorMsg",
-        err?.response?.data?.message ||
-          "Telegram orqali kirishda xatolik yuz berdi.",
+        extractApiErrorMessage(err, "Telegram orqali kirishda xatolik yuz berdi."),
       );
     },
   });
@@ -64,7 +64,7 @@ const BotAuthPage = () => {
       onError: (err) => {
         ui.setField(
           "errorMsg",
-          err?.response?.data?.message || "Login yoki parol noto'g'ri.",
+          extractApiErrorMessage(err, "Login yoki parol noto'g'ri."),
         );
       },
     });
