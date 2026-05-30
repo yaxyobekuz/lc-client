@@ -2,7 +2,7 @@ import { cn } from "@/shared/utils/cn";
 
 const METHOD_CLASS = {
   GET: "bg-zinc-100 text-zinc-700 border-zinc-200",
-  POST: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  POST: "bg-green-50 text-green-700 border-green-200",
   PATCH: "bg-amber-50 text-amber-700 border-amber-200",
   PUT: "bg-amber-50 text-amber-700 border-amber-200",
   DELETE: "bg-rose-50 text-rose-700 border-rose-200",

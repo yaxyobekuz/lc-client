@@ -4,10 +4,15 @@ import { Send } from "lucide-react";
 const UserTelegramCard = ({ telegram }) => {
   if (!telegram) {
     return (
-      <Card>
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <Send className="size-4" />
-          <p className="text-sm">Telegram hali bog'lanmagan</p>
+      <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted/60 text-muted-foreground">
+            <Send className="size-4" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-medium text-foreground/80">Telegram</p>
+            <p className="text-xs text-muted-foreground">Hali bog'lanmagan</p>
+          </div>
         </div>
       </Card>
     );
@@ -18,20 +23,20 @@ const UserTelegramCard = ({ telegram }) => {
     .join(" ");
 
   return (
-    <Card>
+    <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
       <div className="flex items-start gap-3">
-        <div className="flex items-center justify-center size-10 rounded-full bg-blue-50 text-blue-600 shrink-0">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
           <Send className="size-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-medium">Telegram</p>
+          <p className="text-sm font-medium text-foreground">Telegram</p>
           <p className="text-sm text-muted-foreground">
             {display || "-"}
             {telegram.username && (
               <span className="ml-1">@{telegram.username}</span>
             )}
           </p>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             ID: {telegram.telegramId}
           </p>
         </div>

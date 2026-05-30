@@ -3,6 +3,7 @@ import InputField from "@/shared/components/ui/input/InputField";
 import Button from "@/shared/components/ui/button/Button";
 import PaymentMethodPicker from "@/owner/features/payments/components/PaymentMethodPicker";
 import { toDateInput } from "@/shared/utils/formatDate";
+import { formatMoney } from "@/shared/utils/formatMoney";
 import { useRecordPayoutMutation } from "../../hooks/useSalaryMutations";
 
 const PayoutAddModal = ({
@@ -17,6 +18,7 @@ const PayoutAddModal = ({
     methodId: "",
     paidAt: toDateInput(new Date()),
     note: "",
+    submitted: false,
   });
 
   const { mutate } = useRecordPayoutMutation({
@@ -29,7 +31,10 @@ const PayoutAddModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!obj.amount || !obj.methodId) return;
+    if (!obj.amount || !obj.methodId) {
+      obj.setField("submitted", true);
+      return;
+    }
     setIsLoading(true);
     mutate({
       id: salaryId,
@@ -39,6 +44,8 @@ const PayoutAddModal = ({
       note: obj.note,
     });
   };
+
+  const overpay = Number(obj.amount || 0) - Number(remaining || 0);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
@@ -52,11 +59,19 @@ const PayoutAddModal = ({
         required
         autoFocus
         disabled={isLoading}
+        error={obj.submitted && !obj.amount}
       />
+      {overpay > 0 && (
+        <p className="text-xs text-amber-700">
+          Qoldiqdan {formatMoney(overpay)} ortiqcha — bu summa keyingi oy
+          avansiga yoziladi.
+        </p>
+      )}
       <PaymentMethodPicker
         value={obj.methodId}
         onChange={(v) => obj.setField("methodId", v)}
         disabled={isLoading}
+        error={obj.submitted && !obj.methodId}
       />
       <InputField
         type="date"

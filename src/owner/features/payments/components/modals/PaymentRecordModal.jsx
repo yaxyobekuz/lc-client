@@ -30,13 +30,13 @@ const PaymentRecordModal = ({
   });
 
   const amountNum = Number(obj.amount);
-  const overpay = amountNum > remaining;
+  // Qarzdan ortiq summa talaba balansiga yoziladi (keyingi oy yechiladi)
+  const toBalance = Math.max(0, amountNum - remaining);
   const invalid =
     !obj.amount ||
     !obj.methodId ||
     !Number.isInteger(amountNum) ||
-    amountNum <= 0 ||
-    overpay;
+    amountNum <= 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +72,6 @@ const PaymentRecordModal = ({
           label="Summa"
           type="number"
           min="1"
-          max={remaining}
           step="1"
           value={obj.amount}
           onChange={(e) => obj.setField("amount", e.target.value)}
@@ -80,9 +79,10 @@ const PaymentRecordModal = ({
           autoFocus
           disabled={isLoading}
         />
-        {overpay && (
-          <p className="text-xs text-red-600">
-            Summa qarzdan ko'p bo'lmasligi kerak ({formatMoney(remaining)})
+        {toBalance > 0 && (
+          <p className="text-xs text-sky-600">
+            Qarzdan ortiq {formatMoney(toBalance)} talaba balansiga yoziladi
+            (keyingi oy hisobidan yechiladi)
           </p>
         )}
       </div>

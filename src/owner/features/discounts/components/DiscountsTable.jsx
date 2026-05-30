@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Infinity as InfinityIcon, Trash2 } from "lucide-react";
 import Badge from "@/shared/components/ui/badge/Badge";
 import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
@@ -59,7 +59,14 @@ const DiscountsTable = ({ studentId }) => {
               </td>
               <td className="px-4 py-2">{formatDateUz(d.startDate)}</td>
               <td className="px-4 py-2">
-                {d.endDate ? formatDateUz(d.endDate) : "Doimiy"}
+                {d.endDate ? (
+                  formatDateUz(d.endDate)
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-muted-foreground">
+                    <InfinityIcon className="size-3.5" />
+                    Muddatsiz
+                  </span>
+                )}
               </td>
               <td className="px-4 py-2">
                 {d.isActive ? (
@@ -74,7 +81,7 @@ const DiscountsTable = ({ studentId }) => {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
                     onClick={() =>
                       openModal(MODAL.DISCOUNT_DELETE, { discount: d })
                     }

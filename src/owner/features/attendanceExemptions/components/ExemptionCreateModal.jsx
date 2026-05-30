@@ -1,13 +1,17 @@
 import useObjectState from "@/shared/hooks/useObjectState";
 import InputField from "@/shared/components/ui/input/InputField";
 import Button from "@/shared/components/ui/button/Button";
+import DateRangeSlider from "@/shared/components/ui/dateSlider/DateRangeSlider";
+import { toDateInput } from "@/shared/utils/formatDate";
 import DaysOfWeekToggle from "./DaysOfWeekToggle";
 import { useExemptionCreateMutation } from "../hooks/useExemptionMutations";
 
 const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
+  const today = toDateInput(new Date());
+
   const obj = useObjectState({
-    startDate: "",
-    endDate: "",
+    startDate: today,
+    endDate: today,
     daysOfWeek: [],
     reason: "",
   });
@@ -35,26 +39,14 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <InputField
-          type="date"
-          name="startDate"
-          label="Boshlanish sanasi"
-          value={obj.startDate}
-          onChange={(e) => obj.setField("startDate", e.target.value)}
-          required
-          disabled={isLoading}
-        />
-        <InputField
-          type="date"
-          name="endDate"
-          label="Tugash sanasi"
-          description="Bo'sh - doimiy"
-          value={obj.endDate}
-          onChange={(e) => obj.setField("endDate", e.target.value)}
-          disabled={isLoading}
-        />
-      </div>
+      <DateRangeSlider
+        startValue={obj.startDate}
+        endValue={obj.endDate}
+        onChange={({ startDate, endDate }) =>
+          obj.setFields({ startDate, endDate })
+        }
+        disabled={isLoading}
+      />
 
       <DaysOfWeekToggle
         value={obj.daysOfWeek}

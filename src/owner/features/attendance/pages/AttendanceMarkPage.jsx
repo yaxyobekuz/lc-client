@@ -3,6 +3,7 @@ import InputField from "@/shared/components/ui/input/InputField";
 import Card from "@/shared/components/ui/card/Card";
 import { AttendanceGrid } from "@/shared/components/attendance";
 import GroupPicker from "../components/GroupPicker";
+import TeacherPresenceCard from "../components/TeacherPresenceCard";
 import useAttendanceForGroupDateQuery from "../hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
 import { toDateInput } from "@/shared/utils/formatDate";
@@ -45,11 +46,14 @@ const AttendanceMarkPage = () => {
       ) : isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : (
-        <AttendanceGrid
-          data={data}
-          onSubmit={handleSubmit}
-          isSubmitting={isPending}
-        />
+        <>
+          <TeacherPresenceCard groupId={groupId} date={date} />
+          <AttendanceGrid
+            data={data}
+            onSubmit={handleSubmit}
+            isSubmitting={isPending}
+          />
+        </>
       )}
     </div>
   );

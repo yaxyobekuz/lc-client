@@ -34,20 +34,21 @@ const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
         <Button
           type="button"
           variant="outline"
-          onClick={() => close?.()}
-          disabled={isLoading}
-          className="flex-1"
-        >
-          Bekor qilish
-        </Button>
-        <Button
-          type="button"
-          variant="danger"
           onClick={handleConfirm}
           disabled={isLoading}
           className="flex-1"
         >
-          {isLoading ? "O'chirilmoqda..." : "O'chirish"}
+          {isLoading ? "O'chirilmoqda..." : "Ha, o'chirish"}
+        </Button>
+        <Button
+          type="button"
+          variant="danger"
+          onClick={() => close?.()}
+          disabled={isLoading}
+          autoFocus
+          className="flex-1"
+        >
+          Yo'q, o'chirmaslik
         </Button>
       </div>
     </div>

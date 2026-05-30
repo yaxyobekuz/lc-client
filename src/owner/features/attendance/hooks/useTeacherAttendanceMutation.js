@@ -1,22 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { paymentsAPI } from "../api/payments.api";
+import { attendanceAPI } from "../api/attendance.api";
 import { qk } from "@/shared/lib/query/keys";
 import { apiErrorToast } from "@/shared/utils/apiError";
 
-const usePaymentRecordMutation = (options = {}) => {
+const useTeacherAttendanceMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (body) => paymentsAPI.record(body).then((r) => r.data.data),
+    mutationFn: ({ groupId, date, present }) =>
+      attendanceAPI
+        .setTeacherAttendance(groupId, { date, present })
+        .then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
-      qc.invalidateQueries({ queryKey: qk.payments.all() });
+      // O'qituvchi davomati o'quvchilar hisobi/balansiga ta'sir qiladi
+      qc.invalidateQueries({ queryKey: qk.attendance.all() });
       qc.invalidateQueries({ queryKey: qk.invoices.all() });
-      qc.invalidateQueries({ queryKey: qk.invoices.one(vars.invoiceId) });
       qc.invalidateQueries({ queryKey: ["paymentReports"] });
-      // Balans o'zgargani uchun guruh va foydalanuvchi ma'lumotlarini yangilaymiz
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: ["users"] });
-      toast.success("To'lov qabul qilindi");
+      toast.success(data?.message || "Saqlandi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
@@ -26,4 +28,4 @@ const usePaymentRecordMutation = (options = {}) => {
   });
 };
 
-export default usePaymentRecordMutation;
+export default useTeacherAttendanceMutation;

@@ -17,7 +17,7 @@ const StatCard = ({
 }) => {
   const toneClass = {
     default: "bg-white",
-    positive: "bg-emerald-50 border-emerald-200",
+    positive: "bg-green-50 border-green-200",
     negative: "bg-rose-50 border-rose-200",
     info: "bg-blue-50 border-blue-200",
     warn: "bg-amber-50 border-amber-200",
@@ -25,7 +25,7 @@ const StatCard = ({
 
   const iconTone = {
     default: "text-zinc-500",
-    positive: "text-emerald-600",
+    positive: "text-green-600",
     negative: "text-rose-600",
     info: "text-blue-600",
     warn: "text-amber-600",

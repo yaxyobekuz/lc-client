@@ -2,20 +2,25 @@
 import { Link, useParams } from "react-router-dom";
 
 // Icons
-import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import Card from "@/shared/components/ui/card/Card";
+import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import GroupStudentsTable from "../components/GroupStudentsTable";
 import GroupHistoryList from "../components/GroupHistoryList";
+import GroupAttendanceStatsTab from "../components/tabs/GroupAttendanceStatsTab";
+import GroupPaymentsStatsTab from "../components/tabs/GroupPaymentsStatsTab";
 import GroupEditModal from "../components/modals/GroupEditModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
+import GroupReplaceTeacherModal from "../components/modals/GroupReplaceTeacherModal";
+import { PaymentRecordModal } from "@/owner/features/payments";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -53,10 +58,7 @@ const GroupDetailPage = () => {
     );
   }
 
-  const teachersText =
-    (group.teachers || [])
-      .map((t) => `${t.firstName} ${t.lastName || ""}`.trim())
-      .join(", ") || "-";
+  const teachers = group.teachers || [];
 
   return (
     <div className="space-y-4">
@@ -90,7 +92,36 @@ const GroupDetailPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <p className="text-xs text-muted-foreground mb-2">O'qituvchilar</p>
-          <p className="font-medium">{teachersText}</p>
+          {teachers.length === 0 ? (
+            <p className="font-medium">-</p>
+          ) : (
+            <div className="space-y-1">
+              {teachers.map((t) => (
+                <div
+                  key={t._id}
+                  className="flex items-center justify-between gap-2"
+                >
+                  <span className="font-medium">
+                    {t.firstName} {t.lastName || ""}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="shrink-0"
+                    onClick={() =>
+                      openModal(MODAL.GROUP_REPLACE_TEACHER, {
+                        group,
+                        teacher: t,
+                      })
+                    }
+                  >
+                    <RefreshCw className="size-3.5" />
+                    Almashtirish
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
         <Card>
           <p className="text-xs text-muted-foreground mb-2">Oylik narx</p>
@@ -120,20 +151,39 @@ const GroupDetailPage = () => {
         </Card>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Talabalar</h2>
-          <Button
-            onClick={() =>
-              openModal(MODAL.GROUP_ADD_STUDENT, { groupId: group._id })
-            }
-          >
-            <Plus className="size-4" />
-            Talaba qo'shish
-          </Button>
-        </div>
-        <GroupStudentsTable group={group} />
-      </div>
+      <TabsButtons
+        items={[
+          {
+            value: "students",
+            label: "Talabalar",
+            content: (
+              <div className="space-y-3 pt-3">
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() =>
+                      openModal(MODAL.GROUP_ADD_STUDENT, { groupId: group._id })
+                    }
+                  >
+                    <Plus className="size-4" />
+                    Talaba qo'shish
+                  </Button>
+                </div>
+                <GroupStudentsTable group={group} />
+              </div>
+            ),
+          },
+          {
+            value: "attendance",
+            label: "Davomat",
+            content: <GroupAttendanceStatsTab groupId={group._id} />,
+          },
+          {
+            value: "payments",
+            label: "To'lov",
+            content: <GroupPaymentsStatsTab groupId={group._id} />,
+          },
+        ]}
+      />
 
       <details className="group/details border rounded-sm bg-white">
         <summary className="cursor-pointer px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground select-none">
@@ -168,6 +218,16 @@ const GroupDetailPage = () => {
         title="Talabani guruhdan chiqarish"
       >
         <GroupRemoveStudentModal />
+      </ModalWrapper>
+      <ModalWrapper
+        name={MODAL.GROUP_REPLACE_TEACHER}
+        title="O'qituvchini almashtirish"
+        className="max-w-3xl max-h-[90vh] overflow-y-auto"
+      >
+        <GroupReplaceTeacherModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.PAYMENT_RECORD} title="To'lov yozish">
+        <PaymentRecordModal />
       </ModalWrapper>
     </div>
   );

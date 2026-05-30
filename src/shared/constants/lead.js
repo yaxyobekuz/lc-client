@@ -59,7 +59,7 @@ export const HISTORY_TYPE_COLOR = {
   note: "text-amber-600 bg-amber-50",
   contact: "text-rose-600 bg-rose-50",
   follow_up_set: "text-purple-600 bg-purple-50",
-  trial_set: "text-emerald-600 bg-emerald-50",
+  trial_set: "text-green-600 bg-green-50",
   converted: "text-green-600 bg-green-50",
   reassigned: "text-slate-600 bg-slate-50",
 };

@@ -3,9 +3,13 @@ import { toast } from "sonner";
 import { salariesAPI } from "../api/salaries.api";
 import { qk } from "@/shared/lib/query/keys";
 import { apiErrorToast } from "@/shared/utils/apiError";
+import { formatMoney } from "@/shared/utils/formatMoney";
 
-const handleErr = (err) =>
+// Xatoda toast + modalning onError'ini ham chaqiramiz (setIsLoading(false) uchun)
+const makeErr = (options) => (err, vars, ctx) => {
   apiErrorToast(err);
+  options.onError?.(err, vars, ctx);
+};
 
 export const useCalculateSalariesMutation = (options = {}) => {
   const qc = useQueryClient();
@@ -16,7 +20,7 @@ export const useCalculateSalariesMutation = (options = {}) => {
       toast.success("Hisoblandi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -29,7 +33,7 @@ export const useRecomputeSalaryMutation = (options = {}) => {
       toast.success("Qayta hisoblandi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -42,7 +46,7 @@ export const useApproveSalaryMutation = (options = {}) => {
       toast.success("Tasdiqlandi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -56,7 +60,7 @@ export const useCancelSalaryMutation = (options = {}) => {
       toast.success("Bekor qilindi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -70,7 +74,7 @@ export const useAddAdjustmentMutation = (options = {}) => {
       toast.success("Qo'shildi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -84,7 +88,7 @@ export const useRemoveAdjustmentMutation = (options = {}) => {
       toast.success("O'chirildi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -95,10 +99,17 @@ export const useRecordPayoutMutation = (options = {}) => {
       salariesAPI.recordPayout(id, body).then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.salaries.all() });
-      toast.success("To'lov yozildi");
+      const carried = Number(data?.carriedToAdvance || 0);
+      if (carried > 0) {
+        toast.success(
+          `To'lov yozildi. ${formatMoney(carried)} keyingi oy avansiga o'tkazildi`,
+        );
+      } else {
+        toast.success("To'lov yozildi");
+      }
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };
 
@@ -112,6 +123,6 @@ export const useRemovePayoutMutation = (options = {}) => {
       toast.success("O'chirildi");
       options.onSuccess?.(data, vars, ctx);
     },
-    onError: handleErr,
+    onError: makeErr(options),
   });
 };

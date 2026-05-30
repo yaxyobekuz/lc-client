@@ -1,18 +1,36 @@
 import Card from "@/shared/components/ui/card/Card";
 import Badge from "@/shared/components/ui/badge/Badge";
+import {
+  AtSign,
+  Phone,
+  Cake,
+  User,
+  MapPin,
+  CalendarPlus,
+  Users,
+  Briefcase,
+  Megaphone,
+  Wallet,
+} from "lucide-react";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUz } from "@/shared/utils/formatDate";
+import { formatMoney } from "@/shared/utils/formatMoney";
 import { calculateAge } from "@/shared/utils/calculateAge";
 
 const GENDER_LABEL = { male: "Erkak", female: "Ayol" };
 
-const Row = ({ label, value, muted = false }) => (
-  <div>
-    <p className="text-xs text-muted-foreground">{label}</p>
-    <p className={muted ? "text-muted-foreground" : "font-medium"}>
-      {value || "-"}
-    </p>
+const InfoRow = ({ icon: Icon, label, value }) => (
+  <div className="flex items-start gap-3">
+    <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-muted/60 text-muted-foreground">
+      <Icon className="size-4" />
+    </div>
+    <div className="min-w-0">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-sm font-medium text-foreground/90 break-words">
+        {value || "-"}
+      </p>
+    </div>
   </div>
 );
 
@@ -27,32 +45,39 @@ const UserProfileCard = ({ profile }) => {
   const age = profile.age ?? calculateAge(profile.birthDate);
 
   return (
-    <Card className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center size-14 rounded-full bg-primary text-primary-foreground text-xl font-semibold uppercase">
+    <Card className="rounded-2xl border-border/60 p-5 shadow-sm xs:p-6">
+      <div className="flex items-center gap-4">
+        <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-2xl font-semibold uppercase text-primary ring-1 ring-primary/10">
           {initial}
         </div>
-        <div>
-          <h2 className="text-lg font-semibold">
+        <div className="min-w-0">
+          <h2 className="truncate text-xl font-semibold text-foreground">
             {profile.firstName} {profile.lastName}
           </h2>
-          <div className="flex items-center gap-2 mt-1">
-            <Badge variant="secondary">
+          <div className="mt-1.5 flex flex-wrap items-center gap-2">
+            <Badge variant="secondary" className="rounded-full font-medium">
               {ROLE_LABELS[profile.role] || profile.role}
             </Badge>
             {profile.isActive ? (
-              <Badge className="bg-green-100 text-green-700">Faol</Badge>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-600">
+                <span className="size-1.5 rounded-full bg-green-500" />
+                Faol
+              </span>
             ) : (
-              <Badge variant="outline">Nofaol</Badge>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                <span className="size-1.5 rounded-full bg-muted-foreground/40" />
+                Nofaol
+              </span>
             )}
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t">
-        <Row label="Login" value={`@${profile.username}`} />
-        <Row label="Telefon" value={formatPhone(profile.phone)} />
-        <Row
+      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 border-t border-border/60 pt-6 sm:grid-cols-2">
+        <InfoRow icon={AtSign} label="Login" value={`@${profile.username}`} />
+        <InfoRow icon={Phone} label="Telefon" value={formatPhone(profile.phone)} />
+        <InfoRow
+          icon={Cake}
           label="Tug'ilgan sana"
           value={
             profile.birthDate
@@ -60,30 +85,50 @@ const UserProfileCard = ({ profile }) => {
               : null
           }
         />
-        <Row label="Jinsi" value={GENDER_LABEL[profile.gender]} />
+        <InfoRow icon={User} label="Jinsi" value={GENDER_LABEL[profile.gender]} />
 
         {isStudent && (
           <>
-            <Row label="Manzil" value={profile.address} />
-            <Row
+            <InfoRow
+              icon={Wallet}
+              label="Balans"
+              value={
+                <span
+                  className={
+                    profile.balance > 0
+                      ? "font-semibold text-sky-600"
+                      : "text-muted-foreground"
+                  }
+                >
+                  {formatMoney(profile.balance || 0)}
+                </span>
+              }
+            />
+            <InfoRow icon={MapPin} label="Manzil" value={profile.address} />
+            <InfoRow
+              icon={CalendarPlus}
               label="Ro'yxatga olingan"
               value={formatDateUz(profile.enrolledAt)}
             />
-            <Row label="Ota-ona ismi" value={profile.parentName} />
-            <Row
+            <InfoRow
+              icon={Users}
+              label="Ota-ona ismi"
+              value={profile.parentName}
+            />
+            <InfoRow
+              icon={Phone}
               label="Ota-ona telefoni"
               value={formatPhone(profile.parentPhone)}
             />
-            <Row
+            <InfoRow
+              icon={Megaphone}
               label="Lead manbasi"
               value={
                 profile.leadSource ? (
                   <span>
                     {profile.leadSource.name}
                     {profile.leadSource.isActive === false && (
-                      <span className="text-muted-foreground ml-1">
-                        (arxiv)
-                      </span>
+                      <span className="ml-1 text-muted-foreground">(arxiv)</span>
                     )}
                   </span>
                 ) : null
@@ -93,20 +138,17 @@ const UserProfileCard = ({ profile }) => {
         )}
 
         {isTeacher && (
-          <>
-            <Row
-              label="Ishga olingan"
-              value={
-                profile.hiredAt
-                  ? `${formatDateUz(profile.hiredAt)}${
-                      profile.years != null
-                        ? ` (${profile.years} yil staj)`
-                        : ""
-                    }`
-                  : null
-              }
-            />
-          </>
+          <InfoRow
+            icon={Briefcase}
+            label="Ishga olingan"
+            value={
+              profile.hiredAt
+                ? `${formatDateUz(profile.hiredAt)}${
+                    profile.years != null ? ` (${profile.years} yil staj)` : ""
+                  }`
+                : null
+            }
+          />
         )}
       </div>
     </Card>

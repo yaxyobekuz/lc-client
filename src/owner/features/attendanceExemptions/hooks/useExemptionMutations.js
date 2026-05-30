@@ -12,7 +12,7 @@ export const useExemptionCreateMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.attendanceExemptions.all() });
       qc.invalidateQueries({ queryKey: qk.users.one(vars.student) });
-      toast.success("Ozod davri yaratildi");
+      toast.success("Davomatdan ozod davri yaratildi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

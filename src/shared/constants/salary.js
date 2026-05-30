@@ -61,13 +61,15 @@ export const CALCULATION_TYPES = Object.freeze([
   "fixed",
   "hourly",
   "percentage",
+  "per_student",
   "mixed",
 ]);
 
 export const CALCULATION_TYPE_LABEL = {
   fixed: "Belgilangan",
   hourly: "Soatlik",
-  percentage: "Foizli",
+  percentage: "Foizli (tushumdan)",
+  per_student: "Har bir o'quvchidan",
   mixed: "Aralash",
 };
 

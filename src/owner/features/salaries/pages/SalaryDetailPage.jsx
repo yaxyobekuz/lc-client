@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import Card from "@/shared/components/ui/card/Card";
 import BackLink from "@/shared/components/ui/link/BackLink";
+import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import SalaryStatusBadge from "@/shared/components/salary/SalaryStatusBadge";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { cn } from "@/shared/utils/cn";
 import { MODAL } from "@/shared/constants/modals";
 import { MONTH_LABELS } from "@/shared/constants/salary";
 
@@ -22,6 +24,98 @@ import CancelConfirmModal from "../components/modals/CancelConfirmModal";
 
 import useSalaryDetailQuery from "../hooks/useSalaryDetailQuery";
 import useSalaryPayoutsQuery from "../hooks/useSalaryPayoutsQuery";
+
+// Bitta qiymatli xulosa katakchasi
+const StatCard = ({ label, children }) => (
+  <Card>
+    <p className="text-xs text-muted-foreground">{label}</p>
+    <div className="mt-0.5">{children}</div>
+  </Card>
+);
+
+// Ikki qiymat: chetlarga yoyilgan + o'rtada vertikal border (to'liq balandlik emas)
+const Half = ({ sub, value, className = "", align = "left" }) => (
+  <div className={cn("flex-1 min-w-0", align === "right" && "text-right")}>
+    <p className="text-[11px] text-muted-foreground">{sub}</p>
+    <p className={cn("text-sm font-medium truncate", className)}>{value}</p>
+  </div>
+);
+
+const DualStatCard = ({ label, left, right }) => (
+  <Card>
+    <p className="text-xs text-muted-foreground">{label}</p>
+    <div className="mt-1 flex items-stretch">
+      {left}
+      <div className="mx-3 my-1 w-px bg-border" />
+      {right}
+    </div>
+  </Card>
+);
+
+const SalarySummary = ({ salary, remaining }) => (
+  <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+    <StatCard label="Hisoblangan">
+      <p className="text-xl font-semibold">{formatMoney(salary.baseAmount)}</p>
+    </StatCard>
+    <DualStatCard
+      label="Bonus / Jarima"
+      left={
+        <Half
+          sub="Bonus"
+          value={`+${formatMoney(salary.bonusTotal)}`}
+          className={salary.bonusTotal > 0 ? "text-green-600" : "text-muted-foreground"}
+        />
+      }
+      right={
+        <Half
+          sub="Jarima"
+          align="right"
+          value={`−${formatMoney(salary.penaltyTotal)}`}
+          className={salary.penaltyTotal > 0 ? "text-red-600" : "text-muted-foreground"}
+        />
+      }
+    />
+    <DualStatCard
+      label="Avans / Ushlab"
+      left={
+        <Half
+          sub="Avans"
+          value={`−${formatMoney(salary.advanceTotal)}`}
+          className={salary.advanceTotal > 0 ? "text-amber-600" : "text-muted-foreground"}
+        />
+      }
+      right={
+        <Half
+          sub="Ushlab"
+          align="right"
+          value={`−${formatMoney(salary.deductionTotal)}`}
+          className={salary.deductionTotal > 0 ? "text-orange-600" : "text-muted-foreground"}
+        />
+      }
+    />
+    <StatCard label="Yakuniy">
+      <p className="text-xl font-semibold">{formatMoney(salary.finalAmount)}</p>
+    </StatCard>
+    <DualStatCard
+      label="To'langan / Qoldiq"
+      left={
+        <Half
+          sub="To'langan"
+          value={formatMoney(salary.paidAmount)}
+          className={salary.paidAmount > 0 ? "text-green-600" : "text-muted-foreground"}
+        />
+      }
+      right={
+        <Half
+          sub="Qoldiq"
+          align="right"
+          value={formatMoney(remaining)}
+          className={remaining > 0 ? "text-amber-600" : "text-muted-foreground"}
+        />
+      }
+    />
+  </div>
+);
 
 const SalaryDetailPage = () => {
   const { id } = useParams();
@@ -48,10 +142,71 @@ const SalaryDetailPage = () => {
   const canEditAdjustments = !isCancelled && !isPaid;
   const canEditPayouts = !isCancelled;
 
+  const adjustmentsCount = (salary.adjustments || []).length;
+  const payoutsCount = payouts.length;
+
+  // Minimal kafolat qo'llanganmi (jami xom summa baseAmount'dan kam bo'lsa)
+  const subtotalSum = (salary.groupBreakdowns || []).reduce(
+    (acc, b) => acc + (b.subtotal || 0),
+    0,
+  );
+  const minApplied = (salary.baseAmount || 0) > subtotalSum + 1;
+
+  const tabsItems = [
+    {
+      value: "overview",
+      label: "Umumiy",
+      content: (
+        <div className="space-y-4 pt-3">
+          <SalarySummary salary={salary} remaining={remaining} />
+          {minApplied && (
+            <p className="text-xs text-amber-700">
+              Minimal kafolatli oylik qo'llandi: hisoblangan{" "}
+              {formatMoney(subtotalSum)} → {formatMoney(salary.baseAmount)}
+            </p>
+          )}
+          <GroupBreakdownTable items={salary.groupBreakdowns || []} />
+          {salary.notes && (
+            <Card>
+              <p className="text-xs text-muted-foreground">Izoh</p>
+              <p className="mt-0.5">{salary.notes}</p>
+            </Card>
+          )}
+        </div>
+      ),
+    },
+    {
+      value: "adjustments",
+      label: `O'zgartirishlar${adjustmentsCount ? ` (${adjustmentsCount})` : ""}`,
+      content: (
+        <div className="pt-3">
+          <AdjustmentsList
+            salaryId={salary._id}
+            items={salary.adjustments || []}
+            canEdit={canEditAdjustments}
+          />
+        </div>
+      ),
+    },
+    {
+      value: "payouts",
+      label: `To'lovlar${payoutsCount ? ` (${payoutsCount})` : ""}`,
+      content: (
+        <div className="pt-3">
+          <PayoutsList
+            salaryId={salary._id}
+            items={payouts}
+            canEdit={canEditPayouts}
+          />
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-4">
-      <header className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-3 flex-wrap">
+      <header className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap min-w-0">
           <BackLink to="/owner/salaries" />
           <h1 className="text-2xl font-semibold flex items-center gap-3">
             {salary.teacher?.firstName} {salary.teacher?.lastName} -{" "}
@@ -62,76 +217,7 @@ const SalaryDetailPage = () => {
         <SalaryActionsBar salary={salary} />
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-        <Card>
-          <p className="text-sm text-muted-foreground">Hisoblangan</p>
-          <p className="text-xl font-semibold">
-            {formatMoney(salary.baseAmount)}
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">Bonus / Jarima</p>
-          <p className="text-sm">
-            <span className="text-green-600">
-              +{formatMoney(salary.bonusTotal)}
-            </span>{" "}
-            /{" "}
-            <span className="text-red-600">
-              −{formatMoney(salary.penaltyTotal)}
-            </span>
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">Avans / Ushlab</p>
-          <p className="text-sm">
-            <span className="text-amber-600">
-              −{formatMoney(salary.advanceTotal)}
-            </span>{" "}
-            /{" "}
-            <span className="text-orange-600">
-              −{formatMoney(salary.deductionTotal)}
-            </span>
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">Yakuniy</p>
-          <p className="text-xl font-semibold text-blue-600">
-            {formatMoney(salary.finalAmount)}
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">To'langan / Qoldiq</p>
-          <p className="text-sm">
-            <span className="text-green-700">
-              {formatMoney(salary.paidAmount)}
-            </span>{" "}
-            /{" "}
-            <span className="text-amber-700">{formatMoney(remaining)}</span>
-          </p>
-        </Card>
-      </div>
-
-      <GroupBreakdownTable items={salary.groupBreakdowns || []} />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <AdjustmentsList
-          salaryId={salary._id}
-          items={salary.adjustments || []}
-          canEdit={canEditAdjustments}
-        />
-        <PayoutsList
-          salaryId={salary._id}
-          items={payouts}
-          canEdit={canEditPayouts}
-        />
-      </div>
-
-      {salary.notes && (
-        <Card>
-          <p className="text-sm text-muted-foreground">Izoh</p>
-          <p>{salary.notes}</p>
-        </Card>
-      )}
+      <TabsButtons items={tabsItems} />
 
       {/* Modallar */}
       <ModalWrapper

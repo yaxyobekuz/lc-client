@@ -197,7 +197,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
               const sid = String(r.student._id);
               const cur = state[sid] || {};
               return (
-                <tr key={sid} className="border-t hover:bg-gray-50/50">
+                <tr key={sid} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2.5 text-muted-foreground">{i + 1}</td>
                   <td className="px-4 py-2.5">
                     {r.student.firstName} {r.student.lastName}

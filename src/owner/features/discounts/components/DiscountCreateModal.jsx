@@ -1,9 +1,11 @@
+import { toast } from "sonner";
 import useObjectState from "@/shared/hooks/useObjectState";
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 import DiscountKindPicker from "./DiscountKindPicker";
 import useDiscountCreateMutation from "../hooks/useDiscountCreateMutation";
+import { toDateInput } from "@/shared/utils/formatDate";
 
 const VALUE_TYPE_OPTIONS = [
   { value: "percent", label: "Foiz (%)" },
@@ -11,6 +13,9 @@ const VALUE_TYPE_OPTIONS = [
 ];
 
 const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
+  // Bugungi sana — boshlanish o'tmishda bo'lishiga yo'l qo'yilmaydi
+  const today = toDateInput(new Date());
+
   const obj = useObjectState({
     kind: "",
     valueType: "percent",
@@ -31,6 +36,14 @@ const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!obj.kind || !obj.value) return;
+    if (obj.startDate && obj.startDate < today) {
+      toast.error("Boshlanish sanasi bugundan oldin bo'lishi mumkin emas");
+      return;
+    }
+    if (obj.endDate && obj.endDate < (obj.startDate || today)) {
+      toast.error("Tugash sanasi boshlanish sanasidan oldin bo'lmasin");
+      return;
+    }
     setIsLoading(true);
     mutate({
       student: studentId,
@@ -84,6 +97,7 @@ const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
           type="date"
           name="startDate"
           label="Boshlanish"
+          min={today}
           value={obj.startDate}
           onChange={(e) => obj.setField("startDate", e.target.value)}
           disabled={isLoading}
@@ -91,7 +105,9 @@ const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
         <InputField
           type="date"
           name="endDate"
-          label="Tugash (ixtiyoriy)"
+          label="Tugash"
+          min={obj.startDate || today}
+          description="Bo'sh qoldirilsa — chegirma muddatsiz (cheksiz) bo'ladi"
           value={obj.endDate}
           onChange={(e) => obj.setField("endDate", e.target.value)}
           disabled={isLoading}

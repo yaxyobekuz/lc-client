@@ -3,12 +3,19 @@ import SelectField from "@/shared/components/ui/select/SelectField";
 import GroupPicker from "@/owner/features/attendance/components/GroupPicker";
 import { CALCULATION_TYPE_OPTIONS } from "@/shared/constants/salary";
 
-const RateFormFields = ({ obj, disabled = false, lockGroup = false }) => {
+const RateFormFields = ({
+  obj,
+  disabled = false,
+  lockGroup = false,
+  teacherId,
+}) => {
   const t = obj.calculationType;
   const showFixed = t === "fixed" || t === "mixed";
   const showHourly = t === "hourly" || t === "mixed";
   const showPercentage = t === "percentage" || t === "mixed";
-  const showMin = t === "mixed";
+  const showPerStudent = t === "per_student" || t === "mixed";
+  // Minimal kafolat har qanday tur uchun belgilanishi mumkin
+  const showMin = true;
 
   return (
     <div className="space-y-3">
@@ -18,6 +25,7 @@ const RateFormFields = ({ obj, disabled = false, lockGroup = false }) => {
           onChange={(v) => obj.setField("group", v)}
           disabled={disabled}
           label="Guruh"
+          teacherId={teacherId}
         />
       )}
       <SelectField
@@ -77,13 +85,26 @@ const RateFormFields = ({ obj, disabled = false, lockGroup = false }) => {
         />
       )}
 
+      {showPerStudent && (
+        <InputField
+          name="amountPerStudent"
+          label="Har bir o'quvchidan (so'm)"
+          type="number"
+          min="0"
+          description="Guruhdagi faol o'quvchilar soniga ko'paytiriladi"
+          value={obj.amountPerStudent}
+          onChange={(e) => obj.setField("amountPerStudent", e.target.value)}
+          disabled={disabled}
+        />
+      )}
+
       {showMin && (
         <InputField
           name="minMonthlyAmount"
-          label="Minimal kafolatli summa (so'm/oy)"
+          label="Minimal kafolatli oylik (so'm/oy)"
           type="number"
           min="0"
-          description="Yakuniy summa shu summadan past bo'lmasin"
+          description="O'qituvchining umumiy oyligi shu summadan past bo'lmaydi"
           value={obj.minMonthlyAmount}
           onChange={(e) => obj.setField("minMonthlyAmount", e.target.value)}
           disabled={disabled}

@@ -1,89 +1,108 @@
 import { Link } from "react-router-dom";
-import { ArrowRightLeft, Trash2 } from "lucide-react";
+import { ArrowRightLeft, CalendarDays, Trash2, Users } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
-import { formatSchedule } from "@/shared/utils/formatSchedule";
 import { formatDateUz } from "@/shared/utils/formatDate";
+import GroupScheduleLines from "./GroupScheduleLines";
 
 const UserActiveGroupsList = ({
   studentId,
   activeGroups = [],
   readonly = false,
   ownerLinks = false,
+  studentDebt = 0,
 }) => {
   const { openModal } = useModal();
 
   return (
-    <Card>
-      <h3 className="font-semibold mb-3">Hozirgi guruhlar</h3>
+    <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h3 className="flex items-center gap-2 font-semibold text-foreground">
+          <Users className="size-4 text-muted-foreground" />
+          Hozirgi guruhlar
+        </h3>
+        {activeGroups.length > 0 && (
+          <span className="text-xs text-muted-foreground">
+            {activeGroups.length} ta
+          </span>
+        )}
+      </div>
+
       {activeGroups.length === 0 ? (
         <p className="text-sm text-muted-foreground">
           Hech qaysi guruhga biriktirilmagan
         </p>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {activeGroups.map((m) => {
             const g = m.group;
             return (
               <div
                 key={m.membershipId || g._id}
-                className="flex items-start justify-between gap-3 p-3 border rounded-lg"
+                className="rounded-xl border border-border/60 p-3.5 transition-colors hover:bg-muted/30"
               >
-                <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-3">
                   {ownerLinks ? (
                     <Link
                       to={`/owner/groups/${g._id}`}
-                      className="font-medium hover:underline"
+                      className="truncate font-semibold text-foreground transition-colors hover:text-primary"
                     >
                       {g.name}
                     </Link>
                   ) : (
-                    <p className="font-medium">{g.name}</p>
+                    <p className="truncate font-semibold text-foreground">
+                      {g.name}
+                    </p>
                   )}
-                  <p className="text-sm text-muted-foreground mt-0.5">
-                    {formatSchedule(g.schedule)}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Qo'shilgan: {formatDateUz(m.joinedAt)}
-                  </p>
+                  {!readonly && (
+                    <div className="flex shrink-0 items-center gap-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          openModal(MODAL.GROUP_TRANSFER_STUDENT, {
+                            groupId: g._id,
+                            student: { _id: studentId },
+                          })
+                        }
+                        playClickSound={false}
+                      >
+                        <ArrowRightLeft className="size-4" />
+                        Ko'chirish
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                        onClick={() =>
+                          openModal(MODAL.GROUP_REMOVE_STUDENT, {
+                            groupId: g._id,
+                            studentId,
+                            groupName: g.name,
+                            isLast: activeGroups.length === 1,
+                            debt: studentDebt,
+                          })
+                        }
+                        playClickSound={false}
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
-                {!readonly && (
-                  <div className="flex items-center gap-1 shrink-0">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() =>
-                        openModal(MODAL.GROUP_TRANSFER_STUDENT, {
-                          groupId: g._id,
-                          student: { _id: studentId },
-                        })
-                      }
-                      playClickSound={false}
-                    >
-                      <ArrowRightLeft className="size-4" />
-                      Ko'chirish
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="text-red-600 hover:text-red-700"
-                      onClick={() =>
-                        openModal(MODAL.GROUP_REMOVE_STUDENT, {
-                          groupId: g._id,
-                          studentId,
-                          groupName: g.name,
-                        })
-                      }
-                      playClickSound={false}
-                    >
-                      <Trash2 className="size-4" />
-                    </Button>
-                  </div>
-                )}
+
+                <div className="mt-2.5">
+                  <GroupScheduleLines schedule={g.schedule} />
+                </div>
+
+                <div className="mt-2.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <CalendarDays className="size-3.5" />
+                  Qo'shilgan: {formatDateUz(m.joinedAt)}
+                </div>
               </div>
             );
           })}

@@ -162,3 +162,17 @@ input[type="search"]::-ms-reveal {
   width: 0;
   height: 0;
 }
+
+/* Number inputlardagi spinner (yuqori/past) tugmalarini olib tashlash */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  /* Yengil border radius */
+  border-radius: 6px;
+}

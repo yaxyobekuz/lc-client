@@ -27,7 +27,7 @@ const statusClass = (status) => {
   if (!status) return "text-zinc-500";
   if (status >= 500) return "text-rose-600 font-semibold";
   if (status >= 400) return "text-amber-600 font-semibold";
-  if (status >= 200 && status < 300) return "text-emerald-600";
+  if (status >= 200 && status < 300) return "text-green-600";
   return "text-zinc-600";
 };
 

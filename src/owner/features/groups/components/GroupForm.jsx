@@ -23,9 +23,18 @@ const buildInitial = (group) => ({
     group?.direction && typeof group.direction === "object"
       ? group.direction._id
       : group?.direction || "",
+  teacherAbsenceMode: group?.teacherAbsenceMode || "inherit",
+  teacherAbsenceAmount: group?.teacherAbsenceAmount ?? 0,
 });
 
 const NONE_DIRECTION = "__none__";
+
+const ABSENCE_MODES = [
+  { value: "inherit", label: "Umumiy sozlama bo'yicha" },
+  { value: "auto", label: "Avtomatik (oylik narx / darslar soni)" },
+  { value: "fixed", label: "Belgilangan summa" },
+  { value: "none", label: "Ayirilmasin (0)" },
+];
 
 const GroupForm = ({
   initial,
@@ -34,8 +43,16 @@ const GroupForm = ({
   isLoading = false,
   submitLabel = "Saqlash",
 }) => {
-  const { name, schedule, teachers, monthlyPrice, direction, setField } =
-    useObjectState(buildInitial(initial));
+  const {
+    name,
+    schedule,
+    teachers,
+    monthlyPrice,
+    direction,
+    teacherAbsenceMode,
+    teacherAbsenceAmount,
+    setField,
+  } = useObjectState(buildInitial(initial));
 
   const { data: directionsData } = useLeadDirectionsQuery({ limit: 200 });
   const directionOptions = [
@@ -106,6 +123,8 @@ const GroupForm = ({
       teachers,
       monthlyPrice: priceNum,
       direction: direction && direction !== NONE_DIRECTION ? direction : null,
+      teacherAbsenceMode,
+      teacherAbsenceAmount: Number(teacherAbsenceAmount) || 0,
     });
   };
 
@@ -156,6 +175,28 @@ const GroupForm = ({
           onChange={(next) => setField("teachers", next)}
           disabled={isLoading}
         />
+      </div>
+
+      {/* O'qituvchi kelmagan kun chegirmasi (guruh override) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <SelectField
+          label="O'qituvchi kelmagan kun chegirmasi"
+          value={teacherAbsenceMode}
+          onChange={(v) => setField("teacherAbsenceMode", v)}
+          options={ABSENCE_MODES}
+          disabled={isLoading}
+        />
+        {teacherAbsenceMode === "fixed" && (
+          <InputField
+            name="teacherAbsenceAmount"
+            label="1 dars uchun summa (so'm)"
+            type="number"
+            min="0"
+            value={teacherAbsenceAmount}
+            onChange={(e) => setField("teacherAbsenceAmount", e.target.value)}
+            disabled={isLoading}
+          />
+        )}
       </div>
 
       <div className="flex gap-2 pt-2 justify-end">

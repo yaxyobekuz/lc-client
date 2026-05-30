@@ -17,7 +17,9 @@ const ExemptionDeleteModal = ({ exemption, close, isLoading, setIsLoading }) => 
 
   return (
     <div className="space-y-4">
-      <p className="text-sm">Ozod davri o'chiriladi. Davom etasizmi?</p>
+      <p className="text-sm">
+        Davomatdan ozod davri o'chiriladi. Davom etasizmi?
+      </p>
       <div className="flex gap-2">
         <Button
           type="button"

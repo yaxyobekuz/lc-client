@@ -20,7 +20,7 @@ const GroupBreakdownTable = ({ items = [] }) => (
               <th className="px-3 py-2 text-right">Soatlar</th>
               <th className="px-3 py-2 text-right">Belgilangan</th>
               <th className="px-3 py-2 text-right">Soatlik</th>
-              <th className="px-3 py-2 text-right">Foiz</th>
+              <th className="px-3 py-2 text-right">Foiz / O'quvchi</th>
               <th className="px-3 py-2 text-right">Subtotal</th>
             </tr>
           </thead>
@@ -44,7 +44,9 @@ const GroupBreakdownTable = ({ items = [] }) => (
                 <td className="px-3 py-2 text-right">
                   {bd.percentageAmount > 0
                     ? `${formatMoney(bd.percentageAmount)} (${bd.percentageRate}%)`
-                    : "-"}
+                    : bd.perStudentAmount > 0
+                      ? `${formatMoney(bd.perStudentAmount)} (${bd.studentsCount}×${formatMoney(bd.amountPerStudent)})`
+                      : "-"}
                 </td>
                 <td className="px-3 py-2 text-right font-semibold">
                   {formatMoney(bd.subtotal)}

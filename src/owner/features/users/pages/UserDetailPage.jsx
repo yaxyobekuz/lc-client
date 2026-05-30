@@ -1,6 +1,13 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  BadgeCheck,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
 
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
@@ -44,7 +51,7 @@ import {
 import { MonthlyAttendanceCalendar } from "@/shared/components/attendance";
 import useStudentMonthlyAttendanceQuery from "@/owner/features/attendance/hooks/useStudentMonthlyAttendanceQuery";
 
-// Ozod davrlari tab uchun
+// Davomatdan ozod tab uchun
 import {
   ExemptionsTable,
   ExemptionCreateModal,
@@ -65,19 +72,21 @@ import useTeacherGroupRatesQuery from "@/owner/features/teacherGroupRates/hooks/
 import useModal from "@/shared/hooks/useModal";
 import useUserDetailQuery from "../hooks/useUserDetailQuery";
 import useUserGroupHistoryQuery from "../hooks/useUserGroupHistoryQuery";
+import useUserUpdateMutation from "../hooks/useUserUpdateMutation";
 
 import { MODAL } from "@/shared/constants/modals";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
+import { LEAVE_STATUS, LEAVE_STATUS_LABELS } from "@/shared/constants/leaveStatus";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import BackLink from "@/shared/components/ui/link/BackLink";
 
 const PaymentSummaryCard = ({ summary }) => {
   if (!summary) return null;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       <div className="bg-white border rounded-lg p-3">
         <p className="text-xs text-muted-foreground">Joriy qarz</p>
-        <p className="text-xl font-semibold text-red-600">
+        <p className="text-xl font-semibold text-rose-500">
           {formatMoney(summary.currentDebt)}
         </p>
       </div>
@@ -88,8 +97,14 @@ const PaymentSummaryCard = ({ summary }) => {
         </p>
       </div>
       <div className="bg-white border rounded-lg p-3">
+        <p className="text-xs text-muted-foreground">Balans</p>
+        <p className="text-xl font-semibold text-sky-600">
+          {formatMoney(summary.balance || 0)}
+        </p>
+      </div>
+      <div className="bg-white border rounded-lg p-3">
         <p className="text-xs text-muted-foreground">Ochiq hisoblar</p>
-        <p className="text-xl font-semibold">
+        <p className="text-xl font-semibold text-gray-700">
           {summary.openInvoicesCount || 0}
         </p>
       </div>
@@ -131,7 +146,22 @@ const AttendanceSummaryCard = ({ summary }) => {
   );
 };
 
-const StudentPaymentsTab = ({ studentId, paymentSummary }) => {
+const NoGroupNotice = () => (
+  <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm">
+    <AlertTriangle className="size-5 shrink-0 text-amber-500" />
+    <div>
+      <p className="font-medium text-amber-800">
+        Talaba hech qaysi guruhda emas
+      </p>
+      <p className="text-amber-700">
+        To'lov, chegirma va boshqa amallar uchun avval talabani guruhga qo'shing.
+      </p>
+    </div>
+  </div>
+);
+
+const StudentPaymentsTab = ({ studentId, paymentSummary, locked = false }) => {
+  const { openModal } = useModal();
   const { data: invoices, isLoading: invLoading } = useInvoicesQuery({
     studentId,
     limit: 50,
@@ -143,6 +173,7 @@ const StudentPaymentsTab = ({ studentId, paymentSummary }) => {
 
   return (
     <div className="space-y-4 pt-3">
+      {locked && <NoGroupNotice />}
       <PaymentSummaryCard summary={paymentSummary} />
 
       <div>
@@ -152,7 +183,15 @@ const StudentPaymentsTab = ({ studentId, paymentSummary }) => {
             Yuklanmoqda...
           </div>
         ) : (
-          <InvoicesTable items={invoices?.data || []} showStudent={false} />
+          <InvoicesTable
+            items={invoices?.data || []}
+            showStudent={false}
+            onPay={
+              locked
+                ? undefined
+                : (inv) => openModal(MODAL.PAYMENT_RECORD, { invoice: inv })
+            }
+          />
         )}
       </div>
 
@@ -170,16 +209,22 @@ const StudentPaymentsTab = ({ studentId, paymentSummary }) => {
   );
 };
 
-const StudentDiscountsTab = ({ studentId }) => {
+const StudentDiscountsTab = ({ studentId, locked = false }) => {
   const { openModal } = useModal();
   return (
     <div className="space-y-3 pt-3">
-      <div className="flex justify-end">
-        <Button onClick={() => openModal(MODAL.DISCOUNT_CREATE, { studentId })}>
-          <Plus className="size-4" />
-          Yangi chegirma
-        </Button>
-      </div>
+      {locked ? (
+        <NoGroupNotice />
+      ) : (
+        <div className="flex justify-end">
+          <Button
+            onClick={() => openModal(MODAL.DISCOUNT_CREATE, { studentId })}
+          >
+            <Plus className="size-4" />
+            Yangi chegirma
+          </Button>
+        </div>
+      )}
       <DiscountsTable studentId={studentId} />
     </div>
   );
@@ -307,20 +352,24 @@ const TeacherRatesTab = ({ teacherId }) => {
   );
 };
 
-const StudentExemptionsTab = ({ studentId }) => {
+const StudentExemptionsTab = ({ studentId, locked = false }) => {
   const { openModal } = useModal();
   return (
     <div className="space-y-3 pt-3">
-      <div className="flex justify-end">
-        <Button
-          onClick={() =>
-            openModal(MODAL.ATTENDANCE_EXEMPTION_CREATE, { studentId })
-          }
-        >
-          <Plus className="size-4" />
-          Yangi ozod davri
-        </Button>
-      </div>
+      {locked ? (
+        <NoGroupNotice />
+      ) : (
+        <div className="flex justify-end">
+          <Button
+            onClick={() =>
+              openModal(MODAL.ATTENDANCE_EXEMPTION_CREATE, { studentId })
+            }
+          >
+            <Plus className="size-4" />
+            Yangi davr
+          </Button>
+        </div>
+      )}
       <ExemptionsTable studentId={studentId} />
     </div>
   );
@@ -336,6 +385,8 @@ const UserDetailPage = () => {
 
   const { data: historyData, isLoading: historyLoading } =
     useUserGroupHistoryQuery(isStudent ? id : null, { limit: 50 });
+
+  const { mutate: updateUser, isPending: settling } = useUserUpdateMutation();
 
   if (isLoading) {
     return (
@@ -356,21 +407,25 @@ const UserDetailPage = () => {
     );
   }
 
+  // Talaba hech qaysi guruhda emas — to'lov/chegirma/ozod amallari bloklanadi
+  const noActiveGroup = isStudent && (profile.activeGroups?.length ?? 0) === 0;
+
   const tabsItems = [
     {
       value: "profile",
       label: "Profil",
       content: (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-3">
-          <div className="lg:col-span-2 space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pt-4 lg:gap-6">
+          <div className="lg:col-span-2 space-y-5">
             <UserProfileCard profile={profile} />
           </div>
-          <div className="space-y-4">
+          <div className="space-y-5">
             <UserTelegramCard telegram={profile.telegram} />
             {isStudent && (
               <UserActiveGroupsList
                 studentId={profile._id}
                 activeGroups={profile.activeGroups || []}
+                studentDebt={profile.paymentSummary?.currentDebt || 0}
                 ownerLinks
               />
             )}
@@ -397,8 +452,10 @@ const UserDetailPage = () => {
 
     tabsItems.push({
       value: "exemptions",
-      label: "Ozod davrlari",
-      content: <StudentExemptionsTab studentId={profile._id} />,
+      label: "Davomatdan ozod",
+      content: (
+        <StudentExemptionsTab studentId={profile._id} locked={noActiveGroup} />
+      ),
     });
     tabsItems.push({
       value: "payments",
@@ -407,13 +464,16 @@ const UserDetailPage = () => {
         <StudentPaymentsTab
           studentId={profile._id}
           paymentSummary={profile.paymentSummary}
+          locked={noActiveGroup}
         />
       ),
     });
     tabsItems.push({
       value: "discounts",
       label: "Chegirmalar",
-      content: <StudentDiscountsTab studentId={profile._id} />,
+      content: (
+        <StudentDiscountsTab studentId={profile._id} locked={noActiveGroup} />
+      ),
     });
     tabsItems.push({
       value: "history",
@@ -460,9 +520,36 @@ const UserDetailPage = () => {
           <Badge variant="secondary">
             {ROLE_LABELS[profile.role] || profile.role}
           </Badge>
+
+          {profile.leaveStatus === LEAVE_STATUS.LEFT_UNPAID && (
+            <Badge className="bg-red-100 text-red-700">
+              {LEAVE_STATUS_LABELS[LEAVE_STATUS.LEFT_UNPAID]}
+            </Badge>
+          )}
+          {profile.leaveStatus === LEAVE_STATUS.LEFT_PAID && (
+            <Badge variant="outline" className="text-muted-foreground">
+              {LEAVE_STATUS_LABELS[LEAVE_STATUS.LEFT_PAID]}
+            </Badge>
+          )}
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
+          {profile.leaveStatus === LEAVE_STATUS.LEFT_UNPAID && (
+            <Button
+              variant="outline"
+              className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800"
+              disabled={settling}
+              onClick={() =>
+                updateUser({
+                  id: profile._id,
+                  body: { leaveStatus: LEAVE_STATUS.LEFT_PAID },
+                })
+              }
+            >
+              <BadgeCheck className="size-4" />
+              To'lab chiqdi deb belgilash
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={() => openModal(MODAL.USER_EDIT, { user: profile })}
@@ -539,16 +626,16 @@ const UserDetailPage = () => {
             <DiscountDeleteModal />
           </ModalWrapper>
 
-          {/* Ozod davri modallari */}
+          {/* Davomatdan ozod modallari */}
           <ModalWrapper
             name={MODAL.ATTENDANCE_EXEMPTION_CREATE}
-            title="Yangi ozod davri"
+            title="Davomatdan ozod qilish"
           >
             <ExemptionCreateModal />
           </ModalWrapper>
           <ModalWrapper
             name={MODAL.ATTENDANCE_EXEMPTION_DELETE}
-            title="Ozod davrini o'chirish"
+            title="Davrni o'chirish"
           >
             <ExemptionDeleteModal />
           </ModalWrapper>

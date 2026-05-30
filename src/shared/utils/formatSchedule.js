@@ -50,3 +50,15 @@ export const formatSchedule = (schedule = []) => {
     .map((s) => `${DAY_LABELS_UZ[s.day] || s.day} ${s.startTime}–${s.endTime}`)
     .join(", ");
 };
+
+// Bir xil vaqtli kunlarni birlashtiradi: [{ days: ["Du","Se"], time: "14:00–15:30" }]
+export const groupScheduleByTime = (schedule = []) => {
+  if (!Array.isArray(schedule) || schedule.length === 0) return [];
+  const byTime = new Map();
+  for (const s of sortSchedule(schedule)) {
+    const time = `${s.startTime}–${s.endTime}`;
+    if (!byTime.has(time)) byTime.set(time, []);
+    byTime.get(time).push(DAY_LABELS_UZ[s.day] || s.day);
+  }
+  return Array.from(byTime, ([time, days]) => ({ time, days }));
+};

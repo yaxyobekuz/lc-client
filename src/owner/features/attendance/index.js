@@ -11,6 +11,7 @@ export { default as useStudentAttendanceSummaryQuery } from "./hooks/useStudentA
 export { default as useDashboardQuery } from "./hooks/useDashboardQuery";
 export { default as useCorrelationQuery } from "./hooks/useCorrelationQuery";
 export { default as useGroupMonthlyAttendanceQuery } from "./hooks/useGroupMonthlyAttendanceQuery";
+export { default as useGroupAttendanceSummaryQuery } from "./hooks/useGroupAttendanceSummaryQuery";
 
 export { default as GroupPicker } from "./components/GroupPicker";
 export { default as PeriodPicker } from "./components/PeriodPicker";

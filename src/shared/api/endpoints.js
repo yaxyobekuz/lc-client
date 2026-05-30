@@ -87,6 +87,7 @@ export const ENDPOINTS = Object.freeze({
     studentSummary: (sid) => `/attendance/students/${sid}/summary`,
     groupSummary: (gid) => `/attendance/groups/${gid}/summary`,
     groupMonthly: (gid) => `/attendance/groups/${gid}/monthly`,
+    teacher: (gid) => `/attendance/groups/${gid}/teacher`,
     teacherSummary: "/attendance/teacher/me/summary",
     dashboard: "/attendance/dashboard",
     correlation: "/attendance/correlation",

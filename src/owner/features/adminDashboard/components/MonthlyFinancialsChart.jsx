@@ -24,7 +24,7 @@ const MonthlyFinancialsChart = ({ items = [] }) => {
           const expensesPct = ((it.expenses || 0) / max) * 100;
           const profitTone =
             it.netProfit > 0
-              ? "text-emerald-600"
+              ? "text-green-600"
               : it.netProfit < 0
                 ? "text-rose-600"
                 : "text-zinc-600";
@@ -42,7 +42,7 @@ const MonthlyFinancialsChart = ({ items = [] }) => {
                 <div className="flex items-center gap-2">
                   <div className="relative h-2 bg-zinc-100 rounded overflow-hidden flex-1">
                     <div
-                      className="absolute inset-y-0 left-0 bg-emerald-500"
+                      className="absolute inset-y-0 left-0 bg-green-500"
                       style={{ width: `${incomePct}%` }}
                     />
                   </div>
@@ -68,7 +68,7 @@ const MonthlyFinancialsChart = ({ items = [] }) => {
       </div>
       <div className="flex gap-3 text-xs text-muted-foreground pt-1">
         <span className="flex items-center gap-1">
-          <span className="inline-block w-3 h-3 bg-emerald-500 rounded" />
+          <span className="inline-block w-3 h-3 bg-green-500 rounded" />
           Daromad
         </span>
         <span className="flex items-center gap-1">

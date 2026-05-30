@@ -11,6 +11,7 @@ import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import GroupCard from "../components/GroupCard";
 import GroupCreateModal from "../components/modals/GroupCreateModal";
+import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -95,6 +96,9 @@ const GroupsListPage = () => {
         className="max-w-4xl"
       >
         <GroupCreateModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni o'chirish">
+        <GroupDeleteModal />
       </ModalWrapper>
     </div>
   );

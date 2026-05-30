@@ -1,5 +1,11 @@
+// React
+import { useState } from "react";
+
 // Icons
 import { Check } from "lucide-react";
+
+// Components
+import InputSearch from "@/shared/components/ui/input/InputSearch";
 
 // Hooks
 import useUsersListQuery from "@/owner/features/users/hooks/useUsersListQuery";
@@ -11,11 +17,21 @@ import { ROLES } from "@/shared/constants/roles";
 import { cn } from "@/shared/utils/cn";
 
 const TeachersMultiPicker = ({ value = [], onChange, disabled = false }) => {
+  const [search, setSearch] = useState("");
   const { data, isLoading } = useUsersListQuery({
     role: ROLES.TEACHER,
     limit: 100,
   });
   const teachers = data?.data || [];
+
+  const q = search.trim().toLowerCase();
+  const filteredTeachers = q
+    ? teachers.filter((t) =>
+        `${t.firstName} ${t.lastName || ""} ${t.username || ""}`
+          .toLowerCase()
+          .includes(q),
+      )
+    : teachers;
 
   const toggle = (id) => {
     if (disabled) return;
@@ -32,6 +48,12 @@ const TeachersMultiPicker = ({ value = [], onChange, disabled = false }) => {
           {value.length > 0 ? `${value.length} ta tanlandi` : ""}
         </span>
       </div>
+      <InputSearch
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="O'qituvchi qidirish..."
+        disabled={disabled}
+      />
       <div className="border rounded-md overflow-y-auto bg-white min-h-56 max-h-80">
         {isLoading && (
           <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>
@@ -41,8 +63,13 @@ const TeachersMultiPicker = ({ value = [], onChange, disabled = false }) => {
             O'qituvchilar topilmadi. Avval "Foydalanuvchilar" sahifasida o'qituvchi yarating.
           </div>
         )}
+        {!isLoading && teachers.length > 0 && filteredTeachers.length === 0 && (
+          <div className="p-4 text-sm text-muted-foreground">
+            "{search}" bo'yicha o'qituvchi topilmadi.
+          </div>
+        )}
         {!isLoading &&
-          teachers.map((t) => {
+          filteredTeachers.map((t) => {
             const selected = value.includes(t._id);
             return (
               <button

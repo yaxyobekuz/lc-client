@@ -74,10 +74,10 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
     <Card className="space-y-3">
       <Legend />
       <div className="relative overflow-x-auto">
-        <table className="min-w-max border-separate border-spacing-0 text-xs">
+        <table className="w-full table-fixed min-w-[820px] border-separate border-spacing-0 text-xs">
           <thead>
             <tr>
-              <th className="sticky left-0 z-20 bg-white border-r border-b border-gray-200 px-3 py-2 text-left whitespace-nowrap">
+              <th className="sticky left-0 z-20 w-44 bg-white border-r border-b border-gray-200 px-3 py-2 text-left whitespace-nowrap">
                 Talaba
               </th>
               {dates.map((d) => {
@@ -88,7 +88,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                 return (
                   <th
                     key={d.dateKey}
-                    className={`border-b border-gray-200 px-1 py-1 text-center font-medium w-7 ${headerCls}`}
+                    className={`border-b border-gray-200 px-1 py-1 text-center font-medium ${headerCls}`}
                   >
                     <div className="leading-tight">{day}</div>
                     <div className="text-[10px] font-normal opacity-70">
@@ -105,7 +105,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
               const name = `${row.student.firstName || ""} ${row.student.lastName || ""}`.trim();
               return (
                 <tr key={sid}>
-                  <td className="sticky left-0 z-10 bg-white border-r border-b border-gray-200 px-3 py-1.5 whitespace-nowrap">
+                  <td className="sticky left-0 z-10 w-44 bg-white border-r border-b border-gray-200 px-3 py-1.5 truncate">
                     {name || row.student.username || "-"}
                   </td>
                   {dates.map((d) => {
@@ -114,7 +114,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                       return (
                         <td
                           key={d.dateKey}
-                          className="bg-gray-100/70 border-b border-gray-200 w-7 h-7"
+                          className="bg-gray-100/70 border-b border-gray-200 h-7"
                         />
                       );
                     }
@@ -123,7 +123,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                       return (
                         <td
                           key={d.dateKey}
-                          className="border-b border-gray-200 w-7 h-7"
+                          className="border-b border-gray-200 h-7"
                         >
                           <span className="block mx-auto w-2.5 h-2.5 rounded-full border border-dashed opacity-40" />
                         </td>
@@ -132,7 +132,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                     return (
                       <td
                         key={d.dateKey}
-                        className="border-b border-gray-200 w-7 h-7"
+                        className="border-b border-gray-200 h-7"
                       >
                         <Tooltip content={tooltipText(d.dateKey, displayed, cell)}>
                           <span

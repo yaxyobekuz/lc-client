@@ -11,6 +11,8 @@ const summarizeRate = (r) => {
   if (r.hourlyRate > 0)
     parts.push(`${formatMoney(r.hourlyRate)}/soat × ${r.hoursPerSession}`);
   if (r.percentageRate > 0) parts.push(`${r.percentageRate}%`);
+  if (r.amountPerStudent > 0)
+    parts.push(`${formatMoney(r.amountPerStudent)}/o'quvchi`);
   if (r.minMonthlyAmount > 0)
     parts.push(`min ${formatMoney(r.minMonthlyAmount)}`);
   return parts.join(" • ") || "-";

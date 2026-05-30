@@ -17,6 +17,7 @@ const RateEditModal = ({
     hourlyRate: rate?.hourlyRate || "",
     hoursPerSession: rate?.hoursPerSession ?? 2,
     percentageRate: rate?.percentageRate || "",
+    amountPerStudent: rate?.amountPerStudent || "",
     minMonthlyAmount: rate?.minMonthlyAmount || "",
     notes: rate?.notes || "",
   });
@@ -39,6 +40,7 @@ const RateEditModal = ({
       hourlyRate: Number(obj.hourlyRate || 0),
       hoursPerSession: Number(obj.hoursPerSession || 0),
       percentageRate: Number(obj.percentageRate || 0),
+      amountPerStudent: Number(obj.amountPerStudent || 0),
       minMonthlyAmount: Number(obj.minMonthlyAmount || 0),
       notes: obj.notes,
     });

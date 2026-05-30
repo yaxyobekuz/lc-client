@@ -8,6 +8,7 @@ export { paymentReportsAPI } from "./api/paymentReports.api";
 
 // UserDetailPage uchun reuse komponentlar
 export { default as InvoicesTable } from "./components/InvoicesTable";
+export { default as InvoiceStatusBadge } from "./components/InvoiceStatusBadge";
 export { default as PaymentsTable } from "./components/PaymentsTable";
 export { default as PaymentRecordModal } from "./components/modals/PaymentRecordModal";
 export { default as PaymentRefundModal } from "./components/modals/PaymentRefundModal";
@@ -18,3 +19,4 @@ export { default as InvoiceEditModal } from "./components/modals/InvoiceEditModa
 // hooks
 export { default as useInvoicesQuery } from "./hooks/useInvoicesQuery";
 export { default as usePaymentsQuery } from "./hooks/usePaymentsQuery";
+export { useGroupStatsQuery } from "./hooks/useReportsQueries";

@@ -23,11 +23,12 @@ const CurrentMonthTab = () => {
           </p>
         </Card>
         <Card>
-          <p className="text-sm text-muted-foreground">Qarzdorlar soni</p>
-          <p className="text-2xl font-semibold text-red-600">{debtors.length}</p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Jami qarz:{" "}
+          <p className="text-sm text-muted-foreground">Jami qarz</p>
+          <p className="text-2xl font-semibold text-rose-500">
             {formatMoney(debtors.reduce((s, d) => s + d.debt, 0))}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {debtors.length} ta qarzdor
           </p>
         </Card>
       </div>

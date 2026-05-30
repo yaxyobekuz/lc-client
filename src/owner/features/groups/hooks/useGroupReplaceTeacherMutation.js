@@ -11,18 +11,17 @@ import { groupsAPI } from "../api/groups.api";
 // Query keys
 import { qk } from "@/shared/lib/query/keys";
 
-const useGroupRemoveStudentMutation = (options = {}) => {
+const useGroupReplaceTeacherMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, studentId, leaveStatus }) =>
-      groupsAPI.removeStudent(id, studentId, leaveStatus).then((r) => r.data),
+    mutationFn: ({ id, body }) =>
+      groupsAPI.replaceTeacher(id, body).then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
-      if (vars.studentId) {
-        qc.invalidateQueries({ queryKey: qk.users.one(vars.studentId) });
-      }
-      toast.success("Talaba guruhdan chiqarildi");
+      // Almashtirishda shu oy oyliklari qayta hisoblanadi
+      qc.invalidateQueries({ queryKey: ["salaries"] });
+      toast.success("O'qituvchi almashtirildi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
@@ -32,4 +31,4 @@ const useGroupRemoveStudentMutation = (options = {}) => {
   });
 };
 
-export default useGroupRemoveStudentMutation;
+export default useGroupReplaceTeacherMutation;

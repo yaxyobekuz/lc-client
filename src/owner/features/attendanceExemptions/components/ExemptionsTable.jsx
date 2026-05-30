@@ -21,7 +21,7 @@ const ExemptionsTable = ({ studentId }) => {
   if (items.length === 0) {
     return (
       <div className="border rounded-lg p-8 text-center text-muted-foreground">
-        Ozod davrlari yo'q
+        Davomatdan ozod davrlari yo'q
       </div>
     );
   }
@@ -67,7 +67,7 @@ const ExemptionsTable = ({ studentId }) => {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
                     onClick={() =>
                       openModal(MODAL.ATTENDANCE_EXEMPTION_DELETE, {
                         exemption: ex,

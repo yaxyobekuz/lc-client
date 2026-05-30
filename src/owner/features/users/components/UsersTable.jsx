@@ -2,7 +2,7 @@
 import { KeyRound, Trash2 } from "lucide-react";
 
 // Router
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Components
 import Badge from "@/shared/components/ui/badge/Badge";
@@ -20,6 +20,7 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 
 const UsersTable = ({ users = [] }) => {
   const { openModal } = useModal();
+  const navigate = useNavigate();
 
   if (users.length === 0) {
     return (
@@ -45,12 +46,17 @@ const UsersTable = ({ users = [] }) => {
         </thead>
         <tbody>
           {users.map((u, i) => (
-            <tr key={u._id} className="border-t">
+            <tr
+              key={u._id}
+              onClick={() => navigate(`/owner/users/${u._id}`)}
+              className="border-t cursor-pointer transition-colors hover:bg-gray-50"
+            >
               <td className="px-4 py-2 text-muted-foreground">{i + 1}</td>
               <td className="px-4 py-2">
                 <Link
                   to={`/owner/users/${u._id}`}
-                  className="hover:underline font-medium"
+                  className="font-medium hover:underline"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {u.firstName} {u.lastName}
                 </Link>
@@ -67,7 +73,7 @@ const UsersTable = ({ users = [] }) => {
                   <Badge variant="outline">Nofaol</Badge>
                 )}
               </td>
-              <td className="px-4 py-2">
+              <td className="px-4 py-2" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-end gap-1">
                   <Button
                     type="button"
@@ -84,7 +90,7 @@ const UsersTable = ({ users = [] }) => {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
                     onClick={() => openModal(MODAL.USER_DELETE, { user: u })}
                     playClickSound={false}
                     aria-label="Foydalanuvchini o'chirish"

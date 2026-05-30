@@ -69,7 +69,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="text-red-600 hover:text-red-700"
+                      className="text-red-600 hover:bg-red-50 hover:text-red-700"
                       onClick={() =>
                         openModal(MODAL.PAYMENT_METHOD_DELETE, { paymentMethod: s })
                       }
@@ -82,7 +82,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="text-green-600 hover:text-green-700"
+                      className="text-green-600 hover:bg-green-50 hover:text-green-700"
                       onClick={() => handleRestore(s)}
                       disabled={isRestoring}
                       title="Tiklash"

@@ -28,6 +28,7 @@ export const MODAL = Object.freeze({
   GROUP_ADD_STUDENT: "group:addStudent",
   GROUP_TRANSFER_STUDENT: "group:transferStudent",
   GROUP_REMOVE_STUDENT: "group:removeStudent",
+  GROUP_REPLACE_TEACHER: "group:replaceTeacher",
 
   // Lead sources
   LEAD_SOURCE_CREATE: "leadSource:create",

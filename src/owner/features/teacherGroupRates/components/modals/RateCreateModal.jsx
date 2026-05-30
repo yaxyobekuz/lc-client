@@ -16,6 +16,7 @@ const RateCreateModal = ({
     hourlyRate: "",
     hoursPerSession: 2,
     percentageRate: "",
+    amountPerStudent: "",
     minMonthlyAmount: "",
     notes: "",
   });
@@ -40,6 +41,7 @@ const RateCreateModal = ({
       hourlyRate: Number(obj.hourlyRate || 0),
       hoursPerSession: Number(obj.hoursPerSession || 0),
       percentageRate: Number(obj.percentageRate || 0),
+      amountPerStudent: Number(obj.amountPerStudent || 0),
       minMonthlyAmount: Number(obj.minMonthlyAmount || 0),
       notes: obj.notes,
     });
@@ -47,7 +49,7 @@ const RateCreateModal = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <RateFormFields obj={obj} disabled={isLoading} />
+      <RateFormFields obj={obj} disabled={isLoading} teacherId={teacherId} />
       <div className="flex gap-2 pt-1">
         <Button
           type="button"
