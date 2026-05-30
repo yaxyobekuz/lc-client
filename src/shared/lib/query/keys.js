@@ -7,6 +7,7 @@ export const qk = Object.freeze({
     all: () => ["users"],
     list: (params) => ["users", "list", params],
     one: (id) => ["users", "detail", id],
+    password: (id) => ["users", "password", id],
     groupHistory: (id, params) => ["users", id, "group-history", params],
   },
   leadSources: {

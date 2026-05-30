@@ -11,6 +11,7 @@ export const ENDPOINTS = Object.freeze({
   users: {
     base: "/users",
     byId: (id) => `/users/${id}`,
+    password: (id) => `/users/${id}/password`,
     groupHistory: (id) => `/users/${id}/group-history`,
   },
   leadSources: {

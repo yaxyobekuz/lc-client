@@ -14,6 +14,7 @@ import UsersTable from "../components/UsersTable";
 import UserCreateModal from "../components/UserCreateModal";
 import UserDeleteModal from "../components/UserDeleteModal";
 import UserEditModal from "../components/UserEditModal";
+import UserPasswordModal from "../components/UserPasswordModal";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -119,6 +120,10 @@ const UsersListPage = () => {
         className="max-w-xl"
       >
         <UserEditModal />
+      </ModalWrapper>
+
+      <ModalWrapper name={MODAL.USER_PASSWORD} title="Foydalanuvchi paroli">
+        <UserPasswordModal />
       </ModalWrapper>
     </div>
   );

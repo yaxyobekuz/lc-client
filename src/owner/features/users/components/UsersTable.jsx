@@ -1,5 +1,5 @@
 // Icons
-import { Trash2 } from "lucide-react";
+import { KeyRound, Trash2 } from "lucide-react";
 
 // Router
 import { Link } from "react-router-dom";
@@ -68,7 +68,18 @@ const UsersTable = ({ users = [] }) => {
                 )}
               </td>
               <td className="px-4 py-2">
-                <div className="flex items-center justify-end">
+                <div className="flex items-center justify-end gap-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => openModal(MODAL.USER_PASSWORD, { user: u })}
+                    playClickSound={false}
+                    aria-label="Parolni ko'rish"
+                    title="Parol"
+                  >
+                    <KeyRound className="size-4" />
+                  </Button>
                   <Button
                     type="button"
                     variant="ghost"

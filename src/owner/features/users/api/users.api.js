@@ -8,6 +8,9 @@ export const usersAPI = {
   // Yaratish faqat auth.register-user orqali (parol bilan birga)
   create: (body) => http.post(ENDPOINTS.auth.registerUser, body),
   update: (id, body) => http.patch(ENDPOINTS.users.byId(id), body),
+  getPassword: (id) => http.get(ENDPOINTS.users.password(id)),
+  setPassword: (id, password) =>
+    http.patch(ENDPOINTS.users.password(id), { password }),
   remove: (id) => http.delete(ENDPOINTS.users.byId(id)),
   groupHistory: (id, params) =>
     http.get(ENDPOINTS.users.groupHistory(id), { params }),

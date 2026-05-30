@@ -8,6 +8,7 @@ import { MyPaymentsPage } from "@/student/features/payments";
 import { MyAttendancePage } from "@/student/features/attendance";
 import { MyInboxPage } from "@/student/features/notifications";
 import { MyFeedbackPage } from "@/student/features/feedback";
+import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
 const StudentRoutes = () => (
   <Routes>
@@ -18,7 +19,7 @@ const StudentRoutes = () => (
     <Route path="inbox" element={<MyInboxPage />} />
     <Route path="feedback" element={<MyFeedbackPage />} />
     <Route path="profile" element={<StudentProfilePage />} />
-    <Route path="*" element={<Navigate to="group" replace />} />
+    <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
 

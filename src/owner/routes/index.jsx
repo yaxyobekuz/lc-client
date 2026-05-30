@@ -50,6 +50,7 @@ import { AdminDashboardPage } from "@/owner/features/adminDashboard";
 import { ExpensesListPage } from "@/owner/features/expenses";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
 import { ProfilePage } from "@/owner/features/profile";
+import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
 const OwnerRoutes = () => (
   <Routes>
@@ -108,7 +109,7 @@ const OwnerRoutes = () => (
     <Route path="settings/leads" element={<LeadSettingsPage />} />
 
     <Route path="profile" element={<ProfilePage />} />
-    <Route path="*" element={<Navigate to="dashboard" replace />} />
+    <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
 

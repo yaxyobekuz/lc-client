@@ -1,8 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
+// Hooks
 import useAuth from "@/shared/hooks/useAuth";
-import { ROLE_HOME } from "@/shared/constants/roles";
+import useObjectState from "@/shared/hooks/useObjectState";
 import useBotAuthMutation from "../hooks/useBotAuthMutation";
+import useBotAuthLoginMutation from "../hooks/useBotAuthLoginMutation";
+
+// Components
+import InputField from "@/shared/components/ui/input/InputField";
+import Button from "@/shared/components/ui/button/Button";
+
+// Constants
+import { ROLE_HOME } from "@/shared/constants/roles";
 
 const Container = ({ children }) => (
   <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-slate-50 to-blue-50">
@@ -20,32 +30,57 @@ const BotAuthPage = () => {
   const navigate = useNavigate();
   const { user, role } = useAuth();
   const triedRef = useRef(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const initDataRef = useRef("");
 
-  const { mutate, isPending, isError } = useBotAuthMutation({
-    onSuccess: (data) => {
-      const target = ROLE_HOME[data.user?.role] || "/";
-      navigate(target, { replace: true });
-    },
+  // needLogin: hisob bog'lanmagan -> login formasi; qolganlari UI holati
+  const ui = useObjectState({
+    needLogin: false,
+    errorMsg: "",
+    login: "",
+    password: "",
+  });
+
+  const goHome = (r) => navigate(ROLE_HOME[r] || "/", { replace: true });
+
+  const { mutate: verify } = useBotAuthMutation({
+    onSuccess: (data) => goHome(data.user?.role),
     onError: (err) => {
-      setErrorMsg(
+      // 404 = hisob bog'lanmagan -> login formasini ko'rsatamiz
+      if (err?.response?.status === 404) {
+        ui.setField("needLogin", true);
+        return;
+      }
+      ui.setField(
+        "errorMsg",
         err?.response?.data?.message ||
           "Telegram orqali kirishda xatolik yuz berdi.",
       );
     },
   });
 
+  const { mutate: loginAndLink, isPending: isLoggingIn } =
+    useBotAuthLoginMutation({
+      onSuccess: (data) => goHome(data.user?.role),
+      onError: (err) => {
+        ui.setField(
+          "errorMsg",
+          err?.response?.data?.message || "Login yoki parol noto'g'ri.",
+        );
+      },
+    });
+
   useEffect(() => {
     // Allaqachon login bo'lgan bo'lsa darhol panelga o'tkaz
     if (user) {
-      navigate(ROLE_HOME[role] || "/", { replace: true });
+      goHome(role);
       return;
     }
     if (triedRef.current) return;
 
     const tg = typeof window !== "undefined" ? window.Telegram?.WebApp : null;
     if (!tg) {
-      setErrorMsg(
+      ui.setField(
+        "errorMsg",
         "Bu sahifa faqat Telegram Mini ilovasi orqali ochilishi kerak.",
       );
       return;
@@ -60,16 +95,29 @@ const BotAuthPage = () => {
 
     const initData = tg.initData;
     if (!initData) {
-      setErrorMsg(
+      ui.setField(
+        "errorMsg",
         "Telegram ma'lumotlari topilmadi. Mini ilovani Telegram'dan qayta oching.",
       );
       return;
     }
 
+    initDataRef.current = initData;
     triedRef.current = true;
-    mutate(initData);
+    verify(initData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, role]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (!ui.login || !ui.password) return;
+    ui.setField("errorMsg", "");
+    loginAndLink({
+      login: ui.login.trim(),
+      password: ui.password,
+      initData: initDataRef.current,
+    });
+  };
 
   if (user) {
     return (
@@ -79,25 +127,50 @@ const BotAuthPage = () => {
     );
   }
 
-  if (isPending) {
+  // Hisob bog'lanmagan: login+parol so'raymiz, kirgach TG avtomatik bog'lanadi
+  if (ui.needLogin) {
     return (
       <Container>
-        <Spinner />
-        <h1 className="text-lg font-semibold">Telegram orqali kirilyapti</h1>
-        <p className="text-sm text-muted-foreground">Iltimos, kuting...</p>
+        <div className="text-3xl">🔐</div>
+        <h1 className="text-lg font-semibold">Tizimga kirish</h1>
+        <p className="text-sm text-muted-foreground">
+          Hisobingizni Telegram'ga bog'lash uchun login va parolingizni kiriting.
+          Keyingi safar avtomatik kirasiz.
+        </p>
+        <form onSubmit={handleLogin} className="space-y-3 text-left">
+          <InputField
+            required
+            name="username"
+            label="Login yoki telefon"
+            value={ui.login}
+            disabled={isLoggingIn}
+            placeholder="Foydalanuvchi nomi yoki telefon"
+            onChange={(e) => ui.setField("login", e.target.value)}
+          />
+          <InputField
+            required
+            type="password"
+            name="password"
+            label="Parol"
+            value={ui.password}
+            disabled={isLoggingIn}
+            onChange={(e) => ui.setField("password", e.target.value)}
+          />
+          {ui.errorMsg && <p className="text-sm text-red-600">{ui.errorMsg}</p>}
+          <Button type="submit" disabled={isLoggingIn} className="w-full">
+            {isLoggingIn ? "Kirilyapti..." : "Kirish va bog'lash"}
+          </Button>
+        </form>
       </Container>
     );
   }
 
-  if (isError || errorMsg) {
+  if (ui.errorMsg) {
     return (
       <Container>
         <div className="text-3xl">⚠️</div>
         <h1 className="text-lg font-semibold">Kirib bo'lmadi</h1>
-        <p className="text-sm text-muted-foreground">{errorMsg}</p>
-        <p className="text-xs text-muted-foreground">
-          Botda /start bosing va telefon raqamingizni yuboring, so'ng qayta urinib ko'ring.
-        </p>
+        <p className="text-sm text-muted-foreground">{ui.errorMsg}</p>
         <a
           href="/login"
           className="inline-block mt-2 text-sm text-blue-600 hover:underline"
@@ -108,10 +181,12 @@ const BotAuthPage = () => {
     );
   }
 
+  // Boshlang'ich / initData tekshiruvi
   return (
     <Container>
       <Spinner />
-      <p className="text-sm text-muted-foreground">Yuklanmoqda...</p>
+      <h1 className="text-lg font-semibold">Telegram orqali kirilyapti</h1>
+      <p className="text-sm text-muted-foreground">Iltimos, kuting...</p>
     </Container>
   );
 };

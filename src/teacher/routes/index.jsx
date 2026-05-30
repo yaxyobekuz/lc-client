@@ -14,6 +14,7 @@ import {
   MyInboxPage,
 } from "@/teacher/features/notifications";
 import { MyFeedbackPage } from "@/teacher/features/feedback";
+import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
 const TeacherRoutes = () => (
   <Routes>
@@ -27,7 +28,7 @@ const TeacherRoutes = () => (
     <Route path="inbox" element={<MyInboxPage />} />
     <Route path="feedback" element={<MyFeedbackPage />} />
     <Route path="profile" element={<TeacherProfilePage />} />
-    <Route path="*" element={<Navigate to="groups" replace />} />
+    <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
 

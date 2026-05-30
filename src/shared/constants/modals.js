@@ -19,6 +19,7 @@ export const MODAL = Object.freeze({
   USER_CREATE: "user:create",
   USER_EDIT: "user:edit",
   USER_DELETE: "user:delete",
+  USER_PASSWORD: "user:password",
 
   // Groups
   GROUP_CREATE: "group:create",
