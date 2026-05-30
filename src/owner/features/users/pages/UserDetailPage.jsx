@@ -240,13 +240,13 @@ const TeacherSalarySummaryCard = ({ summary }) => {
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       <Card>
         <p className="text-xs text-muted-foreground">Joriy oy yakuniy</p>
-        <p className="text-xl font-semibold text-blue-600">
+        <p className="text-xl font-semibold">
           {cur ? formatMoney(cur.finalAmount) : "-"}
         </p>
       </Card>
       <Card>
         <p className="text-xs text-muted-foreground">Joriy oy to'langan</p>
-        <p className="text-xl font-semibold text-green-600">
+        <p className="text-xl font-semibold">
           {cur ? formatMoney(cur.paidAmount) : "-"}
         </p>
       </Card>

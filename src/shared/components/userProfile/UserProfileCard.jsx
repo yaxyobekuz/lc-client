@@ -29,7 +29,7 @@ const UserProfileCard = ({ profile }) => {
   return (
     <Card className="space-y-4">
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center size-14 rounded-full bg-gradient-to-tr from-blue-400 to-blue-700 text-white text-xl font-semibold uppercase">
+        <div className="flex items-center justify-center size-14 rounded-full bg-primary text-primary-foreground text-xl font-semibold uppercase">
           {initial}
         </div>
         <div>
