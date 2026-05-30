@@ -8,7 +8,6 @@ import {
   ATTENDANCE_STATUSES,
   STATUS_LABEL,
   STATUS_BADGE_CLASS,
-  STATUS_EMOJI,
 } from "@/shared/constants/attendance";
 import { cn } from "@/shared/utils/cn";
 
@@ -88,8 +87,8 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
         if (r.defaultStatus === "exempt") continue;
         next[sid] = {
           status,
-          reason: prev[sid]?.reason || "",
-          lateMinutes: status === "late" ? prev[sid]?.lateMinutes || 5 : 0,
+          reason: "",
+          lateMinutes: 0,
         };
       }
       return next;
@@ -105,6 +104,9 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
       return next;
     });
   };
+
+  // Saqlanmagan o'zgarishlarni bekor qilib, boshlang'ich holatga qaytaradi
+  const resetAll = () => setState(initial);
 
   const handleSubmit = () => {
     const items = [];
@@ -143,8 +145,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                   STATUS_BADGE_CLASS[s],
                 )}
               >
-                <span>{STATUS_EMOJI[s]}</span>
-                <span>{STATUS_LABEL[s]}</span>
+                {STATUS_LABEL[s]}
               </button>
             ))}
             <button
@@ -163,6 +164,14 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                 {dirtyCount} ta o'zgartirish
               </Badge>
             )}
+            <Button
+              variant="outline"
+              onClick={resetAll}
+              disabled={isSubmitting || dirtyCount === 0}
+              playClickSound={false}
+            >
+              Bekor qilish
+            </Button>
             <Button onClick={handleSubmit} disabled={isSubmitting}>
               {isSubmitting ? "Saqlanmoqda..." : "Saqlash"}
             </Button>
@@ -191,21 +200,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                 <tr key={sid} className="border-t hover:bg-gray-50/50">
                   <td className="px-4 py-2.5 text-muted-foreground">{i + 1}</td>
                   <td className="px-4 py-2.5">
-                    <div className="flex items-center gap-2">
-                      <span>
-                        {r.student.firstName} {r.student.lastName}
-                      </span>
-                      {cur.status && (
-                        <span
-                          className={cn(
-                            "inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium",
-                            STATUS_BADGE_CLASS[cur.status],
-                          )}
-                        >
-                          {STATUS_EMOJI[cur.status]}
-                        </span>
-                      )}
-                    </div>
+                    {r.student.firstName} {r.student.lastName}
                   </td>
                   <td className="px-4 py-2.5 text-muted-foreground hidden md:table-cell">
                     {formatPhone(r.student.phone) || "-"}
