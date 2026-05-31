@@ -22,7 +22,7 @@ const DiscountCreateModal = ({
   // Bugungi sana — boshlanish o'tmishda bo'lishiga yo'l qo'yilmaydi
   const today = toDateInput(new Date());
 
-  // Faqat talaba o'qiyotgan guruhlar; bo'sh = barcha guruhlar
+  // Faqat o'quvchi o'qiyotgan guruhlar; bo'sh = barcha guruhlar
   const groupOptions = [
     { value: "", label: "Barcha guruhlar" },
     ...groups

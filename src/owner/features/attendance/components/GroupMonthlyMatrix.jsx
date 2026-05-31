@@ -25,7 +25,7 @@ const Legend = () => (
       </span>
     ))}
     <span className="inline-flex items-center gap-1.5">
-      <span className="block w-3 h-3 rounded-sm bg-slate-200" />
+      <span className="block w-3 h-3 rounded-sm border border-gray-200" />
       Dars yo'q
     </span>
     <span className="inline-flex items-center gap-1.5">
@@ -76,7 +76,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
           <thead>
             <tr>
               <th className="sticky left-0 z-20 w-44 bg-white border-r border-b border-gray-200 px-3 py-2 text-left whitespace-nowrap">
-                Talaba
+                O'quvchi
               </th>
               {dates.map((d) => {
                 const day = d.dateKey.slice(8);
@@ -112,7 +112,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                       return (
                         <td
                           key={d.dateKey}
-                          className="bg-gray-100/70 border-b border-gray-200 h-7"
+                          className="border-b border-gray-200 h-7"
                         />
                       );
                     }

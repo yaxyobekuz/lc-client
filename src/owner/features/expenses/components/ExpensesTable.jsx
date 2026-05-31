@@ -4,7 +4,7 @@ import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUz } from "@/shared/utils/formatDate";
-import ExpenseCategoryBadge from "./ExpenseCategoryBadge";
+import ExpenseTypeBadge from "./ExpenseTypeBadge";
 
 const fullName = (u) =>
   u ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || "-" : "-";
@@ -26,7 +26,7 @@ const ExpensesTable = ({ items = [] }) => {
         <thead>
           <tr>
             <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Sana</th>
-            <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Kategoriya</th>
+            <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Xarajat turi</th>
             <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Summa</th>
             <th className="px-4 py-2 font-medium text-left">Izoh</th>
             <th className="px-4 py-2 font-medium text-left whitespace-nowrap">Yaratdi</th>
@@ -38,7 +38,7 @@ const ExpensesTable = ({ items = [] }) => {
             <tr key={e._id} className="border-t">
               <td className="px-4 py-2 text-left">{formatDateUz(e.date)}</td>
               <td className="px-4 py-2 text-left">
-                <ExpenseCategoryBadge category={e.category} />
+                <ExpenseTypeBadge type={e.type} />
               </td>
               <td className="px-4 py-2 text-left font-medium">
                 {formatMoney(e.amount)}

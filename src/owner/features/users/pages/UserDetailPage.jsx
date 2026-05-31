@@ -26,6 +26,8 @@ import {
 import GroupTransferStudentModal from "@/owner/features/groups/components/modals/GroupTransferStudentModal";
 import UserEditModal from "../components/UserEditModal";
 import UserDeleteModal from "../components/UserDeleteModal";
+import UserPasswordModal from "../components/UserPasswordModal";
+import UserPasswordCard from "../components/UserPasswordCard";
 import GroupRemoveStudentConfirmModal from "../components/GroupRemoveStudentConfirmModal";
 
 // To'lovlar tab uchun
@@ -117,13 +119,7 @@ const PaymentSummaryCard = ({ summary }) => {
 const AttendanceSummaryCard = ({ summary }) => {
   if (!summary) return null;
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-      <Card>
-        <p className="text-xs text-muted-foreground">Joriy oy davomati</p>
-        <p className="text-xl font-semibold text-blue-600">
-          {summary.attendanceRate !== null ? `${summary.attendanceRate}%` : "-"}
-        </p>
-      </Card>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       <Card>
         <p className="text-xs text-muted-foreground">Jami darslar</p>
         <p className="text-xl font-semibold">{summary.totalClasses}</p>
@@ -153,10 +149,10 @@ const NoGroupNotice = () => (
     <AlertTriangle className="size-5 shrink-0 text-amber-500" />
     <div>
       <p className="font-medium text-amber-800">
-        Talaba hech qaysi guruhda emas
+        O'quvchi hech qaysi guruhda emas
       </p>
       <p className="text-amber-700">
-        To'lov, chegirma va boshqa amallar uchun avval talabani guruhga qo'shing.
+        To'lov, chegirma va boshqa amallar uchun avval o'quvchini guruhga qo'shing.
       </p>
     </div>
   </div>
@@ -399,7 +395,7 @@ const UserDetailPage = () => {
     );
   }
 
-  // Talaba hech qaysi guruhda emas — to'lov/chegirma/ozod amallari bloklanadi
+  // O'quvchi hech qaysi guruhda emas — to'lov/chegirma/ozod amallari bloklanadi
   const noActiveGroup = isStudent && (profile.activeGroups?.length ?? 0) === 0;
 
   const tabsItems = [
@@ -412,6 +408,7 @@ const UserDetailPage = () => {
             <UserProfileCard profile={profile} />
           </div>
           <div className="space-y-5">
+            <UserPasswordCard user={profile} />
             <UserTelegramCard telegram={profile.telegram} />
             {isStudent && (
               <UserActiveGroupsList
@@ -577,6 +574,9 @@ const UserDetailPage = () => {
       <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini o'chirish">
         <UserDeleteModal />
       </ModalWrapper>
+      <ModalWrapper name={MODAL.USER_PASSWORD} title="Foydalanuvchi paroli">
+        <UserPasswordModal />
+      </ModalWrapper>
 
       {/* Guruh modallari */}
       <ModalWrapper
@@ -587,7 +587,7 @@ const UserDetailPage = () => {
       </ModalWrapper>
       <ModalWrapper
         name={MODAL.GROUP_REMOVE_STUDENT}
-        title="Talabani guruhdan chiqarish"
+        title="O'quvchini guruhdan chiqarish"
       >
         <GroupRemoveStudentConfirmModal />
       </ModalWrapper>

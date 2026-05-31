@@ -47,7 +47,7 @@ const PaymentsTable = ({ items = [], showStudent = true, showActions = true }) =
             </th>
             {showStudent && (
               <th className="px-4 py-3 font-medium" style={{ width: w.talaba }}>
-                Talaba
+                O'quvchi
               </th>
             )}
             <th

@@ -30,7 +30,7 @@ const PaymentRecordModal = ({
   });
 
   const amountNum = Number(obj.amount);
-  // Qarzdan ortiq summa talaba balansiga yoziladi (keyingi oy yechiladi)
+  // Qarzdan ortiq summa o'quvchi balansiga yoziladi (keyingi oy yechiladi)
   const toBalance = Math.max(0, amountNum - remaining);
   const invalid =
     !obj.amount ||
@@ -81,7 +81,7 @@ const PaymentRecordModal = ({
         />
         {toBalance > 0 && (
           <p className="text-xs text-sky-600">
-            Qarzdan ortiq {formatMoney(toBalance)} talaba balansiga yoziladi
+            Qarzdan ortiq {formatMoney(toBalance)} o'quvchi balansiga yoziladi
             (keyingi oy hisobidan yechiladi)
           </p>
         )}

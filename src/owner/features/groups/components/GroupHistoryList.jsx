@@ -41,7 +41,7 @@ const GroupHistoryList = ({ groupId }) => {
       <table className="w-full text-sm">
         <thead className=" text-left">
           <tr>
-            <th className="px-4 py-2 font-medium">Talaba</th>
+            <th className="px-4 py-2 font-medium">O'quvchi</th>
             <th className="px-4 py-2 font-medium">Telefon</th>
             <th className="px-4 py-2 font-medium">Qo'shilgan</th>
             <th className="px-4 py-2 font-medium">Chiqqan</th>

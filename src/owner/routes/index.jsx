@@ -17,6 +17,7 @@ import {
   AttendanceDashboardPage,
   AttendanceSettingsPage,
 } from "@/owner/features/attendance";
+import { TeacherAttendancePage } from "@/owner/features/teacherAttendance";
 import {
   SalariesListPage,
   SalaryDetailPage,
@@ -47,6 +48,7 @@ import {
 } from "@/owner/features/feedback";
 import { AdminDashboardPage } from "@/owner/features/adminDashboard";
 import { ExpensesListPage } from "@/owner/features/expenses";
+import { ExpenseTypesListPage } from "@/owner/features/expenseTypes";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
 import { ProfilePage } from "@/owner/features/profile";
 import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
@@ -58,6 +60,7 @@ const OwnerRoutes = () => (
     {/* Boshqaruv paneli (Bo'lak 9) */}
     <Route path="dashboard" element={<AdminDashboardPage />} />
     <Route path="expenses" element={<ExpensesListPage />} />
+    <Route path="expense-types" element={<ExpenseTypesListPage />} />
     <Route path="activity-logs" element={<ActivityLogsPage />} />
 
     <Route path="groups" element={<GroupsListPage />} />
@@ -76,6 +79,7 @@ const OwnerRoutes = () => (
     {/* Davomat */}
     <Route path="attendance" element={<AttendanceDashboardPage />} />
     <Route path="attendance/mark" element={<AttendanceMarkPage />} />
+    <Route path="attendance/teachers" element={<TeacherAttendancePage />} />
 
     {/* Maoshlar */}
     <Route path="salaries" element={<SalariesListPage />} />

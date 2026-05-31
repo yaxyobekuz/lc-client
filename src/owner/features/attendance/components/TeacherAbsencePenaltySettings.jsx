@@ -46,7 +46,7 @@ const TeacherPenaltyRow = ({ teacher }) => {
     });
 
   return (
-    <div className="flex flex-wrap items-end gap-3 border-t py-3">
+    <div className="flex flex-wrap items-end gap-3 border-t border-slate-100 py-3">
       <div className="min-w-[160px] flex-1">
         <p className="font-medium">
           {teacher.firstName} {teacher.lastName}
@@ -112,7 +112,7 @@ const TeacherAbsencePenaltySettings = () => {
     });
 
   return (
-    <Card className="space-y-4">
+    <Card className="space-y-4 border-0 rounded-lg shadow-sm">
       <div>
         <h3 className="font-semibold">O'qituvchi kelmagan kun jarimasi</h3>
         <p className="text-sm text-muted-foreground">

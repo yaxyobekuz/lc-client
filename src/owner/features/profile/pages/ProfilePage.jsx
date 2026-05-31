@@ -14,8 +14,6 @@ import { getRoleLabel } from "@/shared/helpers/role.helpers";
 import ProfileEditModal from "../components/ProfileEditModal";
 import ProfilePasswordModal from "../components/ProfilePasswordModal";
 
-const GENDER_LABEL = { male: "Erkak", female: "Ayol" };
-
 const InfoRow = ({ label, value }) => (
   <div className="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-2 py-2 border-b last:border-b-0">
     <span className="text-sm text-muted-foreground sm:w-44 shrink-0">
@@ -78,15 +76,6 @@ const ProfilePage = () => {
           <InfoRow label="Ism" value={user.firstName} />
           <InfoRow label="Familiya" value={user.lastName} />
           <InfoRow label="Foydalanuvchi nomi" value={user.username} />
-          <InfoRow label="Telefon" value={user.phone} />
-          <InfoRow
-            label="Tug'ilgan sana"
-            value={user.birthDate ? formatDateUz(user.birthDate) : "-"}
-          />
-          <InfoRow
-            label="Jinsi"
-            value={user.gender ? GENDER_LABEL[user.gender] : "-"}
-          />
           <InfoRow label="Rol" value={getRoleLabel(role)} />
           <InfoRow
             label="Ro'yxatdan o'tgan sana"

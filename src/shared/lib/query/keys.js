@@ -93,6 +93,10 @@ export const qk = Object.freeze({
     teacherSummary: (params) => ["attendance", "teacherSummary", params],
     dashboard: (params) => ["attendance", "dashboard", params],
   },
+  teacherAttendance: {
+    all: () => ["teacherAttendance"],
+    byDate: (date) => ["teacherAttendance", "date", date],
+  },
   attendanceExemptions: {
     all: () => ["attendanceExemptions"],
     byStudent: (studentId) => ["attendanceExemptions", "byStudent", studentId],
@@ -109,6 +113,7 @@ export const qk = Object.freeze({
     one: (id) => ["salaries", "detail", id],
     payouts: (id) => ["salaries", id, "payouts"],
     dashboard: (params) => ["salaries", "dashboard", params],
+    dashboardTeachers: (params) => ["salaries", "dashboard", "teachers", params],
     trend: (params) => ["salaries", "trend", params],
     myCurrent: () => ["salaries", "me", "current"],
     myHistory: (params) => ["salaries", "me", "history", params],
@@ -186,6 +191,11 @@ export const qk = Object.freeze({
     list: (params) => ["expenses", "list", params],
     one: (id) => ["expenses", "detail", id],
     stats: (params) => ["expenses", "stats", params],
+  },
+  expenseTypes: {
+    all: () => ["expenseTypes"],
+    list: (params) => ["expenseTypes", "list", params],
+    one: (id) => ["expenseTypes", "detail", id],
   },
   activityLogs: {
     all: () => ["activityLogs"],

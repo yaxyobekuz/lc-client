@@ -47,7 +47,7 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
         <div>
           <p className="text-sm font-medium">Kurs tugaguncha (muddatsiz)</p>
           <p className="text-xs text-muted-foreground">
-            Tugash sanasiz — talaba barcha guruhlarida avtomatik ozod bo'ladi
+            Tugash sanasiz — o'quvchi barcha guruhlarida avtomatik ozod bo'ladi
           </p>
         </div>
         <Switch

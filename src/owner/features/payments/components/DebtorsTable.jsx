@@ -18,7 +18,7 @@ const DebtorsTable = ({ items = [] }) => {
         <thead>
           <tr>
             <th className="px-4 py-2 font-medium text-left w-12">#</th>
-            <th className="px-4 py-2 font-medium text-left">Talaba</th>
+            <th className="px-4 py-2 font-medium text-left">O'quvchi</th>
             <th className="px-4 py-2 font-medium text-left">Telefon</th>
             <th className="px-4 py-2 font-medium text-left w-28">Hisoblar</th>
             <th className="px-4 py-2 font-medium text-left w-40">Qarz</th>

@@ -48,7 +48,7 @@ const InboxItem = ({ recipient, onMarkRead }) => {
               onClick={() => onMarkRead(recipient._id)}
               className="text-xs text-blue-600 hover:underline"
             >
-              O'qildi qilish
+              O'qilgan deb belgilash
             </button>
           )}
         </div>
@@ -92,7 +92,7 @@ const InboxList = () => {
             onClick={() => markAllRead()}
             disabled={isPending}
           >
-            Hammasini o'qildi qilish
+            Hammasini o'qilgan deb belgilash
           </Button>
         </div>
       </header>

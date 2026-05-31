@@ -6,7 +6,7 @@ import { useExpenseUpdateMutation } from "../hooks/useExpenseMutations";
 
 const ExpenseEditModal = ({ expense, close, isLoading, setIsLoading }) => {
   const obj = useObjectState({
-    category: expense?.category || "other",
+    type: expense?.type?._id || expense?.type || "",
     amount: expense?.amount ?? "",
     date: toDateInput(expense?.date),
     description: expense?.description || "",
@@ -22,12 +22,12 @@ const ExpenseEditModal = ({ expense, close, isLoading, setIsLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!obj.category || obj.amount === "" || !obj.date) return;
+    if (!obj.type || obj.amount === "" || !obj.date) return;
     setIsLoading(true);
     mutate({
       id: expense._id,
       body: {
-        category: obj.category,
+        type: obj.type,
         amount: Number(obj.amount),
         date: obj.date,
         description: obj.description.trim(),

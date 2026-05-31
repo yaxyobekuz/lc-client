@@ -92,6 +92,10 @@ export const ENDPOINTS = Object.freeze({
     teacherSummary: "/attendance/teacher/me/summary",
     dashboard: "/attendance/dashboard",
   },
+  teacherAttendance: {
+    base: "/teacher-attendance",
+    bulk: "/teacher-attendance/bulk",
+  },
   attendanceExemptions: {
     base: "/attendance-exemptions",
     byId: (id) => `/attendance-exemptions/${id}`,
@@ -105,6 +109,7 @@ export const ENDPOINTS = Object.freeze({
     base: "/salaries",
     byId: (id) => `/salaries/${id}`,
     payouts: (id) => `/salaries/${id}/payouts`,
+    payoutsBatch: "/salaries/payouts/batch",
     calculate: "/salaries/calculate",
     recompute: (id) => `/salaries/${id}/recompute`,
     approve: (id) => `/salaries/${id}/approve`,
@@ -113,6 +118,7 @@ export const ENDPOINTS = Object.freeze({
     adjustmentById: (id, adjId) => `/salaries/${id}/adjustments/${adjId}`,
     payoutById: (payoutId) => `/salaries/payouts/${payoutId}`,
     dashboard: "/salaries/dashboard",
+    dashboardTeachers: "/salaries/dashboard/teachers",
     trend: "/salaries/trend",
     myCurrent: "/salaries/teacher/me/current",
     myHistory: "/salaries/teacher/me",
@@ -191,6 +197,10 @@ export const ENDPOINTS = Object.freeze({
     base: "/expenses",
     byId: (id) => `/expenses/${id}`,
     stats: "/expenses/stats",
+  },
+  expenseTypes: {
+    base: "/expense-types",
+    byId: (id) => `/expense-types/${id}`,
   },
   activityLogs: {
     base: "/activity-logs",

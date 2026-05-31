@@ -19,7 +19,7 @@ const LeadSourceDeleteModal = ({ leadSource, close, isLoading, setIsLoading }) =
     <div className="space-y-4">
       <p className="text-sm">
         <span className="font-semibold">{leadSource?.name}</span> manbasi
-        arxivlanadi. Mavjud talabalar tarixida saqlanib qoladi.
+        arxivlanadi. Mavjud o'quvchilar tarixida saqlanib qoladi.
       </p>
       <div className="flex gap-2">
         <Button

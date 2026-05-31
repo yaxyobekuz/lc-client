@@ -75,6 +75,7 @@ export const MODAL = Object.freeze({
   SALARY_ADJUSTMENT_ADD: "salary:adjustmentAdd",
   SALARY_ADJUSTMENT_REMOVE_CONFIRM: "salary:adjustmentRemoveConfirm",
   SALARY_PAYOUT_ADD: "salary:payoutAdd",
+  SALARY_PAYOUT_BULK: "salary:payoutBulk",
   SALARY_PAYOUT_REMOVE_CONFIRM: "salary:payoutRemoveConfirm",
   TEACHER_GROUP_RATE_CREATE: "teacherGroupRate:create",
   TEACHER_GROUP_RATE_EDIT: "teacherGroupRate:edit",
@@ -121,5 +122,8 @@ export const MODAL = Object.freeze({
   EXPENSE_CREATE: "expense:create",
   EXPENSE_EDIT: "expense:edit",
   EXPENSE_DELETE: "expense:delete",
+  EXPENSE_TYPE_CREATE: "expenseType:create",
+  EXPENSE_TYPE_EDIT: "expenseType:edit",
+  EXPENSE_TYPE_DELETE: "expenseType:delete",
   ACTIVITY_LOG_DETAIL: "activityLog:detail",
 });

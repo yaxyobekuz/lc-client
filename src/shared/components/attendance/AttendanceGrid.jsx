@@ -90,7 +90,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
 
   // Sudrash (mouse + touch): pointer eventlar bilan ishlaydi. Barmoq/sichqoncha
   // qaysi qator ustida ekanini elementFromPoint orqali aniqlaymiz; qo'yib
-  // yuborilganda oraliqdagi barcha talabaga status beriladi.
+  // yuborilganda oraliqdagi barcha o'quvchiga status beriladi.
   // drag o'zgarganda qayta obuna bo'lamiz — handler eng so'nggi qiymatlarni ko'radi.
   useEffect(() => {
     if (!drag || !data) return undefined;
@@ -138,7 +138,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
   if ((data.rows || []).length === 0) {
     return (
       <div className="border rounded-md p-8 text-center text-muted-foreground bg-white">
-        Bu sanaga active talabalar yo'q.
+        Bu sanaga active o'quvchilar yo'q.
       </div>
     );
   }
@@ -241,7 +241,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
           {!locked && (
             <span className="text-xs text-muted-foreground">
               Maslahat: statusni bosib (mobilda — bosib turib) qatorlar ustidan
-              suring — bir nechta talabani birdaniga belgilaysiz
+              suring — bir nechta o'quvchini birdaniga belgilaysiz
             </span>
           )}
         </div>

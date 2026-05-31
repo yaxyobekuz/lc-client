@@ -12,7 +12,7 @@ const BTN_BASE =
 const LONG_PRESS_MS = 300;
 const MOVE_TOLERANCE = 10;
 
-// Bitta talaba qatori uchun: 1 click/tap bilan status tanlash.
+// Bitta o'quvchi qatori uchun: 1 click/tap bilan status tanlash.
 // onRangeStart berilsa — statusni bosib-sudrab (range) belgilash boshlanadi (pointerdown — mouse + touch).
 // previewStatus berilsa — sudrash paytida shu status faol ko'rinadi (ranglar o'zgaradi).
 const AttendanceMarker = ({

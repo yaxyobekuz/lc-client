@@ -5,7 +5,6 @@ import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import SalaryStatusBadge from "@/shared/components/salary/SalaryStatusBadge";
 import { formatMoney } from "@/shared/utils/formatMoney";
-import { cn } from "@/shared/utils/cn";
 import { MODAL } from "@/shared/constants/modals";
 import { MONTH_LABELS } from "@/shared/constants/salary";
 
@@ -33,87 +32,14 @@ const StatCard = ({ label, children }) => (
   </Card>
 );
 
-// Ikki qiymat: chetlarga yoyilgan + o'rtada vertikal border (to'liq balandlik emas)
-const Half = ({ sub, value, className = "", align = "left" }) => (
-  <div className={cn("flex-1 min-w-0", align === "right" && "text-right")}>
-    <p className="text-[11px] text-muted-foreground">{sub}</p>
-    <p className={cn("text-sm font-medium truncate", className)}>{value}</p>
-  </div>
-);
-
-const DualStatCard = ({ label, left, right }) => (
-  <Card>
-    <p className="text-xs text-muted-foreground">{label}</p>
-    <div className="mt-1 flex items-stretch">
-      {left}
-      <div className="mx-3 my-1 w-px bg-border" />
-      {right}
-    </div>
-  </Card>
-);
-
-const SalarySummary = ({ salary, remaining }) => (
-  <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+const SalarySummary = ({ salary }) => (
+  <div className="grid grid-cols-2 gap-3">
     <StatCard label="Hisoblangan">
       <p className="text-xl font-semibold">{formatMoney(salary.baseAmount)}</p>
     </StatCard>
-    <DualStatCard
-      label="Bonus / Jarima"
-      left={
-        <Half
-          sub="Bonus"
-          value={`+${formatMoney(salary.bonusTotal)}`}
-          className={salary.bonusTotal > 0 ? "text-green-600" : "text-muted-foreground"}
-        />
-      }
-      right={
-        <Half
-          sub="Jarima"
-          align="right"
-          value={`−${formatMoney(salary.penaltyTotal)}`}
-          className={salary.penaltyTotal > 0 ? "text-red-600" : "text-muted-foreground"}
-        />
-      }
-    />
-    <DualStatCard
-      label="Avans / Ushlab"
-      left={
-        <Half
-          sub="Avans"
-          value={`−${formatMoney(salary.advanceTotal)}`}
-          className={salary.advanceTotal > 0 ? "text-amber-600" : "text-muted-foreground"}
-        />
-      }
-      right={
-        <Half
-          sub="Ushlab"
-          align="right"
-          value={`−${formatMoney(salary.deductionTotal)}`}
-          className={salary.deductionTotal > 0 ? "text-orange-600" : "text-muted-foreground"}
-        />
-      }
-    />
     <StatCard label="Yakuniy">
       <p className="text-xl font-semibold">{formatMoney(salary.finalAmount)}</p>
     </StatCard>
-    <DualStatCard
-      label="To'langan / Qoldiq"
-      left={
-        <Half
-          sub="To'langan"
-          value={formatMoney(salary.paidAmount)}
-          className={salary.paidAmount > 0 ? "text-green-600" : "text-muted-foreground"}
-        />
-      }
-      right={
-        <Half
-          sub="Qoldiq"
-          align="right"
-          value={formatMoney(remaining)}
-          className={remaining > 0 ? "text-amber-600" : "text-muted-foreground"}
-        />
-      }
-    />
   </div>
 );
 
@@ -133,10 +59,6 @@ const SalaryDetailPage = () => {
     );
   }
 
-  const remaining = Math.max(
-    0,
-    (salary.finalAmount || 0) - (salary.paidAmount || 0),
-  );
   const isCancelled = salary.status === "cancelled";
   const isPaid = salary.status === "paid";
   const canEditAdjustments = !isCancelled && !isPaid;
@@ -158,7 +80,7 @@ const SalaryDetailPage = () => {
       label: "Umumiy",
       content: (
         <div className="space-y-4 pt-3">
-          <SalarySummary salary={salary} remaining={remaining} />
+          <SalarySummary salary={salary} />
           {minApplied && (
             <p className="text-xs text-amber-700">
               Minimal kafolatli oylik qo'llandi: hisoblangan{" "}

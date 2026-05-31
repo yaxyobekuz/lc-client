@@ -23,7 +23,7 @@ const GroupStudentsTable = ({ group }) => {
 
   const students = group?.students || [];
 
-  // Joriy oy hisoblari (talaba bo'yicha)
+  // Joriy oy hisoblari (o'quvchi bo'yicha)
   const now = new Date();
   const { data: invoicesRes } = useInvoicesQuery({
     groupId: group?._id,
@@ -40,7 +40,7 @@ const GroupStudentsTable = ({ group }) => {
   if (students.length === 0) {
     return (
       <div className="border rounded-lg p-8 text-center text-muted-foreground">
-        Guruhda hali talaba yo'q
+        Guruhda hali o'quvchi yo'q
       </div>
     );
   }
@@ -120,7 +120,7 @@ const GroupStudentsTable = ({ group }) => {
                     playClickSound={false}
                   >
                     <Check className="size-3.5" />
-                    To'landi qilib belgilash
+                    To'lash
                   </Button>
                 )}
               </td>
@@ -161,7 +161,7 @@ const GroupStudentsTable = ({ group }) => {
                       })
                     }
                     playClickSound={false}
-                    aria-label="Talabani guruhdan chiqarish"
+                    aria-label="O'quvchini guruhdan chiqarish"
                   >
                     <Trash2 className="size-4" />
                     Chiqarish

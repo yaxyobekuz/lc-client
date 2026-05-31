@@ -122,7 +122,7 @@ const UserProfileCard = ({ profile }) => {
             />
             <InfoRow
               icon={Megaphone}
-              label="Lead manbasi"
+              label="Lid manbasi"
               value={
                 profile.leadSource ? (
                   <span>

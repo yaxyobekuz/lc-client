@@ -10,7 +10,7 @@ const formatPeriod = (p) => {
   return `${String(p.month).padStart(2, "0")}.${p.year}`;
 };
 
-// onPay(invoice) berilsa — har bir qatorga "To'landi qilib belgilash" tugmasi
+// onPay(invoice) berilsa — har bir qatorga "To'lash" tugmasi
 // onRowClick(invoice) berilsa — qator bosilganda chaqiriladi (masalan to'lov tafsilotlari modali)
 const InvoicesTable = ({ items = [], showStudent = true, onPay, onRowClick }) => {
   const payable = typeof onPay === "function";
@@ -58,7 +58,7 @@ const InvoicesTable = ({ items = [], showStudent = true, onPay, onRowClick }) =>
             </th>
             {showStudent && (
               <th className="px-4 py-3 font-medium" style={{ width: w.talaba }}>
-                Talaba
+                O'quvchi
               </th>
             )}
             <th className="px-4 py-3 font-medium" style={{ width: w.guruh }}>
@@ -150,7 +150,7 @@ const InvoicesTable = ({ items = [], showStudent = true, onPay, onRowClick }) =>
                         playClickSound={false}
                       >
                         <Check className="size-3.5" />
-                        To'landi qilib belgilash
+                        To'lash
                       </Button>
                     )}
                   </div>

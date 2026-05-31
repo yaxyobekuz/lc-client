@@ -20,7 +20,7 @@ import useExpenseStatsQuery from "../hooks/useExpenseStatsQuery";
 const ExpensesListPage = () => {
   const { openModal } = useModal();
   const filters = useObjectState({
-    category: "",
+    type: "",
     fromDate: "",
     toDate: "",
   });
@@ -28,7 +28,7 @@ const ExpensesListPage = () => {
   const limit = 20;
 
   const queryParams = {
-    category: filters.category || undefined,
+    type: filters.type || undefined,
     fromDate: filters.fromDate || undefined,
     toDate: filters.toDate || undefined,
     page,
@@ -57,7 +57,7 @@ const ExpensesListPage = () => {
         <div>
           <h1 className="text-2xl font-semibold">Xarajatlar</h1>
           <p className="text-sm text-muted-foreground">
-            Markaz xarajatlarini kategoriya bo'yicha kuzating
+            Markaz xarajatlarini turi bo'yicha kuzating
           </p>
         </div>
         <Button onClick={() => openModal(MODAL.EXPENSE_CREATE)}>
@@ -79,10 +79,10 @@ const ExpensesListPage = () => {
             <p className="text-xl font-semibold mt-1">{stats.count}</p>
           </div>
           <div className="border rounded-lg p-4 bg-white">
-            <p className="text-xs text-muted-foreground">Eng katta kategoriya</p>
+            <p className="text-xs text-muted-foreground">Eng katta tur</p>
             <p className="text-xl font-semibold mt-1">
-              {stats.byCategory?.[0]?._id
-                ? formatMoney(stats.byCategory[0].sum)
+              {stats.byType?.[0]
+                ? `${stats.byType[0].name || "-"} · ${formatMoney(stats.byType[0].sum)}`
                 : "-"}
             </p>
           </div>

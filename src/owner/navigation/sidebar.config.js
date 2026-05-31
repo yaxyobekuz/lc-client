@@ -63,6 +63,11 @@ const ownerSidebar = [
         permission: "attendance.record",
       },
       {
+        title: "O'qituvchilar",
+        url: "/owner/attendance/teachers",
+        permission: "attendance.record",
+      },
+      {
         title: "Hisobotlar",
         url: "/owner/attendance",
         permission: "attendance.read",
@@ -112,6 +117,11 @@ const ownerSidebar = [
         title: "Asosiy",
         url: "/owner/expenses",
         permission: "expenses.read",
+      },
+      {
+        title: "Xarajat turlari",
+        url: "/owner/expense-types",
+        permission: "expenses.manage",
       },
     ],
   },
@@ -183,7 +193,7 @@ const ownerSidebar = [
     isActive: false,
     items: [
       {
-        title: "Inbox",
+        title: "Kelgan xabarlar",
         url: "/owner/inbox",
       },
       {

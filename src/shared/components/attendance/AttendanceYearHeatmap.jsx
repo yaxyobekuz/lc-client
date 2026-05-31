@@ -136,12 +136,6 @@ const AttendanceYearHeatmap = ({ data, year, onPrevYear, onNextYear }) => {
 
       {/* Yillik xulosa */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-        <StatPill
-          label="darsdan keldi"
-          value={`${stats.rate !== null ? `${stats.rate}%` : "-"}`}
-          className="text-blue-600"
-        />
-        <span className="text-gray-300">|</span>
         <StatPill label="keldi" value={stats.present} className="text-emerald-600" />
         <StatPill label="kelmadi" value={stats.absent} className="text-rose-600" />
         <StatPill label="sababli" value={stats.excused} className="text-amber-600" />

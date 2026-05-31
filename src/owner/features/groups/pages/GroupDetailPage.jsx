@@ -73,7 +73,7 @@ const GroupDetailPage = () => {
           <BackLink to="/owner/groups" />
 
           <h1 className="text-2xl font-semibold">{group.name}</h1>
-          <Badge variant="secondary">{group.studentsCount} talaba</Badge>
+          <Badge variant="secondary">{group.studentsCount} o'quvchi</Badge>
         </div>
 
         <div className="flex items-center gap-2">
@@ -161,7 +161,7 @@ const GroupDetailPage = () => {
         items={[
           {
             value: "students",
-            label: "Talabalar",
+            label: "O'quvchilar",
             content: (
               <div className="space-y-3 pt-3">
                 <div className="flex justify-end">
@@ -171,7 +171,7 @@ const GroupDetailPage = () => {
                     }
                   >
                     <Plus className="size-4" />
-                    Talaba qo'shish
+                    O'quvchi qo'shish
                   </Button>
                 </div>
                 <GroupStudentsTable group={group} />
@@ -210,7 +210,7 @@ const GroupDetailPage = () => {
       <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni o'chirish">
         <GroupDeleteModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_ADD_STUDENT} title="Talaba qo'shish">
+      <ModalWrapper name={MODAL.GROUP_ADD_STUDENT} title="O'quvchi qo'shish">
         <GroupAddStudentModal />
       </ModalWrapper>
       <ModalWrapper
@@ -221,7 +221,7 @@ const GroupDetailPage = () => {
       </ModalWrapper>
       <ModalWrapper
         name={MODAL.GROUP_REMOVE_STUDENT}
-        title="Talabani guruhdan chiqarish"
+        title="O'quvchini guruhdan chiqarish"
       >
         <GroupRemoveStudentModal />
       </ModalWrapper>

@@ -22,7 +22,7 @@ const useGroupRemoveStudentMutation = (options = {}) => {
       if (vars.studentId) {
         qc.invalidateQueries({ queryKey: qk.users.one(vars.studentId) });
       }
-      toast.success("Talaba guruhdan chiqarildi");
+      toast.success("O'quvchi guruhdan chiqarildi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

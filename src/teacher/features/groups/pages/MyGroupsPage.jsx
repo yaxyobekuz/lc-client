@@ -40,7 +40,7 @@ const MyGroupsPage = () => {
             <Card className="h-full flex flex-col gap-3">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-semibold text-base">{g.name}</h3>
-                <Badge variant="secondary">{g.studentsCount || 0} talaba</Badge>
+                <Badge variant="secondary">{g.studentsCount || 0} o'quvchi</Badge>
               </div>
               <div className="text-sm text-muted-foreground space-y-1">
                 <div>

@@ -53,7 +53,7 @@ const MyGroupDetailPage = () => {
           <ArrowLeft className="size-4" />
         </button>
         <h1 className="text-2xl font-semibold">{group.name}</h1>
-        <Badge variant="secondary">{students.length} talaba</Badge>
+        <Badge variant="secondary">{students.length} o'quvchi</Badge>
       </div>
 
       <Card className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -68,9 +68,9 @@ const MyGroupDetailPage = () => {
       </Card>
 
       <Card>
-        <h2 className="font-semibold mb-3">Talabalar</h2>
+        <h2 className="font-semibold mb-3">O'quvchilar</h2>
         {students.length === 0 ? (
-          <p className="text-muted-foreground text-sm">Talabalar yo'q</p>
+          <p className="text-muted-foreground text-sm">O'quvchilar yo'q</p>
         ) : (
           <table className="w-full text-sm">
             <thead className=" text-left">

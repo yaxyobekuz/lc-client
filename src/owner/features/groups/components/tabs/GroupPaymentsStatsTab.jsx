@@ -73,7 +73,7 @@ const GroupPaymentsStatsTab = ({ groupId }) => {
               </p>
             </Card>
             <Card>
-              <p className="text-xs text-muted-foreground">To'lagan talabalar</p>
+              <p className="text-xs text-muted-foreground">To'lagan o'quvchilar</p>
               <p className="text-xl font-semibold">
                 {stats.paidStudents}/{stats.totalStudents}
               </p>
@@ -96,7 +96,7 @@ const GroupPaymentsStatsTab = ({ groupId }) => {
       )}
 
       <div>
-        <h3 className="text-base font-semibold mb-2">Talabalar bo'yicha</h3>
+        <h3 className="text-base font-semibold mb-2">O'quvchilar bo'yicha</h3>
         {invoicesLoading ? (
           <Card>
             <p className="py-6 text-center text-muted-foreground">

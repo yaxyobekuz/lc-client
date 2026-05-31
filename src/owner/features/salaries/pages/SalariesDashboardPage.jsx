@@ -3,8 +3,10 @@ import PeriodPicker from "../components/PeriodPicker";
 import SalaryStatsCards from "../components/SalaryStatsCards";
 import MonthlyTrendChart from "../components/MonthlyTrendChart";
 import TopEarnersList from "../components/TopEarnersList";
+import TeacherReportTable from "../components/TeacherReportTable";
 import useSalaryDashboardQuery from "../hooks/useSalaryDashboardQuery";
 import useSalaryTrendQuery from "../hooks/useSalaryTrendQuery";
+import useSalaryTeacherReportQuery from "../hooks/useSalaryTeacherReportQuery";
 
 const SalariesDashboardPage = () => {
   const now = new Date();
@@ -15,6 +17,7 @@ const SalariesDashboardPage = () => {
 
   const { data: dashboard, isLoading } = useSalaryDashboardQuery(period);
   const { data: trend = [] } = useSalaryTrendQuery({ months: 6 });
+  const { data: teacherReport = [] } = useSalaryTeacherReportQuery(period);
 
   return (
     <div className="space-y-4">
@@ -38,6 +41,15 @@ const SalariesDashboardPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             <MonthlyTrendChart items={trend} />
             <TopEarnersList items={dashboard?.topEarners || []} />
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="font-semibold">O'qituvchilar kesimida</h2>
+            <p className="text-xs text-muted-foreground">
+              Daromad bo'yicha kamayish tartibida. Qator ustiga bosib batafsil
+              oylikni ochish mumkin.
+            </p>
+            <TeacherReportTable items={teacherReport} />
           </div>
         </>
       )}

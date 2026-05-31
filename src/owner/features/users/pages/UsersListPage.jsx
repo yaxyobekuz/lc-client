@@ -100,7 +100,7 @@ const UsersListPage = () => {
           },
           {
             value: ROLES.STUDENT,
-            label: "Talabalar",
+            label: "O'quvchilar",
             content: <UsersTab role={ROLES.STUDENT} />,
           },
         ]}

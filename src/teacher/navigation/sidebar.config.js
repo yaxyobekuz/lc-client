@@ -32,7 +32,7 @@ const teacherSidebar = [
     isActive: true,
     items: [
       {
-        title: "Inbox",
+        title: "Kelgan xabarlar",
         url: "/teacher/inbox",
       },
       {

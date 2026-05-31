@@ -113,6 +113,27 @@ export const useRecordPayoutMutation = (options = {}) => {
   });
 };
 
+export const useRecordPayoutBatchMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body) =>
+      salariesAPI.recordPayoutBatch(body).then((r) => r.data.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.salaries.all() });
+      const paid = Number(data?.paid || 0);
+      const carried = Number(data?.carried || 0);
+      let msg = `${paid} ta o'qituvchiga to'lov yozildi`;
+      if (carried > 0) {
+        msg += `. ${formatMoney(carried)} keyingi oy avansiga o'tkazildi`;
+      }
+      if (data?.errors > 0) msg += ` (${data.errors} ta xato)`;
+      toast.success(msg);
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: makeErr(options),
+  });
+};
+
 export const useRemovePayoutMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({

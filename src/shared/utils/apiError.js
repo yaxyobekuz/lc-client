@@ -37,7 +37,7 @@ const FIELD_LABELS = {
   // lid
   source: "Manba",
   // umumiy ref
-  student: "Talaba",
+  student: "O'quvchi",
   group: "Guruh",
   teacher: "O'qituvchi",
   role: "Rol",

@@ -100,7 +100,7 @@ const OverallPanel = ({ year, month }) => {
         <StatCard
           icon={Users}
           iconClass="bg-primary/10 text-primary"
-          label="Talabalar soni"
+          label="O'quvchilar soni"
           value={data.studentsCount || 0}
         />
         <StatCard

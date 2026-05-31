@@ -15,9 +15,13 @@ export const salariesAPI = {
     http.delete(ENDPOINTS.salaries.adjustmentById(id, adjId)),
   recordPayout: (id, body) =>
     http.post(ENDPOINTS.salaries.payouts(id), body),
+  recordPayoutBatch: (body) =>
+    http.post(ENDPOINTS.salaries.payoutsBatch, body),
   removePayout: (payoutId) =>
     http.delete(ENDPOINTS.salaries.payoutById(payoutId)),
   dashboard: (params) => http.get(ENDPOINTS.salaries.dashboard, { params }),
+  dashboardTeachers: (params) =>
+    http.get(ENDPOINTS.salaries.dashboardTeachers, { params }),
   trend: (params) => http.get(ENDPOINTS.salaries.trend, { params }),
   myCurrent: () => http.get(ENDPOINTS.salaries.myCurrent),
   myHistory: (params) => http.get(ENDPOINTS.salaries.myHistory, { params }),

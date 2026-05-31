@@ -11,8 +11,8 @@ const Card = ({
   return (
     <div
       className={cn(
-        responsive ? "xs:p-5 xs:bg-white" : "bg-white p-4 rounded-[2px] xs:p-5",
-        "border",
+        "rounded-md border",
+        responsive ? "xs:p-5 xs:bg-white" : "bg-white p-4 xs:p-5",
         className,
       )}
     >

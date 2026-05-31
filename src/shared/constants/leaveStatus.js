@@ -1,4 +1,4 @@
-// Talabaning guruhlardan chiqib ketish holati (code value - English)
+// O'quvchining guruhlardan chiqib ketish holati (code value - English)
 export const LEAVE_STATUS = Object.freeze({
   LEFT_UNPAID: "left_unpaid",
   LEFT_PAID: "left_paid",

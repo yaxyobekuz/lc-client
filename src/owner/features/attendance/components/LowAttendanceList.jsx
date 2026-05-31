@@ -12,14 +12,14 @@ const rateTone = (rate) => {
 const LowAttendanceList = ({ items = [], threshold }) => (
   <Card>
     <div className="flex items-center justify-between mb-3">
-      <h3 className="font-semibold">Past davomatli talabalar</h3>
+      <h3 className="font-semibold">Past davomatli o'quvchilar</h3>
       <span className="text-xs text-muted-foreground">
         Threshold: {threshold}%
       </span>
     </div>
     {items.length === 0 ? (
       <p className="text-sm text-muted-foreground">
-        Past davomatli talabalar yo'q
+        Past davomatli o'quvchilar yo'q
       </p>
     ) : (
       <ol className="space-y-0.5">

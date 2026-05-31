@@ -25,7 +25,7 @@ const LeadSourcesListPage = () => {
   return (
     <div className="space-y-4">
       <header className="flex items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold">Lead manbalari</h1>
+        <h1 className="text-2xl font-semibold">Lid manbalari</h1>
         <Button onClick={() => openModal(MODAL.LEAD_SOURCE_CREATE)}>
           <Plus className="size-4" />
           Yangi manba
@@ -57,13 +57,13 @@ const LeadSourcesListPage = () => {
         <LeadSourcesTable items={items} />
       )}
 
-      <ModalWrapper name={MODAL.LEAD_SOURCE_CREATE} title="Yangi lead manba">
+      <ModalWrapper name={MODAL.LEAD_SOURCE_CREATE} title="Yangi lid manba">
         <LeadSourceCreateModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.LEAD_SOURCE_EDIT} title="Lead manbani tahrirlash">
+      <ModalWrapper name={MODAL.LEAD_SOURCE_EDIT} title="Lid manbani tahrirlash">
         <LeadSourceEditModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.LEAD_SOURCE_DELETE} title="Lead manbani o'chirish">
+      <ModalWrapper name={MODAL.LEAD_SOURCE_DELETE} title="Lid manbani o'chirish">
         <LeadSourceDeleteModal />
       </ModalWrapper>
     </div>

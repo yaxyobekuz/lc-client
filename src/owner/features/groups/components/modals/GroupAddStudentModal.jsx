@@ -45,9 +45,9 @@ const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <SelectField
         searchable
-        label="Talaba"
-        placeholder="Talabani tanlang"
-        emptyText="Talabalar topilmadi"
+        label="O'quvchi"
+        placeholder="O'quvchini tanlang"
+        emptyText="O'quvchilar topilmadi"
         value={studentId}
         onChange={setStudentId}
         options={options}

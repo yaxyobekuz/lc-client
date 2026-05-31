@@ -19,7 +19,7 @@ const useGroupAddStudentMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
-      toast.success("Talaba qo'shildi");
+      toast.success("O'quvchi qo'shildi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

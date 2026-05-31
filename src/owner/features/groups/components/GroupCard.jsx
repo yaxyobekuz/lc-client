@@ -40,7 +40,7 @@ const GroupCard = ({ group }) => {
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-base">{group.name}</h3>
           <div className="flex items-center gap-2 shrink-0">
-            <Badge variant="secondary">{group.studentsCount || 0} talaba</Badge>
+            <Badge variant="secondary">{group.studentsCount || 0} o'quvchi</Badge>
             <button
               type="button"
               onClick={handleDelete}

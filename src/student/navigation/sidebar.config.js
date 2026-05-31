@@ -2,7 +2,7 @@ import { GraduationCap, User, Bell } from "lucide-react";
 
 const studentSidebar = [
   {
-    title: "Talaba paneli",
+    title: "O'quvchi paneli",
     icon: GraduationCap,
     isActive: true,
     items: [

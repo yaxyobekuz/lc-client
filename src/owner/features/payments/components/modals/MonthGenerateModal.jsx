@@ -43,7 +43,7 @@ const MonthGenerateModal = ({ close, isLoading, setIsLoading }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <p className="text-sm text-muted-foreground">
-        Tanlangan oy uchun barcha active talabalarga avto hisoblar yaratiladi
+        Tanlangan oy uchun barcha active o'quvchilarga avto hisoblar yaratiladi
         (mavjudlari o'tkazib yuboriladi).
       </p>
       <div className="grid grid-cols-2 gap-3">

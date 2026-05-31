@@ -51,7 +51,7 @@ const GroupRemoveStudentConfirmModal = ({
   return (
     <div className="space-y-4">
       <p className="text-sm">
-        Talaba <span className="font-semibold">{groupName}</span> guruhidan
+        O'quvchi <span className="font-semibold">{groupName}</span> guruhidan
         chiqariladi.
         {isLast ? " Bu uning oxirgi guruhi." : " Davom etasizmi?"}
       </p>
@@ -59,7 +59,7 @@ const GroupRemoveStudentConfirmModal = ({
       {isLast && (
         <div className="space-y-2">
           <p className="text-sm font-medium text-foreground/80">
-            Talaba qanday chiqyapti?
+            O'quvchi qanday chiqyapti?
           </p>
           {options.map((o) => {
             const active = leaveStatus === o.value;

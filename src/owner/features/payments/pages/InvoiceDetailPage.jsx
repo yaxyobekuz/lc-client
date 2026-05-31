@@ -99,7 +99,7 @@ const InvoiceDetailPage = () => {
 
       <Card className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div>
-          <p className="text-xs text-muted-foreground">Talaba</p>
+          <p className="text-xs text-muted-foreground">O'quvchi</p>
           <Link
             to={`/owner/users/${invoice.student?._id}`}
             className="font-medium hover:underline"

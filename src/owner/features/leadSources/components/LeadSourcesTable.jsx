@@ -10,7 +10,7 @@ const LeadSourcesTable = ({ items = [] }) => {
   if (items.length === 0) {
     return (
       <div className="border rounded-lg p-8 text-center text-muted-foreground">
-        Lead manbalari topilmadi
+        Lid manbalari topilmadi
       </div>
     );
   }

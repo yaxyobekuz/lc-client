@@ -44,7 +44,7 @@ const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
                   </p>
                 )}
                 <span className="inline-flex shrink-0 items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                  {g.studentsCount || 0} talaba
+                  {g.studentsCount || 0} o'quvchi
                 </span>
               </div>
 

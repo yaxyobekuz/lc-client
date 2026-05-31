@@ -6,7 +6,7 @@ import { useExpenseCreateMutation } from "../hooks/useExpenseMutations";
 
 const ExpenseCreateModal = ({ close, isLoading, setIsLoading }) => {
   const obj = useObjectState({
-    category: "rent",
+    type: "",
     amount: "",
     date: toDateInput(new Date()),
     description: "",
@@ -22,10 +22,10 @@ const ExpenseCreateModal = ({ close, isLoading, setIsLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!obj.category || !obj.amount || !obj.date) return;
+    if (!obj.type || !obj.amount || !obj.date) return;
     setIsLoading(true);
     mutate({
-      category: obj.category,
+      type: obj.type,
       amount: Number(obj.amount),
       date: obj.date,
       description: obj.description.trim(),

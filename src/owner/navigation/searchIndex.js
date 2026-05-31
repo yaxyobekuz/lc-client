@@ -146,6 +146,16 @@ export const SEARCH_INDEX = [
     category: "Xarajatlar",
     permission: "expenses.read",
   },
+  {
+    title: "Xarajat turlari",
+    description: "Xarajatlarni tasniflash uchun dinamik turlar",
+    keywords:
+      "xarajat turi, expense type, kategoriya, tasnif, ijara, kommunal, reklama",
+    url: "/owner/expense-types",
+    icon: Receipt,
+    category: "Xarajatlar",
+    permission: "expenses.manage",
+  },
 
   // Maoshlar
   {
@@ -241,7 +251,7 @@ export const SEARCH_INDEX = [
 
   // Bildirishnomalar
   {
-    title: "Inbox",
+    title: "Kelgan xabarlar",
     description: "Sizga kelgan shaxsiy va guruh xabarlari",
     keywords: "inbox, xabar, bildirishnoma, notification, kelgan, unread",
     url: "/owner/inbox",

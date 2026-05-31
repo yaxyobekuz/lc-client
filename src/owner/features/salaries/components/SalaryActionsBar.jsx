@@ -12,8 +12,8 @@ const SalaryActionsBar = ({ salary }) => {
   const canApprove = salary.status === "calculated";
   const canCancel = !isCancelled;
   const canAdjust = !isCancelled && !isPaid;
-  const canPayout =
-    salary.status === "approved" || salary.status === "partial";
+  // Tasdiqlash shart emas - hisoblangan oylik ham to'g'ridan-to'g'ri to'lanadi
+  const canPayout = !isCancelled && !isPaid;
 
   return (
     <div className="flex flex-wrap gap-2">

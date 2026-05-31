@@ -22,7 +22,7 @@ const useGroupTransferStudentMutation = (options = {}) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.targetGroupId) });
-      toast.success("Talaba boshqa guruhga ko'chirildi");
+      toast.success("O'quvchi boshqa guruhga ko'chirildi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

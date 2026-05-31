@@ -58,7 +58,7 @@ const GroupPaymentsBreakdownTable = ({ items = [] }) => {
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs font-medium text-gray-400">
             <th className="px-4 py-3">#</th>
-            <th className="px-4 py-3">Talaba</th>
+            <th className="px-4 py-3">O'quvchi</th>
             <th className="px-4 py-3 text-right">Chegirma</th>
             <th className="px-4 py-3 text-right">To'lov</th>
             <th className="px-4 py-3 text-right">To'langan</th>
@@ -133,7 +133,7 @@ const GroupPaymentsBreakdownTable = ({ items = [] }) => {
                         playClickSound={false}
                       >
                         <Check className="size-3.5" />
-                        To'landi qilib belgilash
+                        To'lash
                       </Button>
                     )}
                   </div>

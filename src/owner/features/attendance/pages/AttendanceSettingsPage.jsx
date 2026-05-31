@@ -48,7 +48,7 @@ const AttendanceSettingsPage = () => {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Card className="space-y-3">
+          <Card className="space-y-3 border-0 rounded-lg shadow-sm">
           <h3 className="font-semibold">Ogohlantirish chegaralari</h3>
           <InputField
             name="lowAttendanceThreshold"

@@ -42,7 +42,7 @@ const TeacherAttendancePage = () => {
                 <p className="text-sm text-muted-foreground">
                   {formatSchedule(g.schedule)}
                 </p>
-                <p className="text-sm">{g.studentsCount || 0} talaba</p>
+                <p className="text-sm">{g.studentsCount || 0} o'quvchi</p>
 
                 <div className="pt-2">
                   <Link to={`/teacher/attendance/${g._id}`}>

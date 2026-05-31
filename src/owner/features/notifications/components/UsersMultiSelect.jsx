@@ -6,7 +6,7 @@ import { ROLES } from "@/shared/constants/roles";
 import { cn } from "@/shared/utils/cn";
 
 const ROLE_OPTIONS = [
-  { value: ROLES.STUDENT, label: "Talabalar" },
+  { value: ROLES.STUDENT, label: "O'quvchilar" },
   { value: ROLES.TEACHER, label: "O'qituvchilar" },
 ];
 

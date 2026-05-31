@@ -67,7 +67,7 @@ const ReceiptPage = () => {
           <Row label="Chek raqami" value={String(payment._id).slice(-8)} />
           <Row label="Sana" value={formatDateUz(payment.paidAt)} />
           <Row
-            label="Talaba"
+            label="O'quvchi"
             value={`${student?.firstName || ""} ${student?.lastName || ""}`.trim()}
           />
           <Row label="Telefon" value={formatPhone(student?.phone)} />
