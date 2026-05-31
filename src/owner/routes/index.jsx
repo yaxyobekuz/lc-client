@@ -15,7 +15,6 @@ import { PaymentSettingsPage } from "@/owner/features/paymentSettings";
 import {
   AttendanceMarkPage,
   AttendanceDashboardPage,
-  AttendanceCorrelationPage,
   AttendanceSettingsPage,
 } from "@/owner/features/attendance";
 import {
@@ -77,7 +76,6 @@ const OwnerRoutes = () => (
     {/* Davomat */}
     <Route path="attendance" element={<AttendanceDashboardPage />} />
     <Route path="attendance/mark" element={<AttendanceMarkPage />} />
-    <Route path="attendance/correlation" element={<AttendanceCorrelationPage />} />
 
     {/* Maoshlar */}
     <Route path="salaries" element={<SalariesListPage />} />

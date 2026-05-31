@@ -89,7 +89,7 @@ const ReceiptPage = () => {
                 {payment.type === "refund" ? "Qaytarilgan summa" : "To'langan summa"}
               </span>
               <span
-                className={`font-bold text-lg ${payment.type === "refund" ? "text-red-600" : "text-green-600"}`}
+                className={`font-bold text-lg ${payment.type === "refund" ? "text-rose-500" : "text-emerald-600"}`}
               >
                 {payment.type === "refund" ? "−" : ""}
                 {formatMoney(payment.amount)}
@@ -121,7 +121,7 @@ const ReceiptPage = () => {
           <button
             type="button"
             onClick={() => window.print()}
-            className="px-4 py-2 rounded-md bg-blue-600 text-white text-sm hover:bg-blue-700"
+            className="px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm hover:bg-primary/90"
           >
             Chop etish
           </button>

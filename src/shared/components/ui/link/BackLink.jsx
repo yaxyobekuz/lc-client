@@ -1,26 +1,30 @@
 // Utils
 import { cn } from "@/shared/utils/cn";
 
-// Router
-import { Link } from "react-router-dom";
-
 // Icons
 import { ArrowLeft } from "lucide-react";
 
 // Components
 import { Button } from "@/shared/components/shadcn/button";
 
-const BackLink = ({ to = "", label = "", className = "" }) => (
-  <Button
-    asChild
-    variant="outline"
-    className={cn(label ? "" : "size-10", className)}
-  >
-    <Link to={to}>
+// Hooks
+import useGoBack from "@/shared/hooks/useGoBack";
+
+// `to` endi fallback: tarix bo'lsa brauzerdek orqaga qaytadi
+const BackLink = ({ to = "", label = "", className = "" }) => {
+  const goBack = useGoBack(to || "/");
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      onClick={goBack}
+      className={cn(label ? "" : "size-10", className)}
+    >
       <ArrowLeft className="size-4" />
       {label}
-    </Link>
-  </Button>
-);
+    </Button>
+  );
+};
 
 export default BackLink;

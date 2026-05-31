@@ -23,7 +23,7 @@ const TopDebtorsTable = ({ items = [] }) => (
                 {d.firstName} {d.lastName}
               </Link>
             </span>
-            <span className="font-medium text-red-600 shrink-0">
+            <span className="font-medium text-rose-500 shrink-0">
               {formatMoney(d.debt)}
             </span>
           </li>

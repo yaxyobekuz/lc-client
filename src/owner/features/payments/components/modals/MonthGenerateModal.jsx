@@ -63,8 +63,8 @@ const MonthGenerateModal = ({ close, isLoading, setIsLoading }) => {
         />
       </div>
       {result && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm">
-          <p className="font-medium text-green-700">
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm">
+          <p className="font-medium text-emerald-700">
             Yaratildi: {result.created}, mavjud: {result.skipped}, jami:{" "}
             {result.total}
           </p>

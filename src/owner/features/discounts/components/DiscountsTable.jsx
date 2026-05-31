@@ -32,6 +32,7 @@ const DiscountsTable = ({ studentId }) => {
         <thead className=" text-left">
           <tr>
             <th className="px-4 py-2 font-medium">Turi</th>
+            <th className="px-4 py-2 font-medium">Guruh</th>
             <th className="px-4 py-2 font-medium">Qiymat</th>
             <th className="px-4 py-2 font-medium">Sabab</th>
             <th className="px-4 py-2 font-medium">Boshlanish</th>
@@ -47,6 +48,11 @@ const DiscountsTable = ({ studentId }) => {
                 {d.kind?.name}
                 {d.kind?.isActive === false && (
                   <span className="text-muted-foreground ml-1 text-xs">(arxiv)</span>
+                )}
+              </td>
+              <td className="px-4 py-2">
+                {d.group?.name || (
+                  <span className="text-muted-foreground">Barcha guruhlar</span>
                 )}
               </td>
               <td className="px-4 py-2">

@@ -12,12 +12,27 @@ const VALUE_TYPE_OPTIONS = [
   { value: "amount", label: "Summa (so'm)" },
 ];
 
-const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
+const DiscountCreateModal = ({
+  studentId,
+  groups = [],
+  close,
+  isLoading,
+  setIsLoading,
+}) => {
   // Bugungi sana — boshlanish o'tmishda bo'lishiga yo'l qo'yilmaydi
   const today = toDateInput(new Date());
 
+  // Faqat talaba o'qiyotgan guruhlar; bo'sh = barcha guruhlar
+  const groupOptions = [
+    { value: "", label: "Barcha guruhlar" },
+    ...groups
+      .filter((g) => g.group)
+      .map((g) => ({ value: g.group._id, label: g.group.name })),
+  ];
+
   const obj = useObjectState({
     kind: "",
+    group: "",
     valueType: "percent",
     value: "",
     reason: "",
@@ -47,6 +62,7 @@ const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
     setIsLoading(true);
     mutate({
       student: studentId,
+      group: obj.group || null,
       kind: obj.kind,
       valueType: obj.valueType,
       value: Number(obj.value),
@@ -61,6 +77,14 @@ const DiscountCreateModal = ({ studentId, close, isLoading, setIsLoading }) => {
       <DiscountKindPicker
         value={obj.kind}
         onChange={(v) => obj.setField("kind", v)}
+        disabled={isLoading}
+      />
+      <SelectField
+        label="Guruh"
+        value={obj.group}
+        onChange={(v) => obj.setField("group", v)}
+        options={groupOptions}
+        description="Bo'sh qoldirilsa — barcha guruhlarga tegishli bo'ladi"
         disabled={isLoading}
       />
       <div className="grid grid-cols-2 gap-3">

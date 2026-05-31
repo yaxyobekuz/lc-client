@@ -11,8 +11,10 @@ const formatPeriod = (p) => {
 };
 
 // onPay(invoice) berilsa — har bir qatorga "To'landi qilib belgilash" tugmasi
-const InvoicesTable = ({ items = [], showStudent = true, onPay }) => {
+// onRowClick(invoice) berilsa — qator bosilganda chaqiriladi (masalan to'lov tafsilotlari modali)
+const InvoicesTable = ({ items = [], showStudent = true, onPay, onRowClick }) => {
   const payable = typeof onPay === "function";
+  const clickable = typeof onRowClick === "function";
   if (items.length === 0) {
     return (
       <div className="border rounded-lg p-8 text-center text-muted-foreground">
@@ -21,27 +23,30 @@ const InvoicesTable = ({ items = [], showStudent = true, onPay }) => {
     );
   }
 
-  // Ustun kengliklari - To'lovlar jadvali bilan bir xil chegaralarga tushadi
+  // Ustun kengliklari - amal ustuni bo'lsa unga ham joy ajratiladi, jami 100%
   const w = showStudent
     ? {
-        davr: "10%",
-        talaba: "16%",
-        guruh: "16%",
-        jami: "12%",
-        tolangan: "12%",
-        qoldiq: "12%",
-        muddat: "10%",
-        holat: "12%",
+        davr: payable ? "9%" : "11%",
+        talaba: payable ? "16%" : "18%",
+        guruh: payable ? "15%" : "18%",
+        due: payable ? "13%" : "14%",
+        tolangan: payable ? "13%" : "14%",
+        muddat: payable ? "11%" : "12%",
+        holat: payable ? "11%" : "13%",
+        amallar: "12%",
       }
     : {
-        davr: "12%",
-        guruh: "18%",
-        jami: "14%",
-        tolangan: "14%",
-        qoldiq: "14%",
-        muddat: "13%",
-        holat: "15%",
+        davr: payable ? "10%" : "13%",
+        guruh: payable ? "18%" : "22%",
+        due: payable ? "15%" : "18%",
+        tolangan: payable ? "15%" : "18%",
+        muddat: payable ? "12%" : "14%",
+        holat: payable ? "12%" : "15%",
+        amallar: "18%",
       };
+
+  // Qatordagi ichki link/tugma bosilganda qator onClick'i ishlamasligi uchun
+  const stop = (e) => e.stopPropagation();
 
   return (
     <div className="border rounded-sm overflow-x-auto bg-white">
@@ -61,21 +66,15 @@ const InvoicesTable = ({ items = [], showStudent = true, onPay }) => {
             </th>
             <th
               className="px-4 py-3 font-medium text-right"
-              style={{ width: w.jami }}
+              style={{ width: w.due }}
             >
-              Jami
+              To'lanishi kerak
             </th>
             <th
               className="px-4 py-3 font-medium text-right"
               style={{ width: w.tolangan }}
             >
               To'langan
-            </th>
-            <th
-              className="px-4 py-3 font-medium text-right"
-              style={{ width: w.qoldiq }}
-            >
-              Qoldiq
             </th>
             <th className="px-4 py-3 font-medium" style={{ width: w.muddat }}>
               Muddat
@@ -84,74 +83,81 @@ const InvoicesTable = ({ items = [], showStudent = true, onPay }) => {
               Holat
             </th>
             {payable && (
-              <th className="px-4 py-3 font-medium text-right">Amallar</th>
+              <th
+                className="px-4 py-3 font-medium text-right"
+                style={{ width: w.amallar }}
+              >
+                Amallar
+              </th>
             )}
           </tr>
         </thead>
         <tbody>
-          {items.map((inv) => {
-            const remaining = Math.max(0, (inv.totalDue || 0) - (inv.paidAmount || 0));
-            return (
-              <tr key={inv._id} className="hover:bg-gray-50">
+          {items.map((inv) => (
+            <tr
+              key={inv._id}
+              className={`hover:bg-gray-50 ${clickable ? "cursor-pointer" : ""}`}
+              onClick={clickable ? () => onRowClick(inv) : undefined}
+            >
+              <td className="px-4 py-3">
+                <Link
+                  to={`/owner/payments/invoices/${inv._id}`}
+                  className="font-medium hover:underline"
+                  onClick={stop}
+                >
+                  {formatPeriod(inv.period)}
+                </Link>
+              </td>
+              {showStudent && (
+                <td className="px-4 py-3 truncate">
+                  {inv.student?.firstName} {inv.student?.lastName}
+                </td>
+              )}
+              <td className="px-4 py-3 truncate">{inv.group?.name || "-"}</td>
+              <td className="px-4 py-3 text-right tabular-nums">
+                {formatMoney(inv.totalDue)}
+              </td>
+              <td className="px-4 py-3 text-right tabular-nums">
+                {formatMoney(inv.paidAmount)}
+              </td>
+              <td className="px-4 py-3 text-muted-foreground">
+                {formatDateUz(inv.dueDate)}
+              </td>
+              <td className="px-4 py-3">
+                <InvoiceStatusBadge status={inv.status} />
+              </td>
+              {payable && (
                 <td className="px-4 py-3">
-                  <Link
-                    to={`/owner/payments/invoices/${inv._id}`}
-                    className="font-medium hover:underline"
-                  >
-                    {formatPeriod(inv.period)}
-                  </Link>
+                  <div className="flex items-center justify-end">
+                    {inv.status === "paid" ? (
+                      <span className="inline-flex items-center gap-1 font-medium text-emerald-600">
+                        <Check className="size-3.5" />
+                        To'landi
+                      </span>
+                    ) : inv.status === "cancelled" ? (
+                      <span className="text-gray-300">—</span>
+                    ) : (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        title="To'liq summani to'langan deb belgilash"
+                        className="whitespace-nowrap border-emerald-200 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
+                        onClick={(e) => {
+                          stop(e);
+                          onPay(inv);
+                        }}
+                        playClickSound={false}
+                      >
+                        <Check className="size-3.5" />
+                        To'landi qilib belgilash
+                      </Button>
+                    )}
+                  </div>
                 </td>
-                {showStudent && (
-                  <td className="px-4 py-3 truncate">
-                    {inv.student?.firstName} {inv.student?.lastName}
-                  </td>
-                )}
-                <td className="px-4 py-3 truncate">{inv.group?.name || "-"}</td>
-                <td className="px-4 py-3 text-right tabular-nums">
-                  {formatMoney(inv.totalDue)}
-                </td>
-                <td className="px-4 py-3 text-right tabular-nums">
-                  {formatMoney(inv.paidAmount)}
-                </td>
-                <td className="px-4 py-3 text-right tabular-nums font-medium">
-                  {formatMoney(remaining)}
-                </td>
-                <td className="px-4 py-3 text-muted-foreground">
-                  {formatDateUz(inv.dueDate)}
-                </td>
-                <td className="px-4 py-3">
-                  <InvoiceStatusBadge status={inv.status} />
-                </td>
-                {payable && (
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-end">
-                      {inv.status === "paid" ? (
-                        <span className="inline-flex items-center gap-1 font-medium text-emerald-600">
-                          <Check className="size-3.5" />
-                          To'landi
-                        </span>
-                      ) : inv.status === "cancelled" ? (
-                        <span className="text-gray-300">—</span>
-                      ) : (
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          title="To'liq summani to'langan deb belgilash"
-                          className="border-emerald-200 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
-                          onClick={() => onPay(inv)}
-                          playClickSound={false}
-                        >
-                          <Check className="size-3.5" />
-                          To'landi qilib belgilash
-                        </Button>
-                      )}
-                    </div>
-                  </td>
-                )}
-              </tr>
-            );
-          })}
+              )}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

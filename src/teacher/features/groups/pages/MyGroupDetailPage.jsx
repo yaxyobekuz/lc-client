@@ -1,5 +1,5 @@
 // Router
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Icons
 import { ArrowLeft } from "lucide-react";
@@ -9,6 +9,7 @@ import Card from "@/shared/components/ui/card/Card";
 import Badge from "@/shared/components/ui/badge/Badge";
 
 // Hooks
+import useGoBack from "@/shared/hooks/useGoBack";
 import useGroupQuery from "../hooks/useGroupQuery";
 
 // Utils
@@ -18,6 +19,7 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 
 const MyGroupDetailPage = () => {
   const { id } = useParams();
+  const goBack = useGoBack("/teacher/groups");
   const { data: group, isLoading, isError } = useGroupQuery(id);
 
   if (isLoading) {
@@ -27,9 +29,13 @@ const MyGroupDetailPage = () => {
   if (isError || !group) {
     return (
       <div className="p-8 text-center">
-        <Link to="/teacher/groups" className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-blue-600 hover:underline cursor-pointer"
+        >
           Guruhlar ro'yxatiga qaytish
-        </Link>
+        </button>
       </div>
     );
   }
@@ -39,12 +45,13 @@ const MyGroupDetailPage = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link
-          to="/teacher/groups"
-          className="size-9 inline-flex items-center justify-center rounded-md border bg-white hover:bg-gray-50"
+        <button
+          type="button"
+          onClick={goBack}
+          className="size-9 inline-flex items-center justify-center rounded-md border bg-white hover:bg-gray-50 cursor-pointer"
         >
           <ArrowLeft className="size-4" />
-        </Link>
+        </button>
         <h1 className="text-2xl font-semibold">{group.name}</h1>
         <Badge variant="secondary">{students.length} talaba</Badge>
       </div>

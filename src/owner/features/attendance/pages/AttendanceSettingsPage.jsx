@@ -7,6 +7,7 @@ import {
   useAttendanceSettingsQuery,
   useAttendanceSettingsUpdateMutation,
 } from "../hooks/useAttendanceSettingsQuery";
+import TeacherAbsencePenaltySettings from "../components/TeacherAbsencePenaltySettings";
 
 const AttendanceSettingsPage = () => {
   const { data: settings, isLoading } = useAttendanceSettingsQuery();
@@ -42,11 +43,12 @@ const AttendanceSettingsPage = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto max-w-6xl space-y-4">
       <h1 className="text-2xl font-semibold">Davomat sozlamalari</h1>
 
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-4">
-        <Card className="space-y-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Card className="space-y-3">
           <h3 className="font-semibold">Ogohlantirish chegaralari</h3>
           <InputField
             name="lowAttendanceThreshold"
@@ -78,7 +80,10 @@ const AttendanceSettingsPage = () => {
             {isPending ? "Saqlanmoqda..." : "Saqlash"}
           </Button>
         </div>
-      </form>
+        </form>
+
+        <TeacherAbsencePenaltySettings />
+      </div>
     </div>
   );
 };

@@ -21,9 +21,9 @@ const MethodBreakdown = ({ items = [] }) => {
                     {formatMoney(m.amount)} ({pct}%)
                   </span>
                 </div>
-                <div className="h-2 bg-gray-100 rounded">
+                <div className="h-2 bg-slate-100 rounded">
                   <div
-                    className="h-full bg-blue-500 rounded"
+                    className="h-full bg-sky-400 rounded"
                     style={{ width: `${pct}%` }}
                   />
                 </div>

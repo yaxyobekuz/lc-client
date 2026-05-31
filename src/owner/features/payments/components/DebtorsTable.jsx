@@ -44,7 +44,7 @@ const DebtorsTable = ({ items = [] }) => {
               <td className="px-4 py-2 text-left">
                 <Badge variant="outline">{d.invoicesCount}</Badge>
               </td>
-              <td className="px-4 py-2 text-left font-medium text-red-600">
+              <td className="px-4 py-2 text-left font-medium text-rose-500">
                 {formatMoney(d.debt)}
               </td>
             </tr>

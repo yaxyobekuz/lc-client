@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -36,6 +36,7 @@ import {
   PaymentRefundModal,
   InvoiceCancelModal,
   InvoiceEditModal,
+  InvoicePaymentsModal,
 } from "@/owner/features/payments";
 import useInvoicesQuery from "@/owner/features/payments/hooks/useInvoicesQuery";
 import usePaymentsQuery from "@/owner/features/payments/hooks/usePaymentsQuery";
@@ -48,8 +49,8 @@ import {
 } from "@/owner/features/discounts";
 
 // Davomat tab uchun
-import { MonthlyAttendanceCalendar } from "@/shared/components/attendance";
-import useStudentMonthlyAttendanceQuery from "@/owner/features/attendance/hooks/useStudentMonthlyAttendanceQuery";
+import { AttendanceYearHeatmap } from "@/shared/components/attendance";
+import useStudentYearAttendanceQuery from "@/owner/features/attendance/hooks/useStudentYearAttendanceQuery";
 
 // Davomatdan ozod tab uchun
 import {
@@ -70,6 +71,7 @@ import {
 import useTeacherGroupRatesQuery from "@/owner/features/teacherGroupRates/hooks/useTeacherGroupRatesQuery";
 
 import useModal from "@/shared/hooks/useModal";
+import useGoBack from "@/shared/hooks/useGoBack";
 import useUserDetailQuery from "../hooks/useUserDetailQuery";
 import useUserGroupHistoryQuery from "../hooks/useUserGroupHistoryQuery";
 import useUserUpdateMutation from "../hooks/useUserUpdateMutation";
@@ -186,6 +188,9 @@ const StudentPaymentsTab = ({ studentId, paymentSummary, locked = false }) => {
           <InvoicesTable
             items={invoices?.data || []}
             showStudent={false}
+            onRowClick={(inv) =>
+              openModal(MODAL.INVOICE_PAYMENTS, { invoice: inv })
+            }
             onPay={
               locked
                 ? undefined
@@ -209,7 +214,7 @@ const StudentPaymentsTab = ({ studentId, paymentSummary, locked = false }) => {
   );
 };
 
-const StudentDiscountsTab = ({ studentId, locked = false }) => {
+const StudentDiscountsTab = ({ studentId, groups = [], locked = false }) => {
   const { openModal } = useModal();
   return (
     <div className="space-y-3 pt-3">
@@ -218,7 +223,9 @@ const StudentDiscountsTab = ({ studentId, locked = false }) => {
       ) : (
         <div className="flex justify-end">
           <Button
-            onClick={() => openModal(MODAL.DISCOUNT_CREATE, { studentId })}
+            onClick={() =>
+              openModal(MODAL.DISCOUNT_CREATE, { studentId, groups })
+            }
           >
             <Plus className="size-4" />
             Yangi chegirma
@@ -232,28 +239,9 @@ const StudentDiscountsTab = ({ studentId, locked = false }) => {
 
 const StudentAttendanceTab = ({ studentId, attendanceSummary }) => {
   const now = new Date();
-  const [period, setPeriod] = useState({
-    year: now.getFullYear(),
-    month: now.getMonth() + 1,
-  });
+  const [year, setYear] = useState(now.getFullYear());
 
-  const { data, isLoading } = useStudentMonthlyAttendanceQuery(
-    studentId,
-    period,
-  );
-
-  const goPrev = () =>
-    setPeriod((p) => {
-      const m = p.month - 1;
-      if (m < 1) return { year: p.year - 1, month: 12 };
-      return { year: p.year, month: m };
-    });
-  const goNext = () =>
-    setPeriod((p) => {
-      const m = p.month + 1;
-      if (m > 12) return { year: p.year + 1, month: 1 };
-      return { year: p.year, month: m };
-    });
+  const { data, isLoading } = useStudentYearAttendanceQuery(studentId, { year });
 
   return (
     <div className="space-y-4 pt-3">
@@ -264,12 +252,11 @@ const StudentAttendanceTab = ({ studentId, attendanceSummary }) => {
             Yuklanmoqda...
           </div>
         ) : (
-          <MonthlyAttendanceCalendar
+          <AttendanceYearHeatmap
             data={data}
-            year={period.year}
-            month={period.month}
-            onPrevMonth={goPrev}
-            onNextMonth={goNext}
+            year={year}
+            onPrevYear={() => setYear((y) => y - 1)}
+            onNextYear={() => setYear((y) => y + 1)}
           />
         )}
       </Card>
@@ -378,6 +365,7 @@ const StudentExemptionsTab = ({ studentId, locked = false }) => {
 const UserDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const goBack = useGoBack("/owner/users");
   const { openModal } = useModal();
   const { data: profile, isLoading, isError } = useUserDetailQuery(id);
   const isStudent = profile?.role === ROLES.STUDENT;
@@ -400,9 +388,13 @@ const UserDetailPage = () => {
     return (
       <div className="p-8 text-center">
         <p className="text-muted-foreground mb-4">Foydalanuvchi topilmadi</p>
-        <Link to="/owner/users" className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-blue-600 hover:underline cursor-pointer"
+        >
           Foydalanuvchilar ro'yxatiga qaytish
-        </Link>
+        </button>
       </div>
     );
   }
@@ -472,7 +464,11 @@ const UserDetailPage = () => {
       value: "discounts",
       label: "Chegirmalar",
       content: (
-        <StudentDiscountsTab studentId={profile._id} locked={noActiveGroup} />
+        <StudentDiscountsTab
+          studentId={profile._id}
+          groups={profile.activeGroups || []}
+          locked={noActiveGroup}
+        />
       ),
     });
     tabsItems.push({
@@ -613,6 +609,13 @@ const UserDetailPage = () => {
           </ModalWrapper>
           <ModalWrapper name={MODAL.INVOICE_EDIT} title="Hisobni tahrirlash">
             <InvoiceEditModal />
+          </ModalWrapper>
+          <ModalWrapper
+            name={MODAL.INVOICE_PAYMENTS}
+            title="To'lov tafsilotlari"
+            className="max-w-lg"
+          >
+            <InvoicePaymentsModal />
           </ModalWrapper>
 
           {/* Chegirma modallari */}

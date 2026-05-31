@@ -55,6 +55,7 @@ export const MODAL = Object.freeze({
   INVOICE_EDIT: "invoice:edit",
   INVOICE_CANCEL: "invoice:cancel",
   INVOICE_GENERATE_MONTH: "invoice:generateMonth",
+  INVOICE_PAYMENTS: "invoice:payments",
 
   // Payments
   PAYMENT_RECORD: "payment:record",

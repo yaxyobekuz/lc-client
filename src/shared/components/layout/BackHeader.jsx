@@ -1,13 +1,15 @@
 // Utils
 import { cn } from "@/shared/utils/cn";
 
-// Router
-import { Link } from "react-router-dom";
-
 // Icons
 import { ArrowLeft } from "lucide-react";
 
-const BackHeader = ({ className = "", href = "-1", title = "Sarlavha" }) => {
+// Hooks
+import useGoBack from "@/shared/hooks/useGoBack";
+
+const BackHeader = ({ className = "", fallback = "/", title = "Sarlavha" }) => {
+  const goBack = useGoBack(fallback);
+
   return (
     <header
       className={cn(
@@ -16,10 +18,14 @@ const BackHeader = ({ className = "", href = "-1", title = "Sarlavha" }) => {
       )}
     >
       <div className="flex items-center gap-3 container">
-        {/* Backlink */}
-        <Link to={href} className="flex items-center justify-center size-10">
+        {/* Orqaga */}
+        <button
+          type="button"
+          onClick={goBack}
+          className="flex items-center justify-center size-10 cursor-pointer"
+        >
           <ArrowLeft strokeWidth={1.5} />
-        </Link>
+        </button>
 
         {/* Title */}
         <h1 className="text-lg font-semibold">{title}</h1>

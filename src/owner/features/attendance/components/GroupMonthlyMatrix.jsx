@@ -3,17 +3,15 @@ import Tooltip from "@/shared/components/ui/tooltip/Tooltip";
 import {
   ATTENDANCE_STATUSES,
   STATUS_LABEL,
-  STATUS_BADGE_CLASS,
+  STATUS_DOT_CLASS,
   DAY_SHORT,
 } from "@/shared/constants/attendance";
 import useGroupMonthlyAttendanceQuery from "../hooks/useGroupMonthlyAttendanceQuery";
 
-const bgOf = (status) =>
-  STATUS_BADGE_CLASS[status]?.split(" ").find((c) => c.startsWith("bg-")) || "bg-gray-300";
+const bgOf = (status) => STATUS_DOT_CLASS[status] || "bg-slate-300";
 
 const tooltipText = (dateKey, status, cell) => {
   const parts = [`${dateKey} - ${STATUS_LABEL[status]}`];
-  if (status === "late" && cell.lateMinutes) parts.push(`${cell.lateMinutes} daq`);
   if (status === "excused" && cell.reason) parts.push(cell.reason);
   return parts.join(" · ");
 };
@@ -22,16 +20,16 @@ const Legend = () => (
   <div className="flex flex-wrap items-center gap-3 text-xs text-gray-600">
     {ATTENDANCE_STATUSES.map((s) => (
       <span key={s} className="inline-flex items-center gap-1.5">
-        <span className={`block w-2.5 h-2.5 rounded-full ${bgOf(s)}`} />
+        <span className={`block w-3 h-3 rounded-full ${bgOf(s)}`} />
         {STATUS_LABEL[s]}
       </span>
     ))}
     <span className="inline-flex items-center gap-1.5">
-      <span className="block w-2.5 h-2.5 bg-gray-200" />
+      <span className="block w-3 h-3 rounded-sm bg-slate-200" />
       Dars yo'q
     </span>
     <span className="inline-flex items-center gap-1.5">
-      <span className="block w-2.5 h-2.5 rounded-full border border-dashed opacity-40" />
+      <span className="block w-3 h-3 rounded-full border border-dashed border-slate-400 opacity-60" />
       Belgilanmagan
     </span>
   </div>
@@ -125,7 +123,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                           key={d.dateKey}
                           className="border-b border-gray-200 h-7"
                         >
-                          <span className="block mx-auto w-2.5 h-2.5 rounded-full border border-dashed opacity-40" />
+                          <span className="block mx-auto w-3 h-3 rounded-full border border-dashed border-slate-400 opacity-60" />
                         </td>
                       );
                     }
@@ -136,7 +134,7 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                       >
                         <Tooltip content={tooltipText(d.dateKey, displayed, cell)}>
                           <span
-                            className={`block mx-auto w-2.5 h-2.5 rounded-full ${bgOf(displayed)}`}
+                            className={`block mx-auto w-3 h-3 rounded-full ${bgOf(displayed)}`}
                           />
                         </Tooltip>
                       </td>

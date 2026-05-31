@@ -61,7 +61,7 @@ const PaymentRefundModal = ({ payment, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
         />
         {overRefund && (
-          <p className="text-xs text-red-600">
+          <p className="text-xs text-rose-500">
             Qaytarish summasi asl to'lovdan ko'p bo'lmasligi kerak (
             {formatMoney(payment?.amount || 0)})
           </p>

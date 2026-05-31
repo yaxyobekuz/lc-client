@@ -23,7 +23,7 @@ const TopPayersTable = ({ items = [] }) => (
                 {d.firstName} {d.lastName}
               </Link>
             </span>
-            <span className="font-medium text-green-600 shrink-0">
+            <span className="font-medium text-emerald-600 shrink-0">
               {formatMoney(d.net)}
             </span>
           </li>

@@ -68,11 +68,6 @@ const ownerSidebar = [
         permission: "attendance.read",
       },
       {
-        title: "Davomat-To'lov",
-        url: "/owner/attendance/correlation",
-        permission: "attendance.read",
-      },
-      {
         title: "Sozlamalar",
         url: "/owner/settings/attendance",
         permission: "attendance.manage",

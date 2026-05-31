@@ -8,6 +8,8 @@ export const attendanceAPI = {
     http.post(ENDPOINTS.attendance.bulk(groupId), body),
   studentMonthly: (studentId, params) =>
     http.get(ENDPOINTS.attendance.studentMonthly(studentId), { params }),
+  studentYearly: (studentId, params) =>
+    http.get(ENDPOINTS.attendance.studentYearly(studentId), { params }),
   studentSummary: (studentId, params) =>
     http.get(ENDPOINTS.attendance.studentSummary(studentId), { params }),
   groupSummary: (groupId, params) =>
@@ -21,6 +23,4 @@ export const attendanceAPI = {
   teacherSummary: (params) =>
     http.get(ENDPOINTS.attendance.teacherSummary, { params }),
   dashboard: (params) => http.get(ENDPOINTS.attendance.dashboard, { params }),
-  correlation: (params) =>
-    http.get(ENDPOINTS.attendance.correlation, { params }),
 };

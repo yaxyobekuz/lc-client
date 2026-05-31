@@ -33,8 +33,8 @@ const GroupStatsTable = ({ items = [] }) => {
                     </Link>
                   </td>
                   <td className="py-2">{formatMoney(g.planned)}</td>
-                  <td className="py-2 text-green-600">{formatMoney(g.collected)}</td>
-                  <td className="py-2 text-red-600">{formatMoney(g.outstanding)}</td>
+                  <td className="py-2 text-emerald-600">{formatMoney(g.collected)}</td>
+                  <td className="py-2 text-rose-500">{formatMoney(g.outstanding)}</td>
                   <td className="py-2">
                     {g.paidStudents}/{g.totalStudents}
                   </td>

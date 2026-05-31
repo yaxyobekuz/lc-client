@@ -1,17 +1,25 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import AttendanceMarker from "./AttendanceMarker";
 import AttendanceLegend from "./AttendanceLegend";
+import BulkStatusSlider from "./BulkStatusSlider";
 import { formatPhone } from "@/shared/utils/formatPhone";
-import {
-  ATTENDANCE_STATUSES,
-  STATUS_LABEL,
-  STATUS_BADGE_CLASS,
-} from "@/shared/constants/attendance";
 import { cn } from "@/shared/utils/cn";
 
 const DEFAULT_STATUS = "absent";
+
+// Hafta kunlari (uz) — "dars kuni emas" ogohlantirishida guruh jadvalini ko'rsatish uchun
+const DAY_LABELS_UZ = {
+  mon: "Dushanba",
+  tue: "Seshanba",
+  wed: "Chorshanba",
+  thu: "Payshanba",
+  fri: "Juma",
+  sat: "Shanba",
+  sun: "Yakshanba",
+};
+const WEEK_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 // Avval mavjud attendance rowsdan boshlangich qiymatlarni quradi.
 // Yangi yozuvlar default ravishda "absent" (Kelmadi) bo'ladi.
@@ -35,10 +43,23 @@ const isSame = (a, b) =>
   String(a.reason || "") === String(b.reason || "") &&
   Number(a.lateMinutes || 0) === Number(b.lateMinutes || 0);
 
-const BULK_ACTIONS = ATTENDANCE_STATUSES.filter(
-  // exempt va excused individual tanlash kerakligi uchun bulk'da ko'rsatmaymiz
-  (s) => s === "present" || s === "absent" || s === "late",
-);
+// Range sudralayotganda qator yorqin bo'yaladi (fon rangi)
+const STATUS_ROW_PREVIEW = {
+  present: "bg-green-100",
+  absent: "bg-red-100",
+  excused: "bg-amber-100",
+  exempt: "bg-gray-200",
+  "": "bg-gray-100",
+};
+
+// ...va chap chetida rangli chiziq
+const STATUS_ACCENT = {
+  present: "border-l-4 border-green-500",
+  absent: "border-l-4 border-red-500",
+  excused: "border-l-4 border-amber-500",
+  exempt: "border-l-4 border-gray-500",
+  "": "border-l-4 border-gray-400",
+};
 
 const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
   const initial = useMemo(() => {
@@ -48,6 +69,14 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
     }
     return map;
   }, [data]);
+
+  // Guruhning dars kunlari (ogohlantirish matni uchun)
+  const classDaysLabel = useMemo(() => {
+    const days = [...new Set((data?.group?.schedule || []).map((s) => s.day))];
+    days.sort((a, b) => WEEK_ORDER.indexOf(a) - WEEK_ORDER.indexOf(b));
+    return days.map((d) => DAY_LABELS_UZ[d] || d).join(", ");
+  }, [data]);
+
   const [state, setState] = useState(initial);
   // Data o'zgarsa state'ni reset qilamiz — render-time sync (effekt'siz)
   const [lastInitial, setLastInitial] = useState(initial);
@@ -56,14 +85,56 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
     setState(initial);
   }
 
+  // Bosib-sudrab (range) belgilash holati: { status, start, end } (indekslar)
+  const [drag, setDrag] = useState(null);
+
+  // Sudrash (mouse + touch): pointer eventlar bilan ishlaydi. Barmoq/sichqoncha
+  // qaysi qator ustida ekanini elementFromPoint orqali aniqlaymiz; qo'yib
+  // yuborilganda oraliqdagi barcha talabaga status beriladi.
+  // drag o'zgarganda qayta obuna bo'lamiz — handler eng so'nggi qiymatlarni ko'radi.
+  useEffect(() => {
+    if (!drag || !data) return undefined;
+    const idxAt = (x, y) => {
+      const el = document.elementFromPoint(x, y)?.closest?.("[data-idx]");
+      const i = el ? Number(el.dataset.idx) : NaN;
+      return Number.isNaN(i) ? null : i;
+    };
+    const onMove = (e) => {
+      if (e.cancelable) e.preventDefault(); // touch'da sahifa scroll bo'lmasin
+      const i = idxAt(e.clientX, e.clientY);
+      if (i !== null) setDrag((d) => (d && d.end !== i ? { ...d, end: i } : d));
+    };
+    const onUp = () => {
+      const lo = Math.min(drag.start, drag.end);
+      const hi = Math.max(drag.start, drag.end);
+      setState((prev) => {
+        const next = { ...prev };
+        for (let i = lo; i <= hi && i < data.rows.length; i++) {
+          const r = data.rows[i];
+          // auto-exempt qatorlarga tegmaymiz (setAll bilan bir xil qoida)
+          if (!r || r.defaultStatus === "exempt") continue;
+          next[String(r.student._id)] = {
+            status: drag.status,
+            reason: "",
+            lateMinutes: 0,
+          };
+        }
+        return next;
+      });
+      setDrag(null);
+    };
+    window.addEventListener("pointermove", onMove, { passive: false });
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+  }, [drag, data]);
+
   if (!data) return null;
-  if (!data.isClassDay) {
-    return (
-      <div className="border rounded-md p-8 text-center text-muted-foreground bg-white">
-        Bu kun guruh uchun dars kuni emas.
-      </div>
-    );
-  }
+  // Dars kuni bo'lmasa ham belgilash mumkin — pastda ogohlantirish ko'rsatiladi
   if ((data.rows || []).length === 0) {
     return (
       <div className="border rounded-md p-8 text-center text-muted-foreground bg-white">
@@ -71,6 +142,17 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
       </div>
     );
   }
+
+  // Dars kuni bo'lmasa belgilash bloklanadi (faqat dars kunlari belgilanadi)
+  const locked = !data.isClassDay;
+
+  // Statusni bosib-sudrashni boshlaydi
+  const startDrag = (index, status) => {
+    if (locked || isSubmitting) return;
+    setDrag({ status, start: index, end: index });
+  };
+  const dragLo = drag ? Math.min(drag.start, drag.end) : -1;
+  const dragHi = drag ? Math.max(drag.start, drag.end) : -1;
 
   const dirtyCount = (data.rows || []).reduce((acc, r) => {
     const sid = String(r.student._id);
@@ -90,16 +172,6 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
           reason: "",
           lateMinutes: 0,
         };
-      }
-      return next;
-    });
-  };
-
-  const clearAll = () => {
-    setState(() => {
-      const next = {};
-      for (const r of data.rows) {
-        next[String(r.student._id)] = { status: "", reason: "", lateMinutes: 0 };
       }
       return next;
     });
@@ -127,38 +199,24 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
 
   return (
     <div className="space-y-3">
+      {!data.isClassDay && (
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-700">
+          Bu kun guruh jadvalida dars kuni emas
+          {classDaysLabel ? ` (dars kunlari: ${classDaysLabel})` : ""}. Davomat
+          faqat dars kunlari belgilanadi.
+        </div>
+      )}
       {/* Sticky action panel */}
       <div className="sticky top-0 z-20 -mx-1 px-1 py-2 bg-white/80 backdrop-blur-sm border-b border-gray-200">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-xs text-muted-foreground mr-1 hidden sm:inline">
+          <div className="flex basis-full sm:basis-auto sm:flex-1 flex-wrap items-center gap-2 min-w-0">
+            <span className="text-xs text-muted-foreground hidden sm:inline">
               Hammaga:
             </span>
-            {BULK_ACTIONS.map((s) => (
-              <button
-                key={s}
-                type="button"
-                disabled={isSubmitting}
-                onClick={() => setAll(s)}
-                className={cn(
-                  "inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-opacity hover:opacity-80 disabled:opacity-50",
-                  STATUS_BADGE_CLASS[s],
-                )}
-              >
-                {STATUS_LABEL[s]}
-              </button>
-            ))}
-            <button
-              type="button"
-              disabled={isSubmitting}
-              onClick={clearAll}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium border border-gray-200 text-muted-foreground hover:bg-gray-50 disabled:opacity-50"
-            >
-              Tozalash
-            </button>
+            <BulkStatusSlider onPick={setAll} disabled={isSubmitting || locked} />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
             {dirtyCount > 0 && (
               <Badge variant="outline" className="text-amber-600">
                 {dirtyCount} ta o'zgartirish
@@ -172,53 +230,71 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
             >
               Bekor qilish
             </Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
+            <Button onClick={handleSubmit} disabled={isSubmitting || locked}>
               {isSubmitting ? "Saqlanmoqda..." : "Saqlash"}
             </Button>
           </div>
         </div>
-        <div className="mt-2">
+        {/* Legend + maslahat — mobil ekranda ortiqcha, faqat sm+ da ko'rsatamiz */}
+        <div className="mt-2 hidden flex-wrap items-center gap-x-3 gap-y-1 sm:flex">
           <AttendanceLegend />
+          {!locked && (
+            <span className="text-xs text-muted-foreground">
+              Maslahat: statusni bosib (mobilda — bosib turib) qatorlar ustidan
+              suring — bir nechta talabani birdaniga belgilaysiz
+            </span>
+          )}
         </div>
       </div>
 
-      <div className="border rounded-md overflow-hidden bg-white">
-        <table className="w-full text-sm">
-          <thead className="text-left bg-gray-50 text-xs uppercase tracking-wide text-muted-foreground">
-            <tr>
-              <th className="px-4 py-2.5 font-semibold w-10">#</th>
-              <th className="px-4 py-2.5 font-semibold">Talaba</th>
-              <th className="px-4 py-2.5 font-semibold hidden md:table-cell">Telefon</th>
-              <th className="px-4 py-2.5 font-semibold">Status / Qo'shimcha</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.rows.map((r, i) => {
-              const sid = String(r.student._id);
-              const cur = state[sid] || {};
-              return (
-                <tr key={sid} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-2.5 text-muted-foreground">{i + 1}</td>
-                  <td className="px-4 py-2.5">
+      <div
+        className={cn(
+          "border rounded-md overflow-hidden bg-white divide-y text-sm",
+          drag && "select-none touch-none",
+        )}
+      >
+        {data.rows.map((r, i) => {
+          const sid = String(r.student._id);
+          const cur = state[sid] || {};
+          // Sudrash oralig'idami (auto-exempt qatorlar oraliqdan chiqariladi)
+          const inDrag =
+            !!drag && i >= dragLo && i <= dragHi && r.defaultStatus !== "exempt";
+          return (
+            <div
+              key={sid}
+              data-idx={i}
+              className={cn(
+                "flex flex-col gap-2 p-3 transition-colors sm:flex-row sm:items-center sm:gap-4",
+                inDrag
+                  ? cn(STATUS_ROW_PREVIEW[drag.status], STATUS_ACCENT[drag.status])
+                  : "hover:bg-gray-50",
+              )}
+            >
+              <div className="flex items-center gap-3 sm:w-60 sm:shrink-0">
+                <span className="w-5 shrink-0 text-xs text-muted-foreground">
+                  {i + 1}
+                </span>
+                <div className="min-w-0">
+                  <div className="font-medium truncate">
                     {r.student.firstName} {r.student.lastName}
-                  </td>
-                  <td className="px-4 py-2.5 text-muted-foreground hidden md:table-cell">
+                  </div>
+                  <div className="text-xs text-muted-foreground">
                     {formatPhone(r.student.phone) || "-"}
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <AttendanceMarker
-                      value={cur}
-                      onChange={(v) =>
-                        setState((prev) => ({ ...prev, [sid]: v }))
-                      }
-                      disabled={isSubmitting}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  </div>
+                </div>
+              </div>
+              <div className="sm:flex-1">
+                <AttendanceMarker
+                  value={cur}
+                  onChange={(v) => setState((prev) => ({ ...prev, [sid]: v }))}
+                  onRangeStart={(s) => startDrag(i, s)}
+                  previewStatus={inDrag ? drag.status : null}
+                  disabled={isSubmitting || locked}
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

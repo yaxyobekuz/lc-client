@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "@/shared/components/ui/card/Card";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import { formatDateUz } from "@/shared/utils/formatDate";
@@ -11,6 +11,7 @@ import ResolveModal from "../components/modals/ResolveModal";
 import RejectModal from "../components/modals/RejectModal";
 import { useFeedbackDetailQuery } from "../hooks/useFeedbackQueries";
 import BackLink from "@/shared/components/ui/link/BackLink";
+import useGoBack from "@/shared/hooks/useGoBack";
 
 const InfoRow = ({ label, children }) => (
   <div className="flex justify-between gap-3 text-sm">
@@ -21,6 +22,7 @@ const InfoRow = ({ label, children }) => (
 
 const FeedbackDetailPage = () => {
   const { id } = useParams();
+  const goBack = useGoBack("/owner/feedback");
   const { data: f, isLoading } = useFeedbackDetailQuery(id);
 
   if (isLoading) {
@@ -34,9 +36,13 @@ const FeedbackDetailPage = () => {
     return (
       <div className="p-8 text-center">
         <p className="text-muted-foreground mb-4">Feedback topilmadi</p>
-        <Link to="/owner/feedback" className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-blue-600 hover:underline cursor-pointer"
+        >
           Feedback ro'yxatiga qaytish
-        </Link>
+        </button>
       </div>
     );
   }

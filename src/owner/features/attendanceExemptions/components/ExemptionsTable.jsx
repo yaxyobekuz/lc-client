@@ -44,7 +44,11 @@ const ExemptionsTable = ({ studentId }) => {
             <tr key={ex._id} className="border-t">
               <td className="px-4 py-2">{formatDateUz(ex.startDate)}</td>
               <td className="px-4 py-2">
-                {ex.endDate ? formatDateUz(ex.endDate) : "Doimiy"}
+                {ex.endDate ? (
+                  formatDateUz(ex.endDate)
+                ) : (
+                  <span className="text-muted-foreground">Kurs tugaguncha</span>
+                )}
               </td>
               <td className="px-4 py-2">
                 {!ex.daysOfWeek || ex.daysOfWeek.length === 0

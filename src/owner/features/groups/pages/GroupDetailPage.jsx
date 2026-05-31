@@ -1,5 +1,5 @@
 // Router
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Icons
 import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
@@ -24,6 +24,7 @@ import { PaymentRecordModal } from "@/owner/features/payments";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
+import useGoBack from "@/shared/hooks/useGoBack";
 import useGroupQuery from "../hooks/useGroupQuery";
 
 // Constants
@@ -37,6 +38,7 @@ import BackLink from "@/shared/components/ui/link/BackLink";
 const GroupDetailPage = () => {
   const { id } = useParams();
   const { openModal } = useModal();
+  const goBack = useGoBack("/owner/groups");
   const { data: group, isLoading, isError } = useGroupQuery(id);
 
   if (isLoading) {
@@ -51,9 +53,13 @@ const GroupDetailPage = () => {
     return (
       <div className="p-8 text-center">
         <p className="text-muted-foreground mb-4">Guruh topilmadi</p>
-        <Link to="/owner/groups" className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-blue-600 hover:underline cursor-pointer"
+        >
           Guruhlar ro'yxatiga qaytish
-        </Link>
+        </button>
       </div>
     );
   }

@@ -9,6 +9,7 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import { calculateAge } from "@/shared/utils/calculateAge";
 import useModal from "@/shared/hooks/useModal";
+import useGoBack from "@/shared/hooks/useGoBack";
 import { MODAL } from "@/shared/constants/modals";
 
 import LeadActionsBar from "../components/LeadActionsBar";
@@ -34,6 +35,7 @@ const InfoRow = ({ label, value }) => (
 const LeadDetailPage = () => {
   const { id } = useParams();
   const { openModal } = useModal();
+  const goBack = useGoBack("/owner/leads");
   const { data: lead, isLoading } = useLeadDetailQuery(id);
 
   if (isLoading) {
@@ -47,9 +49,13 @@ const LeadDetailPage = () => {
     return (
       <div className="p-8 text-center">
         <p className="text-muted-foreground mb-4">Lid topilmadi</p>
-        <Link to="/owner/leads" className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-blue-600 hover:underline cursor-pointer"
+        >
           Lidlar ro'yxatiga qaytish
-        </Link>
+        </button>
       </div>
     );
   }

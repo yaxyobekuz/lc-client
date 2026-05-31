@@ -85,18 +85,18 @@ const PaymentsTable = ({ items = [], showStudent = true, showActions = true }) =
                 </td>
               )}
               <td className="px-4 py-3 text-right tabular-nums font-medium">
-                <span className={p.type === "refund" ? "text-red-600" : ""}>
+                <span className={p.type === "refund" ? "text-rose-500" : ""}>
                   {p.type === "refund" ? "−" : ""}
                   {formatMoney(p.amount)}
                 </span>
               </td>
               <td className="px-4 py-3">
                 {p.type === "refund" ? (
-                  <Badge variant="outline" className="text-red-600 border-red-200">
+                  <Badge variant="outline" className="text-rose-500 border-rose-200">
                     Qaytarilgan
                   </Badge>
                 ) : (
-                  <Badge className="bg-green-100 text-green-700">To'lov</Badge>
+                  <Badge className="bg-emerald-100 text-emerald-700">To'lov</Badge>
                 )}
               </td>
               <td className="px-4 py-3 truncate">{p.method?.name || "-"}</td>

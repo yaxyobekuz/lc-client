@@ -43,7 +43,7 @@ const PaymentsListPage = () => {
           },
           {
             value: "reports",
-            label: "Hisobotlar",
+            label: "Statistikalar",
             content: <ReportsTab />,
           },
         ]}

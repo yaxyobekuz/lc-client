@@ -1,6 +1,7 @@
 import useObjectState from "@/shared/hooks/useObjectState";
 import InputField from "@/shared/components/ui/input/InputField";
 import Button from "@/shared/components/ui/button/Button";
+import Switch from "@/shared/components/ui/switch/Switch";
 import DateRangeSlider from "@/shared/components/ui/dateSlider/DateRangeSlider";
 import { toDateInput } from "@/shared/utils/formatDate";
 import DaysOfWeekToggle from "./DaysOfWeekToggle";
@@ -12,6 +13,8 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
   const obj = useObjectState({
     startDate: today,
     endDate: today,
+    // Standart holat — kurs tugaguncha (muddatsiz) ozod
+    untilCourseEnd: true,
     daysOfWeek: [],
     reason: "",
   });
@@ -31,7 +34,8 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
     mutate({
       student: studentId,
       startDate: obj.startDate,
-      endDate: obj.endDate || null,
+      // Muddatsiz bo'lsa endDate yo'q — barcha guruhlarda avtomatik ozod bo'ladi
+      endDate: obj.untilCourseEnd ? null : obj.endDate || null,
       daysOfWeek: obj.daysOfWeek,
       reason: obj.reason,
     });
@@ -39,14 +43,39 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <DateRangeSlider
-        startValue={obj.startDate}
-        endValue={obj.endDate}
-        onChange={({ startDate, endDate }) =>
-          obj.setFields({ startDate, endDate })
-        }
-        disabled={isLoading}
-      />
+      <div className="flex items-start justify-between gap-3 rounded-lg border border-border/60 bg-muted/20 p-3">
+        <div>
+          <p className="text-sm font-medium">Kurs tugaguncha (muddatsiz)</p>
+          <p className="text-xs text-muted-foreground">
+            Tugash sanasiz — talaba barcha guruhlarida avtomatik ozod bo'ladi
+          </p>
+        </div>
+        <Switch
+          checked={obj.untilCourseEnd}
+          onChange={(checked) => obj.setField("untilCourseEnd", checked)}
+          disabled={isLoading}
+        />
+      </div>
+
+      {obj.untilCourseEnd ? (
+        <InputField
+          type="date"
+          name="startDate"
+          label="Boshlanish sanasi"
+          value={obj.startDate}
+          onChange={(e) => obj.setField("startDate", e.target.value)}
+          disabled={isLoading}
+        />
+      ) : (
+        <DateRangeSlider
+          startValue={obj.startDate}
+          endValue={obj.endDate}
+          onChange={({ startDate, endDate }) =>
+            obj.setFields({ startDate, endDate })
+          }
+          disabled={isLoading}
+        />
+      )}
 
       <DaysOfWeekToggle
         value={obj.daysOfWeek}

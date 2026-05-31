@@ -1,6 +1,7 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "@/shared/components/ui/card/Card";
 import BackLink from "@/shared/components/ui/link/BackLink";
+import useGoBack from "@/shared/hooks/useGoBack";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import { AUDIENCE_TYPE_LABEL } from "@/shared/constants/notification";
 
@@ -20,6 +21,7 @@ const InfoRow = ({ label, children }) => (
 
 const NotificationDetailPage = () => {
   const { id } = useParams();
+  const goBack = useGoBack("/owner/notifications");
   const { data: notif, isLoading } = useNotificationDetailQuery(id);
   const { data: recipientsData } = useNotificationRecipientsQuery(id, {
     limit: 200,
@@ -37,12 +39,13 @@ const NotificationDetailPage = () => {
     return (
       <div className="p-8 text-center">
         <p className="text-muted-foreground mb-4">Xabar topilmadi</p>
-        <Link
-          to="/owner/notifications"
-          className="text-blue-600 hover:underline"
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-blue-600 hover:underline cursor-pointer"
         >
           Bildirishnomalarga qaytish
-        </Link>
+        </button>
       </div>
     );
   }

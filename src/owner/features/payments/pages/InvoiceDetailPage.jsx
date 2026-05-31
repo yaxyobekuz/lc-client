@@ -6,6 +6,7 @@ import BackLink from "@/shared/components/ui/link/BackLink";
 import Card from "@/shared/components/ui/card/Card";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import useModal from "@/shared/hooks/useModal";
+import useGoBack from "@/shared/hooks/useGoBack";
 
 import InvoiceStatusBadge from "../components/InvoiceStatusBadge";
 import PaymentsTable from "../components/PaymentsTable";
@@ -28,6 +29,7 @@ const formatPeriod = (p) => {
 const InvoiceDetailPage = () => {
   const { id } = useParams();
   const { openModal } = useModal();
+  const goBack = useGoBack("/owner/payments");
   const { data: invoice, isLoading, isError } = useInvoiceQuery(id);
 
   if (isLoading) {
@@ -39,9 +41,13 @@ const InvoiceDetailPage = () => {
     return (
       <div className="p-8 text-center">
         <p className="text-muted-foreground mb-4">Hisob topilmadi</p>
-        <Link to="/owner/payments" className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={goBack}
+          className="text-primary hover:underline cursor-pointer"
+        >
           Orqaga
-        </Link>
+        </button>
       </div>
     );
   }
@@ -81,7 +87,7 @@ const InvoiceDetailPage = () => {
           {isOpen && (
             <Button
               variant="outline"
-              className="text-red-600"
+              className="text-rose-500"
               onClick={() => openModal(MODAL.INVOICE_CANCEL, { invoice })}
             >
               <Trash2 className="size-4" />
@@ -127,7 +133,7 @@ const InvoiceDetailPage = () => {
         </div>
         <div>
           <p className="text-xs text-muted-foreground">Chegirma</p>
-          <p className="text-lg font-semibold text-blue-600">
+          <p className="text-lg font-semibold text-sky-600">
             −{formatMoney(invoice.discountAmount)}
           </p>
         </div>
@@ -138,7 +144,7 @@ const InvoiceDetailPage = () => {
         <div>
           <p className="text-xs text-muted-foreground">Qoldiq</p>
           <p
-            className={`text-lg font-semibold ${remaining > 0 ? "text-red-600" : "text-green-600"}`}
+            className={`text-lg font-semibold ${remaining > 0 ? "text-rose-500" : "text-emerald-600"}`}
           >
             {formatMoney(remaining)}
           </p>

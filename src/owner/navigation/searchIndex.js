@@ -85,16 +85,6 @@ export const SEARCH_INDEX = [
     permission: "attendance.read",
   },
   {
-    title: "Davomat × To'lov",
-    description: "Talabaning davomat foizi va to'lov qarzdorligi bog'liqligi",
-    keywords:
-      "davomat, to'lov, correlation, attendance, payment, qarz, bog'liqlik",
-    url: "/owner/attendance/correlation",
-    icon: BarChart3,
-    category: "Davomat",
-    permission: "attendance.read",
-  },
-  {
     title: "Davomat sozlamalari",
     description: "Past davomat chegarasi, ketma-ket kelmaslik ogohlantirishi",
     keywords:

@@ -15,6 +15,7 @@ export { default as PaymentRefundModal } from "./components/modals/PaymentRefund
 export { default as InvoiceCreateModal } from "./components/modals/InvoiceEditModal"; // placeholder
 export { default as InvoiceCancelModal } from "./components/modals/InvoiceCancelModal";
 export { default as InvoiceEditModal } from "./components/modals/InvoiceEditModal";
+export { default as InvoicePaymentsModal } from "./components/modals/InvoicePaymentsModal";
 
 // hooks
 export { default as useInvoicesQuery } from "./hooks/useInvoicesQuery";

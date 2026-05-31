@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { TrendingUp, Users, AlertTriangle, CalendarDays } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import useObjectState from "@/shared/hooks/useObjectState";
@@ -11,13 +12,29 @@ import GroupBreakdownTable from "../components/GroupBreakdownTable";
 import GroupMonthlyMatrix from "../components/GroupMonthlyMatrix";
 import useDashboardQuery from "../hooks/useDashboardQuery";
 
+const StatCard = ({ icon: Icon, iconClass, label, value, valueClass = "text-gray-900", hint }) => (
+  <Card className="flex items-center gap-3">
+    <span className={`grid place-items-center size-10 shrink-0 rounded-lg ${iconClass}`}>
+      <Icon className="size-5" />
+    </span>
+    <div className="min-w-0">
+      <p className="text-sm text-muted-foreground">{label}</p>
+      <p className={`text-2xl font-semibold leading-tight ${valueClass}`}>{value}</p>
+      {hint && <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>}
+    </div>
+  </Card>
+);
+
 const DashboardSkeleton = () => (
   <div className="space-y-4">
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
       {Array.from({ length: 4 }).map((_, i) => (
-        <Card key={i}>
-          <Skeleton className="h-4 w-24 mb-2" />
-          <Skeleton className="h-8 w-16" />
+        <Card key={i} className="flex items-center gap-3">
+          <Skeleton className="size-10 rounded-lg shrink-0" />
+          <div className="flex-1">
+            <Skeleton className="h-4 w-24 mb-2" />
+            <Skeleton className="h-7 w-16" />
+          </div>
         </Card>
       ))}
     </div>
@@ -47,9 +64,17 @@ const buildRange = (year, month) => {
   return { fromDate, toDate };
 };
 
+const GROUP_BREAKDOWN_LIMIT = 10;
+
 const OverallPanel = ({ year, month }) => {
   const range = useMemo(() => buildRange(year, month), [year, month]);
-  const { data, isLoading } = useDashboardQuery(range);
+  const [groupPage, setGroupPage] = useState(1);
+
+  const params = useMemo(
+    () => ({ ...range, page: groupPage, limit: GROUP_BREAKDOWN_LIMIT }),
+    [range, groupPage],
+  );
+  const { data, isLoading } = useDashboardQuery(params);
 
   if (isLoading) {
     return <DashboardSkeleton />;
@@ -65,31 +90,33 @@ const OverallPanel = ({ year, month }) => {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card>
-          <p className="text-sm text-muted-foreground">Umumiy davomat</p>
-          <p className="text-2xl font-semibold text-blue-600">
-            {data.overallRate !== null ? `${data.overallRate}%` : "-"}
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">Talabalar soni</p>
-          <p className="text-2xl font-semibold">{data.studentsCount || 0}</p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">Past davomatlilar</p>
-          <p className="text-2xl font-semibold text-red-600">
-            {data.lowAttendanceStudents?.length || 0}
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {data.threshold}% dan past
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-muted-foreground">Jami darslar</p>
-          <p className="text-2xl font-semibold">
-            {data.aggregate?.totalClasses || 0}
-          </p>
-        </Card>
+        <StatCard
+          icon={TrendingUp}
+          iconClass="bg-emerald-50 text-emerald-600"
+          label="Umumiy davomat"
+          value={data.overallRate !== null ? `${data.overallRate}%` : "-"}
+          valueClass="text-emerald-600"
+        />
+        <StatCard
+          icon={Users}
+          iconClass="bg-primary/10 text-primary"
+          label="Talabalar soni"
+          value={data.studentsCount || 0}
+        />
+        <StatCard
+          icon={AlertTriangle}
+          iconClass="bg-rose-50 text-rose-500"
+          label="Past davomatlilar"
+          value={data.lowAttendanceStudents?.length || 0}
+          valueClass="text-rose-500"
+          hint={`${data.threshold}% dan past`}
+        />
+        <StatCard
+          icon={CalendarDays}
+          iconClass="bg-slate-100 text-slate-500"
+          label="Jami darslar"
+          value={data.aggregate?.totalClasses || 0}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -100,7 +127,12 @@ const OverallPanel = ({ year, month }) => {
         <TopAbsentList items={data.topAbsent || []} />
       </div>
 
-      <GroupBreakdownTable items={data.groupBreakdown || []} />
+      <GroupBreakdownTable
+        items={data.groupBreakdown || []}
+        meta={data.groupBreakdownMeta}
+        page={groupPage}
+        onPageChange={setGroupPage}
+      />
     </div>
   );
 };
@@ -138,7 +170,9 @@ const AttendanceDashboardPage = () => {
           {
             value: "overall",
             label: "Umumiy",
-            content: <OverallPanel year={year} month={month} />,
+            content: (
+              <OverallPanel key={`overall-${year}-${month}`} year={year} month={month} />
+            ),
           },
           {
             value: "perGroup",

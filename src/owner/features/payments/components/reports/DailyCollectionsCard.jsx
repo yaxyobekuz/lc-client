@@ -29,7 +29,7 @@ const DailyCollectionsCard = () => {
           <div className="flex items-center justify-between mb-3 pb-3 border-b">
             <div>
               <p className="text-xs text-muted-foreground">Jami yig'ilgan</p>
-              <p className="text-xl font-semibold text-green-600">
+              <p className="text-xl font-semibold text-emerald-600">
                 {formatMoney(data.total)}
               </p>
             </div>

@@ -30,15 +30,15 @@ const MonthlyTrendChart = ({ items = [] }) => {
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <div className="h-2 bg-gray-100 rounded">
+                  <div className="h-2 bg-slate-100 rounded">
                     <div
-                      className="h-full bg-gray-300 rounded"
+                      className="h-full bg-slate-300 rounded"
                       style={{ width: `${plannedW}%` }}
                     />
                   </div>
-                  <div className="h-2 bg-gray-100 rounded">
+                  <div className="h-2 bg-slate-100 rounded">
                     <div
-                      className="h-full bg-green-500 rounded"
+                      className="h-full bg-emerald-400 rounded"
                       style={{ width: `${collectedW}%` }}
                     />
                   </div>
@@ -50,10 +50,10 @@ const MonthlyTrendChart = ({ items = [] }) => {
       )}
       <div className="flex items-center gap-3 text-xs text-muted-foreground mt-3 pt-3 border-t">
         <span className="flex items-center gap-1">
-          <span className="size-3 bg-gray-300 rounded-sm" /> Reja
+          <span className="size-3 bg-slate-300 rounded-sm" /> Reja
         </span>
         <span className="flex items-center gap-1">
-          <span className="size-3 bg-green-500 rounded-sm" /> Yig'ilgan
+          <span className="size-3 bg-emerald-400 rounded-sm" /> Yig'ilgan
         </span>
       </div>
     </Card>

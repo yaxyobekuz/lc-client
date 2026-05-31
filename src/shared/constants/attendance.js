@@ -1,11 +1,10 @@
 // Davomat status meta
-export const ATTENDANCE_STATUSES = ["present", "absent", "excused", "late", "exempt"];
+export const ATTENDANCE_STATUSES = ["present", "absent", "excused", "exempt"];
 
 export const STATUS_LABEL = {
   present: "Keldi",
   absent: "Kelmadi",
   excused: "Sababli",
-  late: "Kechikdi",
   exempt: "Ozod",
 };
 
@@ -13,15 +12,21 @@ export const STATUS_BADGE_CLASS = {
   present: "bg-green-100 text-green-700",
   absent: "bg-red-100 text-red-700",
   excused: "bg-amber-100 text-amber-700",
-  late: "bg-orange-100 text-orange-700",
   exempt: "bg-gray-100 text-gray-600",
+};
+
+// To'liq to'ldirilgan nuqta/katak ranglari (matritsada ko'rinarli bo'lsin)
+export const STATUS_DOT_CLASS = {
+  present: "bg-emerald-500",
+  absent: "bg-rose-500",
+  excused: "bg-amber-500",
+  exempt: "bg-slate-400",
 };
 
 export const STATUS_EMOJI = {
   present: "✓",
   absent: "✕",
   excused: "!",
-  late: "⏰",
   exempt: "-",
 };
 
