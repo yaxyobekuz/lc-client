@@ -8,6 +8,7 @@ export const groupsAPI = {
   create: (body) => http.post(ENDPOINTS.groups.base, body),
   update: (id, body) => http.patch(ENDPOINTS.groups.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.groups.byId(id)),
+  restore: (id) => http.post(`${ENDPOINTS.groups.byId(id)}/restore`),
 
   addStudent: (id, studentId) =>
     http.post(ENDPOINTS.groups.students(id), { studentId }),

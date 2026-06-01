@@ -43,7 +43,21 @@ export const useExpenseRemoveMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.expenses.all() });
       qc.invalidateQueries({ queryKey: ["adminDashboard"] });
-      toast.success("O'chirildi");
+      toast.success("Arxivlandi");
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: handleErr,
+  });
+};
+
+export const useExpenseRestoreMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => expensesAPI.restore(id).then((r) => r.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.expenses.all() });
+      qc.invalidateQueries({ queryKey: ["adminDashboard"] });
+      toast.success("Tiklandi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: handleErr,

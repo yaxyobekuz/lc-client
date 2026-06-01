@@ -9,6 +9,7 @@ import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
+import ArchiveToggle from "@/shared/components/ui/archive/ArchiveToggle";
 import GroupCard from "../components/GroupCard";
 import GroupCreateModal from "../components/modals/GroupCreateModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
@@ -24,11 +25,13 @@ const LIMIT = 24;
 
 const GroupsListPage = () => {
   const [search, setSearch] = useState("");
+  const [archived, setArchived] = useState(false);
   const [page, setPage] = useState(1);
   const { openModal } = useModal();
 
   const { data, isLoading } = useGroupsListQuery({
     search,
+    archived: archived ? "1" : undefined,
     page,
     limit: LIMIT,
   });
@@ -39,7 +42,16 @@ const GroupsListPage = () => {
   return (
     <div className="space-y-4">
       {/* Title */}
-      <h1 className="text-2xl font-semibold">Guruhlar</h1>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold">Guruhlar</h1>
+        <ArchiveToggle
+          value={archived}
+          onChange={(v) => {
+            setArchived(v);
+            setPage(1);
+          }}
+        />
+      </div>
 
       <div className="flex flex-col gap-4 sm:flex-row">
         <InputField
@@ -53,10 +65,12 @@ const GroupsListPage = () => {
           }}
         />
 
-        <Button onClick={() => openModal(MODAL.GROUP_CREATE)}>
-          <Plus className="size-4" />
-          Yangi guruh
-        </Button>
+        {!archived && (
+          <Button onClick={() => openModal(MODAL.GROUP_CREATE)}>
+            <Plus className="size-4" />
+            Yangi guruh
+          </Button>
+        )}
       </div>
 
       {isLoading && (
@@ -76,7 +90,7 @@ const GroupsListPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {groups.map((g) => (
-          <GroupCard key={g._id} group={g} />
+          <GroupCard key={g._id} group={g} archived={archived} />
         ))}
       </div>
 
@@ -97,7 +111,7 @@ const GroupsListPage = () => {
       >
         <GroupCreateModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni o'chirish">
+      <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni arxivlash">
         <GroupDeleteModal />
       </ModalWrapper>
     </div>

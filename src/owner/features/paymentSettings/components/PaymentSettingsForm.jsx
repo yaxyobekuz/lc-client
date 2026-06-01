@@ -56,6 +56,7 @@ const PaymentSettingsForm = ({ settings }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid items-start gap-4 lg:grid-cols-2">
       <Card className="space-y-3">
         <h3 className="font-semibold">Umumiy</h3>
         <InputField
@@ -110,7 +111,7 @@ const PaymentSettingsForm = ({ settings }) => {
         />
       </Card>
 
-      <Card className="space-y-3">
+      <Card className="space-y-3 lg:col-span-2">
         <h3 className="font-semibold">O'qituvchi kelmagan kun</h3>
         <p className="text-sm text-muted-foreground">
           O'qituvchi darsga kelmasa, o'quvchining shu oygi hisobidan 1 dars haqi
@@ -135,6 +136,7 @@ const PaymentSettingsForm = ({ settings }) => {
           />
         )}
       </Card>
+      </div>
 
       <div className="flex justify-end">
         <Button type="submit" disabled={isPending}>

@@ -7,4 +7,5 @@ export const leadStatusesAPI = {
   create: (body) => http.post(ENDPOINTS.leadStatuses.base, body),
   update: (id, body) => http.patch(ENDPOINTS.leadStatuses.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.leadStatuses.byId(id)),
+  setDefault: (id) => http.post(ENDPOINTS.leadStatuses.setDefault(id)),
 };

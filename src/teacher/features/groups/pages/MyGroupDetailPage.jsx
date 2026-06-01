@@ -12,8 +12,10 @@ import Badge from "@/shared/components/ui/badge/Badge";
 import useGoBack from "@/shared/hooks/useGoBack";
 import useGroupQuery from "../hooks/useGroupQuery";
 
+// Components
+import ScheduleCards from "@/shared/components/schedule/ScheduleCards";
+
 // Utils
-import { formatSchedule } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatPhone } from "@/shared/utils/formatPhone";
 
@@ -56,12 +58,14 @@ const MyGroupDetailPage = () => {
         <Badge variant="secondary">{students.length} o'quvchi</Badge>
       </div>
 
-      <Card className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Card className="space-y-4">
         <div>
-          <p className="text-xs text-muted-foreground">Dars jadvali</p>
-          <p className="font-medium">{formatSchedule(group.schedule)}</p>
+          <p className="mb-2 text-xs font-medium text-muted-foreground">
+            Dars jadvali
+          </p>
+          <ScheduleCards schedule={group.schedule} />
         </div>
-        <div>
+        <div className="border-t border-border/60 pt-3">
           <p className="text-xs text-muted-foreground">Oylik narx</p>
           <p className="font-medium">{formatMoney(group.monthlyPrice)}</p>
         </div>

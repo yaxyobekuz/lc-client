@@ -8,8 +8,10 @@ import Badge from "@/shared/components/ui/badge/Badge";
 // Hooks
 import useMyGroupsQuery from "../hooks/useMyGroupsQuery";
 
+// Components
+import ScheduleCards from "@/shared/components/schedule/ScheduleCards";
+
 // Utils
-import { formatSchedule } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
 
 const MyGroupsPage = () => {
@@ -42,12 +44,9 @@ const MyGroupsPage = () => {
                 <h3 className="font-semibold text-base">{g.name}</h3>
                 <Badge variant="secondary">{g.studentsCount || 0} o'quvchi</Badge>
               </div>
-              <div className="text-sm text-muted-foreground space-y-1">
-                <div>
-                  <span className="font-medium text-foreground">Dars:</span>{" "}
-                  {formatSchedule(g.schedule)}
-                </div>
-                <div>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <ScheduleCards schedule={g.schedule} />
+                <div className="border-t border-border/60 pt-2">
                   <span className="font-medium text-foreground">Oylik narx:</span>{" "}
                   {formatMoney(g.monthlyPrice)}
                 </div>

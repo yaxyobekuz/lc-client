@@ -4,6 +4,7 @@ import Button from "@/shared/components/ui/button/Button";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import ErrorState from "@/shared/components/ui/feedback/ErrorState";
+import ArchiveToggle from "@/shared/components/ui/archive/ArchiveToggle";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
@@ -24,6 +25,7 @@ const ExpensesListPage = () => {
     fromDate: "",
     toDate: "",
   });
+  const [archived, setArchived] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 20;
 
@@ -31,6 +33,7 @@ const ExpensesListPage = () => {
     type: filters.type || undefined,
     fromDate: filters.fromDate || undefined,
     toDate: filters.toDate || undefined,
+    archived: archived ? "1" : undefined,
     page,
     limit,
   };
@@ -60,10 +63,21 @@ const ExpensesListPage = () => {
             Markaz xarajatlarini turi bo'yicha kuzating
           </p>
         </div>
-        <Button onClick={() => openModal(MODAL.EXPENSE_CREATE)}>
-          <Plus className="size-4" />
-          Yangi xarajat
-        </Button>
+        <div className="flex items-center gap-2">
+          <ArchiveToggle
+            value={archived}
+            onChange={(v) => {
+              setArchived(v);
+              setPage(1);
+            }}
+          />
+          {!archived && (
+            <Button onClick={() => openModal(MODAL.EXPENSE_CREATE)}>
+              <Plus className="size-4" />
+              Yangi xarajat
+            </Button>
+          )}
+        </div>
       </header>
 
       {stats && (
@@ -99,7 +113,7 @@ const ExpensesListPage = () => {
         </div>
       ) : (
         <>
-          <ExpensesTable items={items} />
+          <ExpensesTable items={items} archived={archived} />
           {totalPages > 1 && (
             <Pagination
               currentPage={page}
@@ -118,7 +132,7 @@ const ExpensesListPage = () => {
       <ModalWrapper name={MODAL.EXPENSE_EDIT} title="Xarajatni tahrirlash">
         <ExpenseEditModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.EXPENSE_DELETE} title="Xarajatni o'chirish">
+      <ModalWrapper name={MODAL.EXPENSE_DELETE} title="Xarajatni arxivlash">
         <ExpenseDeleteModal />
       </ModalWrapper>
     </div>

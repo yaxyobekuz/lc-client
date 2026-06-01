@@ -7,4 +7,5 @@ export const leadSourcesAPI = {
   create: (body) => http.post(ENDPOINTS.leadSources.base, body),
   update: (id, body) => http.patch(ENDPOINTS.leadSources.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.leadSources.byId(id)),
+  setDefault: (id) => http.post(ENDPOINTS.leadSources.setDefault(id)),
 };

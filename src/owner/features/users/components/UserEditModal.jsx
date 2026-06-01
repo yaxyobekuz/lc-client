@@ -22,9 +22,6 @@ const buildInitial = (user) => ({
   gender: user?.gender || "",
 
   // student
-  address: user?.address || "",
-  parentName: user?.parentName || "",
-  parentPhone: user?.parentPhone || "",
   enrolledAt: toDateInput(user?.enrolledAt),
   leadSource:
     typeof user?.leadSource === "object" && user?.leadSource
@@ -56,14 +53,11 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
       firstName: obj.firstName.trim(),
       lastName: obj.lastName.trim(),
       phone: obj.phone || undefined,
-      birthDate: obj.birthDate || null,
       gender: obj.gender || null,
     };
+    if (!isStudent) body.birthDate = obj.birthDate || null;
 
     if (isStudent) {
-      body.address = obj.address;
-      body.parentName = obj.parentName;
-      body.parentPhone = obj.parentPhone;
       body.enrolledAt = obj.enrolledAt || null;
       body.leadSource = obj.leadSource || null;
     }
@@ -107,16 +101,7 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
         disabled={isLoading}
       />
 
-      <div className="grid grid-cols-2 gap-3">
-        <InputField
-          type="date"
-          name="birthDate"
-          label="Tug'ilgan sana"
-          value={obj.birthDate}
-          max={today}
-          onChange={(e) => obj.setField("birthDate", e.target.value)}
-          disabled={isLoading}
-        />
+      {isStudent ? (
         <SelectField
           label="Jinsi"
           value={obj.gender}
@@ -125,34 +110,30 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
           placeholder="Tanlang"
           disabled={isLoading}
         />
-      </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          <InputField
+            type="date"
+            name="birthDate"
+            label="Tug'ilgan sana"
+            value={obj.birthDate}
+            max={today}
+            onChange={(e) => obj.setField("birthDate", e.target.value)}
+            disabled={isLoading}
+          />
+          <SelectField
+            label="Jinsi"
+            value={obj.gender}
+            onChange={(v) => obj.setField("gender", v)}
+            options={GENDER_OPTIONS}
+            placeholder="Tanlang"
+            disabled={isLoading}
+          />
+        </div>
+      )}
 
       {isStudent && (
         <>
-          <InputField
-            name="address"
-            label="Manzil"
-            value={obj.address}
-            onChange={(e) => obj.setField("address", e.target.value)}
-            disabled={isLoading}
-          />
-          <div className="grid grid-cols-2 gap-3">
-            <InputField
-              name="parentName"
-              label="Ota-ona ismi"
-              value={obj.parentName}
-              onChange={(e) => obj.setField("parentName", e.target.value)}
-              disabled={isLoading}
-            />
-            <InputField
-              type="tel"
-              name="parentPhone"
-              label="Ota-ona telefoni"
-              value={obj.parentPhone}
-              onChange={(e) => obj.setField("parentPhone", e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
           <InputField
             type="date"
             name="enrolledAt"
@@ -163,6 +144,7 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
             disabled={isLoading}
           />
           <LeadSourcePicker
+            label="Qayerdan eshitdingiz?"
             value={obj.leadSource}
             onChange={(v) => obj.setField("leadSource", v)}
             disabled={isLoading}

@@ -15,7 +15,8 @@ const ExpenseDeleteModal = ({ expense, close, isLoading, setIsLoading }) => {
     <div className="space-y-4">
       <p className="text-sm">
         <span className="font-semibold">{formatMoney(expense?.amount)}</span>{" "}
-        miqdoridagi xarajat o'chiriladi. Bu amal qaytarib bo'lmaydi.
+        miqdoridagi xarajat arxivga o'tkaziladi. Uni keyin "Arxiv" bo'limidan
+        tiklash mumkin.
       </p>
       <div className="flex gap-2">
         <Button
@@ -37,7 +38,7 @@ const ExpenseDeleteModal = ({ expense, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
           className="flex-1"
         >
-          {isLoading ? "O'chirilmoqda..." : "O'chirish"}
+          {isLoading ? "Arxivlanmoqda..." : "Arxivlash"}
         </Button>
       </div>
     </div>

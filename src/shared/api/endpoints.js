@@ -17,6 +17,7 @@ export const ENDPOINTS = Object.freeze({
   leadSources: {
     base: "/lead-sources",
     byId: (id) => `/lead-sources/${id}`,
+    setDefault: (id) => `/lead-sources/${id}/set-default`,
   },
   students: {
     base: "/students",
@@ -45,10 +46,12 @@ export const ENDPOINTS = Object.freeze({
   paymentMethods: {
     base: "/payment-methods",
     byId: (id) => `/payment-methods/${id}`,
+    setDefault: (id) => `/payment-methods/${id}/set-default`,
   },
   discountKinds: {
     base: "/discount-kinds",
     byId: (id) => `/discount-kinds/${id}`,
+    setDefault: (id) => `/discount-kinds/${id}/set-default`,
   },
   discounts: {
     base: "/discounts",
@@ -149,10 +152,12 @@ export const ENDPOINTS = Object.freeze({
   leadDirections: {
     base: "/lead-directions",
     byId: (id) => `/lead-directions/${id}`,
+    setDefault: (id) => `/lead-directions/${id}/set-default`,
   },
   leadStatuses: {
     base: "/lead-statuses",
     byId: (id) => `/lead-statuses/${id}`,
+    setDefault: (id) => `/lead-statuses/${id}/set-default`,
   },
   leadSettings: {
     base: "/lead-settings",
@@ -201,6 +206,7 @@ export const ENDPOINTS = Object.freeze({
   expenseTypes: {
     base: "/expense-types",
     byId: (id) => `/expense-types/${id}`,
+    setDefault: (id) => `/expense-types/${id}/set-default`,
   },
   activityLogs: {
     base: "/activity-logs",

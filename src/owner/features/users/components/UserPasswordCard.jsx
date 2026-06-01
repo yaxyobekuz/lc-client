@@ -24,7 +24,8 @@ import { ROLES } from "@/shared/constants/roles";
 const UserPasswordCard = ({ user }) => {
   const { isOwner } = useAuth();
   const { openModal } = useModal();
-  const [visible, setVisible] = useState(true);
+  // Parol default holatda yashirin — owner "ko'rsatish" tugmasi bilan ochadi
+  const [visible, setVisible] = useState(false);
 
   // Parol faqat owner uchun va owner bo'lmagan foydalanuvchilar uchun ko'rsatiladi
   const enabled = isOwner && user?.role !== ROLES.OWNER && !!user?._id;

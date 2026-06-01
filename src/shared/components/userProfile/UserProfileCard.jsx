@@ -5,9 +5,7 @@ import {
   Phone,
   Cake,
   User,
-  MapPin,
   CalendarPlus,
-  Users,
   Briefcase,
   Megaphone,
   Wallet,
@@ -76,15 +74,17 @@ const UserProfileCard = ({ profile }) => {
       <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 border-t border-border/60 pt-6 sm:grid-cols-2">
         <InfoRow icon={AtSign} label="Login" value={`@${profile.username}`} />
         <InfoRow icon={Phone} label="Telefon" value={formatPhone(profile.phone)} />
-        <InfoRow
-          icon={Cake}
-          label="Tug'ilgan sana"
-          value={
-            profile.birthDate
-              ? `${formatDateUz(profile.birthDate)}${age != null ? ` (${age} yosh)` : ""}`
-              : null
-          }
-        />
+        {!isStudent && (
+          <InfoRow
+            icon={Cake}
+            label="Tug'ilgan sana"
+            value={
+              profile.birthDate
+                ? `${formatDateUz(profile.birthDate)}${age != null ? ` (${age} yosh)` : ""}`
+                : null
+            }
+          />
+        )}
         <InfoRow icon={User} label="Jinsi" value={GENDER_LABEL[profile.gender]} />
 
         {isStudent && (
@@ -104,25 +104,14 @@ const UserProfileCard = ({ profile }) => {
                 </span>
               }
             />
-            <InfoRow icon={MapPin} label="Manzil" value={profile.address} />
             <InfoRow
               icon={CalendarPlus}
               label="Ro'yxatga olingan"
               value={formatDateUz(profile.enrolledAt)}
             />
             <InfoRow
-              icon={Users}
-              label="Ota-ona ismi"
-              value={profile.parentName}
-            />
-            <InfoRow
-              icon={Phone}
-              label="Ota-ona telefoni"
-              value={formatPhone(profile.parentPhone)}
-            />
-            <InfoRow
               icon={Megaphone}
-              label="Lid manbasi"
+              label="Qayerdan eshitgan"
               value={
                 profile.leadSource ? (
                   <span>

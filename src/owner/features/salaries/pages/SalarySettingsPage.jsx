@@ -51,10 +51,16 @@ const SalarySettingsPage = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-6 py-6">
-      <h1 className="text-2xl font-semibold text-center">Maosh sozlamalari</h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Maosh sozlamalari</h1>
+        <p className="text-sm text-muted-foreground">
+          Avto hisoblash kuni va bot bildirishnomalari
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid items-start gap-4 lg:grid-cols-2">
         <Card className="space-y-3">
           <h3 className="font-semibold">Avto hisoblash</h3>
           <InputField
@@ -114,6 +120,7 @@ const SalarySettingsPage = () => {
             />
           </div>
         </Card>
+        </div>
 
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending}>

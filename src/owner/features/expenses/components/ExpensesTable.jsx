@@ -1,16 +1,19 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, RotateCcw } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import ExpenseTypeBadge from "./ExpenseTypeBadge";
+import { useExpenseRestoreMutation } from "../hooks/useExpenseMutations";
 
 const fullName = (u) =>
   u ? `${u.firstName || ""} ${u.lastName || ""}`.trim() || "-" : "-";
 
-const ExpensesTable = ({ items = [] }) => {
+const ExpensesTable = ({ items = [], archived = false }) => {
   const { openModal } = useModal();
+  const { mutate: restore, isPending: isRestoring } =
+    useExpenseRestoreMutation();
 
   if (items.length === 0) {
     return (
@@ -49,29 +52,46 @@ const ExpensesTable = ({ items = [] }) => {
               <td className="px-4 py-2 text-left">{fullName(e.createdBy)}</td>
               <td className="px-4 py-2">
                 <div className="flex items-center justify-end gap-1">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() =>
-                      openModal(MODAL.EXPENSE_EDIT, { expense: e })
-                    }
-                    playClickSound={false}
-                  >
-                    <Pencil className="size-4" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
-                    onClick={() =>
-                      openModal(MODAL.EXPENSE_DELETE, { expense: e })
-                    }
-                    playClickSound={false}
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
+                  {archived ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-green-600 hover:bg-green-50 hover:text-green-700"
+                      title="Tiklash"
+                      disabled={isRestoring}
+                      onClick={() => restore(e._id)}
+                      playClickSound={false}
+                    >
+                      <RotateCcw className="size-4" />
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          openModal(MODAL.EXPENSE_EDIT, { expense: e })
+                        }
+                        playClickSound={false}
+                      >
+                        <Pencil className="size-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                        onClick={() =>
+                          openModal(MODAL.EXPENSE_DELETE, { expense: e })
+                        }
+                        playClickSound={false}
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
+                    </>
+                  )}
                 </div>
               </td>
             </tr>

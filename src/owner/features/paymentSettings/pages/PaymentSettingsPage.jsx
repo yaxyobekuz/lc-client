@@ -5,8 +5,13 @@ const PaymentSettingsPage = () => {
   const { data: settings, isLoading } = usePaymentSettingsQuery();
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-6 py-6">
-      <h1 className="text-2xl font-semibold text-center">To'lov sozlamalari</h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">To'lov sozlamalari</h1>
+        <p className="text-sm text-muted-foreground">
+          To'lov muddati, Telegram eslatmalari va o'qituvchi kelmagan kun qoidalari
+        </p>
+      </div>
 
       {isLoading ? (
         <div className="p-8 text-center text-muted-foreground">

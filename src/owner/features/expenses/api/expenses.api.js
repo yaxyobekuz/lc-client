@@ -7,5 +7,6 @@ export const expensesAPI = {
   create: (body) => http.post(ENDPOINTS.expenses.base, body),
   update: (id, body) => http.patch(ENDPOINTS.expenses.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.expenses.byId(id)),
+  restore: (id) => http.post(`${ENDPOINTS.expenses.byId(id)}/restore`),
   stats: (params) => http.get(ENDPOINTS.expenses.stats, { params }),
 };

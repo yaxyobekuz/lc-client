@@ -30,10 +30,6 @@ const ConvertToStudentModal = ({ lead, close, isLoading, setIsLoading }) => {
     phone: lead?.phone || "",
     password: "",
     gender: "",
-    birthDate: toDateInput(lead?.birthDate) || "",
-    address: "",
-    parentName: "",
-    parentPhone: "",
     enrolledAt: toDateInput(new Date()),
   });
 
@@ -65,10 +61,6 @@ const ConvertToStudentModal = ({ lead, close, isLoading, setIsLoading }) => {
       phone: obj.phone.trim(),
       password: obj.password,
       gender: obj.gender || null,
-      birthDate: obj.birthDate || null,
-      address: obj.address,
-      parentName: obj.parentName,
-      parentPhone: obj.parentPhone,
       enrolledAt: obj.enrolledAt || null,
     });
   };
@@ -137,44 +129,14 @@ const ConvertToStudentModal = ({ lead, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
         />
         <InputField
-          name="birthDate"
-          label="Tug'ilgan sana"
+          name="enrolledAt"
+          label="Qabul qilingan sana"
           type="date"
-          value={obj.birthDate}
-          onChange={(e) => obj.setField("birthDate", e.target.value)}
+          value={obj.enrolledAt}
+          onChange={(e) => obj.setField("enrolledAt", e.target.value)}
           disabled={isLoading}
         />
       </div>
-
-      <InputField
-        name="parentName"
-        label="Ota-ona ismi (ixtiyoriy)"
-        value={obj.parentName}
-        onChange={(e) => obj.setField("parentName", e.target.value)}
-        disabled={isLoading}
-      />
-      <InputField
-        name="parentPhone"
-        label="Ota-ona telefoni (ixtiyoriy)"
-        value={obj.parentPhone}
-        onChange={(e) => obj.setField("parentPhone", e.target.value)}
-        disabled={isLoading}
-      />
-      <InputField
-        name="address"
-        label="Manzil (ixtiyoriy)"
-        value={obj.address}
-        onChange={(e) => obj.setField("address", e.target.value)}
-        disabled={isLoading}
-      />
-      <InputField
-        name="enrolledAt"
-        label="Qabul qilingan sana"
-        type="date"
-        value={obj.enrolledAt}
-        onChange={(e) => obj.setField("enrolledAt", e.target.value)}
-        disabled={isLoading}
-      />
 
       <div className="flex gap-2 pt-1">
         <Button

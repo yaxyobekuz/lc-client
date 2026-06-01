@@ -1,4 +1,4 @@
-import { Save } from "lucide-react";
+import { Save, RotateCcw } from "lucide-react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
@@ -8,30 +8,56 @@ import useTeacherAttendanceQuery from "../hooks/useTeacherAttendanceQuery";
 import useTeacherAttendanceBulkMutation from "../hooks/useTeacherAttendanceBulkMutation";
 
 const STATUS_OPTIONS = [
-  { value: "present", label: "Keldi", active: "bg-green-600 text-white" },
-  { value: "absent", label: "Kelmadi", active: "bg-red-600 text-white" },
-  { value: "excused", label: "Sababli", active: "bg-amber-500 text-white" },
+  {
+    value: "present",
+    label: "Keldi",
+    active: "bg-emerald-100 text-emerald-700 ring-1 ring-inset ring-emerald-300",
+  },
+  {
+    value: "absent",
+    label: "Kelmadi",
+    active: "bg-rose-100 text-rose-700 ring-1 ring-inset ring-rose-300",
+  },
+  {
+    value: "excused",
+    label: "Sababli",
+    active: "bg-amber-100 text-amber-700 ring-1 ring-inset ring-amber-300",
+  },
 ];
 
-const StatusToggle = ({ value, onChange, disabled }) => (
-  <div className="inline-flex overflow-hidden rounded-md border">
-    {STATUS_OPTIONS.map((o, i) => (
+const StatusToggle = ({ value, onChange, onClear, disabled }) => (
+  <div className="inline-flex items-center gap-2">
+    <div className="inline-flex overflow-hidden rounded-md border">
+      {STATUS_OPTIONS.map((o, i) => (
+        <button
+          key={o.value}
+          type="button"
+          disabled={disabled}
+          onClick={() => onChange(o.value)}
+          className={cn(
+            "px-3 py-1.5 text-sm transition disabled:opacity-50",
+            i > 0 && "border-l",
+            value === o.value
+              ? o.active
+              : "bg-white text-muted-foreground hover:bg-accent",
+          )}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+    {value !== "present" && (
       <button
-        key={o.value}
         type="button"
         disabled={disabled}
-        onClick={() => onChange(o.value)}
-        className={cn(
-          "px-3 py-1.5 text-sm transition disabled:opacity-50",
-          i > 0 && "border-l",
-          value === o.value
-            ? o.active
-            : "bg-white text-foreground hover:bg-accent",
-        )}
+        onClick={onClear}
+        title="Bekor qilish (Keldi holatiga qaytarish)"
+        className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-xs text-muted-foreground transition hover:bg-accent disabled:opacity-50"
       >
-        {o.label}
+        <RotateCcw className="size-3.5" />
+        Bekor qilish
       </button>
-    ))}
+    )}
   </div>
 );
 
@@ -47,6 +73,8 @@ const TeacherAttendancePage = () => {
   const { mutate, isPending } = useTeacherAttendanceBulkMutation({
     onSuccess: () => obj.setField("overrides", {}),
   });
+
+  const today = toDateInput(new Date());
 
   const statusOf = (row) => obj.overrides[row.teacher._id] ?? row.status;
 
@@ -81,6 +109,7 @@ const TeacherAttendancePage = () => {
               name="date"
               label="Sana"
               value={obj.date}
+              max={today}
               onChange={(e) =>
                 obj.setFields({ date: e.target.value, overrides: {} })
               }
@@ -95,7 +124,7 @@ const TeacherAttendancePage = () => {
 
       {(absentCount > 0 || excusedCount > 0) && (
         <p className="text-sm text-muted-foreground">
-          Kelmadi: <b className="text-red-600">{absentCount}</b> · Sababli:{" "}
+          Kelmadi: <b className="text-rose-600">{absentCount}</b> · Sababli:{" "}
           <b className="text-amber-600">{excusedCount}</b>
         </p>
       )}
@@ -129,6 +158,7 @@ const TeacherAttendancePage = () => {
                     <StatusToggle
                       value={statusOf(r)}
                       onChange={(s) => setStatus(r.teacher._id, s)}
+                      onClear={() => setStatus(r.teacher._id, "present")}
                       disabled={isPending}
                     />
                   </td>

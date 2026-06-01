@@ -7,4 +7,5 @@ export const paymentMethodsAPI = {
   create: (body) => http.post(ENDPOINTS.paymentMethods.base, body),
   update: (id, body) => http.patch(ENDPOINTS.paymentMethods.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.paymentMethods.byId(id)),
+  setDefault: (id) => http.post(ENDPOINTS.paymentMethods.setDefault(id)),
 };

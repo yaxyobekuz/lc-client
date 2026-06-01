@@ -7,4 +7,5 @@ export const expenseTypesAPI = {
   create: (body) => http.post(ENDPOINTS.expenseTypes.base, body),
   update: (id, body) => http.patch(ENDPOINTS.expenseTypes.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.expenseTypes.byId(id)),
+  setDefault: (id) => http.post(ENDPOINTS.expenseTypes.setDefault(id)),
 };

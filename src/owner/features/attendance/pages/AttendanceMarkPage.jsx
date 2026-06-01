@@ -34,6 +34,7 @@ const AttendanceMarkPage = () => {
           name="date"
           label="Sana"
           value={date}
+          max={toDateInput(new Date())}
           onChange={(e) => setDate(e.target.value)}
           className="w-full sm:w-56"
         />

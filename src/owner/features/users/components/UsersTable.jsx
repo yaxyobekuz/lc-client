@@ -1,5 +1,5 @@
 // Icons
-import { KeyRound, Trash2 } from "lucide-react";
+import { KeyRound, Trash2, RotateCcw } from "lucide-react";
 
 // Router
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import Button from "@/shared/components/ui/button/Button";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
+import useUserRestoreMutation from "../hooks/useUserRestoreMutation";
 
 // Constants
 import { MODAL } from "@/shared/constants/modals";
@@ -18,9 +19,10 @@ import { ROLE_LABELS } from "@/shared/constants/roles";
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
 
-const UsersTable = ({ users = [] }) => {
+const UsersTable = ({ users = [], archived = false }) => {
   const { openModal } = useModal();
   const navigate = useNavigate();
+  const { mutate: restore, isPending: isRestoring } = useUserRestoreMutation();
 
   if (users.length === 0) {
     return (
@@ -75,29 +77,49 @@ const UsersTable = ({ users = [] }) => {
               </td>
               <td className="px-4 py-2" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-end gap-1">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => openModal(MODAL.USER_PASSWORD, { user: u })}
-                    playClickSound={false}
-                    aria-label="Parolni ko'rish"
-                    title="Parol"
-                  >
-                    <KeyRound className="size-4" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
-                    onClick={() => openModal(MODAL.USER_DELETE, { user: u })}
-                    playClickSound={false}
-                    aria-label="Foydalanuvchini o'chirish"
-                    title="O'chirish"
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
+                  {archived ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-green-600 hover:bg-green-50 hover:text-green-700"
+                      disabled={isRestoring}
+                      onClick={() => restore(u._id)}
+                      playClickSound={false}
+                      aria-label="Tiklash"
+                      title="Tiklash"
+                    >
+                      <RotateCcw className="size-4" />
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          openModal(MODAL.USER_PASSWORD, { user: u })
+                        }
+                        playClickSound={false}
+                        aria-label="Parolni ko'rish"
+                        title="Parol"
+                      >
+                        <KeyRound className="size-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                        onClick={() => openModal(MODAL.USER_DELETE, { user: u })}
+                        playClickSound={false}
+                        aria-label="Foydalanuvchini arxivlash"
+                        title="Arxivlash"
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
+                    </>
+                  )}
                 </div>
               </td>
             </tr>

@@ -8,6 +8,7 @@ import { Plus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import InputField from "@/shared/components/ui/input/InputField";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
+import ArchiveToggle from "@/shared/components/ui/archive/ArchiveToggle";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import UsersTable from "../components/UsersTable";
@@ -26,13 +27,14 @@ import { ROLES } from "@/shared/constants/roles";
 
 const LIMIT = 20;
 
-const UsersTab = ({ role }) => {
+const UsersTab = ({ role, archived = false }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
   const { data, isLoading } = useUsersListQuery({
     role,
     search: search || undefined,
+    archived: archived ? "1" : undefined,
     page,
     limit: LIMIT,
   });
@@ -57,7 +59,7 @@ const UsersTab = ({ role }) => {
         <div className="p-4 text-muted-foreground">Yuklanmoqda...</div>
       ) : (
         <>
-          <UsersTable users={users} />
+          <UsersTable users={users} archived={archived} />
           {totalPages > 1 && (
             <Pagination
               currentPage={page}
@@ -75,18 +77,24 @@ const UsersTab = ({ role }) => {
 
 const UsersListPage = () => {
   const [tab, setTab] = useState(ROLES.TEACHER);
+  const [archived, setArchived] = useState(false);
   const { openModal } = useModal();
 
   return (
     <div className="space-y-4">
       <header className="flex items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">Foydalanuvchilar</h1>
-        <Button
-          onClick={() => openModal(MODAL.USER_CREATE, { defaultRole: tab })}
-        >
-          <Plus className="size-4" />
-          Yangi foydalanuvchi
-        </Button>
+        <div className="flex items-center gap-2">
+          <ArchiveToggle value={archived} onChange={setArchived} />
+          {!archived && (
+            <Button
+              onClick={() => openModal(MODAL.USER_CREATE, { defaultRole: tab })}
+            >
+              <Plus className="size-4" />
+              Yangi foydalanuvchi
+            </Button>
+          )}
+        </div>
       </header>
 
       <TabsButtons
@@ -96,12 +104,12 @@ const UsersListPage = () => {
           {
             value: ROLES.TEACHER,
             label: "O'qituvchilar",
-            content: <UsersTab role={ROLES.TEACHER} />,
+            content: <UsersTab role={ROLES.TEACHER} archived={archived} />,
           },
           {
             value: ROLES.STUDENT,
             label: "O'quvchilar",
-            content: <UsersTab role={ROLES.STUDENT} />,
+            content: <UsersTab role={ROLES.STUDENT} archived={archived} />,
           },
         ]}
       />
@@ -110,7 +118,7 @@ const UsersListPage = () => {
         <UserCreateModal />
       </ModalWrapper>
 
-      <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini o'chirish">
+      <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini arxivlash">
         <UserDeleteModal />
       </ModalWrapper>
 
