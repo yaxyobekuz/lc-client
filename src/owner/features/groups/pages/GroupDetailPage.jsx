@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 
 // Icons
-import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2, CheckCircle2, Archive } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -17,6 +17,7 @@ import GroupPaymentsStatsTab from "../components/tabs/GroupPaymentsStatsTab";
 import GroupEditModal from "../components/modals/GroupEditModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 import GroupFinishModal from "../components/modals/GroupFinishModal";
+import GroupPermanentDeleteModal from "../components/modals/GroupPermanentDeleteModal";
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
@@ -102,8 +103,16 @@ const GroupDetailPage = () => {
           )}
           <Button
             variant="outline"
-            className="text-red-600"
+            className="text-amber-600"
             onClick={() => openModal(MODAL.GROUP_DELETE, { group })}
+          >
+            <Archive className="size-4" />
+            Arxivlash
+          </Button>
+          <Button
+            variant="outline"
+            className="text-red-600"
+            onClick={() => openModal(MODAL.GROUP_PERMANENT_DELETE, { group })}
           >
             <Trash2 className="size-4" />
             O'chirish
@@ -234,11 +243,14 @@ const GroupDetailPage = () => {
       >
         <GroupEditModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni o'chirish">
+      <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni arxivlash">
         <GroupDeleteModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_FINISH} title="Kursni yakunlash">
         <GroupFinishModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.GROUP_PERMANENT_DELETE} title="Guruhni butunlay o'chirish">
+        <GroupPermanentDeleteModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_ADD_STUDENT} title="O'quvchi qo'shish">
         <GroupAddStudentModal />

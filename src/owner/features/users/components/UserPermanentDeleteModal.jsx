@@ -1,14 +1,19 @@
+// Router
+import { useNavigate } from "react-router-dom";
+
 // Components
 import Button from "@/shared/components/ui/button/Button";
 
 // Hooks
-import useUserRemoveMutation from "../hooks/useUserRemoveMutation";
+import useUserPermanentRemoveMutation from "../hooks/useUserPermanentRemoveMutation";
 
-const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
-  const { mutate } = useUserRemoveMutation({
+const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
+  const navigate = useNavigate();
+  const { mutate } = useUserPermanentRemoveMutation({
     onSuccess: () => {
       setIsLoading(false);
       close?.();
+      navigate("/owner/users", { replace: true });
     },
     onError: () => setIsLoading(false),
   });
@@ -24,8 +29,9 @@ const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
         <span className="font-semibold">
           {user?.firstName} {user?.lastName}
         </span>{" "}
-        arxivlanadi (Arxiv filtrida ko'rinadi, qaytarish mumkin). Davom
-        etasizmi?
+        butunlay o'chiriladi. Unga bog'liq barcha to'lov, hisob, davomat va
+        guruh a'zoligi UI'dan butunlay yo'qoladi va hech qayerda hisoblanmaydi.
+        Bu — arxivlash emas (ma'lumotlar bazada saqlanadi, lekin ko'rinmaydi).
       </p>
 
       <div className="flex gap-2">
@@ -45,11 +51,11 @@ const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
           className="flex-1"
         >
-          {isLoading ? "Arxivlanmoqda..." : "Arxivlash"}
+          {isLoading ? "O'chirilmoqda..." : "Ha, butunlay o'chirish"}
         </Button>
       </div>
     </div>
   );
 };
 
-export default UserDeleteModal;
+export default UserPermanentDeleteModal;

@@ -26,8 +26,8 @@ const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
   return (
     <div className="space-y-4">
       <p className="text-sm">
-        <span className="font-semibold">{group?.name}</span> guruhi o'chiriladi.
-        Davom etasizmi?
+        <span className="font-semibold">{group?.name}</span> guruhi arxivlanadi
+        (Arxiv filtrida ko'rinadi, qaytarish mumkin). Davom etasizmi?
       </p>
 
       <div className="flex gap-2">
@@ -38,7 +38,7 @@ const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
           className="flex-1"
         >
-          {isLoading ? "O'chirilmoqda..." : "Ha, o'chirish"}
+          {isLoading ? "Arxivlanmoqda..." : "Ha, arxivlash"}
         </Button>
         <Button
           type="button"
@@ -48,7 +48,7 @@ const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
           autoFocus
           className="flex-1"
         >
-          Yo'q, o'chirmaslik
+          Yo'q, bekor qilish
         </Button>
       </div>
     </div>

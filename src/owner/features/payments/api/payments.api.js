@@ -7,4 +7,5 @@ export const paymentsAPI = {
   receipt: (id) => http.get(ENDPOINTS.payments.receipt(id)),
   record: (body) => http.post(ENDPOINTS.payments.base, body),
   refund: (id, body) => http.post(ENDPOINTS.payments.refund(id), body),
+  remove: (id) => http.delete(ENDPOINTS.payments.byId(id)),
 };

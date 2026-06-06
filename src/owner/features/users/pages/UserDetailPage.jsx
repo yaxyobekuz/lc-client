@@ -7,6 +7,7 @@ import {
   Pencil,
   Plus,
   Trash2,
+  Archive,
 } from "lucide-react";
 
 import Button from "@/shared/components/ui/button/Button";
@@ -26,6 +27,7 @@ import {
 import GroupTransferStudentModal from "@/owner/features/groups/components/modals/GroupTransferStudentModal";
 import UserEditModal from "../components/UserEditModal";
 import UserDeleteModal from "../components/UserDeleteModal";
+import UserPermanentDeleteModal from "../components/UserPermanentDeleteModal";
 import UserPasswordModal from "../components/UserPasswordModal";
 import UserPasswordCard from "../components/UserPasswordCard";
 import GroupRemoveStudentConfirmModal from "../components/GroupRemoveStudentConfirmModal";
@@ -552,8 +554,16 @@ const UserDetailPage = () => {
           </Button>
           <Button
             variant="outline"
-            className="text-red-600"
+            className="text-amber-600"
             onClick={() => openModal(MODAL.USER_DELETE, { user: profile })}
+          >
+            <Archive className="size-4" />
+            Arxivlash
+          </Button>
+          <Button
+            variant="outline"
+            className="text-red-600"
+            onClick={() => openModal(MODAL.USER_PERMANENT_DELETE, { user: profile })}
           >
             <Trash2 className="size-4" />
             O'chirish
@@ -571,8 +581,11 @@ const UserDetailPage = () => {
       >
         <UserEditModal />
       </ModalWrapper>
-      <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini o'chirish">
+      <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini arxivlash">
         <UserDeleteModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.USER_PERMANENT_DELETE} title="Butunlay o'chirish">
+        <UserPermanentDeleteModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.USER_PASSWORD} title="Foydalanuvchi paroli">
         <UserPasswordModal />

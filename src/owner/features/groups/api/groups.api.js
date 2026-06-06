@@ -10,6 +10,7 @@ export const groupsAPI = {
   remove: (id) => http.delete(ENDPOINTS.groups.byId(id)),
   restore: (id) => http.post(`${ENDPOINTS.groups.byId(id)}/restore`),
   finish: (id) => http.post(`${ENDPOINTS.groups.byId(id)}/finish`),
+  permanentRemove: (id) => http.delete(`${ENDPOINTS.groups.byId(id)}/permanent`),
 
   addStudent: (id, studentId, joinedAt) =>
     http.post(ENDPOINTS.groups.students(id), { studentId, joinedAt }),

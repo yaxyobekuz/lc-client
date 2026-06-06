@@ -13,6 +13,7 @@ export const usersAPI = {
     http.patch(ENDPOINTS.users.password(id), { password }),
   remove: (id) => http.delete(ENDPOINTS.users.byId(id)),
   restore: (id) => http.post(`${ENDPOINTS.users.byId(id)}/restore`),
+  permanentRemove: (id) => http.delete(`${ENDPOINTS.users.byId(id)}/permanent`),
   groupHistory: (id, params) =>
     http.get(ENDPOINTS.users.groupHistory(id), { params }),
 };

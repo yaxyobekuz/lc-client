@@ -1,31 +1,35 @@
+// Router
+import { useNavigate } from "react-router-dom";
+
 // Components
 import Button from "@/shared/components/ui/button/Button";
 
 // Hooks
-import useUserRemoveMutation from "../hooks/useUserRemoveMutation";
+import useGroupPermanentRemoveMutation from "../../hooks/useGroupPermanentRemoveMutation";
 
-const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
-  const { mutate } = useUserRemoveMutation({
+const GroupPermanentDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
+  const navigate = useNavigate();
+  const { mutate } = useGroupPermanentRemoveMutation({
     onSuccess: () => {
       setIsLoading(false);
       close?.();
+      navigate("/owner/groups", { replace: true });
     },
     onError: () => setIsLoading(false),
   });
 
   const handleConfirm = () => {
     setIsLoading(true);
-    mutate(user._id);
+    mutate(group._id);
   };
 
   return (
     <div className="space-y-4">
       <p className="text-sm">
-        <span className="font-semibold">
-          {user?.firstName} {user?.lastName}
-        </span>{" "}
-        arxivlanadi (Arxiv filtrida ko'rinadi, qaytarish mumkin). Davom
-        etasizmi?
+        <span className="font-semibold">{group?.name}</span> guruhi butunlay
+        o'chiriladi. Unga bog'liq barcha o'quvchi a'zoligi, to'lov, hisob,
+        davomat va o'qituvchi stavkasi UI'dan yo'qoladi va hisoblanmaydi. Bu —
+        arxivlash emas (bazada saqlanadi, lekin ko'rinmaydi).
       </p>
 
       <div className="flex gap-2">
@@ -45,11 +49,11 @@ const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
           className="flex-1"
         >
-          {isLoading ? "Arxivlanmoqda..." : "Arxivlash"}
+          {isLoading ? "O'chirilmoqda..." : "Ha, butunlay o'chirish"}
         </Button>
       </div>
     </div>
   );
 };
 
-export default UserDeleteModal;
+export default GroupPermanentDeleteModal;
