@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 
 // Icons
-import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2, CheckCircle2 } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -16,6 +16,7 @@ import GroupAttendanceStatsTab from "../components/tabs/GroupAttendanceStatsTab"
 import GroupPaymentsStatsTab from "../components/tabs/GroupPaymentsStatsTab";
 import GroupEditModal from "../components/modals/GroupEditModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
+import GroupFinishModal from "../components/modals/GroupFinishModal";
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
@@ -33,6 +34,7 @@ import { MODAL } from "@/shared/constants/modals";
 // Utils
 import { DAY_LABELS_FULL_UZ, sortSchedule } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import BackLink from "@/shared/components/ui/link/BackLink";
 
 const GroupDetailPage = () => {
@@ -65,15 +67,19 @@ const GroupDetailPage = () => {
   }
 
   const teachers = group.teachers || [];
+  const isFinished = group.status === "finished";
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <BackLink to="/owner/groups" />
 
           <h1 className="text-2xl font-semibold">{group.name}</h1>
           <Badge variant="secondary">{group.studentsCount} o'quvchi</Badge>
+          {isFinished && (
+            <Badge className="bg-amber-100 text-amber-700">Yakunlangan</Badge>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -84,6 +90,16 @@ const GroupDetailPage = () => {
             <Pencil className="size-4" />
             Tahrirlash
           </Button>
+          {!isFinished && (
+            <Button
+              variant="outline"
+              className="text-emerald-600"
+              onClick={() => openModal(MODAL.GROUP_FINISH, { group })}
+            >
+              <CheckCircle2 className="size-4" />
+              Kursni yakunlash
+            </Button>
+          )}
           <Button
             variant="outline"
             className="text-red-600"
@@ -94,6 +110,17 @@ const GroupDetailPage = () => {
           </Button>
         </div>
       </div>
+
+      {(group.startDate || group.durationMonths) && (
+        <p className="-mt-2 text-sm text-muted-foreground">
+          {group.startDate && `Boshlanish: ${formatDateUz(group.startDate)}`}
+          {group.startDate && group.durationMonths ? " · " : ""}
+          {group.durationMonths ? `Davomiylik: ${group.durationMonths} oy` : ""}
+          {isFinished && group.finishedAt
+            ? ` · Yakunlandi: ${formatDateUz(group.finishedAt)}`
+            : ""}
+        </p>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
@@ -209,6 +236,9 @@ const GroupDetailPage = () => {
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni o'chirish">
         <GroupDeleteModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.GROUP_FINISH} title="Kursni yakunlash">
+        <GroupFinishModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_ADD_STUDENT} title="O'quvchi qo'shish">
         <GroupAddStudentModal />

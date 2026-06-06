@@ -36,7 +36,12 @@ const LogDetailModal = ({ logId }) => {
   return (
     <div className="space-y-3">
       <div className="space-y-0">
-        <Row label="Vaqt" value={new Date(log.createdAt).toLocaleString("uz-UZ")} />
+        <Row
+          label="Vaqt"
+          value={new Date(log.createdAt).toLocaleString("uz-UZ", {
+            hour12: false,
+          })}
+        />
         <Row
           label="Metod"
           value={<MethodBadge method={log.method} />}

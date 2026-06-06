@@ -14,6 +14,7 @@ const formatTime = (d) => {
   return dd.toLocaleString("uz-UZ", {
     hour: "2-digit",
     minute: "2-digit",
+    hour12: false,
   });
 };
 

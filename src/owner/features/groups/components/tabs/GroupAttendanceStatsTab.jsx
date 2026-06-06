@@ -52,9 +52,9 @@ const GroupAttendanceStatsTab = ({ groupId }) => {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
           <Card>
-            <p className="text-xs text-muted-foreground">Davomat</p>
+            <p className="text-xs text-muted-foreground">Davomat (kelgan | umumiy)</p>
             <p className="text-xl font-semibold text-sky-600">
-              {agg.groupRate !== null ? `${agg.groupRate}%` : "-"}
+              {agg.present + agg.late} | {Math.max(0, agg.totalClasses - agg.exempt)}
             </p>
           </Card>
           <Card>

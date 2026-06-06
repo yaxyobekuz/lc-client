@@ -12,6 +12,9 @@ import Button from "@/shared/components/ui/button/Button";
 import GroupScheduleField from "./GroupScheduleField";
 import TeachersMultiPicker from "./TeachersMultiPicker";
 
+// Utils
+import { toDateInput } from "@/shared/utils/formatDate";
+
 const buildInitial = (group) => ({
   name: group?.name || "",
   schedule: group?.schedule?.map((s) => ({ ...s })) || [],
@@ -23,18 +26,16 @@ const buildInitial = (group) => ({
     group?.direction && typeof group.direction === "object"
       ? group.direction._id
       : group?.direction || "",
-  teacherAbsenceMode: group?.teacherAbsenceMode || "inherit",
-  teacherAbsenceAmount: group?.teacherAbsenceAmount ?? 0,
+  // Yangi guruh — default bugun; mavjud guruh — o'z sanasi (yoki bo'sh)
+  startDate: group?.startDate
+    ? toDateInput(group.startDate)
+    : group
+      ? ""
+      : toDateInput(new Date()),
+  durationMonths: group?.durationMonths ?? "",
 });
 
 const NONE_DIRECTION = "__none__";
-
-const ABSENCE_MODES = [
-  { value: "inherit", label: "Umumiy sozlama bo'yicha" },
-  { value: "auto", label: "Avtomatik (oylik narx / darslar soni)" },
-  { value: "fixed", label: "Belgilangan summa" },
-  { value: "none", label: "Ayirilmasin (0)" },
-];
 
 const GroupForm = ({
   initial,
@@ -49,8 +50,8 @@ const GroupForm = ({
     teachers,
     monthlyPrice,
     direction,
-    teacherAbsenceMode,
-    teacherAbsenceAmount,
+    startDate,
+    durationMonths,
     setField,
   } = useObjectState(buildInitial(initial));
 
@@ -123,8 +124,8 @@ const GroupForm = ({
       teachers,
       monthlyPrice: priceNum,
       direction: direction && direction !== NONE_DIRECTION ? direction : null,
-      teacherAbsenceMode,
-      teacherAbsenceAmount: Number(teacherAbsenceAmount) || 0,
+      startDate: startDate || null,
+      durationMonths: durationMonths === "" ? null : Number(durationMonths),
     });
   };
 
@@ -154,14 +155,34 @@ const GroupForm = ({
         />
       </div>
 
-      {/* 2-qator: yo'nalish to'liq kenglikda */}
-      <SelectField
-        label="Yo'nalish"
-        value={direction || NONE_DIRECTION}
-        onChange={(v) => setField("direction", v)}
-        options={directionOptions}
-        disabled={isLoading}
-      />
+      {/* 2-qator: yo'nalish + dars boshlanish sanasi + kurs davomiyligi */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <SelectField
+          label="Yo'nalish"
+          value={direction || NONE_DIRECTION}
+          onChange={(v) => setField("direction", v)}
+          options={directionOptions}
+          disabled={isLoading}
+        />
+        <InputField
+          type="date"
+          name="startDate"
+          label="Dars boshlanish sanasi"
+          value={startDate}
+          onChange={(e) => setField("startDate", e.target.value)}
+          disabled={isLoading}
+        />
+        <InputField
+          type="number"
+          name="durationMonths"
+          label="Kurs davomiyligi (oy)"
+          placeholder="Masalan: 10"
+          min="0"
+          value={durationMonths}
+          onChange={(e) => setField("durationMonths", e.target.value)}
+          disabled={isLoading}
+        />
+      </div>
 
       {/* 3-qator: jadval va o'qituvchilar yonma-yon (md+) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -175,28 +196,6 @@ const GroupForm = ({
           onChange={(next) => setField("teachers", next)}
           disabled={isLoading}
         />
-      </div>
-
-      {/* O'qituvchi kelmagan kun chegirmasi (guruh override) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <SelectField
-          label="O'qituvchi kelmagan kun chegirmasi"
-          value={teacherAbsenceMode}
-          onChange={(v) => setField("teacherAbsenceMode", v)}
-          options={ABSENCE_MODES}
-          disabled={isLoading}
-        />
-        {teacherAbsenceMode === "fixed" && (
-          <InputField
-            name="teacherAbsenceAmount"
-            label="1 dars uchun summa (so'm)"
-            type="number"
-            min="0"
-            value={teacherAbsenceAmount}
-            onChange={(e) => setField("teacherAbsenceAmount", e.target.value)}
-            disabled={isLoading}
-          />
-        )}
       </div>
 
       <div className="flex gap-2 pt-2 justify-end">

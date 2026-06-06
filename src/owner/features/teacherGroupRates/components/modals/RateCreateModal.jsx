@@ -2,6 +2,7 @@ import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
 import RateFormFields from "../RateFormFields";
 import { useRateCreateMutation } from "../../hooks/useRateMutations";
+import { toDateInput } from "@/shared/utils/formatDate";
 
 const RateCreateModal = ({
   teacherId,
@@ -18,6 +19,7 @@ const RateCreateModal = ({
     percentageRate: "",
     amountPerStudent: "",
     minMonthlyAmount: "",
+    effectiveFrom: toDateInput(new Date()),
     notes: "",
   });
 
@@ -43,6 +45,7 @@ const RateCreateModal = ({
       percentageRate: Number(obj.percentageRate || 0),
       amountPerStudent: Number(obj.amountPerStudent || 0),
       minMonthlyAmount: Number(obj.minMonthlyAmount || 0),
+      effectiveFrom: obj.effectiveFrom || undefined,
       notes: obj.notes,
     });
   };

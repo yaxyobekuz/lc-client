@@ -11,15 +11,14 @@ import { groupsAPI } from "../api/groups.api";
 // Query keys
 import { qk } from "@/shared/lib/query/keys";
 
-const useGroupAddStudentMutation = (options = {}) => {
+const useGroupFinishMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, studentId, joinedAt }) =>
-      groupsAPI.addStudent(id, studentId, joinedAt).then((r) => r.data.data),
+    mutationFn: (id) => groupsAPI.finish(id).then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
-      qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
-      toast.success("O'quvchi qo'shildi");
+      qc.invalidateQueries({ queryKey: qk.groups.one(vars) });
+      toast.success("Kurs yakunlandi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {
@@ -29,4 +28,4 @@ const useGroupAddStudentMutation = (options = {}) => {
   });
 };
 
-export default useGroupAddStudentMutation;
+export default useGroupFinishMutation;

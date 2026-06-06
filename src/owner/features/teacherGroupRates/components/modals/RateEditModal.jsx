@@ -2,6 +2,7 @@ import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
 import RateFormFields from "../RateFormFields";
 import { useRateUpdateMutation } from "../../hooks/useRateMutations";
+import { toDateInput } from "@/shared/utils/formatDate";
 
 const RateEditModal = ({
   rateId,
@@ -19,6 +20,7 @@ const RateEditModal = ({
     percentageRate: rate?.percentageRate || "",
     amountPerStudent: rate?.amountPerStudent || "",
     minMonthlyAmount: rate?.minMonthlyAmount || "",
+    effectiveFrom: rate?.effectiveFrom ? toDateInput(rate.effectiveFrom) : "",
     notes: rate?.notes || "",
   });
 
@@ -42,6 +44,7 @@ const RateEditModal = ({
       percentageRate: Number(obj.percentageRate || 0),
       amountPerStudent: Number(obj.amountPerStudent || 0),
       minMonthlyAmount: Number(obj.minMonthlyAmount || 0),
+      effectiveFrom: obj.effectiveFrom || undefined,
       notes: obj.notes,
     });
   };

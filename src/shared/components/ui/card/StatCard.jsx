@@ -1,3 +1,9 @@
+// Router
+import { Link } from "react-router-dom";
+
+// Icons
+import { ArrowUpRight } from "lucide-react";
+
 // Utils
 import { cn } from "@/shared/utils/cn";
 import { formatMoney } from "@/shared/utils/formatMoney";
@@ -14,6 +20,7 @@ const StatCard = ({
   suffix = "",
   isMoney = false,
   tone = "default",
+  to,
 }) => {
   const toneClass = {
     default: "bg-white",
@@ -34,8 +41,15 @@ const StatCard = ({
   const safeValue =
     typeof value === "number" && Number.isFinite(value) ? value : 0;
 
-  return (
-    <Card className={cn(toneClass)}>
+  const card = (
+    <Card
+      className={cn(
+        toneClass,
+        "h-full",
+        to &&
+          "group cursor-pointer transition hover:-translate-y-0.5 hover:shadow-md hover:border-primary/40",
+      )}
+    >
       {/* Top */}
       <div className="flex items-center justify-between mb-2">
         <p className="text-xs font-medium text-zinc-600">{label}</p>
@@ -54,9 +68,25 @@ const StatCard = ({
         )}
       </p>
 
-      {hint && <p className="text-xs text-zinc-500 mt-1">{hint}</p>}
+      {(hint || to) && (
+        <p className="text-xs text-zinc-500 mt-1 flex items-center gap-1">
+          {hint}
+          {to && (
+            <ArrowUpRight className="size-3 text-zinc-400 transition group-hover:text-primary" />
+          )}
+        </p>
+      )}
     </Card>
   );
+
+  if (to) {
+    return (
+      <Link to={to} className="block focus:outline-none">
+        {card}
+      </Link>
+    );
+  }
+  return card;
 };
 
 export default StatCard;

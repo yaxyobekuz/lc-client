@@ -9,9 +9,10 @@ export const groupsAPI = {
   update: (id, body) => http.patch(ENDPOINTS.groups.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.groups.byId(id)),
   restore: (id) => http.post(`${ENDPOINTS.groups.byId(id)}/restore`),
+  finish: (id) => http.post(`${ENDPOINTS.groups.byId(id)}/finish`),
 
-  addStudent: (id, studentId) =>
-    http.post(ENDPOINTS.groups.students(id), { studentId }),
+  addStudent: (id, studentId, joinedAt) =>
+    http.post(ENDPOINTS.groups.students(id), { studentId, joinedAt }),
   removeStudent: (id, studentId, leaveStatus) =>
     http.delete(ENDPOINTS.groups.studentById(id, studentId), {
       data: leaveStatus ? { leaveStatus } : {},

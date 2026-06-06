@@ -112,6 +112,16 @@ const RateFormFields = ({
       )}
 
       <InputField
+        type="date"
+        name="effectiveFrom"
+        label="Maosh boshlanish sanasi"
+        description="Shu sanadan oldin maosh hisoblanmaydi; boshlangan oy o'tilgan darslarga moslab beriladi"
+        value={obj.effectiveFrom || ""}
+        onChange={(e) => obj.setField("effectiveFrom", e.target.value)}
+        disabled={disabled}
+      />
+
+      <InputField
         name="notes"
         label="Izoh (ixtiyoriy)"
         type="textarea"

@@ -26,7 +26,7 @@ const AttendanceMarkPage = () => {
 
       <Card className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div className="flex-1 min-w-0">
-          <GroupPicker value={groupId} onChange={setGroupId} />
+          <GroupPicker value={groupId} onChange={setGroupId} autoSelectFirst />
         </div>
 
         <InputField

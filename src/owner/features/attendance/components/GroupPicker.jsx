@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery";
 
@@ -7,6 +8,7 @@ const GroupPicker = ({
   disabled = false,
   label = "Guruh",
   teacherId,
+  autoSelectFirst = false,
 }) => {
   // teacherId berilsa, faqat shu o'qituvchi o'qitadigan guruhlar chiqadi
   const { data, isLoading } = useGroupsListQuery({ limit: 200, teacherId });
@@ -14,6 +16,14 @@ const GroupPicker = ({
     value: g._id,
     label: g.name,
   }));
+
+  // Davomat sahifasida birinchi guruh avtomatik tanlansin
+  useEffect(() => {
+    if (autoSelectFirst && !value && options.length > 0) {
+      onChange(options[0].value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoSelectFirst, value, options.length]);
 
   return (
     <SelectField

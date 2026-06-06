@@ -6,9 +6,6 @@ import Switch from "@/shared/components/ui/switch/Switch";
 import useTeacherAttendanceQuery from "../hooks/useTeacherAttendanceQuery";
 import useTeacherAttendanceMutation from "../hooks/useTeacherAttendanceMutation";
 
-// Utils
-import { formatMoney } from "@/shared/utils/formatMoney";
-
 const TeacherPresenceCard = ({ groupId, date }) => {
   const { data: status, isLoading } = useTeacherAttendanceQuery(groupId, date);
   const { mutate, isPending } = useTeacherAttendanceMutation();
@@ -19,25 +16,10 @@ const TeacherPresenceCard = ({ groupId, date }) => {
   }
 
   const present = status.present;
-  const amount = status.perStudentAmount || 0;
 
   return (
     <Card className="flex items-center justify-between gap-4">
-      <div className="min-w-0">
-        <p className="font-medium">O'qituvchi darsga keldimi?</p>
-        {present ? (
-          <p className="text-sm text-muted-foreground">
-            {amount > 0
-              ? `Kelmadi deb belgilansa, har o'quvchidan ${formatMoney(amount)} ayiriladi`
-              : "Kelmadi deb belgilansa, o'quvchilardan ayirilmaydi (0)"}
-          </p>
-        ) : (
-          <p className="text-sm text-rose-500">
-            Kelmadi — {status.affectedCount} o'quvchidan {formatMoney(amount)}
-            dan ayirildi
-          </p>
-        )}
-      </div>
+      <p className="font-medium">O'qituvchi darsga keldimi?</p>
 
       <div className="flex items-center gap-2 shrink-0">
         <span

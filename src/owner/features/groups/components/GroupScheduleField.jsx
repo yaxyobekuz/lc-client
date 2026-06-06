@@ -28,7 +28,55 @@ const emptyRow = (usedDays = []) => ({
 });
 
 const GRID_COLS =
-  "grid-cols-[minmax(110px,1.4fr)_minmax(95px,1fr)_minmax(95px,1fr)_36px]";
+  "grid-cols-[minmax(100px,1.2fr)_minmax(110px,1fr)_minmax(110px,1fr)_36px]";
+
+// Qo'lda yoziladigan oddiy vaqt: soat (0–23) : daqiqa (0–59). DB'da "HH:mm" matn bo'lib saqlanadi.
+const pad2 = (n) => String(n).padStart(2, "0");
+const clampNum = (raw, max) => {
+  if (raw === "") return "";
+  let n = Number(raw);
+  if (Number.isNaN(n)) return "";
+  if (n < 0) n = 0;
+  if (n > max) n = max;
+  return n;
+};
+
+const TimeInput = ({ value, onChange, disabled }) => {
+  const parts = (value || "").split(":");
+  const h = parts[0] ? Number(parts[0]) : "";
+  const m = parts[1] ? Number(parts[1]) : "";
+  const compose = (hh, mm) =>
+    `${pad2(hh === "" ? 0 : hh)}:${pad2(mm === "" ? 0 : mm)}`;
+  const onH = (e) =>
+    onChange(compose(clampNum(e.target.value.replace(/\D/g, "").slice(0, 2), 23), m));
+  const onM = (e) =>
+    onChange(compose(h, clampNum(e.target.value.replace(/\D/g, "").slice(0, 2), 59)));
+  return (
+    <div className="flex items-center gap-1">
+      <Input
+        inputMode="numeric"
+        maxLength={2}
+        placeholder="00"
+        aria-label="Soat"
+        value={h}
+        onChange={onH}
+        disabled={disabled}
+        className="h-9 w-11 px-1 text-center text-sm"
+      />
+      <span className="text-sm text-muted-foreground">:</span>
+      <Input
+        inputMode="numeric"
+        maxLength={2}
+        placeholder="00"
+        aria-label="Daqiqa"
+        value={m}
+        onChange={onM}
+        disabled={disabled}
+        className="h-9 w-11 px-1 text-center text-sm"
+      />
+    </div>
+  );
+};
 
 const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
   const update = (idx, key, val) => {
@@ -123,21 +171,15 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
                           ))}
                         </SelectContent>
                       </Select>
-                      <Input
-                        type="time"
+                      <TimeInput
                         value={row.startTime}
-                        onChange={(e) =>
-                          update(idx, "startTime", e.target.value)
-                        }
+                        onChange={(v) => update(idx, "startTime", v)}
                         disabled={disabled}
-                        className="h-9 px-2 text-sm"
                       />
-                      <Input
-                        type="time"
+                      <TimeInput
                         value={row.endTime}
-                        onChange={(e) => update(idx, "endTime", e.target.value)}
+                        onChange={(v) => update(idx, "endTime", v)}
                         disabled={disabled}
-                        className="h-9 px-2 text-sm"
                       />
                       <Button
                         type="button"

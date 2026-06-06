@@ -25,6 +25,7 @@ export const MODAL = Object.freeze({
   GROUP_CREATE: "group:create",
   GROUP_EDIT: "group:edit",
   GROUP_DELETE: "group:delete",
+  GROUP_FINISH: "group:finish",
   GROUP_ADD_STUDENT: "group:addStudent",
   GROUP_TRANSFER_STUDENT: "group:transferStudent",
   GROUP_REMOVE_STUDENT: "group:removeStudent",

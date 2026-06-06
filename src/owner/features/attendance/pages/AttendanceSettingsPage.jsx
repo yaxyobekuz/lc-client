@@ -7,7 +7,6 @@ import {
   useAttendanceSettingsQuery,
   useAttendanceSettingsUpdateMutation,
 } from "../hooks/useAttendanceSettingsQuery";
-import TeacherAbsencePenaltySettings from "../components/TeacherAbsencePenaltySettings";
 
 const AttendanceSettingsPage = () => {
   const { data: settings, isLoading } = useAttendanceSettingsQuery();
@@ -47,52 +46,48 @@ const AttendanceSettingsPage = () => {
       <div>
         <h1 className="text-2xl font-semibold">Davomat sozlamalari</h1>
         <p className="text-sm text-muted-foreground">
-          Ogohlantirish chegaralari va o'qituvchi kelmagan kun jarimasi
+          Ogohlantirish chegaralari
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Card className="space-y-3">
-            <h3 className="font-semibold">Ogohlantirish chegaralari</h3>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <InputField
-                name="lowAttendanceThreshold"
-                label="Past davomat chegarasi (%)"
-                type="number"
-                min="0"
-                max="100"
-                description="Bu foizdan past bo'lganlar dashboardda ko'rsatiladi"
-                value={obj.lowAttendanceThreshold}
-                onChange={(e) =>
-                  obj.setField("lowAttendanceThreshold", e.target.value)
-                }
-                disabled={isPending}
-              />
-              <InputField
-                name="consecutiveAbsencesAlert"
-                label="Ketma-ket kelmaganlik (kun)"
-                type="number"
-                min="1"
-                description="Necha kun ketma-ket kelmasa ogohlantirish"
-                value={obj.consecutiveAbsencesAlert}
-                onChange={(e) =>
-                  obj.setField("consecutiveAbsencesAlert", e.target.value)
-                }
-                disabled={isPending}
-              />
-            </div>
-          </Card>
-
-          <div className="flex justify-end">
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Saqlanmoqda..." : "Saqlash"}
-            </Button>
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-4">
+        <Card className="space-y-3">
+          <h3 className="font-semibold">Ogohlantirish chegaralari</h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <InputField
+              name="lowAttendanceThreshold"
+              label="Past davomat chegarasi (%)"
+              type="number"
+              min="0"
+              max="100"
+              description="Bu foizdan past bo'lganlar dashboardda ko'rsatiladi"
+              value={obj.lowAttendanceThreshold}
+              onChange={(e) =>
+                obj.setField("lowAttendanceThreshold", e.target.value)
+              }
+              disabled={isPending}
+            />
+            <InputField
+              name="consecutiveAbsencesAlert"
+              label="Ketma-ket kelmaganlik (kun)"
+              type="number"
+              min="1"
+              description="Necha kun ketma-ket kelmasa ogohlantirish"
+              value={obj.consecutiveAbsencesAlert}
+              onChange={(e) =>
+                obj.setField("consecutiveAbsencesAlert", e.target.value)
+              }
+              disabled={isPending}
+            />
           </div>
-        </form>
+        </Card>
 
-        <TeacherAbsencePenaltySettings />
-      </div>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Saqlanmoqda..." : "Saqlash"}
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };

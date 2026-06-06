@@ -1,6 +1,9 @@
 // State
 import { useState } from "react";
 
+// Router
+import { useSearchParams } from "react-router-dom";
+
 // Icons
 import { Plus } from "lucide-react";
 
@@ -76,7 +79,11 @@ const UsersTab = ({ role, archived = false }) => {
 };
 
 const UsersListPage = () => {
-  const [tab, setTab] = useState(ROLES.TEACHER);
+  const [searchParams] = useSearchParams();
+  // Dashboard kartalari ?tab=student / ?tab=teacher bilan kerakli tabni ochadi
+  const initialTab =
+    searchParams.get("tab") === ROLES.STUDENT ? ROLES.STUDENT : ROLES.TEACHER;
+  const [tab, setTab] = useState(initialTab);
   const [archived, setArchived] = useState(false);
   const { openModal } = useModal();
 
