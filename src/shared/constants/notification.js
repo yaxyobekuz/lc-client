@@ -9,6 +9,7 @@ export const NOTIFICATION_CATEGORIES = [
   "teacher_message",
   "feedback_status",
   "holiday",
+  "attendance",
   "template_based",
   "other",
 ];
@@ -22,6 +23,7 @@ export const CATEGORY_LABEL = {
   teacher_message: "O'qituvchi xabari",
   feedback_status: "Feedback holati",
   holiday: "Bayram tabrigi",
+  attendance: "Davomat",
   template_based: "Shablonli xabar",
   other: "Boshqa",
 };
@@ -35,6 +37,7 @@ export const CATEGORY_BADGE_CLASS = {
   teacher_message: "bg-cyan-100 text-cyan-700",
   feedback_status: "bg-slate-100 text-slate-700",
   holiday: "bg-pink-100 text-pink-700",
+  attendance: "bg-teal-100 text-teal-700",
   template_based: "bg-indigo-100 text-indigo-700",
   other: "bg-gray-100 text-gray-700",
 };
@@ -48,6 +51,7 @@ export const CATEGORY_EMOJI = {
   teacher_message: "👨‍🏫",
   feedback_status: "📝",
   holiday: "🎉",
+  attendance: "📋",
   template_based: "📨",
   other: "📨",
 };

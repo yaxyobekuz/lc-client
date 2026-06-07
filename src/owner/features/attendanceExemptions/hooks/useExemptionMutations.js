@@ -12,6 +12,8 @@ export const useExemptionCreateMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.attendanceExemptions.all() });
       qc.invalidateQueries({ queryKey: qk.users.one(vars.student) });
+      // Imtiyoz davomat foiziga ta'sir qiladi → barcha davomat query'lari yangilanadi
+      qc.invalidateQueries({ queryKey: qk.attendance.all() });
       toast.success("Davomatdan ozod davri yaratildi");
       options.onSuccess?.(data, vars, ctx);
     },
@@ -29,6 +31,7 @@ export const useExemptionUpdateMutation = (options = {}) => {
       attendanceExemptionsAPI.update(id, body).then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.attendanceExemptions.all() });
+      qc.invalidateQueries({ queryKey: qk.attendance.all() });
       toast.success("Saqlandi");
       options.onSuccess?.(data, vars, ctx);
     },
@@ -45,6 +48,7 @@ export const useExemptionRemoveMutation = (options = {}) => {
     mutationFn: (id) => attendanceExemptionsAPI.remove(id).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.attendanceExemptions.all() });
+      qc.invalidateQueries({ queryKey: qk.attendance.all() });
       toast.success("O'chirildi");
       options.onSuccess?.(data, vars, ctx);
     },

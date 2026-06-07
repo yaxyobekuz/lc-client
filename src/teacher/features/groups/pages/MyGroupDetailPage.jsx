@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 
 // Icons
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 
 // Components
 import Card from "@/shared/components/ui/card/Card";
@@ -82,6 +82,7 @@ const MyGroupDetailPage = () => {
                 <th className="px-3 py-2 font-medium">#</th>
                 <th className="px-3 py-2 font-medium">Ism familiya</th>
                 <th className="px-3 py-2 font-medium">Telefon</th>
+                <th className="px-3 py-2 font-medium">Telegram</th>
               </tr>
             </thead>
             <tbody>
@@ -92,6 +93,31 @@ const MyGroupDetailPage = () => {
                     {s.firstName} {s.lastName}
                   </td>
                   <td className="px-3 py-2">{formatPhone(s.phone) || "-"}</td>
+                  <td className="px-3 py-2">
+                    {s.telegram ? (
+                      s.telegram.username ? (
+                        <a
+                          href={`https://t.me/${s.telegram.username}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-medium text-sky-600 hover:text-sky-700 hover:underline"
+                        >
+                          <Send className="size-3.5 shrink-0" />@
+                          {s.telegram.username}
+                        </a>
+                      ) : (
+                        <span
+                          className="inline-flex items-center gap-1 font-medium text-emerald-600"
+                          title={`Telegram ID: ${s.telegram.telegramId}`}
+                        >
+                          <Send className="size-3.5 shrink-0" />
+                          Bog'langan
+                        </span>
+                      )
+                    ) : (
+                      <span className="text-muted-foreground">Bog'lanmagan</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

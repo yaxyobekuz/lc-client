@@ -6,6 +6,22 @@ import AttendanceLegend from "./AttendanceLegend";
 import BulkStatusSlider from "./BulkStatusSlider";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { cn } from "@/shared/utils/cn";
+import { STATUS_LABEL } from "@/shared/constants/attendance";
+
+// Davomat o'zgartirilgan bo'lsa (history > 1) audit izohini matn ko'rinishida quradi
+const editHistoryTitle = (attendance) => {
+  const hist = attendance?.history || [];
+  if (hist.length <= 1) return "";
+  return hist
+    .map((h) => {
+      const d = new Date(h.at);
+      const ts = Number.isNaN(d.getTime()) ? "" : d.toLocaleString("uz");
+      const from = h.from ? STATUS_LABEL[h.from] || h.from : "—";
+      const to = STATUS_LABEL[h.to] || h.to;
+      return `${ts}: ${from} → ${to}`;
+    })
+    .join("\n");
+};
 
 const DEFAULT_STATUS = "absent";
 
@@ -199,12 +215,19 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
 
   return (
     <div className="space-y-3">
-      {!data.isClassDay && (
-        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-700">
-          Bu kun guruh jadvalida dars kuni emas
-          {classDaysLabel ? ` (dars kunlari: ${classDaysLabel})` : ""}. Davomat
-          faqat dars kunlari belgilanadi.
+      {data.isHoliday ? (
+        <div className="rounded-md border border-rose-200 bg-rose-50 px-4 py-2.5 text-sm text-rose-700">
+          Bu kun bayram/dam olish kuni — davomat belgilanmaydi va davomat foiziga
+          ta'sir qilmaydi.
         </div>
+      ) : (
+        !data.isClassDay && (
+          <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-700">
+            Bu kun guruh jadvalida dars kuni emas
+            {classDaysLabel ? ` (dars kunlari: ${classDaysLabel})` : ""}. Davomat
+            faqat dars kunlari belgilanadi.
+          </div>
+        )
       )}
       {/* Sticky action panel */}
       <div className="sticky top-0 z-20 -mx-1 px-1 py-2 bg-white/80 backdrop-blur-sm border-b border-gray-200">
@@ -230,7 +253,10 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
             >
               Bekor qilish
             </Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting || locked}>
+            <Button
+              onClick={handleSubmit}
+              disabled={isSubmitting || locked || dirtyCount === 0}
+            >
               {isSubmitting ? "Saqlanmoqda..." : "Saqlash"}
             </Button>
           </div>
@@ -277,6 +303,15 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                 <div className="min-w-0">
                   <div className="font-medium truncate">
                     {r.student.firstName} {r.student.lastName}
+                    {editHistoryTitle(r.attendance) && (
+                      <span
+                        title={editHistoryTitle(r.attendance)}
+                        aria-label="Tahrirlangan"
+                        className="ml-1 cursor-help text-amber-500"
+                      >
+                        ✎
+                      </span>
+                    )}
                   </div>
                   <div className="text-xs text-muted-foreground">
                     {formatPhone(r.student.phone) || "-"}

@@ -1,5 +1,11 @@
 import { useMemo, useState } from "react";
-import { TrendingUp, Users, AlertTriangle, CalendarDays } from "lucide-react";
+import {
+  TrendingUp,
+  Users,
+  AlertTriangle,
+  CalendarDays,
+  CalendarX,
+} from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import useObjectState from "@/shared/hooks/useObjectState";
@@ -89,7 +95,7 @@ const OverallPanel = ({ year, month }) => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         <StatCard
           icon={TrendingUp}
           iconClass="bg-emerald-50 text-emerald-600"
@@ -116,6 +122,14 @@ const OverallPanel = ({ year, month }) => {
           iconClass="bg-slate-100 text-slate-500"
           label="Jami darslar"
           value={data.aggregate?.totalClasses || 0}
+        />
+        <StatCard
+          icon={CalendarX}
+          iconClass="bg-amber-50 text-amber-500"
+          label="Belgilanmagan"
+          value={data.aggregate?.unmarked || 0}
+          valueClass="text-amber-600"
+          hint="o'qituvchi belgilamagan"
         />
       </div>
 

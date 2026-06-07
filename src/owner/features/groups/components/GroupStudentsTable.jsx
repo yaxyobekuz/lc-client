@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // Icons
-import { ArrowRightLeft, Trash2, Check } from "lucide-react";
+import { ArrowRightLeft, Trash2, Check, Send } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -47,15 +47,16 @@ const GroupStudentsTable = ({ group }) => {
 
   return (
     <div className="rounded-lg border border-gray-200 overflow-x-auto bg-white">
-      <table className="w-full min-w-[820px] table-fixed text-sm">
+      <table className="w-full min-w-[940px] table-fixed text-sm">
         <colgroup>
           <col className="w-12" />
-          <col className="w-[20%]" />
-          <col className="w-[14%]" />
-          <col className="w-[12%]" />
-          <col className="w-[22%]" />
-          <col className="w-[12%]" />
           <col className="w-[18%]" />
+          <col className="w-[13%]" />
+          <col className="w-[11%]" />
+          <col className="w-[13%]" />
+          <col className="w-[19%]" />
+          <col className="w-[11%]" />
+          <col className="w-[15%]" />
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs font-medium text-gray-400">
@@ -63,6 +64,7 @@ const GroupStudentsTable = ({ group }) => {
             <th className="px-4 py-3">Ism familiya</th>
             <th className="px-4 py-3">Telefon</th>
             <th className="px-4 py-3">Login</th>
+            <th className="px-4 py-3">Telegram</th>
             <th className="px-4 py-3">Bu oy to'lovi</th>
             <th className="px-4 py-3 text-right">Qarz</th>
             <th className="px-4 py-3 text-right">Amallar</th>
@@ -96,6 +98,32 @@ const GroupStudentsTable = ({ group }) => {
               </td>
               <td className="px-4 py-3 text-muted-foreground truncate">
                 @{s.username}
+              </td>
+              <td className="px-4 py-3">
+                {s.telegram ? (
+                  s.telegram.username ? (
+                    <a
+                      href={`https://t.me/${s.telegram.username}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 truncate font-medium text-sky-600 hover:text-sky-700 hover:underline"
+                      title={`@${s.telegram.username}`}
+                    >
+                      <Send className="size-3.5 shrink-0" />@
+                      {s.telegram.username}
+                    </a>
+                  ) : (
+                    <span
+                      className="inline-flex items-center gap-1 font-medium text-emerald-600"
+                      title={`Telegram ID: ${s.telegram.telegramId}`}
+                    >
+                      <Send className="size-3.5 shrink-0" />
+                      Bog'langan
+                    </span>
+                  )
+                ) : (
+                  <span className="text-gray-300">Bog'lanmagan</span>
+                )}
               </td>
               <td className="px-4 py-3">
                 {!inv ? (

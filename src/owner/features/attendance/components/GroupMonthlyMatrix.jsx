@@ -32,6 +32,10 @@ const Legend = () => (
       <span className="block w-3 h-3 rounded-full border border-dashed border-slate-400 opacity-60" />
       Belgilanmagan
     </span>
+    <span className="inline-flex items-center gap-1.5">
+      <span className="block w-3 h-3 rounded-sm bg-rose-50 border border-rose-200" />
+      Bayram
+    </span>
   </div>
 );
 
@@ -80,12 +84,15 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
               </th>
               {dates.map((d) => {
                 const day = d.dateKey.slice(8);
-                const headerCls = d.isClassDay
-                  ? "bg-white text-gray-700"
-                  : "bg-gray-50 text-gray-400";
+                const headerCls = d.isHoliday
+                  ? "bg-rose-50 text-rose-400"
+                  : d.isClassDay
+                    ? "bg-white text-gray-700"
+                    : "bg-gray-50 text-gray-400";
                 return (
                   <th
                     key={d.dateKey}
+                    title={d.isHoliday ? "Bayram/dam olish kuni" : undefined}
                     className={`border-b border-gray-200 px-1 py-1 text-center font-medium ${headerCls}`}
                   >
                     <div className="leading-tight">{day}</div>

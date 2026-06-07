@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Card from "@/shared/components/ui/card/Card";
 import { MonthlyAttendanceCalendar } from "@/shared/components/attendance";
 import useStudentMonthlyAttendanceQuery from "@/owner/features/attendance/hooks/useStudentMonthlyAttendanceQuery";
+import useStudentAttendanceSummaryQuery from "@/owner/features/attendance/hooks/useStudentAttendanceSummaryQuery";
 import useMeQuery from "@/features/auth/hooks/useMeQuery";
 import { formatSchedule } from "@/shared/utils/formatSchedule";
+import { toDateInput } from "@/shared/utils/formatDate";
 
 const MyAttendancePage = () => {
   const { data: me } = useMeQuery();
   const profile = me?.profile;
   const studentId = profile?._id;
-  const summary = profile?.attendanceSummary;
 
   const now = new Date();
   const [period, setPeriod] = useState({
@@ -21,6 +22,17 @@ const MyAttendancePage = () => {
     studentId,
     period,
   );
+
+  // Kartochkalar TANLANGAN oy bo'yicha (kalendar bilan mos bo'lishi uchun) —
+  // /me dagi statik joriy-oy summary'si emas.
+  const range = useMemo(
+    () => ({
+      fromDate: toDateInput(new Date(period.year, period.month - 1, 1)),
+      toDate: toDateInput(new Date(period.year, period.month, 0)),
+    }),
+    [period],
+  );
+  const { data: summary } = useStudentAttendanceSummaryQuery(studentId, range);
 
   const goPrev = () =>
     setPeriod((p) => {
@@ -41,7 +53,7 @@ const MyAttendancePage = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card>
-          <p className="text-sm text-muted-foreground">Joriy oy davomati</p>
+          <p className="text-sm text-muted-foreground">Davomat foizi</p>
           <p className="text-2xl font-semibold text-blue-600">
             {summary?.attendanceRate !== null && summary?.attendanceRate !== undefined
               ? `${summary.attendanceRate}%`

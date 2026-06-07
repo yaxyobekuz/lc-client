@@ -1,9 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { Bell } from "lucide-react";
 import { Link } from "react-router-dom";
-import http from "@/shared/api/http";
-import { ENDPOINTS } from "@/shared/api/endpoints";
-import { qk } from "@/shared/lib/query/keys";
+import { useUnreadCountQuery } from "@/owner/features/notifications/hooks/useInboxQuery";
 import useAuth from "@/shared/hooks/useAuth";
 import { ROLES } from "@/shared/constants/roles";
 
@@ -17,14 +14,8 @@ const NotificationBell = ({ className = "" }) => {
   const { user, role } = useAuth();
   const inboxPath = ROLE_INBOX_PATH[role] || "/";
 
-  const { data } = useQuery({
-    queryKey: qk.notifications.unreadCount(),
-    queryFn: () =>
-      http.get(ENDPOINTS.notifications.unreadCount).then((r) => r.data.data),
-    enabled: !!user,
-    refetchInterval: 30 * 1000, // 30s
-    staleTime: 10 * 1000,
-  });
+  // Yagona unread-count hook (optimistik yangilanishlar shu kesh bilan ishlaydi)
+  const { data } = useUnreadCountQuery({ enabled: !!user });
 
   const count = data?.count || 0;
   const display = count > 99 ? "99+" : String(count);
