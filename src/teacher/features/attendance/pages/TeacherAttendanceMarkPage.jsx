@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import InputField from "@/shared/components/ui/input/InputField";
-import { AttendanceGrid } from "@/shared/components/attendance";
+import { AttendanceGrid, SessionTabs } from "@/shared/components/attendance";
+import TrialsSection from "@/owner/features/attendance/components/TrialsSection";
 import useAttendanceForGroupDateQuery from "@/owner/features/attendance/hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "@/owner/features/attendance/hooks/useBulkRecordMutation";
 import useGoBack from "@/shared/hooks/useGoBack";
@@ -11,14 +12,17 @@ import { todayInput } from "@/shared/utils/formatDate";
 const TeacherAttendanceMarkPage = () => {
   const { groupId } = useParams();
   const [date, setDate] = useState(todayInput());
+  const [slot, setSlot] = useState(null);
 
-  const { data, isLoading } = useAttendanceForGroupDateQuery(groupId, date);
+  const { data, isLoading } = useAttendanceForGroupDateQuery(groupId, date, slot);
   const { mutate, isPending } = useBulkRecordMutation();
   const goBack = useGoBack("/teacher/attendance");
 
+  const effectiveSlot = slot ?? data?.slot ?? "";
+
   const handleSubmit = (items) => {
     if (!groupId || !date || items.length === 0) return;
-    mutate({ groupId, date, items });
+    mutate({ groupId, date, items, slot: effectiveSlot });
   };
 
   return (
@@ -42,7 +46,10 @@ const TeacherAttendanceMarkPage = () => {
           label="Sana"
           value={date}
           max={todayInput()}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => {
+            setDate(e.target.value);
+            setSlot(null);
+          }}
           className="!gap-1"
         />
       </div>
@@ -50,11 +57,19 @@ const TeacherAttendanceMarkPage = () => {
       {isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : (
-        <AttendanceGrid
-          data={data}
-          onSubmit={handleSubmit}
-          isSubmitting={isPending}
-        />
+        <>
+          <SessionTabs
+            sessions={data?.sessions}
+            activeSlot={effectiveSlot}
+            onSelect={setSlot}
+          />
+          <TrialsSection trials={data?.trials} />
+          <AttendanceGrid
+            data={data}
+            onSubmit={handleSubmit}
+            isSubmitting={isPending}
+          />
+        </>
       )}
     </div>
   );

@@ -70,6 +70,8 @@ export const MODAL = Object.freeze({
   ATTENDANCE_EXEMPTION_EDIT: "attendanceExemption:edit",
   ATTENDANCE_EXEMPTION_DELETE: "attendanceExemption:delete",
 
+  STUDENT_FREEZE: "student:freeze",
+
   // Salaries
   SALARY_CALCULATE_BULK: "salary:calculateBulk",
   SALARY_RECOMPUTE_CONFIRM: "salary:recomputeConfirm",

@@ -2,8 +2,11 @@ import http from "@/shared/api/http";
 import { ENDPOINTS } from "@/shared/api/endpoints";
 
 export const attendanceAPI = {
-  listForGroupDate: (groupId, date) =>
-    http.get(ENDPOINTS.attendance.groupOnDate(groupId), { params: { date } }),
+  listForGroupDate: (groupId, date, slot) =>
+    http.get(ENDPOINTS.attendance.groupOnDate(groupId), {
+      params:
+        slot !== undefined && slot !== null ? { date, slot } : { date },
+    }),
   bulkRecord: (groupId, body) =>
     http.post(ENDPOINTS.attendance.bulk(groupId), body),
   studentMonthly: (studentId, params) =>

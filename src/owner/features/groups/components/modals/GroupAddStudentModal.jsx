@@ -11,7 +11,7 @@ import useUsersListQuery from "@/owner/features/users/hooks/useUsersListQuery";
 import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
 
 // Utils
-import { toDateInput } from "@/shared/utils/formatDate";
+import { todayInput } from "@/shared/utils/formatDate";
 
 // Constants
 import { ROLES } from "@/shared/constants/roles";
@@ -19,7 +19,7 @@ import { ROLES } from "@/shared/constants/roles";
 const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
   const { studentId, joinedAt, setField, resetState } = useObjectState({
     studentId: "",
-    joinedAt: toDateInput(new Date()),
+    joinedAt: todayInput(),
   });
 
   const { data, isLoading: loadingStudents } = useUsersListQuery({
@@ -69,7 +69,7 @@ const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
         name="joinedAt"
         label="Boshlash sanasi"
         value={joinedAt}
-        max={toDateInput(new Date())}
+        max={todayInput()}
         onChange={(e) => setField("joinedAt", e.target.value)}
         disabled={isLoading}
       />

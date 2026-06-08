@@ -83,7 +83,13 @@ export const qk = Object.freeze({
   // Attendance subsystem
   attendance: {
     all: () => ["attendance"],
-    byGroupDate: (gid, date) => ["attendance", "groupDate", gid, date],
+    byGroupDate: (gid, date, slot = "") => [
+      "attendance",
+      "groupDate",
+      gid,
+      date,
+      slot,
+    ],
     studentMonthly: (sid, params) => ["attendance", "studentMonthly", sid, params],
     studentYearly: (sid, params) => ["attendance", "studentYearly", sid, params],
     studentSummary: (sid, params) => ["attendance", "studentSummary", sid, params],
@@ -101,6 +107,10 @@ export const qk = Object.freeze({
     all: () => ["attendanceExemptions"],
     byStudent: (studentId) => ["attendanceExemptions", "byStudent", studentId],
     one: (id) => ["attendanceExemptions", "detail", id],
+  },
+  studentFreezes: {
+    all: () => ["studentFreezes"],
+    byStudent: (studentId) => ["studentFreezes", "byStudent", studentId],
   },
   attendanceSettings: {
     one: () => ["attendanceSettings"],

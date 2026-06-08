@@ -127,8 +127,8 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
         const next = { ...prev };
         for (let i = lo; i <= hi && i < data.rows.length; i++) {
           const r = data.rows[i];
-          // auto-exempt qatorlarga tegmaymiz (setAll bilan bir xil qoida)
-          if (!r || r.defaultStatus === "exempt") continue;
+          // auto-exempt va muzlatilgan qatorlarga tegmaymiz (setAll bilan bir xil)
+          if (!r || r.defaultStatus === "exempt" || r.frozen) continue;
           next[String(r.student._id)] = {
             status: drag.status,
             reason: "",
@@ -181,8 +181,8 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
       const next = { ...prev };
       for (const r of data.rows) {
         const sid = String(r.student._id);
-        // exempt default'lar saqlanadi (auto-exempt'ni bekor qilmasin)
-        if (r.defaultStatus === "exempt") continue;
+        // exempt default va muzlatilgan o'quvchilarga tegmaymiz
+        if (r.defaultStatus === "exempt" || r.frozen) continue;
         next[sid] = {
           status,
           reason: "",
@@ -200,6 +200,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
     const items = [];
     for (const r of data.rows) {
       const sid = String(r.student._id);
+      if (r.frozen) continue; // muzlatilgan o'quvchi yuborilmaydi
       const cur = state[sid] || { status: "" };
       if (!cur.status) continue;
       if (r.attendance && isSame(initial[sid], cur)) continue;
@@ -282,9 +283,13 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
         {data.rows.map((r, i) => {
           const sid = String(r.student._id);
           const cur = state[sid] || {};
-          // Sudrash oralig'idami (auto-exempt qatorlar oraliqdan chiqariladi)
+          // Sudrash oralig'idami (auto-exempt va muzlatilgan qatorlar chiqariladi)
           const inDrag =
-            !!drag && i >= dragLo && i <= dragHi && r.defaultStatus !== "exempt";
+            !!drag &&
+            i >= dragLo &&
+            i <= dragHi &&
+            r.defaultStatus !== "exempt" &&
+            !r.frozen;
           return (
             <div
               key={sid}
@@ -319,13 +324,19 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                 </div>
               </div>
               <div className="sm:flex-1">
-                <AttendanceMarker
-                  value={cur}
-                  onChange={(v) => setState((prev) => ({ ...prev, [sid]: v }))}
-                  onRangeStart={(s) => startDrag(i, s)}
-                  previewStatus={inDrag ? drag.status : null}
-                  disabled={isSubmitting || locked}
-                />
+                {r.frozen ? (
+                  <span className="inline-flex items-center gap-1 rounded-md bg-cyan-50 px-2.5 py-1 text-xs font-medium text-cyan-700">
+                    ❄ Muzlatilgan
+                  </span>
+                ) : (
+                  <AttendanceMarker
+                    value={cur}
+                    onChange={(v) => setState((prev) => ({ ...prev, [sid]: v }))}
+                    onRangeStart={(s) => startDrag(i, s)}
+                    previewStatus={inDrag ? drag.status : null}
+                    disabled={isSubmitting || locked}
+                  />
+                )}
               </div>
             </div>
           );

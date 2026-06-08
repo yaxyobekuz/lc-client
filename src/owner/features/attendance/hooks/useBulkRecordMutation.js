@@ -7,8 +7,10 @@ import { apiErrorToast } from "@/shared/utils/apiError";
 const useBulkRecordMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ groupId, date, items }) =>
-      attendanceAPI.bulkRecord(groupId, { date, items }).then((r) => r.data),
+    mutationFn: ({ groupId, date, items, slot }) =>
+      attendanceAPI
+        .bulkRecord(groupId, { date, items, slot: slot || "" })
+        .then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.attendance.all() });
       toast.success("Davomat saqlandi");

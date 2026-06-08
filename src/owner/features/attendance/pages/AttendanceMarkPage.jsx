@@ -1,9 +1,10 @@
 import { useState } from "react";
 import InputField from "@/shared/components/ui/input/InputField";
 import Card from "@/shared/components/ui/card/Card";
-import { AttendanceGrid } from "@/shared/components/attendance";
+import { AttendanceGrid, SessionTabs } from "@/shared/components/attendance";
 import GroupPicker from "../components/GroupPicker";
 import TeacherPresenceCard from "../components/TeacherPresenceCard";
+import TrialsSection from "../components/TrialsSection";
 import useAttendanceForGroupDateQuery from "../hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
 import { todayInput } from "@/shared/utils/formatDate";
@@ -11,13 +12,17 @@ import { todayInput } from "@/shared/utils/formatDate";
 const AttendanceMarkPage = () => {
   const [groupId, setGroupId] = useState("");
   const [date, setDate] = useState(todayInput());
+  // null → server birinchi sessiyani tanlaydi; tanlangach aniq slot
+  const [slot, setSlot] = useState(null);
 
-  const { data, isLoading } = useAttendanceForGroupDateQuery(groupId, date);
+  const { data, isLoading } = useAttendanceForGroupDateQuery(groupId, date, slot);
   const { mutate, isPending } = useBulkRecordMutation();
+
+  const effectiveSlot = slot ?? data?.slot ?? "";
 
   const handleSubmit = (items) => {
     if (!groupId || !date || items.length === 0) return;
-    mutate({ groupId, date, items });
+    mutate({ groupId, date, items, slot: effectiveSlot });
   };
 
   return (
@@ -35,7 +40,10 @@ const AttendanceMarkPage = () => {
           label="Sana"
           value={date}
           max={todayInput()}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => {
+            setDate(e.target.value);
+            setSlot(null); // yangi kun → sessiya qayta tanlanadi
+          }}
           className="w-full sm:w-56"
         />
       </Card>
@@ -49,6 +57,12 @@ const AttendanceMarkPage = () => {
       ) : (
         <>
           <TeacherPresenceCard groupId={groupId} date={date} />
+          <SessionTabs
+            sessions={data?.sessions}
+            activeSlot={effectiveSlot}
+            onSelect={setSlot}
+          />
+          <TrialsSection trials={data?.trials} />
           <AttendanceGrid
             data={data}
             onSubmit={handleSubmit}

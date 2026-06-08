@@ -20,6 +20,7 @@ export {
   useRecordContactMutation,
   useSetFollowUpMutation,
   useSetTrialMutation,
+  useRecordTrialOutcomeMutation,
   useConvertMutation,
 } from "./hooks/useLeadMutations";
 

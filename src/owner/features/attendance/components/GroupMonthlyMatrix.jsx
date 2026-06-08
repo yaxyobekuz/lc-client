@@ -91,13 +91,19 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                     : "bg-gray-50 text-gray-400";
                 return (
                   <th
-                    key={d.dateKey}
-                    title={d.isHoliday ? "Bayram/dam olish kuni" : undefined}
+                    key={d.colKey || d.dateKey}
+                    title={
+                      d.isHoliday
+                        ? "Bayram/dam olish kuni"
+                        : d.slot
+                          ? `${day}-kun, ${d.startTime}`
+                          : undefined
+                    }
                     className={`border-b border-gray-200 px-1 py-1 text-center font-medium ${headerCls}`}
                   >
                     <div className="leading-tight">{day}</div>
                     <div className="text-[10px] font-normal opacity-70">
-                      {DAY_SHORT[d.dayOfWeek]}
+                      {d.slot ? d.startTime : DAY_SHORT[d.dayOfWeek]}
                     </div>
                   </th>
                 );
@@ -114,20 +120,22 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                     {name || row.student.username || "-"}
                   </td>
                   {dates.map((d) => {
-                    const cell = row.cells?.[d.dateKey];
+                    const colKey = d.colKey || d.dateKey;
+                    const cell = row.cells?.[colKey];
                     if (!d.isClassDay || cell === null || cell === undefined) {
                       return (
                         <td
-                          key={d.dateKey}
+                          key={colKey}
                           className="border-b border-gray-200 h-7"
                         />
                       );
                     }
                     const displayed = cell.status || cell.defaultStatus;
+                    const label = d.slot ? `${d.dateKey} ${d.startTime}` : d.dateKey;
                     if (!displayed) {
                       return (
                         <td
-                          key={d.dateKey}
+                          key={colKey}
                           className="border-b border-gray-200 h-7"
                         >
                           <span className="block mx-auto w-3 h-3 rounded-full border border-dashed border-slate-400 opacity-60" />
@@ -136,10 +144,10 @@ const GroupMonthlyMatrix = ({ groupId, year, month }) => {
                     }
                     return (
                       <td
-                        key={d.dateKey}
+                        key={colKey}
                         className="border-b border-gray-200 h-7"
                       >
-                        <Tooltip content={tooltipText(d.dateKey, displayed, cell)}>
+                        <Tooltip content={tooltipText(label, displayed, cell)}>
                           <span
                             className={`block mx-auto w-3 h-3 rounded-full ${bgOf(displayed)}`}
                           />

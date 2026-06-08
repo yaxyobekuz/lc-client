@@ -24,6 +24,12 @@ import SetTrialModal from "../components/modals/SetTrialModal";
 import ConvertToStudentModal from "../components/modals/ConvertToStudentModal";
 
 import useLeadDetailQuery from "../hooks/useLeadDetailQuery";
+import { useRecordTrialOutcomeMutation } from "../hooks/useLeadMutations";
+
+const TRIAL_OUTCOME_LABEL = {
+  attended: "Keldi",
+  no_show: "Kelmadi",
+};
 
 const InfoRow = ({ label, value }) => (
   <div className="flex justify-between gap-3 text-sm">
@@ -37,6 +43,8 @@ const LeadDetailPage = () => {
   const { openModal } = useModal();
   const goBack = useGoBack("/owner/leads");
   const { data: lead, isLoading } = useLeadDetailQuery(id);
+  const { mutate: trialOutcome, isPending: isMarkingTrial } =
+    useRecordTrialOutcomeMutation();
 
   if (isLoading) {
     return (
@@ -157,6 +165,40 @@ const LeadDetailPage = () => {
             value={lead.trialDate ? formatDateUz(lead.trialDate) : null}
           />
           <InfoRow label="Guruh" value={lead.trialGroup?.name} />
+          {lead.trialDate && (
+            <InfoRow
+              label="Natija"
+              value={
+                lead.trialOutcome
+                  ? TRIAL_OUTCOME_LABEL[lead.trialOutcome]
+                  : "Belgilanmagan"
+              }
+            />
+          )}
+          {lead.trialDate && !lead.trialOutcome && (
+            <div className="flex gap-2 pt-1">
+              <Button
+                size="sm"
+                variant="outline"
+                className="flex-1 border-green-200 text-green-700 hover:bg-green-50"
+                onClick={() => trialOutcome({ id: lead._id, outcome: "attended" })}
+                disabled={isMarkingTrial}
+                playClickSound={false}
+              >
+                Keldi
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="flex-1 border-rose-200 text-rose-600 hover:bg-rose-50"
+                onClick={() => trialOutcome({ id: lead._id, outcome: "no_show" })}
+                disabled={isMarkingTrial}
+                playClickSound={false}
+              >
+                Kelmadi
+              </Button>
+            </div>
+          )}
           {lead.convertedAt && (
             <>
               <h3 className="font-semibold pt-2 border-t">Konversiya</h3>

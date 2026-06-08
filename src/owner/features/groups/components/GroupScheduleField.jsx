@@ -17,6 +17,8 @@ import { DAY_OPTIONS, DAY_LABELS_FULL_UZ } from "@/shared/utils/formatSchedule";
 import { cn } from "@/shared/utils/cn";
 
 const ALL_DAYS = DAY_OPTIONS.map((d) => d.value);
+// Bir kunda bir nechta dars (sessiya) bo'lishi mumkin — jami qatorlar uchun yumshoq chegara
+const MAX_ROWS = 21;
 
 const findFirstFreeDay = (usedDays) =>
   ALL_DAYS.find((d) => !usedDays.includes(d)) || "mon";
@@ -87,18 +89,23 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
   };
 
   const addRow = () => {
+    if (value.length >= MAX_ROWS) return;
     const used = value.map((v) => v.day);
-    if (used.length >= ALL_DAYS.length) return;
     onChange([...value, emptyRow(used)]);
   };
   const removeRow = (idx) => onChange(value.filter((_, i) => i !== idx));
 
-  const dayCount = value.reduce((acc, r) => {
-    acc[r.day] = (acc[r.day] || 0) + 1;
+  // Dublikat = bir xil kun VA bir xil boshlanish vaqti (kun takrori ruxsat etiladi)
+  const keyCount = value.reduce((acc, r) => {
+    const k = `${r.day}-${r.startTime}`;
+    acc[k] = (acc[k] || 0) + 1;
     return acc;
   }, {});
-  const isDup = (idx) => dayCount[value[idx]?.day] > 1;
-  const canAddMore = value.length < ALL_DAYS.length;
+  const isDup = (idx) => {
+    const r = value[idx];
+    return r ? keyCount[`${r.day}-${r.startTime}`] > 1 : false;
+  };
+  const canAddMore = value.length < MAX_ROWS;
 
   return (
     <div className="space-y-2">
@@ -132,9 +139,6 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
 
             <div className="divide-y">
               {value.map((row, idx) => {
-                const usedByOthers = value
-                  .filter((_, i) => i !== idx)
-                  .map((r) => r.day);
                 const duplicate = isDup(idx);
 
                 return (
@@ -160,11 +164,7 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
                           <SelectValue placeholder="Kun" />
                         </SelectTrigger>
                         <SelectContent>
-                          {DAY_OPTIONS.filter(
-                            (opt) =>
-                              opt.value === row.day ||
-                              !usedByOthers.includes(opt.value),
-                          ).map((opt) => (
+                          {DAY_OPTIONS.map((opt) => (
                             <SelectItem key={opt.value} value={opt.value}>
                               {opt.label}
                             </SelectItem>
@@ -196,8 +196,8 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
                     </div>
                     {duplicate && (
                       <p className="px-2 pb-1.5 text-[11px] text-red-600">
-                        {DAY_LABELS_FULL_UZ[row.day]} kuni jadvalda allaqachon
-                        bor
+                        {DAY_LABELS_FULL_UZ[row.day]} {row.startTime} allaqachon
+                        bor (bir xil vaqt takrorlanmasin)
                       </p>
                     )}
                   </div>
@@ -212,7 +212,7 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
           type="button"
           onClick={addRow}
           disabled={disabled || !canAddMore}
-          title={!canAddMore ? "Hafta kunlari to'lib bo'ldi" : undefined}
+          title={!canAddMore ? "Maksimal qatorlar soni" : undefined}
           className="w-full flex items-center justify-center gap-1.5 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-gray-50 border-t disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <Plus className="size-4" />

@@ -124,6 +124,25 @@ export const useSetTrialMutation = (options = {}) => {
   });
 };
 
+// Sinov natijasi (keldi/kelmadi). Lid + davomat query'larini yangilaydi
+// (natija davomat sahifasidagi "Bugungi sinovlar" bo'limida ham ko'rinadi).
+export const useRecordTrialOutcomeMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, outcome }) =>
+      leadsAPI.recordTrialOutcome(id, { outcome }).then((r) => r.data.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.leads.all() });
+      qc.invalidateQueries({ queryKey: qk.attendance.all() });
+      toast.success(
+        vars.outcome === "attended" ? "Keldi deb belgilandi" : "Kelmadi deb belgilandi",
+      );
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: handleErr,
+  });
+};
+
 export const useConvertMutation = (options = {}) => {
   const invalidate = useInvalidateAll();
   return useMutation({

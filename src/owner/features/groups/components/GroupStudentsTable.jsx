@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // Icons
-import { ArrowRightLeft, Trash2, Check, Send } from "lucide-react";
+import { ArrowRightLeft, Trash2, Check, Send, Snowflake } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -52,11 +52,11 @@ const GroupStudentsTable = ({ group }) => {
           <col className="w-12" />
           <col className="w-[22%]" />
           <col className="w-[16%]" />
-          <col className="w-[14%]" />
-          <col className="w-[18%]" />
+          <col className="w-[13%]" />
+          <col className="w-[15%]" />
           <col className="w-[8%]" />
           <col className="w-[12%]" />
-          <col className="w-[10%]" />
+          <col className="w-[14%]" />
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs font-medium text-gray-400">
@@ -90,6 +90,12 @@ const GroupStudentsTable = ({ group }) => {
                 {s.balance > 0 && (
                   <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-700">
                     Balans: {formatMoney(s.balance)}
+                  </span>
+                )}
+                {s.frozen && (
+                  <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2 py-0.5 text-xs font-medium text-cyan-700">
+                    <Snowflake className="size-3" />
+                    Muzlatilgan
                   </span>
                 )}
               </td>
@@ -173,6 +179,23 @@ const GroupStudentsTable = ({ group }) => {
               </td>
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    title="Muzlatish — vaqtincha to'xtatish"
+                    aria-label="O'quvchini muzlatish"
+                    className="size-8 text-cyan-600 hover:bg-cyan-50 hover:text-cyan-700"
+                    onClick={() =>
+                      openModal(MODAL.STUDENT_FREEZE, {
+                        studentId: s._id,
+                        studentName: `${s.firstName} ${s.lastName}`,
+                      })
+                    }
+                    playClickSound={false}
+                  >
+                    <Snowflake className="size-4" />
+                  </Button>
                   <Button
                     type="button"
                     variant="ghost"

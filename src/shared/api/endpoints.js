@@ -99,6 +99,10 @@ export const ENDPOINTS = Object.freeze({
     base: "/teacher-attendance",
     bulk: "/teacher-attendance/bulk",
   },
+  studentFreezes: {
+    base: "/student-freezes",
+    byId: (id) => `/student-freezes/${id}`,
+  },
   attendanceExemptions: {
     base: "/attendance-exemptions",
     byId: (id) => `/attendance-exemptions/${id}`,
@@ -143,6 +147,7 @@ export const ENDPOINTS = Object.freeze({
     contacts: (id) => `/leads/${id}/contacts`,
     followUp: (id) => `/leads/${id}/follow-up`,
     trial: (id) => `/leads/${id}/trial`,
+    trialOutcome: (id) => `/leads/${id}/trial-outcome`,
     convert: (id) => `/leads/${id}/convert`,
     dashboard: "/leads/dashboard",
     sourcePerformance: "/leads/source-performance",

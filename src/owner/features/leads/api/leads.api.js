@@ -12,6 +12,8 @@ export const leadsAPI = {
   recordContact: (id, body) => http.post(ENDPOINTS.leads.contacts(id), body),
   setFollowUp: (id, body) => http.post(ENDPOINTS.leads.followUp(id), body),
   setTrial: (id, body) => http.post(ENDPOINTS.leads.trial(id), body),
+  recordTrialOutcome: (id, body) =>
+    http.post(ENDPOINTS.leads.trialOutcome(id), body),
   convert: (id, body) => http.post(ENDPOINTS.leads.convert(id), body),
   dashboard: (params) => http.get(ENDPOINTS.leads.dashboard, { params }),
   sourcePerformance: (params) =>

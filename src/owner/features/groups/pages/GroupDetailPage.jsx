@@ -23,6 +23,7 @@ import GroupTransferStudentModal from "../components/modals/GroupTransferStudent
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
 import GroupReplaceTeacherModal from "../components/modals/GroupReplaceTeacherModal";
 import { PaymentRecordModal } from "@/owner/features/payments";
+import { StudentFreezeModal } from "@/owner/features/studentFreezes";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -276,6 +277,9 @@ const GroupDetailPage = () => {
       </ModalWrapper>
       <ModalWrapper name={MODAL.PAYMENT_RECORD} title="To'lov yozish">
         <PaymentRecordModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.STUDENT_FREEZE} title="O'quvchini muzlatish">
+        <StudentFreezeModal />
       </ModalWrapper>
     </div>
   );
