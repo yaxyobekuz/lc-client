@@ -51,10 +51,10 @@ const GroupStudentsTable = ({ group }) => {
         <colgroup>
           <col className="w-12" />
           <col className="w-[18%]" />
-          <col className="w-[13%]" />
+          <col className="w-[15%]" />
           <col className="w-[11%]" />
           <col className="w-[13%]" />
-          <col className="w-[19%]" />
+          <col className="w-[17%]" />
           <col className="w-[11%]" />
           <col className="w-[15%]" />
         </colgroup>
@@ -93,11 +93,18 @@ const GroupStudentsTable = ({ group }) => {
                   </span>
                 )}
               </td>
-              <td className="px-4 py-3 text-gray-600 tabular-nums whitespace-nowrap">
-                {formatPhone(s.phone) || "-"}
+              <td className="px-4 py-3 text-gray-600 tabular-nums">
+                <span
+                  className="block truncate"
+                  title={formatPhone(s.phone) || "-"}
+                >
+                  {formatPhone(s.phone) || "-"}
+                </span>
               </td>
-              <td className="px-4 py-3 text-muted-foreground truncate">
-                @{s.username}
+              <td className="px-4 py-3 text-muted-foreground">
+                <span className="block truncate" title={`@${s.username}`}>
+                  @{s.username}
+                </span>
               </td>
               <td className="px-4 py-3">
                 {s.telegram ? (
@@ -106,19 +113,19 @@ const GroupStudentsTable = ({ group }) => {
                       href={`https://t.me/${s.telegram.username}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 truncate font-medium text-sky-600 hover:text-sky-700 hover:underline"
+                      className="flex min-w-0 items-center gap-1 font-medium text-sky-600 hover:text-sky-700 hover:underline"
                       title={`@${s.telegram.username}`}
                     >
-                      <Send className="size-3.5 shrink-0" />@
-                      {s.telegram.username}
+                      <Send className="size-3.5 shrink-0" />
+                      <span className="truncate">@{s.telegram.username}</span>
                     </a>
                   ) : (
                     <span
-                      className="inline-flex items-center gap-1 font-medium text-emerald-600"
+                      className="flex min-w-0 items-center gap-1 font-medium text-emerald-600"
                       title={`Telegram ID: ${s.telegram.telegramId}`}
                     >
                       <Send className="size-3.5 shrink-0" />
-                      Bog'langan
+                      <span className="truncate">Bog'langan</span>
                     </span>
                   )
                 ) : (

@@ -1,10 +1,26 @@
 import { useEffect } from "react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import InputField from "@/shared/components/ui/input/InputField";
+import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 import Switch from "@/shared/components/ui/switch/Switch";
 import Card from "@/shared/components/ui/card/Card";
 import usePaymentSettingsUpdateMutation from "../hooks/usePaymentSettingsUpdateMutation";
+
+const PRICE_CHANGE_OPTIONS = [
+  { value: "future_only", label: "Faqat keyingi oydan" },
+  { value: "current_unpaid", label: "Bu oy to'lamaganlarga ham" },
+  { value: "include_paid", label: "To'laganlarga ham (farq qarz/qaytarish)" },
+];
+
+const PRICE_CHANGE_HINTS = {
+  future_only:
+    "Joriy oy hisoblari o'zgarmaydi — yangi narx faqat keyingi oydan ishlaydi.",
+  current_unpaid:
+    "Joriy oyning to'lanmagan hisoblari yangi narxga o'tadi. Allaqachon to'laganlar himoyalangan (qarz yozilmaydi).",
+  include_paid:
+    "To'langan hisoblar ham yangilanadi: narx oshsa farq qarz bo'ladi, kamaysa ortig'i o'quvchi balansiga qaytadi.",
+};
 
 const PaymentSettingsForm = ({ settings }) => {
   const obj = useObjectState({
@@ -13,6 +29,7 @@ const PaymentSettingsForm = ({ settings }) => {
     repeatAfterOverdueDays: settings?.repeatAfterOverdueDays ?? 3,
     reminderEnabled: settings?.reminderEnabled ?? true,
     centerName: settings?.centerName ?? "Bayyina",
+    groupPriceChangeMode: settings?.groupPriceChangeMode ?? "current_unpaid",
   });
 
   useEffect(() => {
@@ -23,6 +40,7 @@ const PaymentSettingsForm = ({ settings }) => {
         repeatAfterOverdueDays: settings.repeatAfterOverdueDays,
         reminderEnabled: settings.reminderEnabled,
         centerName: settings.centerName,
+        groupPriceChangeMode: settings.groupPriceChangeMode ?? "current_unpaid",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,6 +56,7 @@ const PaymentSettingsForm = ({ settings }) => {
       repeatAfterOverdueDays: Number(obj.repeatAfterOverdueDays),
       reminderEnabled: !!obj.reminderEnabled,
       centerName: obj.centerName,
+      groupPriceChangeMode: obj.groupPriceChangeMode,
     });
   };
 
@@ -98,6 +117,26 @@ const PaymentSettingsForm = ({ settings }) => {
         />
       </Card>
       </div>
+
+      <Card className="space-y-3">
+        <div>
+          <h3 className="font-semibold">Guruh narxi o'zgarganda</h3>
+          <p className="text-sm text-muted-foreground">
+            Guruh oylik narxini oy o'rtasida o'zgartirganingizda joriy oy
+            hisoblariga qanday ta'sir qilsin.
+          </p>
+        </div>
+        <SelectField
+          label="Joriy oy hisoblariga ta'siri"
+          value={obj.groupPriceChangeMode}
+          onChange={(v) => obj.setField("groupPriceChangeMode", v)}
+          options={PRICE_CHANGE_OPTIONS}
+          disabled={isPending}
+        />
+        <p className="rounded-md bg-muted/50 px-3 py-2 text-sm text-muted-foreground">
+          {PRICE_CHANGE_HINTS[obj.groupPriceChangeMode]}
+        </p>
+      </Card>
 
       <div className="flex justify-end">
         <Button type="submit" disabled={isPending}>
