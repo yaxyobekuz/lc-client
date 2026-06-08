@@ -47,16 +47,16 @@ const GroupStudentsTable = ({ group }) => {
 
   return (
     <div className="rounded-lg border border-gray-200 overflow-x-auto bg-white">
-      <table className="w-full min-w-[940px] table-fixed text-sm">
+      <table className="w-full min-w-[880px] table-fixed text-sm">
         <colgroup>
           <col className="w-12" />
+          <col className="w-[22%]" />
+          <col className="w-[16%]" />
+          <col className="w-[14%]" />
           <col className="w-[18%]" />
-          <col className="w-[15%]" />
-          <col className="w-[11%]" />
-          <col className="w-[13%]" />
-          <col className="w-[17%]" />
-          <col className="w-[11%]" />
-          <col className="w-[15%]" />
+          <col className="w-[8%]" />
+          <col className="w-[12%]" />
+          <col className="w-[10%]" />
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs font-medium text-gray-400">
@@ -65,7 +65,7 @@ const GroupStudentsTable = ({ group }) => {
             <th className="px-4 py-3">Telefon</th>
             <th className="px-4 py-3">Login</th>
             <th className="px-4 py-3">Telegram</th>
-            <th className="px-4 py-3">Bu oy to'lovi</th>
+            <th className="px-4 py-3 whitespace-nowrap">To'lov</th>
             <th className="px-4 py-3 text-right">Qarz</th>
             <th className="px-4 py-3 text-right">Amallar</th>
           </tr>
@@ -132,34 +132,39 @@ const GroupStudentsTable = ({ group }) => {
                   <span className="text-gray-300">Bog'lanmagan</span>
                 )}
               </td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3 whitespace-nowrap">
                 {!inv ? (
-                  <span className="text-gray-300">Hisob yo'q</span>
+                  <span className="text-gray-300">—</span>
                 ) : inv.status === "paid" ? (
-                  <span className="inline-flex items-center gap-1 font-medium text-green-600">
-                    <Check className="size-3.5" />
-                    To'landi
+                  <span
+                    className="inline-flex size-8 items-center justify-center rounded-md bg-green-50 text-green-600"
+                    title="To'landi"
+                    aria-label="To'landi"
+                  >
+                    <Check className="size-4" />
                   </span>
                 ) : inv.status === "cancelled" ? (
-                  <span className="text-gray-300">Bekor qilingan</span>
+                  <span className="text-gray-300" title="Bekor qilingan">
+                    —
+                  </span>
                 ) : (
                   <Button
                     type="button"
                     variant="outline"
-                    size="sm"
-                    title="To'liq summani to'langan deb belgilash"
-                    className="border-green-200 text-green-700 hover:border-green-300 hover:bg-green-50 hover:text-green-800"
+                    size="icon"
+                    title="To'lash — to'liq summani to'langan deb belgilash"
+                    aria-label="To'lash"
+                    className="size-8 border-green-200 text-green-700 hover:border-green-300 hover:bg-green-50 hover:text-green-800"
                     onClick={() =>
                       openModal(MODAL.PAYMENT_RECORD, { invoice: inv })
                     }
                     playClickSound={false}
                   >
-                    <Check className="size-3.5" />
-                    To'lash
+                    <Check className="size-4" />
                   </Button>
                 )}
               </td>
-              <td className="px-4 py-3 text-right tabular-nums font-medium">
+              <td className="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">
                 {debt > 0 ? (
                   <span className="text-rose-500">{formatMoney(debt)}</span>
                 ) : (
@@ -171,8 +176,10 @@ const GroupStudentsTable = ({ group }) => {
                   <Button
                     type="button"
                     variant="ghost"
-                    size="sm"
-                    className="text-gray-500 hover:text-gray-700"
+                    size="icon"
+                    title="Ko'chirish — boshqa guruhga"
+                    aria-label="Boshqa guruhga ko'chirish"
+                    className="size-8 text-gray-500 hover:text-gray-700"
                     onClick={() =>
                       openModal(MODAL.GROUP_TRANSFER_STUDENT, {
                         groupId: group._id,
@@ -182,13 +189,14 @@ const GroupStudentsTable = ({ group }) => {
                     playClickSound={false}
                   >
                     <ArrowRightLeft className="size-4" />
-                    Ko'chirish
                   </Button>
                   <Button
                     type="button"
                     variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                    size="icon"
+                    title="Chiqarish — guruhdan chiqarish"
+                    aria-label="O'quvchini guruhdan chiqarish"
+                    className="size-8 text-red-600 hover:bg-red-50 hover:text-red-700"
                     onClick={() =>
                       openModal(MODAL.GROUP_REMOVE_STUDENT, {
                         groupId: group._id,
@@ -196,10 +204,8 @@ const GroupStudentsTable = ({ group }) => {
                       })
                     }
                     playClickSound={false}
-                    aria-label="O'quvchini guruhdan chiqarish"
                   >
                     <Trash2 className="size-4" />
-                    Chiqarish
                   </Button>
                 </div>
               </td>
