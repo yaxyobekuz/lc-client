@@ -41,3 +41,17 @@ export const toDateInput = (dateLike) => {
   const dd = String(d.getDate()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd}`;
 };
+
+// Markaz vaqt zonasi (Asia/Tashkent) bo'yicha "bugun" — YYYY-MM-DD.
+// Davomat sahifalarida default sana va max chegarasi server bilan mos bo'lishi
+// uchun (brauzer boshqa TZ da bo'lsa ham). Server localTodayMidnight (+5) ishlatadi.
+export const todayInput = () => {
+  try {
+    // en-CA → YYYY-MM-DD formati
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Tashkent",
+    }).format(new Date());
+  } catch {
+    return toDateInput(new Date());
+  }
+};

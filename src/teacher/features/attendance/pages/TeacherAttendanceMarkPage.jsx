@@ -6,11 +6,11 @@ import { AttendanceGrid } from "@/shared/components/attendance";
 import useAttendanceForGroupDateQuery from "@/owner/features/attendance/hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "@/owner/features/attendance/hooks/useBulkRecordMutation";
 import useGoBack from "@/shared/hooks/useGoBack";
-import { toDateInput } from "@/shared/utils/formatDate";
+import { todayInput } from "@/shared/utils/formatDate";
 
 const TeacherAttendanceMarkPage = () => {
   const { groupId } = useParams();
-  const [date, setDate] = useState(toDateInput(new Date()));
+  const [date, setDate] = useState(todayInput());
 
   const { data, isLoading } = useAttendanceForGroupDateQuery(groupId, date);
   const { mutate, isPending } = useBulkRecordMutation();
@@ -41,7 +41,7 @@ const TeacherAttendanceMarkPage = () => {
           name="date"
           label="Sana"
           value={date}
-          max={toDateInput(new Date())}
+          max={todayInput()}
           onChange={(e) => setDate(e.target.value)}
           className="!gap-1"
         />

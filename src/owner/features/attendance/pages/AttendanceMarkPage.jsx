@@ -6,11 +6,11 @@ import GroupPicker from "../components/GroupPicker";
 import TeacherPresenceCard from "../components/TeacherPresenceCard";
 import useAttendanceForGroupDateQuery from "../hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
-import { toDateInput } from "@/shared/utils/formatDate";
+import { todayInput } from "@/shared/utils/formatDate";
 
 const AttendanceMarkPage = () => {
   const [groupId, setGroupId] = useState("");
-  const [date, setDate] = useState(toDateInput(new Date()));
+  const [date, setDate] = useState(todayInput());
 
   const { data, isLoading } = useAttendanceForGroupDateQuery(groupId, date);
   const { mutate, isPending } = useBulkRecordMutation();
@@ -34,7 +34,7 @@ const AttendanceMarkPage = () => {
           name="date"
           label="Sana"
           value={date}
-          max={toDateInput(new Date())}
+          max={todayInput()}
           onChange={(e) => setDate(e.target.value)}
           className="w-full sm:w-56"
         />
