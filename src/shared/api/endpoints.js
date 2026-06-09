@@ -14,11 +14,6 @@ export const ENDPOINTS = Object.freeze({
     password: (id) => `/users/${id}/password`,
     groupHistory: (id) => `/users/${id}/group-history`,
   },
-  leadSources: {
-    base: "/lead-sources",
-    byId: (id) => `/lead-sources/${id}`,
-    setDefault: (id) => `/lead-sources/${id}/set-default`,
-  },
   students: {
     base: "/students",
     byId: (id) => `/students/${id}`,
@@ -149,36 +144,6 @@ export const ENDPOINTS = Object.freeze({
     base: "/salary-settings",
   },
 
-  // Leads (CRM) subsystem
-  leads: {
-    base: "/leads",
-    byId: (id) => `/leads/${id}`,
-    status: (id) => `/leads/${id}/status`,
-    notes: (id) => `/leads/${id}/notes`,
-    contacts: (id) => `/leads/${id}/contacts`,
-    followUp: (id) => `/leads/${id}/follow-up`,
-    trial: (id) => `/leads/${id}/trial`,
-    trialOutcome: (id) => `/leads/${id}/trial-outcome`,
-    convert: (id) => `/leads/${id}/convert`,
-    dashboard: "/leads/dashboard",
-    sourcePerformance: "/leads/source-performance",
-    todayReminders: "/leads/reminders/today",
-    overdueReminders: "/leads/reminders/overdue",
-  },
-  leadDirections: {
-    base: "/lead-directions",
-    byId: (id) => `/lead-directions/${id}`,
-    setDefault: (id) => `/lead-directions/${id}/set-default`,
-  },
-  leadStatuses: {
-    base: "/lead-statuses",
-    byId: (id) => `/lead-statuses/${id}`,
-    setDefault: (id) => `/lead-statuses/${id}/set-default`,
-  },
-  leadSettings: {
-    base: "/lead-settings",
-  },
-
   // Notifications + Feedback (Bo'lak 7)
   notifications: {
     base: "/notifications",
@@ -189,6 +154,13 @@ export const ENDPOINTS = Object.freeze({
     markRead: (id) => `/notifications/inbox/${id}/read`,
     markAllRead: "/notifications/inbox/read-all",
     stats: "/notifications/stats",
+  },
+  // Tizim bildirishnomalari (in-app, owner)
+  systemNotifications: {
+    base: "/system-notifications",
+    unreadCount: "/system-notifications/unread-count",
+    markRead: (id) => `/system-notifications/${id}/read`,
+    markAllRead: "/system-notifications/read-all",
   },
   notificationTemplates: {
     base: "/notification-templates",
@@ -232,7 +204,6 @@ export const ENDPOINTS = Object.freeze({
   adminDashboard: {
     overview: "/admin-dashboard/overview",
     monthlyFinancials: "/admin-dashboard/monthly-financials",
-    incomeByDirection: "/admin-dashboard/income-by-direction",
     incomeByTeacher: "/admin-dashboard/income-by-teacher",
     studentFlow: "/admin-dashboard/student-flow",
     forecast: "/admin-dashboard/forecast",

@@ -13,11 +13,6 @@ export const qk = Object.freeze({
     password: (id) => ["users", "password", id],
     groupHistory: (id, params) => ["users", id, "group-history", params],
   },
-  leadSources: {
-    all: () => ["leadSources"],
-    list: (params) => ["leadSources", "list", params],
-    one: (id) => ["leadSources", "detail", id],
-  },
   students: {
     all: () => ["students"],
     list: (params) => ["students", "list", params],
@@ -153,30 +148,6 @@ export const qk = Object.freeze({
     one: () => ["salarySettings"],
   },
 
-  // Leads / CRM subsystem
-  leads: {
-    all: () => ["leads"],
-    list: (params) => ["leads", "list", params],
-    one: (id) => ["leads", "detail", id],
-    dashboard: (params) => ["leads", "dashboard", params],
-    sourcePerformance: (params) => ["leads", "sourcePerformance", params],
-    todayReminders: () => ["leads", "reminders", "today"],
-    overdueReminders: () => ["leads", "reminders", "overdue"],
-  },
-  leadDirections: {
-    all: () => ["leadDirections"],
-    list: (params) => ["leadDirections", "list", params],
-    one: (id) => ["leadDirections", "detail", id],
-  },
-  leadStatuses: {
-    all: () => ["leadStatuses"],
-    list: (params) => ["leadStatuses", "list", params],
-    one: (id) => ["leadStatuses", "detail", id],
-  },
-  leadSettings: {
-    one: () => ["leadSettings"],
-  },
-
   // Notifications + Feedback (Bo'lak 7)
   notifications: {
     all: () => ["notifications"],
@@ -186,6 +157,11 @@ export const qk = Object.freeze({
     inbox: (params) => ["notifications", "inbox", params],
     unreadCount: () => ["notifications", "inbox", "unreadCount"],
     stats: (params) => ["notifications", "stats", params],
+  },
+  systemNotifications: {
+    all: () => ["systemNotifications"],
+    list: (params) => ["systemNotifications", "list", params],
+    unreadCount: () => ["systemNotifications", "unreadCount"],
   },
   notificationTemplates: {
     all: () => ["notificationTemplates"],
@@ -231,7 +207,6 @@ export const qk = Object.freeze({
   adminDashboard: {
     overview: (params) => ["adminDashboard", "overview", params],
     monthlyFinancials: (params) => ["adminDashboard", "monthlyFinancials", params],
-    incomeByDirection: (params) => ["adminDashboard", "incomeByDirection", params],
     incomeByTeacher: (params) => ["adminDashboard", "incomeByTeacher", params],
     studentFlow: (params) => ["adminDashboard", "studentFlow", params],
     forecast: () => ["adminDashboard", "forecast"],

@@ -1,6 +1,6 @@
 // Components
 import { useSidebar } from "../shadcn/sidebar";
-import NotificationBell from "../notification/NotificationBell";
+import SystemNotificationBell from "../systemNotification/SystemNotificationBell";
 
 // Icons
 import { TextAlignJustify } from "lucide-react";
@@ -30,7 +30,7 @@ const AppHeader = () => {
       </div>
 
       {/* Bell */}
-      <NotificationBell />
+      <SystemNotificationBell />
     </header>
   );
 };
