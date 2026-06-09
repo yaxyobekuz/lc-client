@@ -41,9 +41,9 @@ const GroupInfoTab = ({ group }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <p className="text-xs text-muted-foreground mb-2">O'qituvchilar</p>
+          <p className="text-xs text-muted-foreground mb-2">O'qituvchi</p>
           {teachers.length === 0 ? (
-            <p className="font-medium">-</p>
+            <p className="text-sm text-muted-foreground">Tayinlanmagan</p>
           ) : (
             <div className="space-y-1">
               {teachers.map((t) => (

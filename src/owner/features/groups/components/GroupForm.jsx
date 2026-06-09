@@ -10,7 +10,7 @@ import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 import GroupScheduleField from "./GroupScheduleField";
-import TeachersMultiPicker from "./TeachersMultiPicker";
+import TeacherSinglePicker from "./TeacherSinglePicker";
 
 // Utils
 import { toDateInput } from "@/shared/utils/formatDate";
@@ -18,9 +18,12 @@ import { toDateInput } from "@/shared/utils/formatDate";
 const buildInitial = (group) => ({
   name: group?.name || "",
   schedule: group?.schedule?.map((s) => ({ ...s })) || [],
-  teachers: (group?.teachers || []).map((t) =>
-    typeof t === "string" ? t : t._id,
-  ),
+  // Guruhda ko'pi bilan bitta o'qituvchi — birinchisini olamiz (id string)
+  teacher: (() => {
+    const first = (group?.teachers || [])[0];
+    if (!first) return "";
+    return typeof first === "string" ? first : first._id;
+  })(),
   monthlyPrice: group?.monthlyPrice ?? 0,
   direction:
     group?.direction && typeof group.direction === "object"
@@ -44,10 +47,14 @@ const GroupForm = ({
   isLoading = false,
   submitLabel = "Saqlash",
 }) => {
+  // Tahrirlash rejimida o'qituvchi tanlash KO'RSATILMAYDI — o'qituvchini faqat
+  // "Almashtirish" tugmasi orqali o'zgartirish mumkin (stavka ham to'g'ri ko'chadi).
+  const isEdit = Boolean(initial);
+
   const {
     name,
     schedule,
-    teachers,
+    teacher,
     monthlyPrice,
     direction,
     startDate,
@@ -117,16 +124,25 @@ const GroupForm = ({
       toast.error("Jadvalda bir kun bir necha marta takrorlangan");
       return;
     }
+    // Yangi guruh — o'qituvchi tanlash majburiy (aniq 1ta)
+    if (!isEdit && !teacher) {
+      toast.error("O'qituvchi tanlang");
+      return;
+    }
 
-    onSubmit({
+    const payload = {
       name: trimmedName,
       schedule,
-      teachers,
       monthlyPrice: priceNum,
       direction: direction && direction !== NONE_DIRECTION ? direction : null,
       startDate: startDate || null,
       durationMonths: durationMonths === "" ? null : Number(durationMonths),
-    });
+    };
+    // O'qituvchini faqat yaratishda yuboramiz. Tahrirlashda o'qituvchi
+    // "Almashtirish" orqali boshqariladi — bu yerda tegmaymiz.
+    if (!isEdit) payload.teachers = [teacher];
+
+    onSubmit(payload);
   };
 
   return (
@@ -184,18 +200,27 @@ const GroupForm = ({
         />
       </div>
 
-      {/* 3-qator: jadval va o'qituvchilar yonma-yon (md+) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {/* 3-qator: jadval va o'qituvchi. Tahrirlashda o'qituvchi ko'rsatilmaydi —
+          u faqat "Almashtirish" orqali o'zgartiriladi, shu sabab jadval to'liq enga. */}
+      <div
+        className={
+          isEdit
+            ? "grid grid-cols-1 gap-3"
+            : "grid grid-cols-1 md:grid-cols-2 gap-3"
+        }
+      >
         <GroupScheduleField
           value={schedule}
           onChange={(next) => setField("schedule", next)}
           disabled={isLoading}
         />
-        <TeachersMultiPicker
-          value={teachers}
-          onChange={(next) => setField("teachers", next)}
-          disabled={isLoading}
-        />
+        {!isEdit && (
+          <TeacherSinglePicker
+            value={teacher}
+            onChange={(next) => setField("teacher", next)}
+            disabled={isLoading}
+          />
+        )}
       </div>
 
       <div className="flex gap-2 pt-2 justify-end">
