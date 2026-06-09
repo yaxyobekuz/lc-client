@@ -33,7 +33,7 @@ const StatCard = ({ icon: Icon, iconClass, label, value, valueClass = "text-gray
 
 const DashboardSkeleton = () => (
   <div className="space-y-4">
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {Array.from({ length: 4 }).map((_, i) => (
         <Card key={i} className="flex items-center gap-3">
           <Skeleton className="size-10 rounded-lg shrink-0" />
@@ -95,7 +95,7 @@ const OverallPanel = ({ year, month }) => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <StatCard
           icon={TrendingUp}
           iconClass="bg-emerald-50 text-emerald-600"

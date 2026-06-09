@@ -26,6 +26,7 @@ const DataTable = ({
   skeletonRows = 6,
   empty = null,
   className = "",
+  rowClassName = "",
 }) => {
   if (isLoading) {
     return (
@@ -80,6 +81,7 @@ const DataTable = ({
                   className={cn(
                     "transition-colors",
                     onRowClick && "cursor-pointer hover:bg-muted/50",
+                    rowClassName,
                   )}
                 >
                   {columns.map((c) => (

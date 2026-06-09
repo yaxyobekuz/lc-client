@@ -31,10 +31,10 @@ const BotCell = ({ r }) => {
   );
 };
 
-// O'qish holati badge
+// O'qish holati badge — o'qilgan: yashil (success), o'qilmagan: neytral kulrang
 const ReadCell = ({ r }) =>
   r.readAt ? (
-    <StatusBadge tone="info" icon={CheckCheck}>
+    <StatusBadge tone="success" icon={CheckCheck}>
       {formatDateTimeUz(r.readAt)}
     </StatusBadge>
   ) : (

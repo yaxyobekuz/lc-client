@@ -110,10 +110,15 @@ export const STATUS_LABEL = {
   canceled: "Bekor qilingan",
 };
 
+// Yagona status rang tizimi:
+//   sent      -> success (yashil)
+//   scheduled -> info    (ko'k)
+//   canceled  -> neutral (kulrang)
+//   isAuto    -> neutral (neytral kulrang, resolveStatusTone'da)
 export const STATUS_TONE = {
   sent: "success",
-  scheduled: "warning",
-  canceled: "danger",
+  scheduled: "info",
+  canceled: "neutral",
 };
 
 // Avto-tizim xabarini (isAuto) kulrang ko'rsatish uchun yordamchi.

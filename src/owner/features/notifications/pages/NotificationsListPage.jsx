@@ -92,53 +92,57 @@ const NotificationsListPage = () => {
         </Button>
       </header>
 
-      {/* Status chips */}
-      <div className="flex flex-wrap gap-1.5">
-        {STATUS_CHIPS.map((c) => {
-          const active = filters.status === c.value;
-          return (
-            <button
-              key={c.value || "all"}
-              type="button"
-              onClick={() => setFilter("status", c.value)}
-              className={cn(
-                "rounded-full border px-3 py-1 text-sm font-medium transition",
-                active
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-white text-muted-foreground hover:border-primary/40",
-              )}
-            >
-              {c.label}
-            </button>
-          );
-        })}
-      </div>
+      {/* Toolbar: status tablar + filtrlar bitta toza qatorda */}
+      <div className="space-y-3 rounded-lg border bg-white p-3">
+        {/* Status tablar */}
+        <div className="flex flex-wrap gap-1.5">
+          {STATUS_CHIPS.map((c) => {
+            const active = filters.status === c.value;
+            return (
+              <button
+                key={c.value || "all"}
+                type="button"
+                onClick={() => setFilter("status", c.value)}
+                className={cn(
+                  "rounded-full border px-3 py-1 text-sm font-medium transition",
+                  active
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-white text-muted-foreground hover:border-primary/40",
+                )}
+              >
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
 
-      {/* Filtrlar */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <InputField
-          name="search"
-          type="search"
-          placeholder="Matn yoki sarlavha bo'yicha..."
-          value={filters.search}
-          onChange={(e) => setFilter("search", e.target.value)}
-        />
-        <SelectField
-          value={filters.category}
-          onChange={(v) => setFilter("category", v)}
-          options={CATEGORY_FILTER}
-        />
-        <SelectField
-          value={filters.channel}
-          onChange={(v) => setFilter("channel", v)}
-          options={CHANNEL_FILTER}
-        />
-        <DateRangePicker
-          value={{ from: filters.from, to: filters.to }}
-          onChange={(key, value) => setFilter(key, value)}
-          onClear={() => filters.setFields({ from: "", to: "" })}
-          placeholder="Sana diapazoni"
-        />
+        {/* Qidiruv + filtrlar */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          <InputField
+            name="search"
+            type="search"
+            placeholder="Matn yoki sarlavha bo'yicha..."
+            value={filters.search}
+            onChange={(e) => setFilter("search", e.target.value)}
+          />
+          <SelectField
+            value={filters.category}
+            onChange={(v) => setFilter("category", v)}
+            options={CATEGORY_FILTER}
+          />
+          <SelectField
+            value={filters.channel}
+            onChange={(v) => setFilter("channel", v)}
+            options={CHANNEL_FILTER}
+          />
+          <DateRangePicker
+            value={{ from: filters.from, to: filters.to }}
+            onChange={(key, value) => setFilter(key, value)}
+            onClear={() => filters.setFields({ from: "", to: "" })}
+            placeholder="Sana diapazoni"
+            className="w-full"
+          />
+        </div>
       </div>
 
       {/* Jadval */}

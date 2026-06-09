@@ -62,20 +62,19 @@ const AudienceSelector = ({ value, onChange, disabled = false }) => {
   const needUsers = audienceType === "users" || audienceType === "individual";
   const isIndividual = audienceType === "individual";
 
+  // Faqat kerak bo'lganda so'rov yuboriladi (enabled), aks holda bo'sh so'rov yo'q.
   const groupsQ = useGroupsListQuery(
-    needGroups
-      ? { search: groupSearch || undefined, archived: "0", limit: 30 }
-      : { limit: 0 },
+    { search: groupSearch || undefined, archived: "0", limit: 30 },
+    { enabled: needGroups },
   );
   const usersQ = useUsersListQuery(
-    needUsers
-      ? {
-          role: ui.userRole,
-          search: userSearch || undefined,
-          archived: "0",
-          limit: 30,
-        }
-      : { limit: 0 },
+    {
+      role: ui.userRole,
+      search: userSearch || undefined,
+      archived: "0",
+      limit: 30,
+    },
+    { enabled: needUsers },
   );
 
   const groupOptions = useMemo(

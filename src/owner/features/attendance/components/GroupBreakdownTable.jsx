@@ -44,8 +44,8 @@ const GroupBreakdownTable = ({
         </p>
       </div>
     ) : (
-      <div className="max-h-[600px] overflow-y-auto">
-        <table className="w-full text-sm">
+      <div className="max-h-[600px] overflow-auto">
+        <table className="w-full min-w-[420px] text-sm">
           <thead className="text-left text-xs uppercase tracking-wide text-muted-foreground bg-gray-50 sticky top-0 z-10 shadow-sm">
             <tr>
               <th className="px-4 py-3 font-semibold">Guruh</th>

@@ -32,4 +32,6 @@ export { default as NotificationsTable } from "./components/NotificationsTable";
 export { default as RecipientsTable } from "./components/RecipientsTable";
 export { default as CategoryBadge } from "./components/CategoryBadge";
 export { default as ChannelBadge } from "./components/ChannelBadge";
+export { default as ChannelIcons } from "./components/ChannelIcons";
+export { default as DeliveryStat } from "./components/DeliveryStat";
 export { default as NotificationStatusBadge } from "./components/NotificationStatusBadge";

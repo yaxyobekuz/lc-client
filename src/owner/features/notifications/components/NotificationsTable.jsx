@@ -7,13 +7,14 @@ import { AUDIENCE_TYPE_LABEL } from "@/shared/constants/notification";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
 import CategoryBadge from "./CategoryBadge";
-import ChannelBadge from "./ChannelBadge";
+import ChannelIcons from "./ChannelIcons";
+import DeliveryStat from "./DeliveryStat";
 import NotificationStatusBadge from "./NotificationStatusBadge";
 
 const senderName = (n) =>
   n.sender ? `${n.sender.firstName} ${n.sender.lastName}` : "Tizim";
 
-const th = "px-4 py-2.5 text-left text-xs font-medium text-muted-foreground";
+const th = "px-4 py-2 text-left text-xs font-medium text-muted-foreground";
 
 const NotificationsTable = ({
   items = [],
@@ -29,32 +30,26 @@ const NotificationsTable = ({
       key: "sender",
       header: "Yuboruvchi",
       headerClassName: th,
-      cell: (n) => <span className="whitespace-nowrap">{senderName(n)}</span>,
+      className: "py-2",
+      cell: (n) => (
+        <span className="whitespace-nowrap text-sm">{senderName(n)}</span>
+      ),
     },
     {
       key: "category",
       header: "Kategoriya",
       headerClassName: th,
+      className: "py-2",
       cell: (n) => <CategoryBadge category={n.category} />,
-    },
-    {
-      key: "audience",
-      header: "Auditoriya",
-      headerClassName: th,
-      cell: (n) => (
-        <span className="whitespace-nowrap text-muted-foreground">
-          {AUDIENCE_TYPE_LABEL[n.audience?.type] || "-"}
-        </span>
-      ),
     },
     {
       key: "text",
       header: "Matn",
       headerClassName: th,
-      className: "max-w-[280px]",
+      className: "max-w-[320px] py-2",
       cell: (n) => (
         <div
-          className="truncate"
+          className="truncate text-sm"
           title={(n.title ? `${n.title}: ` : "") + n.body}
         >
           {n.title && <span className="font-medium">{n.title}: </span>}
@@ -66,33 +61,27 @@ const NotificationsTable = ({
       key: "channels",
       header: "Kanal",
       headerClassName: th,
-      cell: (n) => <ChannelBadge channels={n.channels} />,
+      className: "py-2",
+      cell: (n) => <ChannelIcons channels={n.channels} />,
     },
     {
-      key: "recipients",
-      header: "Qabul",
-      headerClassName: `${th} !text-right`,
-      className: "text-right tabular-nums",
-      cell: (n) => n.recipientsCount || 0,
-    },
-    {
-      key: "bot",
-      header: "Bot",
-      headerClassName: `${th} !text-right`,
-      className: "text-right tabular-nums text-sky-600",
-      cell: (n) => n.deliveredViaBot || 0,
-    },
-    {
-      key: "read",
-      header: "O'qilgan",
-      headerClassName: `${th} !text-right`,
-      className: "text-right tabular-nums text-emerald-700",
-      cell: (n) => n.readCount || 0,
+      key: "delivery",
+      header: "Yetkazish",
+      headerClassName: th,
+      className: "py-2",
+      cell: (n) => (
+        <DeliveryStat
+          recipients={n.recipientsCount || 0}
+          bot={n.deliveredViaBot || 0}
+          read={n.readCount || 0}
+        />
+      ),
     },
     {
       key: "status",
       header: "Holat",
       headerClassName: th,
+      className: "py-2",
       cell: (n) => (
         <NotificationStatusBadge status={n.status} isAuto={n.isAuto} />
       ),
@@ -101,8 +90,9 @@ const NotificationsTable = ({
       key: "date",
       header: "Sana",
       headerClassName: th,
+      className: "py-2",
       cell: (n) => (
-        <span className="whitespace-nowrap text-muted-foreground">
+        <span className="whitespace-nowrap text-sm text-muted-foreground">
           {formatDateUz(n.scheduleAt || n.sentAt)}
         </span>
       ),
@@ -111,7 +101,7 @@ const NotificationsTable = ({
       key: "actions",
       header: "",
       headerClassName: th,
-      className: "text-right",
+      className: "py-2 text-right",
       cell: (n) => (
         <div className="flex items-center justify-end gap-1">
           {n.status === "scheduled" && onCancel && (
@@ -154,18 +144,20 @@ const NotificationsTable = ({
         {n.title && <span className="font-medium">{n.title}: </span>}
         <span className="text-muted-foreground line-clamp-2">{n.body}</span>
       </p>
-      <ChannelBadge channels={n.channels} />
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-        <span>{senderName(n)}</span>
-        <span>{AUDIENCE_TYPE_LABEL[n.audience?.type]}</span>
-        <span>{formatDateUz(n.scheduleAt || n.sentAt)}</span>
+      <div className="flex items-center justify-between gap-2 border-t pt-2">
+        <ChannelIcons channels={n.channels} />
+        <DeliveryStat
+          recipients={n.recipientsCount || 0}
+          bot={n.deliveredViaBot || 0}
+          read={n.readCount || 0}
+        />
       </div>
-      <div className="flex items-center gap-4 border-t pt-2 text-xs">
-        <span>
-          Qabul: <strong>{n.recipientsCount || 0}</strong>
-        </span>
-        <span className="text-sky-600">Bot: {n.deliveredViaBot || 0}</span>
-        <span className="text-emerald-700">O'qilgan: {n.readCount || 0}</span>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+        <span>{senderName(n)}</span>
+        <span>·</span>
+        <span>{AUDIENCE_TYPE_LABEL[n.audience?.type]}</span>
+        <span>·</span>
+        <span>{formatDateUz(n.scheduleAt || n.sentAt)}</span>
       </div>
     </div>
   );
@@ -176,6 +168,7 @@ const NotificationsTable = ({
       rows={items}
       isLoading={isLoading}
       onRowClick={open}
+      rowClassName="border-b border-border/60 last:border-0"
       renderCard={renderCard}
       empty={
         <EmptyState
