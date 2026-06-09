@@ -22,6 +22,9 @@ const useGroupRemoveStudentMutation = (options = {}) => {
       if (vars.studentId) {
         qc.invalidateQueries({ queryKey: qk.users.one(vars.studentId) });
       }
+      // Davomat ro'yxati (roster) ham yangilanadi — chiqarilgan o'quvchi
+      // "Davomat belgilash"da qolib ketmasligi uchun.
+      qc.invalidateQueries({ queryKey: qk.attendance.all() });
       toast.success("O'quvchi guruhdan chiqarildi");
       options.onSuccess?.(data, vars, ctx);
     },
