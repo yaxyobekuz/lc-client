@@ -11,6 +11,7 @@ import Card from "@/shared/components/ui/card/Card";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import GroupStudentsTable from "../components/GroupStudentsTable";
+import GroupStatsPanel from "../components/GroupStatsPanel";
 import GroupHistoryList from "../components/GroupHistoryList";
 import GroupAttendanceStatsTab from "../components/tabs/GroupAttendanceStatsTab";
 import GroupPaymentsStatsTab from "../components/tabs/GroupPaymentsStatsTab";
@@ -204,6 +205,8 @@ const GroupDetailPage = () => {
           )}
         </Card>
       </div>
+
+      <GroupStatsPanel groupId={group._id} />
 
       <TabsButtons
         items={[

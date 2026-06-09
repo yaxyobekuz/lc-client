@@ -3,6 +3,11 @@ const UZ_MONTHS_SHORT = [
   "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek",
 ];
 
+const UZ_MONTHS_LONG = [
+  "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun",
+  "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr",
+];
+
 const UZ_WEEKDAYS_SHORT = ["Yak", "Du", "Se", "Ch", "Pa", "Ju", "Sh"];
 
 // Sana formati: "12.05.2026"
@@ -13,6 +18,16 @@ export const formatDateUz = (dateLike) => {
   const dd = String(d.getDate()).padStart(2, "0");
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   return `${dd}.${mm}.${d.getFullYear()}`;
+};
+
+// Uzun formati: "09 Iyun 2026" (DD MMM YYYY — to'liq oy nomi, kun nol bilan to'ldirilgan).
+// Butun ilovada o'quvchi/guruh sanalari uchun yagona "clean" format.
+export const formatDateUzLong = (dateLike) => {
+  if (!dateLike) return "-";
+  const d = new Date(dateLike);
+  if (Number.isNaN(d.getTime())) return "-";
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${dd} ${UZ_MONTHS_LONG[d.getMonth()]} ${d.getFullYear()}`;
 };
 
 // Qisqa formati: "29 May, 2026"

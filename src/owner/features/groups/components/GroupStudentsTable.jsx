@@ -17,6 +17,7 @@ import { MODAL } from "@/shared/constants/modals";
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUzLong } from "@/shared/utils/formatDate";
 
 const GroupStudentsTable = ({ group }) => {
   const { openModal } = useModal();
@@ -87,6 +88,11 @@ const GroupStudentsTable = ({ group }) => {
                 >
                   {s.firstName} {s.lastName}
                 </Link>
+                {s.joinedAt && (
+                  <p className="mt-0.5 text-xs text-gray-400">
+                    Qo'shilgan: {formatDateUzLong(s.joinedAt)}
+                  </p>
+                )}
                 {s.balance > 0 && (
                   <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-700">
                     Balans: {formatMoney(s.balance)}

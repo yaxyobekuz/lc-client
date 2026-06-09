@@ -19,6 +19,7 @@ import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUzLong } from "@/shared/utils/formatDate";
 
 // Foydalanuvchi shu oyda qo'shilganmi? ("Yangi" badge uchun)
 const isNewThisMonth = (createdAt) => {
@@ -144,13 +145,20 @@ const UsersTable = ({
               <td className="px-4 py-2 text-muted-foreground">{i + 1}</td>
               <td className="px-4 py-2">
                 <div className="flex items-center gap-2">
-                  <Link
-                    to={`/owner/users/${u._id}`}
-                    className="font-medium hover:underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {u.firstName} {u.lastName}
-                  </Link>
+                  <div className="min-w-0">
+                    <Link
+                      to={`/owner/users/${u._id}`}
+                      className="font-medium hover:underline"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {u.firstName} {u.lastName}
+                    </Link>
+                    {u.createdAt && (
+                      <p className="text-xs text-muted-foreground">
+                        Kelgan: {formatDateUzLong(u.createdAt)}
+                      </p>
+                    )}
+                  </div>
                   {!archived && isNewThisMonth(u.createdAt) && (
                     <Badge className="bg-sky-100 text-sky-700">Yangi</Badge>
                   )}
