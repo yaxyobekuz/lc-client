@@ -25,10 +25,7 @@ const teacherSidebar = [
     icon: Bell,
     isActive: true,
     items: [
-      {
-        title: "Kelgan xabarlar",
-        url: "/teacher/inbox",
-      },
+    
       {
         title: "Xabar yuborish",
         url: "/teacher/notifications",

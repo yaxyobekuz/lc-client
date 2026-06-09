@@ -9,11 +9,25 @@ export const FEEDBACK_STATUS_LABEL = {
   rejected: "Rad etildi",
 };
 
-export const FEEDBACK_STATUS_BADGE_CLASS = {
-  new: "bg-cyan-100 text-cyan-800",
-  in_review: "bg-amber-100 text-amber-800",
-  resolved: "bg-green-100 text-green-700",
-  rejected: "bg-red-100 text-red-700",
+// Tor joylar (jadval/badge) uchun qisqa label - hech qachon sinmasin
+export const FEEDBACK_STATUS_SHORT_LABEL = {
+  new: "Yangi",
+  in_review: "Ko'rilmoqda",
+  resolved: "Hal qilindi",
+  rejected: "Rad etildi",
+};
+
+// Har bir status -> semantik rang toni.
+// StatusBadge, StatCard urg'usi va progress-bar shu yagona manbadan foydalanadi.
+//   new        -> info     (ko'k)
+//   in_review  -> warning  (amber)
+//   resolved   -> success  (yashil)
+//   rejected   -> danger   (qizil)
+export const FEEDBACK_STATUS_TONE = {
+  new: "info",
+  in_review: "warning",
+  resolved: "success",
+  rejected: "danger",
 };
 
 export const FEEDBACK_STATUS_OPTIONS = FEEDBACK_STATUSES.map((s) => ({

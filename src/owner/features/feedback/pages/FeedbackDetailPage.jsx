@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
+import { UserCircle2 } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import Skeleton from "@/shared/components/ui/feedback/Skeleton";
+import EmptyState from "@/shared/components/ui/feedback/EmptyState";
+import Button from "@/shared/components/ui/button/Button";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import { MODAL } from "@/shared/constants/modals";
 
@@ -14,9 +18,9 @@ import BackLink from "@/shared/components/ui/link/BackLink";
 import useGoBack from "@/shared/hooks/useGoBack";
 
 const InfoRow = ({ label, children }) => (
-  <div className="flex justify-between gap-3 text-sm">
+  <div className="flex justify-between gap-3 py-1.5 text-sm">
     <span className="text-muted-foreground">{label}</span>
-    <span className="font-medium text-right">{children || "-"}</span>
+    <span className="text-right font-medium">{children || "-"}</span>
   </div>
 );
 
@@ -27,22 +31,30 @@ const FeedbackDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center text-muted-foreground">
-        Yuklanmoqda...
+      <div className="space-y-4">
+        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-7 w-1/3" />
+        <Skeleton className="h-9 w-64" />
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+          <Skeleton className="h-40 lg:col-span-2" />
+          <Skeleton className="h-40" />
+        </div>
       </div>
     );
   }
   if (!f) {
     return (
-      <div className="p-8 text-center">
-        <p className="text-muted-foreground mb-4">Feedback topilmadi</p>
-        <button
-          type="button"
-          onClick={goBack}
-          className="text-blue-600 hover:underline cursor-pointer"
-        >
-          Feedback ro'yxatiga qaytish
-        </button>
+      <div className="space-y-4">
+        <BackLink to="/owner/feedback" />
+        <EmptyState
+          title="Feedback topilmadi"
+          description="Bu murojaat o'chirilgan yoki mavjud emas."
+          action={
+            <Button variant="outline" size="sm" onClick={goBack}>
+              Ro'yxatga qaytish
+            </Button>
+          }
+        />
       </div>
     );
   }
@@ -50,17 +62,19 @@ const FeedbackDetailPage = () => {
   const isAnonymous = f.isAnonymous || !f.author;
 
   return (
-    <div className="space-y-4">
-      <header className="flex items-center gap-3 flex-wrap mt-1">
+    <div className="space-y-5">
+      <header className="space-y-3">
         <BackLink to="/owner/feedback" />
-
-        <h1 className="text-2xl font-semibold">{f.type?.name || "Feedback"}</h1>
-
-        <FeedbackStatusBadge status={f.status} />
-
-        {isAnonymous && (
-          <span className="text-sm text-muted-foreground italic">Anonim</span>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-xl font-semibold">{f.type?.name || "Feedback"}</h1>
+          <FeedbackStatusBadge status={f.status} withIcon />
+          {isAnonymous && (
+            <span className="inline-flex items-center gap-1 text-sm italic text-muted-foreground">
+              <UserCircle2 className="size-3.5" />
+              Anonim
+            </span>
+          )}
+        </div>
       </header>
 
       <FeedbackActionsBar feedback={f} />

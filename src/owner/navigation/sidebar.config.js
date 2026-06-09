@@ -86,10 +86,7 @@ const ownerSidebar = [
     icon: Bell,
     isActive: false,
     items: [
-      {
-        title: "Kelgan xabarlar",
-        url: "/owner/inbox",
-      },
+      
       {
         title: "Xabarlar",
         url: "/owner/notifications",

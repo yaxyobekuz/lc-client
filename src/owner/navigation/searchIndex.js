@@ -90,15 +90,6 @@ export const SEARCH_INDEX = [
     permission: "attendance.manage",
   },
 
-  // Bildirishnomalar
-  {
-    title: "Kelgan xabarlar",
-    description: "Sizga kelgan shaxsiy va guruh xabarlari",
-    keywords: "inbox, xabar, bildirishnoma, notification, kelgan, unread",
-    url: "/owner/inbox",
-    icon: Inbox,
-    category: "Bildirishnomalar",
-  },
   {
     title: "Xabarlar",
     description: "Yuborilgan bildirishnomalar tarixi va statusi",

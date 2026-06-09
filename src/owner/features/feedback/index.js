@@ -29,4 +29,9 @@ export { default as FeedbackStatusBadge } from "./components/FeedbackStatusBadge
 export { default as FeedbackTypePicker } from "./components/FeedbackTypePicker";
 export { default as FeedbackTable } from "./components/FeedbackTable";
 export { default as FeedbackTypesTable } from "./components/FeedbackTypesTable";
+export { default as FeedbackDetailDrawer } from "./components/FeedbackDetailDrawer";
+export { default as StatusChips } from "./components/StatusChips";
+export { default as StatTile } from "./components/StatTile";
+export { default as TypeBars } from "./components/TypeBars";
+export { default as TimeRangeFilter } from "./components/TimeRangeFilter";
 export { default as FeedbackSubmitModal } from "./components/modals/FeedbackSubmitModal";

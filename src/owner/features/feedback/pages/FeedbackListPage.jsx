@@ -1,87 +1,110 @@
 import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { BarChart3, Tags } from "lucide-react";
 import InputField from "@/shared/components/ui/input/InputField";
-import SelectField from "@/shared/components/ui/select/SelectField";
+import Button from "@/shared/components/ui/button/Button";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
-import { FEEDBACK_STATUS_OPTIONS } from "@/shared/constants/feedback";
 
 import FeedbackTable from "../components/FeedbackTable";
 import FeedbackTypePicker from "../components/FeedbackTypePicker";
+import StatusChips from "../components/StatusChips";
+import FeedbackDetailDrawer from "../components/FeedbackDetailDrawer";
 import { useFeedbackListQuery } from "../hooks/useFeedbackQueries";
 
-const STATUS_OPTIONS = [
-  { value: "", label: "Barcha holatlar" },
-  ...FEEDBACK_STATUS_OPTIONS,
-];
+const LIMIT = 20;
 
 const FeedbackListPage = () => {
+  const [searchParams] = useSearchParams();
   const filters = useObjectState({
     search: "",
-    status: "",
+    status: searchParams.get("status") || "",
     type: "",
   });
   const [page, setPage] = useState(1);
-  const limit = 20;
+  const [openId, setOpenId] = useState(null);
 
   const { data, isLoading, isError, refetch } = useFeedbackListQuery({
     search: filters.search || undefined,
     status: filters.status || undefined,
     type: filters.type || undefined,
     page,
-    limit,
+    limit: LIMIT,
   });
 
   const items = data?.data || [];
   const total = data?.meta?.total || 0;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
+
+  const update = (key, value) => {
+    filters.setField(key, value);
+    setPage(1);
+  };
 
   return (
-    <div className="space-y-4">
-      <header className="flex items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold">Feedback'lar</h1>
+    <div className="space-y-5">
+      {/* Sarlavha + tezkor o'tish */}
+      <header className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold">Feedback'lar</h1>
+          <p className="text-sm text-muted-foreground">
+            Foydalanuvchi murojaatlari{total ? ` · ${total} ta` : ""}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="outline" size="sm">
+            <Link to="/owner/feedback/dashboard">
+              <BarChart3 className="size-4" />
+              Hisobot
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link to="/owner/feedback-types">
+              <Tags className="size-4" />
+              Turlar
+            </Link>
+          </Button>
+        </div>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-        <InputField
-          name="search"
-          type="search"
-          label="Qidirish"
-          placeholder="Matn ichidan..."
-          value={filters.search}
-          onChange={(e) => {
-            filters.setField("search", e.target.value);
-            setPage(1);
-          }}
-        />
-        <SelectField
-          label="Holat"
-          value={filters.status}
-          onChange={(v) => {
-            filters.setField("status", v);
-            setPage(1);
-          }}
-          options={STATUS_OPTIONS}
-        />
-        <FeedbackTypePicker
-          value={filters.type}
-          onChange={(v) => {
-            filters.setField("type", v);
-            setPage(1);
-          }}
-          includeAll
-        />
+      {/* Toolbar: qidiruv + tur */}
+      <div className="flex flex-col gap-3 rounded-lg border bg-white p-3 sm:flex-row sm:items-center">
+        <div className="flex-1">
+          <InputField
+            name="search"
+            type="search"
+            placeholder="Matn ichidan qidirish..."
+            value={filters.search}
+            onChange={(e) => update("search", e.target.value)}
+          />
+        </div>
+        <div className="w-full sm:w-56">
+          <FeedbackTypePicker
+            label=""
+            value={filters.type}
+            onChange={(v) => update("type", v)}
+            includeAll
+          />
+        </div>
       </div>
 
+      {/* Status bo'yicha tez filtr */}
+      <StatusChips
+        value={filters.status}
+        onChange={(v) => update("status", v)}
+      />
+
+      {/* Ro'yxat */}
       {isError ? (
         <ErrorState onRetry={refetch} />
-      ) : isLoading ? (
-        <div className="p-8 text-center text-muted-foreground">
-          Yuklanmoqda...
-        </div>
       ) : (
         <>
-          <FeedbackTable items={items} />
+          <FeedbackTable
+            items={items}
+            isLoading={isLoading}
+            onOpen={setOpenId}
+          />
           {totalPages > 1 && (
             <Pagination
               currentPage={page}
@@ -93,6 +116,12 @@ const FeedbackListPage = () => {
           )}
         </>
       )}
+
+      <FeedbackDetailDrawer
+        id={openId}
+        open={!!openId}
+        onClose={() => setOpenId(null)}
+      />
     </div>
   );
 };
