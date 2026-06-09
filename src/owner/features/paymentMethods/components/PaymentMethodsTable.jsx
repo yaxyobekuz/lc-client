@@ -78,7 +78,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
                       title="Asosiy qilib belgilash"
                       disabled={isSettingDefault}
                       onClick={() => setDefault(s._id)}
-                      playClickSound={false}
+                      
                     >
                       <Star className="size-4" />
                     </Button>
@@ -98,7 +98,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.PAYMENT_METHOD_EDIT, { paymentMethod: s })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -111,7 +111,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
                       onClick={() =>
                         openModal(MODAL.PAYMENT_METHOD_DELETE, { paymentMethod: s })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>
@@ -124,7 +124,7 @@ const PaymentMethodsTable = ({ items = [] }) => {
                       onClick={() => handleRestore(s)}
                       disabled={isRestoring}
                       title="Tiklash"
-                      playClickSound={false}
+                      
                     >
                       <RotateCcw className="size-4" />
                     </Button>

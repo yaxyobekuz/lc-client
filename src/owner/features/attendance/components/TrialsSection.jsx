@@ -47,7 +47,7 @@ const TrialsSection = ({ trials = [] }) => {
                   className="border-green-200 text-green-700 hover:bg-green-50"
                   disabled={isPending}
                   onClick={() => mutate({ id: t._id, outcome: "attended" })}
-                  playClickSound={false}
+                  
                 >
                   Keldi
                 </Button>
@@ -57,7 +57,7 @@ const TrialsSection = ({ trials = [] }) => {
                   className="border-rose-200 text-rose-600 hover:bg-rose-50"
                   disabled={isPending}
                   onClick={() => mutate({ id: t._id, outcome: "no_show" })}
-                  playClickSound={false}
+                  
                 >
                   Kelmadi
                 </Button>

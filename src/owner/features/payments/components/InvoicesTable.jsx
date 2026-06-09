@@ -147,7 +147,7 @@ const InvoicesTable = ({ items = [], showStudent = true, onPay, onRowClick }) =>
                           stop(e);
                           onPay(inv);
                         }}
-                        playClickSound={false}
+                        
                       >
                         <Check className="size-3.5" />
                         To'lash

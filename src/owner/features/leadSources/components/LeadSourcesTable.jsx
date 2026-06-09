@@ -67,7 +67,7 @@ const LeadSourcesTable = ({ items = [] }) => {
                       title="Asosiy qilib belgilash"
                       disabled={isSettingDefault}
                       onClick={() => setDefault(s._id)}
-                      playClickSound={false}
+                      
                     >
                       <Star className="size-4" />
                     </Button>
@@ -87,7 +87,7 @@ const LeadSourcesTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.LEAD_SOURCE_EDIT, { leadSource: s })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -100,7 +100,7 @@ const LeadSourcesTable = ({ items = [] }) => {
                       onClick={() =>
                         openModal(MODAL.LEAD_SOURCE_DELETE, { leadSource: s })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>

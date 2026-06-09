@@ -130,7 +130,7 @@ const GroupPaymentsBreakdownTable = ({ items = [] }) => {
                         onClick={() =>
                           openModal(MODAL.PAYMENT_RECORD, { invoice: inv })
                         }
-                        playClickSound={false}
+                        
                       >
                         <Check className="size-3.5" />
                         To'lash

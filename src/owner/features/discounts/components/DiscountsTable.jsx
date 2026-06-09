@@ -91,7 +91,7 @@ const DiscountsTable = ({ studentId }) => {
                     onClick={() =>
                       openModal(MODAL.DISCOUNT_DELETE, { discount: d })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Trash2 className="size-4" />
                   </Button>

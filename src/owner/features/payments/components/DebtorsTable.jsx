@@ -63,7 +63,7 @@ const DebtorsTable = ({ items = [], onPay, payingId = null }) => {
                     variant="outline"
                     disabled={!d.oldestOpenInvoiceId || payingId === d.studentId}
                     onClick={() => onPay(d)}
-                    playClickSound={false}
+                    
                   >
                     <Wallet className="size-4" />
                     {payingId === d.studentId ? "..." : "To'lash"}

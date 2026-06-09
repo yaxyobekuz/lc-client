@@ -77,7 +77,7 @@ const ExemptionsTable = ({ studentId }) => {
                         exemption: ex,
                       })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Trash2 className="size-4" />
                   </Button>

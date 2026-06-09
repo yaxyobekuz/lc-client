@@ -78,7 +78,7 @@ const UserPasswordModal = ({ user, close, isLoading, setIsLoading }) => {
               variant="outline"
               size="icon"
               onClick={handleCopy}
-              playClickSound={false}
+              
               title="Nusxa olish"
               aria-label="Parolni nusxa olish"
             >

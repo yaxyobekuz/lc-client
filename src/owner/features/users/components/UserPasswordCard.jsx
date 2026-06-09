@@ -68,7 +68,7 @@ const UserPasswordCard = ({ user }) => {
               variant="outline"
               size="icon"
               onClick={() => setVisible((v) => !v)}
-              playClickSound={false}
+              
               title={visible ? "Yashirish" : "Ko'rsatish"}
               aria-label={visible ? "Parolni yashirish" : "Parolni ko'rsatish"}
             >
@@ -83,7 +83,7 @@ const UserPasswordCard = ({ user }) => {
               variant="outline"
               size="icon"
               onClick={handleCopy}
-              playClickSound={false}
+              
               title="Nusxa olish"
               aria-label="Parolni nusxa olish"
             >

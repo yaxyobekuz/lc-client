@@ -65,7 +65,7 @@ const LeadDirectionsTable = ({ items = [] }) => {
                       title="Asosiy qilib belgilash"
                       disabled={isSettingDefault}
                       onClick={() => setDefault(d._id)}
-                      playClickSound={false}
+                      
                     >
                       <Star className="size-4" />
                     </Button>
@@ -87,7 +87,7 @@ const LeadDirectionsTable = ({ items = [] }) => {
                         leadDirection: d,
                       })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -102,7 +102,7 @@ const LeadDirectionsTable = ({ items = [] }) => {
                           leadDirection: d,
                         })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>

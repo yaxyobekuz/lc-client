@@ -61,7 +61,7 @@ const ExpensesTable = ({ items = [], archived = false }) => {
                       title="Tiklash"
                       disabled={isRestoring}
                       onClick={() => restore(e._id)}
-                      playClickSound={false}
+                      
                     >
                       <RotateCcw className="size-4" />
                     </Button>
@@ -74,7 +74,7 @@ const ExpensesTable = ({ items = [], archived = false }) => {
                         onClick={() =>
                           openModal(MODAL.EXPENSE_EDIT, { expense: e })
                         }
-                        playClickSound={false}
+                        
                       >
                         <Pencil className="size-4" />
                       </Button>
@@ -86,7 +86,7 @@ const ExpensesTable = ({ items = [], archived = false }) => {
                         onClick={() =>
                           openModal(MODAL.EXPENSE_DELETE, { expense: e })
                         }
-                        playClickSound={false}
+                        
                       >
                         <Trash2 className="size-4" />
                       </Button>

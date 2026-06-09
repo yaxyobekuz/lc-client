@@ -107,7 +107,7 @@ const SalariesTable = ({
                     <Button
                       size="sm"
                       onClick={() => onPay?.(s)}
-                      playClickSound={false}
+                      
                     >
                       To'lov qilish
                     </Button>

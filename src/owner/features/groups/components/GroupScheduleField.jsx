@@ -186,7 +186,7 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
                         variant="ghost"
                         size="icon"
                         disabled={disabled}
-                        playClickSound={false}
+                        
                         onClick={() => removeRow(idx)}
                         aria-label="Qatorni o'chirish"
                         className="size-9 text-red-500 hover:text-red-700 hover:bg-red-50"

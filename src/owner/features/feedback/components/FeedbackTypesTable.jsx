@@ -47,7 +47,7 @@ const FeedbackTypesTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.FEEDBACK_TYPE_EDIT, { feedbackType: t })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -62,7 +62,7 @@ const FeedbackTypesTable = ({ items = [] }) => {
                           feedbackType: t,
                         })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>

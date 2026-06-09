@@ -164,7 +164,7 @@ const GroupStudentsTable = ({ group }) => {
                     onClick={() =>
                       openModal(MODAL.PAYMENT_RECORD, { invoice: inv })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Check className="size-4" />
                   </Button>
@@ -192,7 +192,7 @@ const GroupStudentsTable = ({ group }) => {
                         studentName: `${s.firstName} ${s.lastName}`,
                       })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Snowflake className="size-4" />
                   </Button>
@@ -209,7 +209,7 @@ const GroupStudentsTable = ({ group }) => {
                         student: s,
                       })
                     }
-                    playClickSound={false}
+                    
                   >
                     <ArrowRightLeft className="size-4" />
                   </Button>
@@ -226,7 +226,7 @@ const GroupStudentsTable = ({ group }) => {
                         student: s,
                       })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Trash2 className="size-4" />
                   </Button>

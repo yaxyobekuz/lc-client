@@ -112,7 +112,7 @@ const PaymentsTable = ({ items = [], showStudent = true, showActions = true }) =
                       asChild
                       variant="outline"
                       size="sm"
-                      playClickSound={false}
+                      
                     >
                       <a
                         href={`/owner/payments/receipt/${p._id}`}
@@ -132,7 +132,7 @@ const PaymentsTable = ({ items = [], showStudent = true, showActions = true }) =
                         onClick={() =>
                           openModal(MODAL.PAYMENT_REFUND, { payment: p })
                         }
-                        playClickSound={false}
+                        
                       >
                         <Undo2 className="size-4" />
                         Qaytarish

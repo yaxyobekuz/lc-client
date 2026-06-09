@@ -212,7 +212,7 @@ const UsersTable = ({
                       className="text-green-600 hover:bg-green-50 hover:text-green-700"
                       disabled={isRestoring}
                       onClick={() => restore(u._id)}
-                      playClickSound={false}
+                      
                       aria-label="Tiklash"
                       title="Tiklash"
                     >
@@ -227,7 +227,7 @@ const UsersTable = ({
                         onClick={() =>
                           openModal(MODAL.USER_PASSWORD, { user: u })
                         }
-                        playClickSound={false}
+                        
                         aria-label="Parolni ko'rish"
                         title="Parol"
                       >
@@ -239,7 +239,7 @@ const UsersTable = ({
                         size="sm"
                         className="text-red-600 hover:bg-red-50 hover:text-red-700"
                         onClick={() => openModal(MODAL.USER_DELETE, { user: u })}
-                        playClickSound={false}
+                        
                         aria-label="Foydalanuvchini arxivlash"
                         title="Arxivlash"
                       >

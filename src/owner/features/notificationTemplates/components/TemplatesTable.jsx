@@ -60,7 +60,7 @@ const TemplatesTable = ({ items = [] }) => {
                         template: t,
                       })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -75,7 +75,7 @@ const TemplatesTable = ({ items = [] }) => {
                           template: t,
                         })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>

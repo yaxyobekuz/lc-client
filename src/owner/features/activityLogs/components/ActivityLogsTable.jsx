@@ -90,7 +90,7 @@ const ActivityLogsTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.ACTIVITY_LOG_DETAIL, { logId: log._id })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Eye className="size-4" />
                   </Button>

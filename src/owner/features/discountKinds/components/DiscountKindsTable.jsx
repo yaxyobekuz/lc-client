@@ -74,7 +74,7 @@ const DiscountKindsTable = ({ items = [] }) => {
                       title="Asosiy qilib belgilash"
                       disabled={isSettingDefault}
                       onClick={() => setDefault(s._id)}
-                      playClickSound={false}
+                      
                     >
                       <Star className="size-4" />
                     </Button>
@@ -94,7 +94,7 @@ const DiscountKindsTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.DISCOUNT_KIND_EDIT, { discountKind: s })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -107,7 +107,7 @@ const DiscountKindsTable = ({ items = [] }) => {
                       onClick={() =>
                         openModal(MODAL.DISCOUNT_KIND_DELETE, { discountKind: s })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>
@@ -120,7 +120,7 @@ const DiscountKindsTable = ({ items = [] }) => {
                       onClick={() => handleRestore(s)}
                       disabled={isRestoring}
                       title="Tiklash"
-                      playClickSound={false}
+                      
                     >
                       <RotateCcw className="size-4" />
                     </Button>

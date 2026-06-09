@@ -183,7 +183,7 @@ const LeadDetailPage = () => {
                 className="flex-1 border-green-200 text-green-700 hover:bg-green-50"
                 onClick={() => trialOutcome({ id: lead._id, outcome: "attended" })}
                 disabled={isMarkingTrial}
-                playClickSound={false}
+                
               >
                 Keldi
               </Button>
@@ -193,7 +193,7 @@ const LeadDetailPage = () => {
                 className="flex-1 border-rose-200 text-rose-600 hover:bg-rose-50"
                 onClick={() => trialOutcome({ id: lead._id, outcome: "no_show" })}
                 disabled={isMarkingTrial}
-                playClickSound={false}
+                
               >
                 Kelmadi
               </Button>

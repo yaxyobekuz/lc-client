@@ -69,7 +69,7 @@ const HolidaysTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.HOLIDAY_EDIT, { holiday: h })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -82,7 +82,7 @@ const HolidaysTable = ({ items = [] }) => {
                       onClick={() =>
                         openModal(MODAL.HOLIDAY_DELETE, { holiday: h })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>

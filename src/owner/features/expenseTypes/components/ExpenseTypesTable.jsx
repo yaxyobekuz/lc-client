@@ -82,7 +82,7 @@ const ExpenseTypesTable = ({ items = [] }) => {
                       title="Asosiy qilib belgilash"
                       disabled={isSettingDefault}
                       onClick={() => setDefault(s._id)}
-                      playClickSound={false}
+                      
                     >
                       <Star className="size-4" />
                     </Button>
@@ -102,7 +102,7 @@ const ExpenseTypesTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.EXPENSE_TYPE_EDIT, { expenseType: s })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -115,7 +115,7 @@ const ExpenseTypesTable = ({ items = [] }) => {
                       onClick={() =>
                         openModal(MODAL.EXPENSE_TYPE_DELETE, { expenseType: s })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>
@@ -128,7 +128,7 @@ const ExpenseTypesTable = ({ items = [] }) => {
                       onClick={() => handleRestore(s)}
                       disabled={isRestoring}
                       title="Tiklash"
-                      playClickSound={false}
+                      
                     >
                       <RotateCcw className="size-4" />
                     </Button>

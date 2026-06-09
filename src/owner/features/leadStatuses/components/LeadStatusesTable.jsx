@@ -89,7 +89,7 @@ const LeadStatusesTable = ({ items = [] }) => {
                       title="Asosiy qilib belgilash"
                       disabled={isSettingDefault}
                       onClick={() => setDefault(s._id)}
-                      playClickSound={false}
+                      
                     >
                       <Star className="size-4" />
                     </Button>
@@ -109,7 +109,7 @@ const LeadStatusesTable = ({ items = [] }) => {
                     onClick={() =>
                       openModal(MODAL.LEAD_STATUS_FORM_EDIT, { leadStatus: s })
                     }
-                    playClickSound={false}
+                    
                   >
                     <Pencil className="size-4" />
                   </Button>
@@ -124,7 +124,7 @@ const LeadStatusesTable = ({ items = [] }) => {
                           leadStatus: s,
                         })
                       }
-                      playClickSound={false}
+                      
                     >
                       <Trash2 className="size-4" />
                     </Button>
