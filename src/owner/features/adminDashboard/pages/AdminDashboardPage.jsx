@@ -1,4 +1,5 @@
 import useObjectState from "@/shared/hooks/useObjectState";
+import SystemNotificationBell from "@/shared/components/systemNotification/SystemNotificationBell";
 
 import OverviewStatsCards from "../components/OverviewStatsCards";
 import MonthlyFinancialsChart from "../components/MonthlyFinancialsChart";
@@ -39,11 +40,14 @@ const AdminDashboardPage = () => {
             Umumiy biznes ko'rsatkichlari va analitika
           </p>
         </div>
-        <PeriodPicker
-          year={period.year}
-          month={period.month}
-          onChange={(k, v) => period.setField(k, v)}
-        />
+        <div className="flex items-center gap-3">
+          <SystemNotificationBell />
+          <PeriodPicker
+            year={period.year}
+            month={period.month}
+            onChange={(k, v) => period.setField(k, v)}
+          />
+        </div>
       </header>
 
       {overviewLoading ? (
