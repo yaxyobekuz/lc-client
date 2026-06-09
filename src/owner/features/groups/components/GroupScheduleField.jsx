@@ -1,9 +1,11 @@
+import { useRef } from "react";
+
 // Icons
 import { Plus, Trash2 } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
+import TimeInput from "@/shared/components/ui/input/TimeInput";
 import {
   Select,
   SelectContent,
@@ -32,50 +34,69 @@ const emptyRow = (usedDays = []) => ({
 const GRID_COLS =
   "grid-cols-[minmax(100px,1.2fr)_minmax(110px,1fr)_minmax(110px,1fr)_36px]";
 
-// Qo'lda yoziladigan oddiy vaqt: soat (0–23) : daqiqa (0–59). DB'da "HH:mm" matn bo'lib saqlanadi.
-const pad2 = (n) => String(n).padStart(2, "0");
-const clampNum = (raw, max) => {
-  if (raw === "") return "";
-  let n = Number(raw);
-  if (Number.isNaN(n)) return "";
-  if (n < 0) n = 0;
-  if (n > max) n = max;
-  return n;
-};
+const ScheduleRow = ({ row, idx, duplicate, disabled, onUpdate, onRemove }) => {
+  const endWrapRef = useRef(null);
 
-const TimeInput = ({ value, onChange, disabled }) => {
-  const parts = (value || "").split(":");
-  const h = parts[0] ? Number(parts[0]) : "";
-  const m = parts[1] ? Number(parts[1]) : "";
-  const compose = (hh, mm) =>
-    `${pad2(hh === "" ? 0 : hh)}:${pad2(mm === "" ? 0 : mm)}`;
-  const onH = (e) =>
-    onChange(compose(clampNum(e.target.value.replace(/\D/g, "").slice(0, 2), 23), m));
-  const onM = (e) =>
-    onChange(compose(h, clampNum(e.target.value.replace(/\D/g, "").slice(0, 2), 59)));
+  // Boshlanish vaqti to'lganda — tugash vaqtining birinchi (soat) maydoniga fokus.
+  const focusEnd = () => endWrapRef.current?.querySelector("input")?.focus();
+
   return (
-    <div className="flex items-center gap-1">
-      <Input
-        inputMode="numeric"
-        maxLength={2}
-        placeholder="00"
-        aria-label="Soat"
-        value={h}
-        onChange={onH}
-        disabled={disabled}
-        className="h-9 w-11 px-1 text-center text-sm"
-      />
-      <span className="text-sm text-muted-foreground">:</span>
-      <Input
-        inputMode="numeric"
-        maxLength={2}
-        placeholder="00"
-        aria-label="Daqiqa"
-        value={m}
-        onChange={onM}
-        disabled={disabled}
-        className="h-9 w-11 px-1 text-center text-sm"
-      />
+    <div>
+      <div
+        className={cn(
+          "grid gap-2 items-center px-2 py-1.5",
+          GRID_COLS,
+          duplicate && "bg-red-50",
+        )}
+      >
+        <Select
+          value={row.day}
+          onValueChange={(v) => onUpdate("day", v)}
+          disabled={disabled}
+        >
+          <SelectTrigger
+            className={cn("h-9 text-sm", duplicate && "border-red-400")}
+          >
+            <SelectValue placeholder="Kun" />
+          </SelectTrigger>
+          <SelectContent>
+            {DAY_OPTIONS.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <TimeInput
+          value={row.startTime}
+          onChange={(v) => onUpdate("startTime", v)}
+          onComplete={focusEnd}
+          disabled={disabled}
+        />
+        <TimeInput
+          ref={endWrapRef}
+          value={row.endTime}
+          onChange={(v) => onUpdate("endTime", v)}
+          disabled={disabled}
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          disabled={disabled}
+          onClick={onRemove}
+          aria-label="Qatorni o'chirish"
+          className="size-9 text-red-500 hover:text-red-700 hover:bg-red-50"
+        >
+          <Trash2 className="size-4" />
+        </Button>
+      </div>
+      {duplicate && (
+        <p className="px-2 pb-1.5 text-[11px] text-red-600">
+          {DAY_LABELS_FULL_UZ[row.day]} {row.startTime} allaqachon bor (bir xil
+          vaqt takrorlanmasin)
+        </p>
+      )}
     </div>
   );
 };
@@ -138,71 +159,17 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
             </div>
 
             <div className="divide-y">
-              {value.map((row, idx) => {
-                const duplicate = isDup(idx);
-
-                return (
-                  <div key={idx}>
-                    <div
-                      className={cn(
-                        "grid gap-2 items-center px-2 py-1.5",
-                        GRID_COLS,
-                        duplicate && "bg-red-50",
-                      )}
-                    >
-                      <Select
-                        value={row.day}
-                        onValueChange={(v) => update(idx, "day", v)}
-                        disabled={disabled}
-                      >
-                        <SelectTrigger
-                          className={cn(
-                            "h-9 text-sm",
-                            duplicate && "border-red-400",
-                          )}
-                        >
-                          <SelectValue placeholder="Kun" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {DAY_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <TimeInput
-                        value={row.startTime}
-                        onChange={(v) => update(idx, "startTime", v)}
-                        disabled={disabled}
-                      />
-                      <TimeInput
-                        value={row.endTime}
-                        onChange={(v) => update(idx, "endTime", v)}
-                        disabled={disabled}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        disabled={disabled}
-                        
-                        onClick={() => removeRow(idx)}
-                        aria-label="Qatorni o'chirish"
-                        className="size-9 text-red-500 hover:text-red-700 hover:bg-red-50"
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
-                    </div>
-                    {duplicate && (
-                      <p className="px-2 pb-1.5 text-[11px] text-red-600">
-                        {DAY_LABELS_FULL_UZ[row.day]} {row.startTime} allaqachon
-                        bor (bir xil vaqt takrorlanmasin)
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
+              {value.map((row, idx) => (
+                <ScheduleRow
+                  key={idx}
+                  row={row}
+                  idx={idx}
+                  duplicate={isDup(idx)}
+                  disabled={disabled}
+                  onUpdate={(key, val) => update(idx, key, val)}
+                  onRemove={() => removeRow(idx)}
+                />
+              ))}
             </div>
           </>
         )}
