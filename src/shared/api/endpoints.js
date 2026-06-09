@@ -101,6 +101,11 @@ export const ENDPOINTS = Object.freeze({
     groupSummary: (gid) => `/grades/groups/${gid}/summary`,
     studentSummary: (sid) => `/grades/students/${sid}/summary`,
   },
+  rating: {
+    leaderboard: "/grades/rating/leaderboard",
+    settings: "/grades/rating/settings",
+    studentRank: (sid) => `/grades/rating/students/${sid}`,
+  },
   teacherAttendance: {
     base: "/teacher-attendance",
     bulk: "/teacher-attendance/bulk",

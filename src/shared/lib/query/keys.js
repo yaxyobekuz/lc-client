@@ -108,6 +108,12 @@ export const qk = Object.freeze({
     groupSummary: (gid, params) => ["grades", "groupSummary", gid, params],
     studentSummary: (sid, params) => ["grades", "studentSummary", sid, params],
   },
+  rating: {
+    all: () => ["rating"],
+    leaderboard: (params) => ["rating", "leaderboard", params],
+    settings: () => ["rating", "settings"],
+    studentRank: (sid, params) => ["rating", "studentRank", sid, params],
+  },
   teacherAttendance: {
     all: () => ["teacherAttendance"],
     byDate: (date) => ["teacherAttendance", "date", date],

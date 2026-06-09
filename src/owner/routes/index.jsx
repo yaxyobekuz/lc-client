@@ -19,6 +19,7 @@ import {
 } from "@/owner/features/attendance";
 import { TeacherAttendancePage } from "@/owner/features/teacherAttendance";
 import { GradesGivePage } from "@/owner/features/grades";
+import { RatingPage, RatingSettingsPage } from "@/owner/features/rating";
 import {
   SalariesListPage,
   SalaryDetailPage,
@@ -84,6 +85,8 @@ const OwnerRoutes = () => (
 
     {/* Baholash */}
     <Route path="grades" element={<GradesGivePage />} />
+    <Route path="rating" element={<RatingPage />} />
+    <Route path="settings/rating" element={<RatingSettingsPage />} />
 
     {/* Maoshlar */}
     <Route path="salaries" element={<SalariesListPage />} />

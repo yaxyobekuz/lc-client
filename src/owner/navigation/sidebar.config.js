@@ -72,6 +72,16 @@ const ownerSidebar = [
         url: "/owner/grades",
         permission: "grades.record",
       },
+      {
+        title: "Reyting",
+        url: "/owner/rating",
+        permission: "rating.read",
+      },
+      {
+        title: "Sozlamalar",
+        url: "/owner/settings/rating",
+        permission: "rating.manage",
+      },
     ],
   },
 
