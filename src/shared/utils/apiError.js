@@ -21,7 +21,6 @@ const FIELD_LABELS = {
   schedule: "Jadval",
   teachers: "O'qituvchilar",
   monthlyPrice: "Oylik narx",
-  direction: "Yo'nalish",
   startTime: "Boshlanish vaqti",
   endTime: "Tugash vaqti",
   day: "Kun",

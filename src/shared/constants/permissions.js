@@ -28,9 +28,6 @@ export const PERMISSIONS = Object.freeze({
   GROUPS_DELETE: "groups.delete",
   GROUPS_MANAGE_STUDENTS: "groups.manage_students",
 
-  // Lead sources
-  LEAD_SOURCES_MANAGE: "lead_sources.manage",
-
   // Payments
   PAYMENTS_READ: "payments.read",
   PAYMENTS_CREATE: "payments.create",
@@ -62,15 +59,6 @@ export const PERMISSIONS = Object.freeze({
   SALARIES_READ: "salaries.read",
   SALARIES_MANAGE: "salaries.manage",
   SALARIES_DISTRIBUTE: "salaries.distribute",
-
-  // Leads (CRM)
-  LEADS_READ: "leads.read",
-  LEADS_CREATE: "leads.create",
-  LEADS_UPDATE: "leads.update",
-  LEADS_DELETE: "leads.delete",
-  LEADS_CONVERT: "leads.convert",
-  LEAD_DIRECTIONS_MANAGE: "lead_directions.manage",
-  LEAD_STATUSES_MANAGE: "lead_statuses.manage",
 
   // Notifications + Feedback
   NOTIFICATIONS_READ: "notifications.read",

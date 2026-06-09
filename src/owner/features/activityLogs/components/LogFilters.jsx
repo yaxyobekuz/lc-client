@@ -16,7 +16,6 @@ const RESOURCE_OPTIONS = [
   { value: "payment", label: "To'lov" },
   { value: "invoice", label: "Hisob-faktura" },
   { value: "salary", label: "Maosh" },
-  { value: "lead", label: "Lid" },
   { value: "feedback", label: "Fikr-mulohaza" },
   { value: "holiday", label: "Bayram" },
   { value: "notification", label: "Bildirishnoma" },

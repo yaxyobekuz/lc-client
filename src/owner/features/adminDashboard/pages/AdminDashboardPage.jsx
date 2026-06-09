@@ -2,7 +2,6 @@ import useObjectState from "@/shared/hooks/useObjectState";
 
 import OverviewStatsCards from "../components/OverviewStatsCards";
 import MonthlyFinancialsChart from "../components/MonthlyFinancialsChart";
-import IncomeByDirectionTable from "../components/IncomeByDirectionTable";
 import IncomeByTeacherTable from "../components/IncomeByTeacherTable";
 import StudentFlowChart from "../components/StudentFlowChart";
 import WeekdayActivityHeatmap from "../components/WeekdayActivityHeatmap";
@@ -11,7 +10,6 @@ import PeriodPicker from "../components/PeriodPicker";
 
 import useOverviewQuery from "../hooks/useOverviewQuery";
 import useMonthlyFinancialsQuery from "../hooks/useMonthlyFinancialsQuery";
-import useIncomeByDirectionQuery from "../hooks/useIncomeByDirectionQuery";
 import useIncomeByTeacherQuery from "../hooks/useIncomeByTeacherQuery";
 import useStudentFlowQuery from "../hooks/useStudentFlowQuery";
 import useForecastQuery from "../hooks/useForecastQuery";
@@ -28,7 +26,6 @@ const AdminDashboardPage = () => {
   const { data: overview, isLoading: overviewLoading } =
     useOverviewQuery(periodParams);
   const { data: monthlyFin } = useMonthlyFinancialsQuery({ months: 6 });
-  const { data: incomeDir } = useIncomeByDirectionQuery(periodParams);
   const { data: incomeTeacher } = useIncomeByTeacherQuery(periodParams);
   const { data: studentFlow } = useStudentFlowQuery({ months: 6 });
   const { data: forecast } = useForecastQuery();
@@ -62,8 +59,7 @@ const AdminDashboardPage = () => {
         <StudentFlowChart items={studentFlow || []} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <IncomeByDirectionTable items={incomeDir || []} />
+      <div className="grid grid-cols-1 gap-4">
         <IncomeByTeacherTable items={incomeTeacher || []} />
       </div>
 

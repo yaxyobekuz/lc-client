@@ -4,7 +4,6 @@ import {
   Wallet,
   CalendarCheck,
   HandCoins,
-  TrendingUp,
   Bell,
   ShieldCheck,
   MessageSquare,
@@ -186,67 +185,6 @@ export const SEARCH_INDEX = [
     icon: Settings,
     category: "Maoshlar",
     permission: "salaries.manage",
-  },
-
-  // Lidlar
-  {
-    title: "Lidlar",
-    description: "CRM — potensial mijozlar ro'yxati va statuslari",
-    keywords:
-      "lid, lead, crm, mijoz, customer, ariza, request, telefon, sinov, trial",
-    url: "/owner/leads",
-    icon: TrendingUp,
-    category: "Lidlar",
-    permission: "leads.read",
-  },
-  {
-    title: "Lidlar hisobotlari",
-    description: "Lid statistikasi, konversiya va manba samaradorligi",
-    keywords:
-      "lid, lead, hisobot, report, konversiya, conversion, statistika",
-    url: "/owner/leads/dashboard",
-    icon: BarChart3,
-    category: "Lidlar",
-    permission: "leads.read",
-  },
-  {
-    title: "Yo'nalishlar",
-    description: "Lid yo'nalishlari (matematika, ingliz tili, ...)",
-    keywords:
-      "yo'nalish, direction, lid, lead, fan, kurs, matematika, english",
-    url: "/owner/lead-directions",
-    icon: Tags,
-    category: "Lidlar",
-    permission: "lead_directions.manage",
-  },
-  {
-    title: "Lid statuslari",
-    description: "Lidning pipeline holatlari (yangi, bog'lanildi, sinov, ...)",
-    keywords:
-      "status, lead, lid, pipeline, yangi, holati, bog'lanildi, sinov",
-    url: "/owner/lead-statuses",
-    icon: Tags,
-    category: "Lidlar",
-    permission: "lead_statuses.manage",
-  },
-  {
-    title: "Lid manbalari",
-    description: "Lid qaerdan kelganini boshqarish (Instagram, do'st, ...)",
-    keywords:
-      "manba, source, lid, lead, instagram, telegram, reklama, taraqqiyot",
-    url: "/owner/lead-sources",
-    icon: Tags,
-    category: "Lidlar",
-    permission: "lead_sources.manage",
-  },
-  {
-    title: "Lidlar sozlamalari",
-    description: "Lid avtomatik tayinlash va eslatma sozlamalari",
-    keywords: "lid, sozlama, lead, settings, konfiguratsiya, reminder",
-    url: "/owner/settings/leads",
-    icon: Settings,
-    category: "Lidlar",
-    permission: "leads.update",
   },
 
   // Bildirishnomalar

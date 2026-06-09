@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // Pages
 import { GroupsListPage, GroupDetailPage } from "@/owner/features/groups";
 import { UsersListPage, UserDetailPage } from "@/owner/features/users";
-import { LeadSourcesListPage } from "@/owner/features/leadSources";
 import { PaymentMethodsListPage } from "@/owner/features/paymentMethods";
 import { DiscountKindsListPage } from "@/owner/features/discountKinds";
 import {
@@ -26,14 +25,6 @@ import {
   SalariesDashboardPage,
   SalarySettingsPage,
 } from "@/owner/features/salaries";
-import {
-  LeadsListPage,
-  LeadDetailPage,
-  LeadsDashboardPage,
-} from "@/owner/features/leads";
-import { LeadDirectionsListPage } from "@/owner/features/leadDirections";
-import { LeadStatusesListPage } from "@/owner/features/leadStatuses";
-import { LeadSettingsPage } from "@/owner/features/leadSettings";
 import {
   NotificationsListPage,
   NotificationDetailPage,
@@ -71,7 +62,6 @@ const OwnerRoutes = () => (
     <Route path="users" element={<UsersListPage />} />
     <Route path="users/:id" element={<UserDetailPage />} />
 
-    <Route path="lead-sources" element={<LeadSourcesListPage />} />
     <Route path="payment-methods" element={<PaymentMethodsListPage />} />
     <Route path="discount-kinds" element={<DiscountKindsListPage />} />
 
@@ -93,13 +83,6 @@ const OwnerRoutes = () => (
     <Route path="salaries/dashboard" element={<SalariesDashboardPage />} />
     <Route path="salaries/:id" element={<SalaryDetailPage />} />
 
-    {/* Lidlar (CRM) */}
-    <Route path="leads" element={<LeadsListPage />} />
-    <Route path="leads/dashboard" element={<LeadsDashboardPage />} />
-    <Route path="leads/:id" element={<LeadDetailPage />} />
-    <Route path="lead-directions" element={<LeadDirectionsListPage />} />
-    <Route path="lead-statuses" element={<LeadStatusesListPage />} />
-
     {/* Aloqa: Notifications + Feedback */}
     <Route path="notifications/dashboard" element={<NotificationsDashboardPage />} />
     <Route path="notifications" element={<NotificationsListPage />} />
@@ -115,7 +98,6 @@ const OwnerRoutes = () => (
     <Route path="settings/payments" element={<PaymentSettingsPage />} />
     <Route path="settings/attendance" element={<AttendanceSettingsPage />} />
     <Route path="settings/salaries" element={<SalarySettingsPage />} />
-    <Route path="settings/leads" element={<LeadSettingsPage />} />
 
     <Route path="profile" element={<ProfilePage />} />
     <Route path="*" element={<NotFoundPage />} />

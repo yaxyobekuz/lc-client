@@ -5,7 +5,6 @@ import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 
-import LeadSourcePicker from "./LeadSourcePicker";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 
 const ROLE_OPTIONS = [
@@ -27,9 +26,6 @@ const initialState = (defaultRole) => ({
   role: defaultRole || ROLES.STUDENT,
 
   gender: "",
-
-  // student
-  leadSource: "",
 
   // teacher
   birthDate: "",
@@ -70,9 +66,7 @@ const UserCreateModal = ({ defaultRole, close, isLoading, setIsLoading }) => {
     };
     if (obj.gender) body.gender = obj.gender;
 
-    if (isStudent) {
-      if (obj.leadSource) body.leadSource = obj.leadSource;
-    } else {
+    if (!isStudent) {
       if (obj.birthDate) body.birthDate = obj.birthDate;
       if (obj.hiredAt) body.hiredAt = obj.hiredAt;
     }
@@ -137,22 +131,14 @@ const UserCreateModal = ({ defaultRole, close, isLoading, setIsLoading }) => {
       />
 
       {isStudent ? (
-        <>
-          <SelectField
-            label="Jinsi"
-            value={obj.gender}
-            onChange={(v) => obj.setField("gender", v)}
-            options={GENDER_OPTIONS}
-            placeholder="Tanlang"
-            disabled={isLoading}
-          />
-          <LeadSourcePicker
-            label="Qayerdan eshitdingiz?"
-            value={obj.leadSource}
-            onChange={(v) => obj.setField("leadSource", v)}
-            disabled={isLoading}
-          />
-        </>
+        <SelectField
+          label="Jinsi"
+          value={obj.gender}
+          onChange={(v) => obj.setField("gender", v)}
+          options={GENDER_OPTIONS}
+          placeholder="Tanlang"
+          disabled={isLoading}
+        />
       ) : (
         <>
           <div className="grid grid-cols-2 gap-3">

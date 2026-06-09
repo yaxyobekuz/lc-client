@@ -1,10 +1,8 @@
 // Icons
 import {
-  Star,
   Users,
   Wallet,
   Layers,
-  Percent,
   UserPlus,
   UserMinus,
   TrendingUp,
@@ -88,16 +86,6 @@ const OverviewStatsCards = ({ data }) => {
         to="/owner/groups"
       />
       <StatCard
-        icon={Percent}
-        label="Lid konversiyasi"
-        value={data.leadsConversion?.rate ?? 0}
-        suffix="%"
-        hint={`${data.leadsConversion?.converted || 0} / ${data.leadsConversion?.total || 0} lid`}
-        tone="info"
-        to="/owner/leads"
-      />
-
-      <StatCard
         icon={CalendarCheck}
         label="Bugungi davomat"
         value={data.todayAttendanceRate}
@@ -121,14 +109,6 @@ const OverviewStatsCards = ({ data }) => {
         tone="negative"
         hint="Shu oy guruhdan chiqqanlar"
         to="/owner/users?tab=student"
-      />
-      <StatCard
-        icon={Star}
-        label="Mashhur yo'nalish"
-        value={data.mostPopularDirection?.studentsCount || 0}
-        hint={data.mostPopularDirection?.name || "Ma'lumot yo'q"}
-        tone="info"
-        to="/owner/groups"
       />
     </div>
   );

@@ -2,7 +2,6 @@ import {
   Wallet,
   CalendarCheck,
   HandCoins,
-  TrendingUp,
   Bell,
   MessageSquare,
   Receipt,
@@ -150,44 +149,6 @@ const ownerSidebar = [
         title: "Sozlamalar",
         url: "/owner/settings/salaries",
         permission: "salaries.manage",
-      },
-    ],
-  },
-
-  {
-    title: "Lidlar",
-    icon: TrendingUp,
-    isActive: false,
-    items: [
-      {
-        title: "Asosiy",
-        url: "/owner/leads",
-        permission: "leads.read",
-      },
-      {
-        title: "Hisobotlar",
-        url: "/owner/leads/dashboard",
-        permission: "leads.read",
-      },
-      {
-        title: "Yo'nalishlar",
-        url: "/owner/lead-directions",
-        permission: "lead_directions.manage",
-      },
-      {
-        title: "Statuslar",
-        url: "/owner/lead-statuses",
-        permission: "lead_statuses.manage",
-      },
-      {
-        title: "Manbalar",
-        url: "/owner/lead-sources",
-        permission: "lead_sources.manage",
-      },
-      {
-        title: "Sozlamalar",
-        url: "/owner/settings/leads",
-        permission: "leads.update",
       },
     ],
   },

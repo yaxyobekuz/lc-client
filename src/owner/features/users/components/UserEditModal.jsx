@@ -5,7 +5,6 @@ import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 
-import LeadSourcePicker from "./LeadSourcePicker";
 import { ROLES } from "@/shared/constants/roles";
 import { toDateInput } from "@/shared/utils/formatDate";
 
@@ -23,10 +22,6 @@ const buildInitial = (user) => ({
 
   // student
   enrolledAt: toDateInput(user?.enrolledAt),
-  leadSource:
-    typeof user?.leadSource === "object" && user?.leadSource
-      ? user.leadSource._id
-      : user?.leadSource || "",
 
   // teacher
   hiredAt: toDateInput(user?.hiredAt),
@@ -59,7 +54,6 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
 
     if (isStudent) {
       body.enrolledAt = obj.enrolledAt || null;
-      body.leadSource = obj.leadSource || null;
     }
     if (isTeacher) {
       body.hiredAt = obj.hiredAt || null;
@@ -133,23 +127,15 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
       )}
 
       {isStudent && (
-        <>
-          <InputField
-            type="date"
-            name="enrolledAt"
-            label="Ro'yxatga olingan sana"
-            value={obj.enrolledAt}
-            max={today}
-            onChange={(e) => obj.setField("enrolledAt", e.target.value)}
-            disabled={isLoading}
-          />
-          <LeadSourcePicker
-            label="Qayerdan eshitdingiz?"
-            value={obj.leadSource}
-            onChange={(v) => obj.setField("leadSource", v)}
-            disabled={isLoading}
-          />
-        </>
+        <InputField
+          type="date"
+          name="enrolledAt"
+          label="Ro'yxatga olingan sana"
+          value={obj.enrolledAt}
+          max={today}
+          onChange={(e) => obj.setField("enrolledAt", e.target.value)}
+          disabled={isLoading}
+        />
       )}
 
       {isTeacher && (

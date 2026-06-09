@@ -33,11 +33,6 @@ export const MODAL = Object.freeze({
   GROUP_REMOVE_STUDENT: "group:removeStudent",
   GROUP_REPLACE_TEACHER: "group:replaceTeacher",
 
-  // Lead sources
-  LEAD_SOURCE_CREATE: "leadSource:create",
-  LEAD_SOURCE_EDIT: "leadSource:edit",
-  LEAD_SOURCE_DELETE: "leadSource:delete",
-
   // Payment methods
   PAYMENT_METHOD_CREATE: "paymentMethod:create",
   PAYMENT_METHOD_EDIT: "paymentMethod:edit",
@@ -85,23 +80,6 @@ export const MODAL = Object.freeze({
   TEACHER_GROUP_RATE_CREATE: "teacherGroupRate:create",
   TEACHER_GROUP_RATE_EDIT: "teacherGroupRate:edit",
   TEACHER_GROUP_RATE_DELETE: "teacherGroupRate:delete",
-
-  // Leads (CRM)
-  LEAD_CREATE: "lead:create",
-  LEAD_EDIT: "lead:edit",
-  LEAD_DELETE_CONFIRM: "lead:deleteConfirm",
-  LEAD_STATUS_CHANGE: "lead:statusChange",
-  LEAD_ADD_NOTE: "lead:addNote",
-  LEAD_RECORD_CONTACT: "lead:recordContact",
-  LEAD_SET_FOLLOWUP: "lead:setFollowUp",
-  LEAD_SET_TRIAL: "lead:setTrial",
-  LEAD_CONVERT: "lead:convert",
-  LEAD_DIRECTION_CREATE: "leadDirection:create",
-  LEAD_DIRECTION_EDIT: "leadDirection:edit",
-  LEAD_DIRECTION_DELETE: "leadDirection:delete",
-  LEAD_STATUS_FORM_CREATE: "leadStatusForm:create",
-  LEAD_STATUS_FORM_EDIT: "leadStatusForm:edit",
-  LEAD_STATUS_FORM_DELETE: "leadStatusForm:delete",
 
   // Notifications + Feedback (Bo'lak 7)
   NOTIFICATION_SEND: "notification:send",

@@ -7,7 +7,6 @@ import {
   User,
   CalendarPlus,
   Briefcase,
-  Megaphone,
   Wallet,
 } from "lucide-react";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
@@ -108,20 +107,6 @@ const UserProfileCard = ({ profile }) => {
               icon={CalendarPlus}
               label="Ro'yxatga olingan"
               value={formatDateUz(profile.enrolledAt)}
-            />
-            <InfoRow
-              icon={Megaphone}
-              label="Qayerdan eshitgan"
-              value={
-                profile.leadSource ? (
-                  <span>
-                    {profile.leadSource.name}
-                    {profile.leadSource.isActive === false && (
-                      <span className="ml-1 text-muted-foreground">(arxiv)</span>
-                    )}
-                  </span>
-                ) : null
-              }
             />
           </>
         )}

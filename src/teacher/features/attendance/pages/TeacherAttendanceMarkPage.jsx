@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import InputField from "@/shared/components/ui/input/InputField";
 import { AttendanceGrid, SessionTabs } from "@/shared/components/attendance";
-import TrialsSection from "@/owner/features/attendance/components/TrialsSection";
 import useAttendanceForGroupDateQuery from "@/owner/features/attendance/hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "@/owner/features/attendance/hooks/useBulkRecordMutation";
 import useGoBack from "@/shared/hooks/useGoBack";
@@ -63,7 +62,6 @@ const TeacherAttendanceMarkPage = () => {
             activeSlot={effectiveSlot}
             onSelect={setSlot}
           />
-          <TrialsSection trials={data?.trials} />
           <AttendanceGrid
             data={data}
             onSubmit={handleSubmit}

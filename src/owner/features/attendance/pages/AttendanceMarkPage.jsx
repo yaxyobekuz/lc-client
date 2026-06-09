@@ -5,7 +5,6 @@ import Card from "@/shared/components/ui/card/Card";
 import { AttendanceGrid, SessionTabs } from "@/shared/components/attendance";
 import GroupPicker from "../components/GroupPicker";
 import TeacherPresenceCard from "../components/TeacherPresenceCard";
-import TrialsSection from "../components/TrialsSection";
 import useAttendanceForGroupDateQuery from "../hooks/useAttendanceForGroupDateQuery";
 import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
 import { todayInput } from "@/shared/utils/formatDate";
@@ -65,7 +64,6 @@ const AttendanceMarkPage = () => {
             activeSlot={effectiveSlot}
             onSelect={setSlot}
           />
-          <TrialsSection trials={data?.trials} />
           <AttendanceGrid
             data={data}
             onSubmit={handleSubmit}

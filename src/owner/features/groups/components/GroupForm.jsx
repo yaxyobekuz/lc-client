@@ -1,13 +1,11 @@
 // Hooks
 import useObjectState from "@/shared/hooks/useObjectState";
-import useLeadDirectionsQuery from "@/owner/features/leadDirections/hooks/useLeadDirectionsQuery";
 
 // Sonner
 import { toast } from "sonner";
 
 // Components
 import InputField from "@/shared/components/ui/input/InputField";
-import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 import GroupScheduleField from "./GroupScheduleField";
 import TeachersMultiPicker from "./TeachersMultiPicker";
@@ -22,10 +20,6 @@ const buildInitial = (group) => ({
     typeof t === "string" ? t : t._id,
   ),
   monthlyPrice: group?.monthlyPrice ?? 0,
-  direction:
-    group?.direction && typeof group.direction === "object"
-      ? group.direction._id
-      : group?.direction || "",
   // Yangi guruh — default bugun; mavjud guruh — o'z sanasi (yoki bo'sh)
   startDate: group?.startDate
     ? toDateInput(group.startDate)
@@ -34,8 +28,6 @@ const buildInitial = (group) => ({
       : toDateInput(new Date()),
   durationMonths: group?.durationMonths ?? "",
 });
-
-const NONE_DIRECTION = "__none__";
 
 const GroupForm = ({
   initial,
@@ -49,20 +41,10 @@ const GroupForm = ({
     schedule,
     teachers,
     monthlyPrice,
-    direction,
     startDate,
     durationMonths,
     setField,
   } = useObjectState(buildInitial(initial));
-
-  const { data: directionsData } = useLeadDirectionsQuery({ limit: 200 });
-  const directionOptions = [
-    { value: NONE_DIRECTION, label: "Ko'rsatilmagan" },
-    ...(directionsData?.data || []).map((d) => ({
-      value: d._id,
-      label: d.name,
-    })),
-  ];
 
   // Jadvalda takrorlangan kun bormi
   const hasDuplicateDays = (() => {
@@ -123,7 +105,6 @@ const GroupForm = ({
       schedule,
       teachers,
       monthlyPrice: priceNum,
-      direction: direction && direction !== NONE_DIRECTION ? direction : null,
       startDate: startDate || null,
       durationMonths: durationMonths === "" ? null : Number(durationMonths),
     });
@@ -155,15 +136,8 @@ const GroupForm = ({
         />
       </div>
 
-      {/* 2-qator: yo'nalish + dars boshlanish sanasi + kurs davomiyligi */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <SelectField
-          label="Yo'nalish"
-          value={direction || NONE_DIRECTION}
-          onChange={(v) => setField("direction", v)}
-          options={directionOptions}
-          disabled={isLoading}
-        />
+      {/* 2-qator: dars boshlanish sanasi + kurs davomiyligi */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <InputField
           type="date"
           name="startDate"
