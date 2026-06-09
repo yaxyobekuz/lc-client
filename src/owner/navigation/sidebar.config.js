@@ -1,20 +1,18 @@
 import {
-  Users,
-  GraduationCap,
   Wallet,
   CalendarCheck,
   HandCoins,
   TrendingUp,
   Bell,
-  ShieldCheck,
   MessageSquare,
   Receipt,
   LayoutDashboard,
+  MonitorCog,
 } from "lucide-react";
 
 const ownerSidebar = [
   {
-    title: "Boshqaruv paneli",
+    title: "Asosiy",
     icon: LayoutDashboard,
     isActive: false,
     items: [
@@ -23,29 +21,13 @@ const ownerSidebar = [
         url: "/owner/dashboard",
         permission: "admin_dashboard.read",
       },
-    ],
-  },
-
-  {
-    title: "Guruhlar",
-    icon: GraduationCap,
-    isActive: false,
-    items: [
       {
-        title: "Asosiy",
+        title: "Guruhlar",
         url: "/owner/groups",
         permission: "groups.read",
       },
-    ],
-  },
-
-  {
-    title: "Foydalanuvchilar",
-    icon: Users,
-    isActive: false,
-    items: [
       {
-        title: "Asosiy",
+        title: "Foydalanuvchilar",
         url: "/owner/users",
         permission: "users.read",
       },
@@ -243,25 +225,17 @@ const ownerSidebar = [
   },
 
   {
-    title: "Audit",
-    icon: ShieldCheck,
-    isActive: false,
+    title: "Tizim",
+    icon: MonitorCog,
     items: [
+      {
+        title: "Ega profili",
+        url: "/owner/profile",
+      },
       {
         title: "Faoliyat loglari",
         url: "/owner/activity-logs",
         permission: "activity_logs.read",
-      },
-    ],
-  },
-
-  {
-    title: "Hisob",
-    icon: Users,
-    items: [
-      {
-        title: "Profil",
-        url: "/owner/profile",
       },
     ],
   },
