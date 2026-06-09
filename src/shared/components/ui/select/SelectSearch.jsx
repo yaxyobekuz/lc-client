@@ -20,9 +20,6 @@ import {
   CommandInput,
 } from "@/shared/components/shadcn/command";
 
-// Hooks
-import useSound from "@/shared/hooks/useSound";
-
 // Icons
 import { Check, ChevronDown } from "lucide-react";
 
@@ -31,24 +28,20 @@ const SelectSearch = ({
   onChange,
   options = [],
   isLoading = false,
-  playClickSound = true,
   triggerClassName = "",
   searchPlaceholder = "Qidirish...",
   emptyText = "Hech narsa topilmadi",
   ...props
 }) => {
-  const { playSound } = useSound();
   const [open, setOpen] = useState(false);
   const selectedOption = options.find((o) => o.value === value);
 
   const handleOpenChange = (isOpen) => {
     setOpen(isOpen);
-    playClickSound && playSound("notification-pop");
   };
 
   const handleChange = (option) => {
     setOpen(false);
-    playClickSound && playSound("notification-pop");
     onChange?.(option.value === value ? "" : option.value);
   };
 
@@ -62,7 +55,6 @@ const SelectSearch = ({
         <Button
           type="button"
           variant="outline"
-          playClickSound={false}
           disabled={props.disabled || isLoading}
           className="justify-between font-normal px-3 hover:bg-white"
         >

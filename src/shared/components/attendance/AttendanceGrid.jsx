@@ -348,7 +348,6 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
               variant="outline"
               onClick={resetAll}
               disabled={isSubmitting || dirtyCount === 0}
-              playClickSound={false}
             >
               Bekor qilish
             </Button>

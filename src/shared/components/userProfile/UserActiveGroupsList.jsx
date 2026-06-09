@@ -68,7 +68,6 @@ const UserActiveGroupsList = ({
                             student: { _id: studentId },
                           })
                         }
-                        playClickSound={false}
                       >
                         <ArrowRightLeft className="size-4" />
                         Ko'chirish
@@ -87,7 +86,6 @@ const UserActiveGroupsList = ({
                             debt: studentDebt,
                           })
                         }
-                        playClickSound={false}
                       >
                         <Trash2 className="size-4" />
                       </Button>

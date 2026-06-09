@@ -10,9 +10,6 @@ import {
   Select as SelectWrapper,
 } from "@/shared/components/shadcn/select";
 
-// Hooks
-import useSound from "@/shared/hooks/useSound";
-
 const EMPTY_SENTINEL = "__empty__";
 
 const Select = ({
@@ -24,15 +21,12 @@ const Select = ({
   triggerClassName = "",
   ...props
 }) => {
-  const { playSound } = useSound();
-
   const handleChange = (next) => {
     onChange?.(next === EMPTY_SENTINEL ? "" : next);
   };
 
   const handleOpenChange = (e) => {
     onOpenChange?.(e);
-    playSound("notification-pop");
   };
 
   const isControlled = value !== undefined;
