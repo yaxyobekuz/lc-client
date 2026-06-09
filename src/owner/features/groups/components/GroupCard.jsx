@@ -98,7 +98,7 @@ const GroupCard = ({ group, archived = false }) => {
             )}
           </div>
           <div>
-            <span className="font-medium text-foreground">O'qituvchilar:</span>{" "}
+            <span className="font-medium text-foreground">O'qituvchi:</span>{" "}
             {teachers || "-"}
           </div>
           <div>

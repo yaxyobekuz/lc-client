@@ -3,6 +3,7 @@ import useGroupHistoryQuery from "../hooks/useGroupHistoryQuery";
 
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
+import { formatDateUZ } from "@/shared/utils/date.utils";
 
 const REASON_LABEL = {
   removed: "Chiqarildi",
@@ -10,15 +11,8 @@ const REASON_LABEL = {
   graduated: "Bitirdi",
 };
 
-const fmtDate = (iso) => {
-  if (!iso) return "-";
-  const d = new Date(iso);
-  return d.toLocaleDateString("uz-UZ", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
+// "21-may, 2026" ko'rinishida formatlash
+const fmtDate = (iso) => (iso ? formatDateUZ(iso) : "-");
 
 const GroupHistoryList = ({ groupId }) => {
   const { data, isLoading } = useGroupHistoryQuery(groupId, { limit: 50 });

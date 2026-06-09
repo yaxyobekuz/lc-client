@@ -5,6 +5,7 @@ import { RefreshCw } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Card from "@/shared/components/ui/card/Card";
 import GroupStatsPanel from "../GroupStatsPanel";
+import GroupHistoryList from "../GroupHistoryList";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -40,9 +41,9 @@ const GroupInfoTab = ({ group }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <p className="text-xs text-muted-foreground mb-2">O'qituvchilar</p>
+          <p className="text-xs text-muted-foreground mb-2">O'qituvchi</p>
           {teachers.length === 0 ? (
-            <p className="font-medium">-</p>
+            <p className="text-sm text-muted-foreground">Tayinlanmagan</p>
           ) : (
             <div className="space-y-1">
               {teachers.map((t) => (
@@ -101,6 +102,15 @@ const GroupInfoTab = ({ group }) => {
       </div>
 
       <GroupStatsPanel groupId={group._id} />
+
+      <details className="group/details border rounded-sm bg-white">
+        <summary className="cursor-pointer px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground select-none">
+          Tarix (a'zolik o'zgarishlari)
+        </summary>
+        <div className="p-3 pt-0">
+          <GroupHistoryList groupId={group._id} />
+        </div>
+      </details>
     </div>
   );
 };

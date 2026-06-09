@@ -25,7 +25,6 @@ import {
   DropdownMenuSeparator,
 } from "@/shared/components/shadcn/dropdown-menu";
 import GroupStudentsTable from "../components/GroupStudentsTable";
-import GroupHistoryList from "../components/GroupHistoryList";
 import GroupInfoTab from "../components/tabs/GroupInfoTab";
 import GroupAttendanceStatsTab from "../components/tabs/GroupAttendanceStatsTab";
 import GroupPaymentsStatsTab from "../components/tabs/GroupPaymentsStatsTab";
@@ -191,15 +190,6 @@ const GroupDetailPage = () => {
           },
         ]}
       />
-
-      <details className="group/details border rounded-sm bg-white">
-        <summary className="cursor-pointer px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground select-none">
-          Tarix (a'zolik o'zgarishlari)
-        </summary>
-        <div className="p-3 pt-0">
-          <GroupHistoryList groupId={group._id} />
-        </div>
-      </details>
 
       <ModalWrapper
         name={MODAL.GROUP_EDIT}
