@@ -4,13 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // Pages
 import { GroupsListPage, GroupDetailPage } from "@/owner/features/groups";
 import { UsersListPage, UserDetailPage } from "@/owner/features/users";
-import { PaymentMethodsListPage } from "@/owner/features/paymentMethods";
-import { DiscountKindsListPage } from "@/owner/features/discountKinds";
-import {
-  PaymentsListPage,
-  InvoiceDetailPage,
-} from "@/owner/features/payments";
-import { PaymentSettingsPage } from "@/owner/features/paymentSettings";
 import {
   AttendanceMarkPage,
   AttendanceDashboardPage,
@@ -19,12 +12,6 @@ import {
 import { TeacherAttendancePage } from "@/owner/features/teacherAttendance";
 import { GradesGivePage } from "@/owner/features/grades";
 import { RatingPage, RatingSettingsPage } from "@/owner/features/rating";
-import {
-  SalariesListPage,
-  SalaryDetailPage,
-  SalariesDashboardPage,
-  SalarySettingsPage,
-} from "@/owner/features/salaries";
 import {
   NotificationsListPage,
   NotificationDetailPage,
@@ -40,8 +27,6 @@ import {
   FeedbackTypesListPage,
 } from "@/owner/features/feedback";
 import { AdminDashboardPage } from "@/owner/features/adminDashboard";
-import { ExpensesListPage } from "@/owner/features/expenses";
-import { ExpenseTypesListPage } from "@/owner/features/expenseTypes";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
 import { ProfilePage } from "@/owner/features/profile";
 import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
@@ -52,8 +37,6 @@ const OwnerRoutes = () => (
 
     {/* Boshqaruv paneli (Bo'lak 9) */}
     <Route path="dashboard" element={<AdminDashboardPage />} />
-    <Route path="expenses" element={<ExpensesListPage />} />
-    <Route path="expense-types" element={<ExpenseTypesListPage />} />
     <Route path="activity-logs" element={<ActivityLogsPage />} />
 
     <Route path="groups" element={<GroupsListPage />} />
@@ -61,12 +44,6 @@ const OwnerRoutes = () => (
 
     <Route path="users" element={<UsersListPage />} />
     <Route path="users/:id" element={<UserDetailPage />} />
-
-    <Route path="payment-methods" element={<PaymentMethodsListPage />} />
-    <Route path="discount-kinds" element={<DiscountKindsListPage />} />
-
-    <Route path="payments" element={<PaymentsListPage />} />
-    <Route path="payments/invoices/:id" element={<InvoiceDetailPage />} />
 
     {/* Davomat */}
     <Route path="attendance" element={<AttendanceDashboardPage />} />
@@ -77,11 +54,6 @@ const OwnerRoutes = () => (
     <Route path="grades" element={<GradesGivePage />} />
     <Route path="rating" element={<RatingPage />} />
     <Route path="settings/rating" element={<RatingSettingsPage />} />
-
-    {/* Maoshlar */}
-    <Route path="salaries" element={<SalariesListPage />} />
-    <Route path="salaries/dashboard" element={<SalariesDashboardPage />} />
-    <Route path="salaries/:id" element={<SalaryDetailPage />} />
 
     {/* Aloqa: Notifications + Feedback */}
     <Route path="notifications/dashboard" element={<NotificationsDashboardPage />} />
@@ -95,9 +67,7 @@ const OwnerRoutes = () => (
     <Route path="feedback/:id" element={<FeedbackDetailPage />} />
     <Route path="feedback-types" element={<FeedbackTypesListPage />} />
 
-    <Route path="settings/payments" element={<PaymentSettingsPage />} />
     <Route path="settings/attendance" element={<AttendanceSettingsPage />} />
-    <Route path="settings/salaries" element={<SalarySettingsPage />} />
 
     <Route path="profile" element={<ProfilePage />} />
     <Route path="*" element={<NotFoundPage />} />

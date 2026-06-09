@@ -1,13 +1,9 @@
 // Icons
 import {
   Users,
-  Wallet,
   Layers,
   UserPlus,
   UserMinus,
-  TrendingUp,
-  AlertCircle,
-  TrendingDown,
   GraduationCap,
   CalendarCheck,
 } from "lucide-react";
@@ -18,52 +14,8 @@ import StatCard from "@/shared/components/ui/card/StatCard";
 const OverviewStatsCards = ({ data }) => {
   if (!data) return null;
 
-  const profitTone =
-    data.netProfit > 0
-      ? "positive"
-      : data.netProfit < 0
-        ? "negative"
-        : "default";
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <StatCard
-        icon={TrendingUp}
-        label="Joriy oy daromadi"
-        value={data.income}
-        isMoney
-        tone="positive"
-        hint="Shu oydagi to'lovlar"
-        to="/owner/payments"
-      />
-      <StatCard
-        icon={TrendingDown}
-        label="Joriy oy xarajatlari"
-        value={data.expenses}
-        isMoney
-        tone="negative"
-        hint="Shu oydagi xarajatlar"
-        to="/owner/expenses"
-      />
-      <StatCard
-        icon={Wallet}
-        label="Sof foyda"
-        value={data.netProfit}
-        isMoney
-        tone={profitTone}
-        hint="Daromad − xarajat"
-        to="/owner/payments"
-      />
-      <StatCard
-        icon={AlertCircle}
-        label="Joriy oy qarzdorligi"
-        value={data.currentMonthDebt}
-        isMoney
-        tone="warn"
-        hint="To'lanmagan hisoblar"
-        to="/owner/payments"
-      />
-
       <StatCard
         icon={GraduationCap}
         label="O'quvchilar"

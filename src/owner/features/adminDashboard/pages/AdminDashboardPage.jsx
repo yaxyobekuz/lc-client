@@ -2,18 +2,12 @@ import useObjectState from "@/shared/hooks/useObjectState";
 import SystemNotificationBell from "@/shared/components/systemNotification/SystemNotificationBell";
 
 import OverviewStatsCards from "../components/OverviewStatsCards";
-import MonthlyFinancialsChart from "../components/MonthlyFinancialsChart";
-import IncomeByTeacherTable from "../components/IncomeByTeacherTable";
 import StudentFlowChart from "../components/StudentFlowChart";
 import WeekdayActivityHeatmap from "../components/WeekdayActivityHeatmap";
-import ForecastCard from "../components/ForecastCard";
 import PeriodPicker from "../components/PeriodPicker";
 
 import useOverviewQuery from "../hooks/useOverviewQuery";
-import useMonthlyFinancialsQuery from "../hooks/useMonthlyFinancialsQuery";
-import useIncomeByTeacherQuery from "../hooks/useIncomeByTeacherQuery";
 import useStudentFlowQuery from "../hooks/useStudentFlowQuery";
-import useForecastQuery from "../hooks/useForecastQuery";
 
 const AdminDashboardPage = () => {
   const now = new Date();
@@ -26,10 +20,7 @@ const AdminDashboardPage = () => {
 
   const { data: overview, isLoading: overviewLoading } =
     useOverviewQuery(periodParams);
-  const { data: monthlyFin } = useMonthlyFinancialsQuery({ months: 6 });
-  const { data: incomeTeacher } = useIncomeByTeacherQuery(periodParams);
   const { data: studentFlow } = useStudentFlowQuery({ months: 6 });
-  const { data: forecast } = useForecastQuery();
 
   return (
     <div className="space-y-5">
@@ -59,17 +50,8 @@ const AdminDashboardPage = () => {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <MonthlyFinancialsChart items={monthlyFin || []} />
         <StudentFlowChart items={studentFlow || []} />
-      </div>
-
-      <div className="grid grid-cols-1 gap-4">
-        <IncomeByTeacherTable items={incomeTeacher || []} />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <WeekdayActivityHeatmap items={overview?.weekdayActivity || []} />
-        <ForecastCard data={forecast} />
       </div>
     </div>
   );

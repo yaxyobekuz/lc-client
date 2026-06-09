@@ -11,8 +11,6 @@ import useMyGroupsQuery from "../hooks/useMyGroupsQuery";
 // Components
 import ScheduleCards from "@/shared/components/schedule/ScheduleCards";
 
-// Utils
-import { formatMoney } from "@/shared/utils/formatMoney";
 
 const MyGroupsPage = () => {
   const { data, isLoading } = useMyGroupsQuery();
@@ -46,10 +44,6 @@ const MyGroupsPage = () => {
               </div>
               <div className="space-y-2 text-sm text-muted-foreground">
                 <ScheduleCards schedule={g.schedule} />
-                <div className="border-t border-border/60 pt-2">
-                  <span className="font-medium text-foreground">Oylik narx:</span>{" "}
-                  {formatMoney(g.monthlyPrice)}
-                </div>
               </div>
             </Card>
           </Link>

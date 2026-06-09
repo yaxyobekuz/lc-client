@@ -1,20 +1,18 @@
 // Icons
-import { Wallet, CalendarCheck, Star } from "lucide-react";
+import { CalendarCheck, Star } from "lucide-react";
 
 // Components
 import StatCard from "@/shared/components/ui/card/StatCard";
 
-// Hooks (mavjud davomat va to'lov statistikasi qayta ishlatiladi)
+// Hooks (mavjud davomat va baho statistikasi qayta ishlatiladi)
 import { useGroupAttendanceSummaryQuery } from "@/owner/features/attendance";
-import { useGroupStatsQuery } from "@/owner/features/payments";
 import { useGroupGradeSummaryQuery } from "@/owner/features/grades";
 
 // Utils
 import { toDateInput } from "@/shared/utils/formatDate";
 
-// Guruh detalining ustki qismidagi qisqa statistika paneli: To'lov, Davomat, Baho.
-// Joriy oy bo'yicha. Mavjud StatCard + davomat/to'lov query'lari qayta ishlatiladi.
-// Baho (grade) Faza 2'da real o'rtacha ballga ulanadi — hozircha placeholder ("—").
+// Guruh detalining ustki qismidagi qisqa statistika paneli: Davomat, Baho.
+// Joriy oy bo'yicha. Mavjud StatCard + davomat/baho query'lari qayta ishlatiladi.
 const GroupStatsPanel = ({ groupId }) => {
   const now = new Date();
   const period = { year: now.getFullYear(), month: now.getMonth() + 1 };
@@ -28,28 +26,12 @@ const GroupStatsPanel = ({ groupId }) => {
   });
   const rate = attData?.aggregate?.groupRate;
 
-  // To'lov — joriy oy yig'ilgan / qarz
-  const { data: payStats = [] } = useGroupStatsQuery(period);
-  const pay = payStats.find((g) => g.groupId === groupId);
-
   // Baho — joriy oy o'rtacha balli
   const { data: gradeData } = useGroupGradeSummaryQuery(groupId, { fromDate, toDate });
   const avgGrade = gradeData?.average ?? null;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <StatCard
-        icon={Wallet}
-        tone={pay && pay.outstanding > 0 ? "warn" : "positive"}
-        label="To'lov (joriy oy)"
-        value={pay ? pay.collected : 0}
-        isMoney
-        hint={
-          pay
-            ? `Qarz: ${pay.outstanding.toLocaleString("uz-UZ")} so'm`
-            : "Hisob-kitob yo'q"
-        }
-      />
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <StatCard
         icon={CalendarCheck}
         tone={

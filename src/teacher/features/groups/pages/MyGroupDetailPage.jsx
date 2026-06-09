@@ -16,7 +16,6 @@ import useGroupQuery from "../hooks/useGroupQuery";
 import ScheduleCards from "@/shared/components/schedule/ScheduleCards";
 
 // Utils
-import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatPhone } from "@/shared/utils/formatPhone";
 
 const MyGroupDetailPage = () => {
@@ -64,10 +63,6 @@ const MyGroupDetailPage = () => {
             Dars jadvali
           </p>
           <ScheduleCards schedule={group.schedule} />
-        </div>
-        <div className="border-t border-border/60 pt-3">
-          <p className="text-xs text-muted-foreground">Oylik narx</p>
-          <p className="font-medium">{formatMoney(group.monthlyPrice)}</p>
         </div>
       </Card>
 

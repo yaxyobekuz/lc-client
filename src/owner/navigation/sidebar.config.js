@@ -1,10 +1,7 @@
 import {
-  Wallet,
   CalendarCheck,
-  HandCoins,
   Bell,
   MessageSquare,
-  Receipt,
   LayoutDashboard,
   MonitorCog,
   Star,
@@ -80,75 +77,6 @@ const ownerSidebar = [
         title: "Sozlamalar",
         url: "/owner/settings/rating",
         permission: "rating.manage",
-      },
-    ],
-  },
-
-  {
-    title: "To'lovlar",
-    icon: Wallet,
-    isActive: false,
-    items: [
-      {
-        title: "Asosiy",
-        url: "/owner/payments",
-        permission: "payments.read",
-      },
-      {
-        title: "To'lov usullari",
-        url: "/owner/payment-methods",
-        permission: "payment_methods.manage",
-      },
-      {
-        title: "Chegirma turlari",
-        url: "/owner/discount-kinds",
-        permission: "discount_kinds.manage",
-      },
-      {
-        title: "Sozlamalar",
-        url: "/owner/settings/payments",
-        permission: "payment_settings.manage",
-      },
-    ],
-  },
-
-  {
-    title: "Xarajatlar",
-    icon: Receipt,
-    isActive: false,
-    items: [
-      {
-        title: "Asosiy",
-        url: "/owner/expenses",
-        permission: "expenses.read",
-      },
-      {
-        title: "Xarajat turlari",
-        url: "/owner/expense-types",
-        permission: "expenses.manage",
-      },
-    ],
-  },
-
-  {
-    title: "Maoshlar",
-    icon: HandCoins,
-    isActive: false,
-    items: [
-      {
-        title: "Asosiy",
-        url: "/owner/salaries",
-        permission: "salaries.read",
-      },
-      {
-        title: "Hisobotlar",
-        url: "/owner/salaries/dashboard",
-        permission: "salaries.read",
-      },
-      {
-        title: "Sozlamalar",
-        url: "/owner/settings/salaries",
-        permission: "salaries.manage",
       },
     ],
   },

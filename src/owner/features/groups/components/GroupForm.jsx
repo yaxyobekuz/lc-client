@@ -22,7 +22,6 @@ const buildInitial = (group) => ({
     if (!first) return "";
     return typeof first === "string" ? first : first._id;
   })(),
-  monthlyPrice: group?.monthlyPrice ?? 0,
   // Yangi guruh — default bugun; mavjud guruh — o'z sanasi (yoki bo'sh)
   startDate: group?.startDate
     ? toDateInput(group.startDate)
@@ -47,7 +46,6 @@ const GroupForm = ({
     name,
     schedule,
     teacher,
-    monthlyPrice,
     startDate,
     durationMonths,
     setField,
@@ -66,7 +64,6 @@ const GroupForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmedName = name.trim();
-    const priceNum = Number(monthlyPrice);
 
     if (!trimmedName) {
       toast.error("Guruh nomini kiriting");
@@ -78,14 +75,6 @@ const GroupForm = ({
     }
     if (trimmedName.length > 120) {
       toast.error("Guruh nomi 120 belgidan oshmasligi kerak");
-      return;
-    }
-    if (monthlyPrice === "" || Number.isNaN(priceNum)) {
-      toast.error("Oylik narxni kiriting");
-      return;
-    }
-    if (priceNum < 0) {
-      toast.error("Oylik narx 0 dan kichik bo'lmasin");
       return;
     }
     for (const s of schedule) {
@@ -115,7 +104,6 @@ const GroupForm = ({
     const payload = {
       name: trimmedName,
       schedule,
-      monthlyPrice: priceNum,
       startDate: startDate || null,
       durationMonths: durationMonths === "" ? null : Number(durationMonths),
     };
@@ -128,29 +116,16 @@ const GroupForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      {/* 1-qator: nom (kengroq) + narx (mobilda alohida) */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="sm:col-span-2">
-          <InputField
-            name="name"
-            label="Guruh nomi"
-            placeholder="Masalan: Arabcha A1"
-            value={name}
-            onChange={(e) => setField("name", e.target.value)}
-            required
-            disabled={isLoading}
-          />
-        </div>
-        <InputField
-          name="monthlyPrice"
-          label="Oylik narx (so'm)"
-          type="number"
-          min="0"
-          value={monthlyPrice}
-          onChange={(e) => setField("monthlyPrice", e.target.value)}
-          disabled={isLoading}
-        />
-      </div>
+      {/* 1-qator: nom */}
+      <InputField
+        name="name"
+        label="Guruh nomi"
+        placeholder="Masalan: Arabcha A1"
+        value={name}
+        onChange={(e) => setField("name", e.target.value)}
+        required
+        disabled={isLoading}
+      />
 
       {/* 2-qator: dars boshlanish sanasi + kurs davomiyligi */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

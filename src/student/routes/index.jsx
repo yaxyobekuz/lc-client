@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // Pages
 import { MyGroupPage } from "@/student/features/group";
 import { StudentProfilePage } from "@/student/features/profile";
-import { MyPaymentsPage } from "@/student/features/payments";
 import { MyAttendancePage } from "@/student/features/attendance";
 import { MyRatingPage } from "@/student/features/rating";
 import { MyInboxPage } from "@/student/features/notifications";
@@ -15,7 +14,6 @@ const StudentRoutes = () => (
   <Routes>
     <Route index element={<Navigate to="group" replace />} />
     <Route path="group" element={<MyGroupPage />} />
-    <Route path="payments" element={<MyPaymentsPage />} />
     <Route path="attendance" element={<MyAttendancePage />} />
     <Route path="rating" element={<MyRatingPage />} />
     <Route path="inbox" element={<MyInboxPage />} />

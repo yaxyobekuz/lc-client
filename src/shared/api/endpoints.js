@@ -37,44 +37,6 @@ export const ENDPOINTS = Object.freeze({
     myTeach: "/groups/me/teach",
   },
 
-  // Payments subsystem
-  paymentMethods: {
-    base: "/payment-methods",
-    byId: (id) => `/payment-methods/${id}`,
-    setDefault: (id) => `/payment-methods/${id}/set-default`,
-  },
-  discountKinds: {
-    base: "/discount-kinds",
-    byId: (id) => `/discount-kinds/${id}`,
-    setDefault: (id) => `/discount-kinds/${id}/set-default`,
-  },
-  discounts: {
-    base: "/discounts",
-    byId: (id) => `/discounts/${id}`,
-  },
-  invoices: {
-    base: "/invoices",
-    byId: (id) => `/invoices/${id}`,
-    cancel: (id) => `/invoices/${id}/cancel`,
-    generateMonth: "/invoices/generate-month",
-  },
-  payments: {
-    base: "/payments",
-    byId: (id) => `/payments/${id}`,
-    refund: (id) => `/payments/${id}/refund`,
-    receipt: (id) => `/payments/${id}/receipt`,
-  },
-  paymentSettings: {
-    base: "/payment-settings",
-  },
-  paymentReports: {
-    summary: "/payment-reports/summary",
-    groupStats: "/payment-reports/group-stats",
-    topDebtors: "/payment-reports/top-debtors",
-    topPayers: "/payment-reports/top-payers",
-    monthlyTrend: "/payment-reports/monthly-trend",
-    daily: "/payment-reports/daily",
-  },
 
   // Attendance subsystem
   attendance: {
@@ -115,33 +77,6 @@ export const ENDPOINTS = Object.freeze({
   },
   attendanceSettings: {
     base: "/attendance-settings",
-  },
-
-  // Salaries subsystem
-  salaries: {
-    base: "/salaries",
-    byId: (id) => `/salaries/${id}`,
-    payouts: (id) => `/salaries/${id}/payouts`,
-    payoutsBatch: "/salaries/payouts/batch",
-    calculate: "/salaries/calculate",
-    recompute: (id) => `/salaries/${id}/recompute`,
-    approve: (id) => `/salaries/${id}/approve`,
-    cancel: (id) => `/salaries/${id}/cancel`,
-    adjustments: (id) => `/salaries/${id}/adjustments`,
-    adjustmentById: (id, adjId) => `/salaries/${id}/adjustments/${adjId}`,
-    payoutById: (payoutId) => `/salaries/payouts/${payoutId}`,
-    dashboard: "/salaries/dashboard",
-    dashboardTeachers: "/salaries/dashboard/teachers",
-    trend: "/salaries/trend",
-    myCurrent: "/salaries/teacher/me/current",
-    myHistory: "/salaries/teacher/me",
-  },
-  teacherGroupRates: {
-    base: "/teacher-group-rates",
-    byId: (id) => `/teacher-group-rates/${id}`,
-  },
-  salarySettings: {
-    base: "/salary-settings",
   },
 
   // Notifications + Feedback (Bo'lak 7)
@@ -185,17 +120,7 @@ export const ENDPOINTS = Object.freeze({
     byId: (id) => `/feedback-types/${id}`,
   },
 
-  // Admin dashboard / Expenses / Activity logs (Bo'lak 9)
-  expenses: {
-    base: "/expenses",
-    byId: (id) => `/expenses/${id}`,
-    stats: "/expenses/stats",
-  },
-  expenseTypes: {
-    base: "/expense-types",
-    byId: (id) => `/expense-types/${id}`,
-    setDefault: (id) => `/expense-types/${id}/set-default`,
-  },
+  // Admin dashboard / Activity logs (Bo'lak 9)
   activityLogs: {
     base: "/activity-logs",
     byId: (id) => `/activity-logs/${id}`,
@@ -203,9 +128,6 @@ export const ENDPOINTS = Object.freeze({
   },
   adminDashboard: {
     overview: "/admin-dashboard/overview",
-    monthlyFinancials: "/admin-dashboard/monthly-financials",
-    incomeByTeacher: "/admin-dashboard/income-by-teacher",
     studentFlow: "/admin-dashboard/student-flow",
-    forecast: "/admin-dashboard/forecast",
   },
 });

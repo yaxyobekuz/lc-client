@@ -18,7 +18,6 @@ import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
-import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUzLong } from "@/shared/utils/formatDate";
 
 // Foydalanuvchi shu oyda qo'shilganmi? ("Yangi" badge uchun)
@@ -66,7 +65,7 @@ const UsersTable = ({
   const navigate = useNavigate();
   const { mutate: restore, isPending: isRestoring } = useUserRestoreMutation();
 
-  // Faqat o'quvchilar ro'yxatida Guruh + Qarz ustunlari ko'rsatiladi
+  // Faqat o'quvchilar ro'yxatida Guruh ustuni ko'rsatiladi
   const isStudent = role === ROLES.STUDENT;
   const canSort = typeof onSort === "function";
 
@@ -110,21 +109,7 @@ const UsersTable = ({
             )}
             <th className="px-4 py-2 font-medium">Telefon</th>
             {isStudent ? (
-              <>
-                <th className="px-4 py-2 font-medium">Guruh</th>
-                {canSort ? (
-                  <SortableTh
-                    field="debt"
-                    sort={sort}
-                    order={order}
-                    onSort={onSort}
-                  >
-                    Qarz
-                  </SortableTh>
-                ) : (
-                  <th className="px-4 py-2 font-medium">Qarz</th>
-                )}
-              </>
+              <th className="px-4 py-2 font-medium">Guruh</th>
             ) : (
               <>
                 <th className="px-4 py-2 font-medium">Login</th>
@@ -166,33 +151,22 @@ const UsersTable = ({
               </td>
               <td className="px-4 py-2">{formatPhone(u.phone) || "-"}</td>
               {isStudent ? (
-                <>
-                  <td className="px-4 py-2">
-                    {u.activeGroups?.length ? (
-                      <div className="flex flex-wrap gap-1">
-                        {u.activeGroups.map((g) => (
-                          <span
-                            key={g._id}
-                            className="inline-flex rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-700"
-                          >
-                            {g.name}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="text-muted-foreground">—</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2">
-                    {u.currentDebt > 0 ? (
-                      <Badge className="bg-rose-50 text-rose-600">
-                        {formatMoney(u.currentDebt)}
-                      </Badge>
-                    ) : (
-                      <span className="text-muted-foreground">—</span>
-                    )}
-                  </td>
-                </>
+                <td className="px-4 py-2">
+                  {u.activeGroups?.length ? (
+                    <div className="flex flex-wrap gap-1">
+                      {u.activeGroups.map((g) => (
+                        <span
+                          key={g._id}
+                          className="inline-flex rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-700"
+                        >
+                          {g.name}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
               ) : (
                 <>
                   <td className="px-4 py-2 text-muted-foreground">

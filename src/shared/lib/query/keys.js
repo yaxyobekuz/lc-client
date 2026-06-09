@@ -37,47 +37,6 @@ export const qk = Object.freeze({
     myTeach: () => ["groups", "me", "teach"],
   },
 
-  // Payments subsystem
-  paymentMethods: {
-    all: () => ["paymentMethods"],
-    list: (params) => ["paymentMethods", "list", params],
-    one: (id) => ["paymentMethods", "detail", id],
-  },
-  discountKinds: {
-    all: () => ["discountKinds"],
-    list: (params) => ["discountKinds", "list", params],
-    one: (id) => ["discountKinds", "detail", id],
-  },
-  discounts: {
-    all: () => ["discounts"],
-    list: (params) => ["discounts", "list", params],
-    byStudent: (studentId) => ["discounts", "byStudent", studentId],
-  },
-  invoices: {
-    all: () => ["invoices"],
-    list: (params) => ["invoices", "list", params],
-    one: (id) => ["invoices", "detail", id],
-    byStudent: (studentId) => ["invoices", "byStudent", studentId],
-  },
-  payments: {
-    all: () => ["payments"],
-    list: (params) => ["payments", "list", params],
-    one: (id) => ["payments", "detail", id],
-    receipt: (id) => ["payments", "receipt", id],
-    byStudent: (studentId) => ["payments", "byStudent", studentId],
-  },
-  paymentSettings: {
-    one: () => ["paymentSettings"],
-  },
-  paymentReports: {
-    summary: (params) => ["paymentReports", "summary", params],
-    groupStats: (params) => ["paymentReports", "groupStats", params],
-    topDebtors: (params) => ["paymentReports", "topDebtors", params],
-    topPayers: (params) => ["paymentReports", "topPayers", params],
-    monthlyTrend: (params) => ["paymentReports", "monthlyTrend", params],
-    daily: (params) => ["paymentReports", "daily", params],
-  },
-
   // Attendance subsystem
   attendance: {
     all: () => ["attendance"],
@@ -126,28 +85,6 @@ export const qk = Object.freeze({
     one: () => ["attendanceSettings"],
   },
 
-  // Salaries subsystem
-  salaries: {
-    all: () => ["salaries"],
-    list: (params) => ["salaries", "list", params],
-    one: (id) => ["salaries", "detail", id],
-    payouts: (id) => ["salaries", id, "payouts"],
-    dashboard: (params) => ["salaries", "dashboard", params],
-    dashboardTeachers: (params) => ["salaries", "dashboard", "teachers", params],
-    trend: (params) => ["salaries", "trend", params],
-    myCurrent: () => ["salaries", "me", "current"],
-    myHistory: (params) => ["salaries", "me", "history", params],
-  },
-  teacherGroupRates: {
-    all: () => ["teacherGroupRates"],
-    list: (params) => ["teacherGroupRates", "list", params],
-    one: (id) => ["teacherGroupRates", "detail", id],
-    byTeacher: (tid) => ["teacherGroupRates", "byTeacher", tid],
-  },
-  salarySettings: {
-    one: () => ["salarySettings"],
-  },
-
   // Notifications + Feedback (Bo'lak 7)
   notifications: {
     all: () => ["notifications"],
@@ -187,17 +124,6 @@ export const qk = Object.freeze({
   },
 
   // Boshqaruv paneli (Bo'lak 9)
-  expenses: {
-    all: () => ["expenses"],
-    list: (params) => ["expenses", "list", params],
-    one: (id) => ["expenses", "detail", id],
-    stats: (params) => ["expenses", "stats", params],
-  },
-  expenseTypes: {
-    all: () => ["expenseTypes"],
-    list: (params) => ["expenseTypes", "list", params],
-    one: (id) => ["expenseTypes", "detail", id],
-  },
   activityLogs: {
     all: () => ["activityLogs"],
     list: (params) => ["activityLogs", "list", params],
@@ -206,9 +132,6 @@ export const qk = Object.freeze({
   },
   adminDashboard: {
     overview: (params) => ["adminDashboard", "overview", params],
-    monthlyFinancials: (params) => ["adminDashboard", "monthlyFinancials", params],
-    incomeByTeacher: (params) => ["adminDashboard", "incomeByTeacher", params],
     studentFlow: (params) => ["adminDashboard", "studentFlow", params],
-    forecast: () => ["adminDashboard", "forecast"],
   },
 });

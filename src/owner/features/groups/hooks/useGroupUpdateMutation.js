@@ -19,20 +19,7 @@ const useGroupUpdateMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
-      // Narx siyosati joriy oy hisoblarini o'zgartirgan bo'lishi mumkin
-      qc.invalidateQueries({ queryKey: qk.invoices.all() });
-      const pc = data?.priceChange;
-      if (pc && pc.repriced > 0) {
-        const extra =
-          pc.newDebtCount > 0
-            ? ` (${pc.newDebtCount} ta to'langan hisobga farq qarz yozildi)`
-            : "";
-        toast.success(
-          `Saqlandi — joriy oy uchun ${pc.repriced} ta hisob yangi narxga moslandi${extra}`,
-        );
-      } else {
-        toast.success("Saqlandi");
-      }
+      toast.success("Saqlandi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

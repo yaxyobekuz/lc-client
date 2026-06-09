@@ -20,7 +20,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/shared/components/shadcn/dropdown-menu";
-import { useInvoicesQuery } from "@/owner/features/payments";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -30,27 +29,12 @@ import { MODAL } from "@/shared/constants/modals";
 
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
-import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUzLong } from "@/shared/utils/formatDate";
 
 const GroupStudentsTable = ({ group }) => {
   const { openModal } = useModal();
 
   const students = group?.students || [];
-
-  // Joriy oy hisoblari (o'quvchi bo'yicha)
-  const now = new Date();
-  const { data: invoicesRes } = useInvoicesQuery({
-    groupId: group?._id,
-    year: now.getFullYear(),
-    month: now.getMonth() + 1,
-    limit: 500,
-  });
-  const invoiceByStudent = (invoicesRes?.data || []).reduce((acc, inv) => {
-    const sid = inv.student?._id || inv.student;
-    if (sid) acc[sid] = inv;
-    return acc;
-  }, {});
 
   if (students.length === 0) {
     return (
@@ -65,10 +49,9 @@ const GroupStudentsTable = ({ group }) => {
       <table className="w-full min-w-[720px] table-fixed text-sm">
         <colgroup>
           <col className="w-12" />
-          <col className="w-[28%]" />
-          <col className="w-[20%]" />
-          <col className="w-[20%]" />
-          <col className="w-[14%]" />
+          <col className="w-[30%]" />
+          <col className="w-[22%]" />
+          <col className="w-[22%]" />
           <col className="w-[16%]" />
         </colgroup>
         <thead>
@@ -77,17 +60,11 @@ const GroupStudentsTable = ({ group }) => {
             <th className="px-4 py-3">Ism familiya</th>
             <th className="px-4 py-3">Telefon</th>
             <th className="px-4 py-3">Telegram</th>
-            <th className="px-4 py-3 text-right">Qarz</th>
             <th className="px-4 py-3 text-right">Amallar</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {students.map((s, i) => {
-            const inv = invoiceByStudent[s._id];
-            const debt = inv
-              ? Math.max(0, (inv.totalDue || 0) - (inv.paidAmount || 0))
-              : 0;
-            return (
+          {students.map((s, i) => (
             <tr key={s._id} className="transition-colors hover:bg-gray-50">
               <td className="px-4 py-3 text-gray-400">{i + 1}</td>
               <td className="px-4 py-3">
@@ -102,11 +79,6 @@ const GroupStudentsTable = ({ group }) => {
                   <p className="mt-0.5 text-xs text-gray-400">
                     Qo'shilgan: {formatDateUzLong(s.joinedAt)}
                   </p>
-                )}
-                {s.balance > 0 && (
-                  <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-700">
-                    Balans: {formatMoney(s.balance)}
-                  </span>
                 )}
                 {s.frozen && (
                   <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2 py-0.5 text-xs font-medium text-cyan-700">
@@ -147,13 +119,6 @@ const GroupStudentsTable = ({ group }) => {
                   )
                 ) : (
                   <span className="text-gray-300">Bog'lanmagan</span>
-                )}
-              </td>
-              <td className="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">
-                {debt > 0 ? (
-                  <span className="text-rose-500">{formatMoney(debt)}</span>
-                ) : (
-                  <span className="text-gray-300">—</span>
                 )}
               </td>
               <td className="px-4 py-3">
@@ -226,8 +191,7 @@ const GroupStudentsTable = ({ group }) => {
                 </div>
               </td>
             </tr>
-            );
-          })}
+          ))}
         </tbody>
       </table>
     </div>

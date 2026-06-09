@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { Users, Wallet } from "lucide-react";
+import { Users } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
-import { formatMoney } from "@/shared/utils/formatMoney";
 import GroupScheduleLines from "./GroupScheduleLines";
 
 const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
@@ -50,11 +49,6 @@ const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
 
               <div className="mt-2.5">
                 <GroupScheduleLines schedule={g.schedule} />
-              </div>
-
-              <div className="mt-2.5 flex items-center gap-1.5 text-sm font-semibold text-foreground/90">
-                <Wallet className="size-3.5 text-muted-foreground" />
-                {formatMoney(g.monthlyPrice)}
               </div>
             </div>
           ))}

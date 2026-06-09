@@ -15,11 +15,10 @@ import { MODAL } from "@/shared/constants/modals";
 
 // Utils
 import { DAY_LABELS_FULL_UZ, sortSchedule } from "@/shared/utils/formatSchedule";
-import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
-// Guruh "Ma'lumot" tab'i: O'qituvchilar, Oylik narx, Dars jadvali + statistika
-// (To'lov, Davomat, Baho) kartalari. Avval sahifa boshida turardi, endi tab ichida.
+// Guruh "Ma'lumot" tab'i: O'qituvchilar, Dars jadvali + statistika
+// (Davomat, Baho) kartalari. Avval sahifa boshida turardi, endi tab ichida.
 const GroupInfoTab = ({ group }) => {
   const { openModal } = useModal();
 
@@ -39,7 +38,7 @@ const GroupInfoTab = ({ group }) => {
         </p>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <p className="text-xs text-muted-foreground mb-2">O'qituvchi</p>
           {teachers.length === 0 ? (
@@ -72,10 +71,6 @@ const GroupInfoTab = ({ group }) => {
               ))}
             </div>
           )}
-        </Card>
-        <Card>
-          <p className="text-xs text-muted-foreground mb-2">Oylik narx</p>
-          <p className="font-medium">{formatMoney(group.monthlyPrice)}</p>
         </Card>
         <Card>
           <p className="text-xs text-muted-foreground mb-2">Dars jadvali</p>

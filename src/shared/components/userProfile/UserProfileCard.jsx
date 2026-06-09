@@ -7,12 +7,10 @@ import {
   User,
   CalendarPlus,
   Briefcase,
-  Wallet,
 } from "lucide-react";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUz } from "@/shared/utils/formatDate";
-import { formatMoney } from "@/shared/utils/formatMoney";
 import { calculateAge } from "@/shared/utils/calculateAge";
 
 const GENDER_LABEL = { male: "Erkak", female: "Ayol" };
@@ -88,21 +86,6 @@ const UserProfileCard = ({ profile }) => {
 
         {isStudent && (
           <>
-            <InfoRow
-              icon={Wallet}
-              label="Balans"
-              value={
-                <span
-                  className={
-                    profile.balance > 0
-                      ? "font-semibold text-sky-600"
-                      : "text-muted-foreground"
-                  }
-                >
-                  {formatMoney(profile.balance || 0)}
-                </span>
-              }
-            />
             <InfoRow
               icon={CalendarPlus}
               label="Ro'yxatga olingan"

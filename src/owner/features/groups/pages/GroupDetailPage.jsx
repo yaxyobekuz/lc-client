@@ -27,7 +27,6 @@ import {
 import GroupStudentsTable from "../components/GroupStudentsTable";
 import GroupInfoTab from "../components/tabs/GroupInfoTab";
 import GroupAttendanceStatsTab from "../components/tabs/GroupAttendanceStatsTab";
-import GroupPaymentsStatsTab from "../components/tabs/GroupPaymentsStatsTab";
 import GroupEditModal from "../components/modals/GroupEditModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 import GroupFinishModal from "../components/modals/GroupFinishModal";
@@ -36,7 +35,6 @@ import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
 import GroupReplaceTeacherModal from "../components/modals/GroupReplaceTeacherModal";
-import { PaymentRecordModal } from "@/owner/features/payments";
 import { StudentFreezeModal } from "@/owner/features/studentFreezes";
 import { UserPasswordModal } from "@/owner/features/users";
 
@@ -183,11 +181,6 @@ const GroupDetailPage = () => {
             label: "Davomat",
             content: <GroupAttendanceStatsTab groupId={group._id} />,
           },
-          {
-            value: "payments",
-            label: "To'lov",
-            content: <GroupPaymentsStatsTab groupId={group._id} />,
-          },
         ]}
       />
 
@@ -228,9 +221,6 @@ const GroupDetailPage = () => {
         className="max-w-3xl max-h-[90vh] overflow-y-auto"
       >
         <GroupReplaceTeacherModal />
-      </ModalWrapper>
-      <ModalWrapper name={MODAL.PAYMENT_RECORD} title="To'lov yozish">
-        <PaymentRecordModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.STUDENT_FREEZE} title="O'quvchini muzlatish">
         <StudentFreezeModal />

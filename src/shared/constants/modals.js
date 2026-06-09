@@ -33,32 +33,6 @@ export const MODAL = Object.freeze({
   GROUP_REMOVE_STUDENT: "group:removeStudent",
   GROUP_REPLACE_TEACHER: "group:replaceTeacher",
 
-  // Payment methods
-  PAYMENT_METHOD_CREATE: "paymentMethod:create",
-  PAYMENT_METHOD_EDIT: "paymentMethod:edit",
-  PAYMENT_METHOD_DELETE: "paymentMethod:delete",
-
-  // Discount kinds
-  DISCOUNT_KIND_CREATE: "discountKind:create",
-  DISCOUNT_KIND_EDIT: "discountKind:edit",
-  DISCOUNT_KIND_DELETE: "discountKind:delete",
-
-  // Discounts (per-student)
-  DISCOUNT_CREATE: "discount:create",
-  DISCOUNT_EDIT: "discount:edit",
-  DISCOUNT_DELETE: "discount:delete",
-
-  // Invoices
-  INVOICE_CREATE: "invoice:create",
-  INVOICE_EDIT: "invoice:edit",
-  INVOICE_CANCEL: "invoice:cancel",
-  INVOICE_GENERATE_MONTH: "invoice:generateMonth",
-  INVOICE_PAYMENTS: "invoice:payments",
-
-  // Payments
-  PAYMENT_RECORD: "payment:record",
-  PAYMENT_REFUND: "payment:refund",
-
   // Attendance
   ATTENDANCE_BULK_SAVE_CONFIRM: "attendance:bulkSaveConfirm",
   ATTENDANCE_EXEMPTION_CREATE: "attendanceExemption:create",
@@ -66,20 +40,6 @@ export const MODAL = Object.freeze({
   ATTENDANCE_EXEMPTION_DELETE: "attendanceExemption:delete",
 
   STUDENT_FREEZE: "student:freeze",
-
-  // Salaries
-  SALARY_CALCULATE_BULK: "salary:calculateBulk",
-  SALARY_RECOMPUTE_CONFIRM: "salary:recomputeConfirm",
-  SALARY_APPROVE_CONFIRM: "salary:approveConfirm",
-  SALARY_CANCEL_CONFIRM: "salary:cancelConfirm",
-  SALARY_ADJUSTMENT_ADD: "salary:adjustmentAdd",
-  SALARY_ADJUSTMENT_REMOVE_CONFIRM: "salary:adjustmentRemoveConfirm",
-  SALARY_PAYOUT_ADD: "salary:payoutAdd",
-  SALARY_PAYOUT_BULK: "salary:payoutBulk",
-  SALARY_PAYOUT_REMOVE_CONFIRM: "salary:payoutRemoveConfirm",
-  TEACHER_GROUP_RATE_CREATE: "teacherGroupRate:create",
-  TEACHER_GROUP_RATE_EDIT: "teacherGroupRate:edit",
-  TEACHER_GROUP_RATE_DELETE: "teacherGroupRate:delete",
 
   // Notifications + Feedback (Bo'lak 7)
   NOTIFICATION_SEND: "notification:send",
@@ -102,11 +62,5 @@ export const MODAL = Object.freeze({
   PROFILE_CHANGE_PASSWORD: "profile:changePassword",
 
   // Boshqaruv paneli (Bo'lak 9)
-  EXPENSE_CREATE: "expense:create",
-  EXPENSE_EDIT: "expense:edit",
-  EXPENSE_DELETE: "expense:delete",
-  EXPENSE_TYPE_CREATE: "expenseType:create",
-  EXPENSE_TYPE_EDIT: "expenseType:edit",
-  EXPENSE_TYPE_DELETE: "expenseType:delete",
   ACTIVITY_LOG_DETAIL: "activityLog:detail",
 });

@@ -20,15 +20,9 @@ const FIELD_LABELS = {
   // guruh
   schedule: "Jadval",
   teachers: "O'qituvchilar",
-  monthlyPrice: "Oylik narx",
   startTime: "Boshlanish vaqti",
   endTime: "Tugash vaqti",
   day: "Kun",
-  // to'lov
-  amount: "Summa",
-  method: "To'lov usuli",
-  paidAt: "To'lov sanasi",
-  invoice: "Hisob-faktura",
   // davomat
   date: "Sana",
   status: "Holat",

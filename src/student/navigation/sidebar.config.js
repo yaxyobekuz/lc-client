@@ -18,10 +18,6 @@ const studentSidebar = [
         title: "Reyting",
         url: "/student/rating",
       },
-      {
-        title: "To'lovlarim",
-        url: "/student/payments",
-      },
     ],
   },
   {

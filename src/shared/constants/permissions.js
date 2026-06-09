@@ -28,21 +28,6 @@ export const PERMISSIONS = Object.freeze({
   GROUPS_DELETE: "groups.delete",
   GROUPS_MANAGE_STUDENTS: "groups.manage_students",
 
-  // Payments
-  PAYMENTS_READ: "payments.read",
-  PAYMENTS_CREATE: "payments.create",
-  PAYMENTS_REFUND: "payments.refund",
-
-  INVOICES_READ: "invoices.read",
-  INVOICES_CREATE: "invoices.create",
-  INVOICES_UPDATE: "invoices.update",
-  INVOICES_CANCEL: "invoices.cancel",
-
-  DISCOUNTS_MANAGE: "discounts.manage",
-  PAYMENT_METHODS_MANAGE: "payment_methods.manage",
-  DISCOUNT_KINDS_MANAGE: "discount_kinds.manage",
-  PAYMENT_SETTINGS_MANAGE: "payment_settings.manage",
-
   // Attendance
   ATTENDANCE_READ: "attendance.read",
   ATTENDANCE_RECORD: "attendance.record",
@@ -55,11 +40,6 @@ export const PERMISSIONS = Object.freeze({
   RATING_READ: "rating.read",
   RATING_MANAGE: "rating.manage",
 
-  // Salaries
-  SALARIES_READ: "salaries.read",
-  SALARIES_MANAGE: "salaries.manage",
-  SALARIES_DISTRIBUTE: "salaries.distribute",
-
   // Notifications + Feedback
   NOTIFICATIONS_READ: "notifications.read",
   NOTIFICATIONS_SEND: "notifications.send",
@@ -71,7 +51,5 @@ export const PERMISSIONS = Object.freeze({
 
   // Admin / boshqaruv paneli (Bo'lak 9)
   ADMIN_DASHBOARD_READ: "admin_dashboard.read",
-  EXPENSES_READ: "expenses.read",
-  EXPENSES_MANAGE: "expenses.manage",
   ACTIVITY_LOGS_READ: "activity_logs.read",
 });

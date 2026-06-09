@@ -12,7 +12,6 @@ const UserActiveGroupsList = ({
   activeGroups = [],
   readonly = false,
   ownerLinks = false,
-  studentDebt = 0,
 }) => {
   const { openModal } = useModal();
 
@@ -83,7 +82,6 @@ const UserActiveGroupsList = ({
                             studentId,
                             groupName: g.name,
                             isLast: activeGroups.length === 1,
-                            debt: studentDebt,
                           })
                         }
                       >

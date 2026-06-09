@@ -22,7 +22,6 @@ import useDebounce from "@/shared/hooks/useDebounce";
 import { useIsMobile } from "@/shared/hooks/useMobile";
 import { cn } from "@/shared/utils/cn";
 import { formatPhone } from "@/shared/utils/formatPhone";
-import { formatMoney } from "@/shared/utils/formatMoney";
 
 import useGlobalSearchQuery from "../hooks/useGlobalSearchQuery";
 import { SEARCH_INDEX } from "../navigation/searchIndex";
@@ -163,11 +162,6 @@ const GlobalSearch = () => {
                           {formatPhone(s.phone) || "Telefon yo'q"}
                         </span>
                       </div>
-                      {s.currentDebt > 0 && (
-                        <span className="shrink-0 rounded-md bg-rose-50 px-2 py-0.5 text-xs font-medium text-rose-600">
-                          {formatMoney(s.currentDebt)}
-                        </span>
-                      )}
                     </CommandItem>
                   ))}
                 </CommandGroup>

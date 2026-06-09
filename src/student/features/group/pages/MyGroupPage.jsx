@@ -6,7 +6,6 @@ import useMyGroupQuery from "../hooks/useMyGroupQuery";
 
 // Utils
 import { formatSchedule } from "@/shared/utils/formatSchedule";
-import { formatMoney } from "@/shared/utils/formatMoney";
 
 const fmtDate = (iso) => {
   if (!iso) return "-";
@@ -57,11 +56,6 @@ const MyGroupPage = () => {
         <div>
           <p className="text-xs text-muted-foreground">O'qituvchilar</p>
           <p className="font-medium">{teachers || "-"}</p>
-        </div>
-
-        <div>
-          <p className="text-xs text-muted-foreground">Oylik narx</p>
-          <p className="font-medium">{formatMoney(group.monthlyPrice)}</p>
         </div>
 
         <div>

@@ -24,9 +24,6 @@ import { OwnerRoutes } from "@/owner";
 import { TeacherRoutes } from "@/teacher";
 import { StudentRoutes } from "@/student";
 
-// Receipt page (DashboardLayout'dan tashqari, alohida print sahifa)
-import { ReceiptPage } from "@/owner/features/payments";
-
 const RoleHomeRedirect = () => {
   const { role } = useAuth();
   return <Navigate to={ROLE_HOME[role] || "/login"} replace />;
@@ -42,18 +39,6 @@ const Routes = () => (
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
       </Route>
-    </Route>
-
-    {/* Print Transaction Invoice */}
-    <Route element={<AuthGuard />}>
-      <Route
-        path="/owner/payments/receipt/:paymentId"
-        element={
-          <RoleGuard roles={ROLES.OWNER}>
-            <ReceiptPage />
-          </RoleGuard>
-        }
-      />
     </Route>
 
     {/* Auth Guard Routes */}

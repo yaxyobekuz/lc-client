@@ -19,8 +19,6 @@ const useGroupReplaceTeacherMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
-      // Almashtirishda shu oy oyliklari qayta hisoblanadi
-      qc.invalidateQueries({ queryKey: ["salaries"] });
       toast.success("O'qituvchi almashtirildi");
       options.onSuccess?.(data, vars, ctx);
     },

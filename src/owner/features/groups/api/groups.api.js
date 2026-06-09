@@ -14,10 +14,8 @@ export const groupsAPI = {
 
   addStudent: (id, studentId, joinedAt) =>
     http.post(ENDPOINTS.groups.students(id), { studentId, joinedAt }),
-  removeStudent: (id, studentId, leaveStatus) =>
-    http.delete(ENDPOINTS.groups.studentById(id, studentId), {
-      data: leaveStatus ? { leaveStatus } : {},
-    }),
+  removeStudent: (id, studentId) =>
+    http.delete(ENDPOINTS.groups.studentById(id, studentId)),
   transferStudent: (id, studentId, targetGroupId) =>
     http.post(ENDPOINTS.groups.transfer(id, studentId), { targetGroupId }),
 

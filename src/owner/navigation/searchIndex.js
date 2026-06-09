@@ -1,13 +1,10 @@
 import {
   Users,
   GraduationCap,
-  Wallet,
   CalendarCheck,
-  HandCoins,
   Bell,
   ShieldCheck,
   MessageSquare,
-  Receipt,
   LayoutDashboard,
   Settings,
   BarChart3,
@@ -15,7 +12,6 @@ import {
   Inbox,
   PartyPopper,
   Tags,
-  CircleDollarSign,
   UserCircle2,
 } from "lucide-react";
 
@@ -31,8 +27,8 @@ export const SEARCH_INDEX = [
   // Boshqaruv paneli
   {
     title: "Bosh sahifa",
-    description: "Markaz statistikasi, daromad va xarajat ko'rinishlari",
-    keywords: "dashboard, asosiy, overview, statistika, daromad, statistika, panel, home",
+    description: "Markaz statistikasi va umumiy ko'rsatkichlar",
+    keywords: "dashboard, asosiy, overview, statistika, panel, home",
     url: "/owner/dashboard",
     icon: LayoutDashboard,
     category: "Boshqaruv paneli",
@@ -92,99 +88,6 @@ export const SEARCH_INDEX = [
     icon: Settings,
     category: "Davomat",
     permission: "attendance.manage",
-  },
-
-  // To'lovlar
-  {
-    title: "To'lovlar",
-    description: "Invoyslar, qabul qilingan to'lovlar, qaytarish (refund)",
-    keywords:
-      "to'lov, payment, invoice, hisob, qarz, kassa, naqd, karta, refund",
-    url: "/owner/payments",
-    icon: Wallet,
-    category: "To'lovlar",
-    permission: "payments.read",
-  },
-  {
-    title: "To'lov usullari",
-    description: "Naqd, karta, Click, Payme va bank o'tkazma usullarini boshqarish",
-    keywords:
-      "to'lov usuli, payment method, naqd, cash, karta, card, click, payme, bank",
-    url: "/owner/payment-methods",
-    icon: CircleDollarSign,
-    category: "To'lovlar",
-    permission: "payment_methods.manage",
-  },
-  {
-    title: "Chegirma turlari",
-    description: "Chegirma kategoriyalarini (oilaviy, ijtimoiy, aksiya) boshqarish",
-    keywords: "chegirma, discount, kind, turlari, kategoriya, foiz, percent",
-    url: "/owner/discount-kinds",
-    icon: Tags,
-    category: "To'lovlar",
-    permission: "discount_kinds.manage",
-  },
-  {
-    title: "To'lov sozlamalari",
-    description: "To'lov tizimining default qiymatlari va siyosatlari",
-    keywords: "to'lov, sozlama, payment, settings, konfiguratsiya",
-    url: "/owner/settings/payments",
-    icon: Settings,
-    category: "To'lovlar",
-    permission: "payment_settings.manage",
-  },
-
-  // Xarajatlar
-  {
-    title: "Xarajatlar",
-    description: "Ijara, kommunal, reklama va boshqa xarajatlarni qayd etish",
-    keywords:
-      "xarajat, expense, chiqim, ijara, rent, kommunal, reklama, ads, budjet",
-    url: "/owner/expenses",
-    icon: Receipt,
-    category: "Xarajatlar",
-    permission: "expenses.read",
-  },
-  {
-    title: "Xarajat turlari",
-    description: "Xarajatlarni tasniflash uchun dinamik turlar",
-    keywords:
-      "xarajat turi, expense type, kategoriya, tasnif, ijara, kommunal, reklama",
-    url: "/owner/expense-types",
-    icon: Receipt,
-    category: "Xarajatlar",
-    permission: "expenses.manage",
-  },
-
-  // Maoshlar
-  {
-    title: "Maoshlar",
-    description: "O'qituvchilar oyligi, hisoblash, to'lov tarixi",
-    keywords:
-      "maosh, salary, oylik, oqituvchi, teacher, hisoblash, bonus, penalty",
-    url: "/owner/salaries",
-    icon: HandCoins,
-    category: "Maoshlar",
-    permission: "salaries.read",
-  },
-  {
-    title: "Maosh hisobotlari",
-    description: "Maosh statistikasi, oy bo'yicha trend va o'qituvchi taqsimoti",
-    keywords:
-      "maosh, salary, hisobot, report, trend, statistika, dashboard",
-    url: "/owner/salaries/dashboard",
-    icon: BarChart3,
-    category: "Maoshlar",
-    permission: "salaries.read",
-  },
-  {
-    title: "Maosh sozlamalari",
-    description: "Default hisoblash siyosati, bonus/penalti chegaralari",
-    keywords: "maosh, sozlama, salary, settings, konfiguratsiya",
-    url: "/owner/settings/salaries",
-    icon: Settings,
-    category: "Maoshlar",
-    permission: "salaries.manage",
   },
 
   // Bildirishnomalar

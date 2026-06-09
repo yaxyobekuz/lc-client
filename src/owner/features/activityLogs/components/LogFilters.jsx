@@ -13,13 +13,9 @@ const RESOURCE_OPTIONS = [
   { value: "", label: "Barcha resurslar" },
   { value: "user", label: "Foydalanuvchi" },
   { value: "group", label: "Guruh" },
-  { value: "payment", label: "To'lov" },
-  { value: "invoice", label: "Hisob-faktura" },
-  { value: "salary", label: "Maosh" },
   { value: "feedback", label: "Fikr-mulohaza" },
   { value: "holiday", label: "Bayram" },
   { value: "notification", label: "Bildirishnoma" },
-  { value: "expense", label: "Xarajat" },
   { value: "attendance", label: "Davomat" },
 ];
 

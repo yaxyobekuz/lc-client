@@ -12,10 +12,7 @@ const useTeacherAttendanceMutation = (options = {}) => {
         .setTeacherAttendance(groupId, { date, present })
         .then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
-      // O'qituvchi davomati o'quvchilar hisobi/balansiga ta'sir qiladi
       qc.invalidateQueries({ queryKey: qk.attendance.all() });
-      qc.invalidateQueries({ queryKey: qk.invoices.all() });
-      qc.invalidateQueries({ queryKey: ["paymentReports"] });
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: ["users"] });
       toast.success(data?.message || "Saqlandi");

@@ -11,8 +11,6 @@ const useTeacherAttendanceBulkMutation = (options = {}) => {
       teacherAttendanceAPI.bulkRecord(body).then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.teacherAttendance.all() });
-      // Dashboard hisobotidagi "kelmagan kun" yangilanishi uchun
-      qc.invalidateQueries({ queryKey: qk.salaries.all() });
       toast.success("Davomat saqlandi");
       options.onSuccess?.(data, vars, ctx);
     },
