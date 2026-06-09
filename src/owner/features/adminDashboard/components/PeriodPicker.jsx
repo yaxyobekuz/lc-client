@@ -1,6 +1,6 @@
 import SelectField from "@/shared/components/ui/select/SelectField";
 import SelectYear from "@/shared/components/ui/select/SelectYear";
-import { MONTH_LABELS } from "@/shared/constants/salary";
+import { MONTH_LABELS } from "@/shared/constants/calendar";
 
 const MONTH_OPTIONS = MONTH_LABELS.map((label, i) => ({
   value: String(i + 1),

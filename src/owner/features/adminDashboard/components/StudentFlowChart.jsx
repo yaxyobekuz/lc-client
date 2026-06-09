@@ -1,5 +1,5 @@
 import Card from "@/shared/components/ui/card/Card";
-import { MONTH_LABELS } from "@/shared/constants/salary";
+import { MONTH_LABELS } from "@/shared/constants/calendar";
 
 const StudentFlowChart = ({ items = [] }) => {
   if (!items.length) {
