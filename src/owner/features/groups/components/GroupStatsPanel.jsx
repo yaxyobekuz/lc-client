@@ -7,6 +7,7 @@ import StatCard from "@/shared/components/ui/card/StatCard";
 // Hooks (mavjud davomat va to'lov statistikasi qayta ishlatiladi)
 import { useGroupAttendanceSummaryQuery } from "@/owner/features/attendance";
 import { useGroupStatsQuery } from "@/owner/features/payments";
+import { useGroupGradeSummaryQuery } from "@/owner/features/grades";
 
 // Utils
 import { toDateInput } from "@/shared/utils/formatDate";
@@ -30,6 +31,10 @@ const GroupStatsPanel = ({ groupId }) => {
   // To'lov — joriy oy yig'ilgan / qarz
   const { data: payStats = [] } = useGroupStatsQuery(period);
   const pay = payStats.find((g) => g.groupId === groupId);
+
+  // Baho — joriy oy o'rtacha balli
+  const { data: gradeData } = useGroupGradeSummaryQuery(groupId, { fromDate, toDate });
+  const avgGrade = gradeData?.average ?? null;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -57,10 +62,13 @@ const GroupStatsPanel = ({ groupId }) => {
       />
       <StatCard
         icon={Star}
-        tone="info"
-        label="O'rtacha baho"
-        value={null}
-        hint="Tez orada (baholash tizimi)"
+        tone={
+          avgGrade == null ? "default" : avgGrade >= 4 ? "positive" : avgGrade >= 3 ? "warn" : "negative"
+        }
+        label="O'rtacha baho (joriy oy)"
+        value={avgGrade}
+        suffix=" / 5"
+        hint={avgGrade == null ? "Baho qo'yilmagan" : `${gradeData?.total || 0} ta baho`}
       />
     </div>
   );

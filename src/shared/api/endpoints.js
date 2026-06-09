@@ -95,6 +95,12 @@ export const ENDPOINTS = Object.freeze({
     teacherSummary: "/attendance/teacher/me/summary",
     dashboard: "/attendance/dashboard",
   },
+  grades: {
+    groupOnDate: (gid) => `/grades/groups/${gid}`,
+    bulk: (gid) => `/grades/groups/${gid}/bulk`,
+    groupSummary: (gid) => `/grades/groups/${gid}/summary`,
+    studentSummary: (sid) => `/grades/students/${sid}/summary`,
+  },
   teacherAttendance: {
     base: "/teacher-attendance",
     bulk: "/teacher-attendance/bulk",

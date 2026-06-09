@@ -8,6 +8,10 @@ import {
   TeacherAttendancePage,
   TeacherAttendanceMarkPage,
 } from "@/teacher/features/attendance";
+import {
+  TeacherGradesPage,
+  TeacherGradesMarkPage,
+} from "@/teacher/features/grades";
 import { MySalariesPage } from "@/teacher/features/salaries";
 import {
   TeacherNotificationsListPage,
@@ -23,6 +27,8 @@ const TeacherRoutes = () => (
     <Route path="groups/:id" element={<MyGroupDetailPage />} />
     <Route path="attendance" element={<TeacherAttendancePage />} />
     <Route path="attendance/:groupId" element={<TeacherAttendanceMarkPage />} />
+    <Route path="grades" element={<TeacherGradesPage />} />
+    <Route path="grades/:groupId" element={<TeacherGradesMarkPage />} />
     <Route path="salaries" element={<MySalariesPage />} />
     <Route path="notifications" element={<TeacherNotificationsListPage />} />
     <Route path="inbox" element={<MyInboxPage />} />

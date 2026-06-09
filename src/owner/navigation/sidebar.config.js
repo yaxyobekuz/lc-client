@@ -8,6 +8,7 @@ import {
   Receipt,
   LayoutDashboard,
   MonitorCog,
+  Star,
 } from "lucide-react";
 
 const ownerSidebar = [
@@ -58,6 +59,18 @@ const ownerSidebar = [
         title: "Sozlamalar",
         url: "/owner/settings/attendance",
         permission: "attendance.manage",
+      },
+    ],
+  },
+  {
+    title: "Baholash",
+    icon: Star,
+    isActive: false,
+    items: [
+      {
+        title: "Baholash",
+        url: "/owner/grades",
+        permission: "grades.record",
       },
     ],
   },

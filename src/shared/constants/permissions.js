@@ -51,6 +51,13 @@ export const PERMISSIONS = Object.freeze({
   ATTENDANCE_RECORD: "attendance.record",
   ATTENDANCE_MANAGE: "attendance.manage",
 
+  // Grades (baholash) + Rating (reyting)
+  GRADES_READ: "grades.read",
+  GRADES_RECORD: "grades.record",
+  GRADES_MANAGE: "grades.manage",
+  RATING_READ: "rating.read",
+  RATING_MANAGE: "rating.manage",
+
   // Salaries
   SALARIES_READ: "salaries.read",
   SALARIES_MANAGE: "salaries.manage",

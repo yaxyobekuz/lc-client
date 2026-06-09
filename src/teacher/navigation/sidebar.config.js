@@ -21,6 +21,10 @@ const teacherSidebar = [
         url: "/teacher/attendance",
       },
       {
+        title: "Baholash",
+        url: "/teacher/grades",
+      },
+      {
         title: "Mening maoshlarim",
         url: "/teacher/salaries",
       },

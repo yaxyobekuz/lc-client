@@ -56,6 +56,9 @@ import {
 import { AttendanceYearHeatmap } from "@/shared/components/attendance";
 import useStudentYearAttendanceQuery from "@/owner/features/attendance/hooks/useStudentYearAttendanceQuery";
 
+// Baholar tab uchun
+import { StudentGradesTab } from "@/owner/features/grades";
+
 // Davomatdan ozod tab uchun
 import {
   ExemptionsTable,
@@ -439,6 +442,12 @@ const UserDetailPage = () => {
           attendanceSummary={profile.attendanceSummary}
         />
       ),
+    });
+
+    tabsItems.push({
+      value: "grades",
+      label: "Baholar",
+      content: <StudentGradesTab studentId={profile._id} />,
     });
 
     tabsItems.push({
