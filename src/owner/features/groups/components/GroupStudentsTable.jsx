@@ -2,10 +2,24 @@
 import { Link } from "react-router-dom";
 
 // Icons
-import { ArrowRightLeft, Trash2, Check, Send, Snowflake } from "lucide-react";
+import {
+  ArrowRightLeft,
+  Trash2,
+  Send,
+  Snowflake,
+  KeyRound,
+  MoreHorizontal,
+} from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/shared/components/shadcn/dropdown-menu";
 import { useInvoicesQuery } from "@/owner/features/payments";
 
 // Hooks
@@ -48,25 +62,21 @@ const GroupStudentsTable = ({ group }) => {
 
   return (
     <div className="rounded-lg border border-gray-200 overflow-x-auto bg-white">
-      <table className="w-full min-w-[880px] table-fixed text-sm">
+      <table className="w-full min-w-[720px] table-fixed text-sm">
         <colgroup>
           <col className="w-12" />
-          <col className="w-[22%]" />
-          <col className="w-[16%]" />
-          <col className="w-[13%]" />
-          <col className="w-[15%]" />
-          <col className="w-[8%]" />
-          <col className="w-[12%]" />
+          <col className="w-[28%]" />
+          <col className="w-[20%]" />
+          <col className="w-[20%]" />
           <col className="w-[14%]" />
+          <col className="w-[16%]" />
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs font-medium text-gray-400">
             <th className="px-4 py-3">#</th>
             <th className="px-4 py-3">Ism familiya</th>
             <th className="px-4 py-3">Telefon</th>
-            <th className="px-4 py-3">Login</th>
             <th className="px-4 py-3">Telegram</th>
-            <th className="px-4 py-3 whitespace-nowrap">To'lov</th>
             <th className="px-4 py-3 text-right">Qarz</th>
             <th className="px-4 py-3 text-right">Amallar</th>
           </tr>
@@ -113,11 +123,6 @@ const GroupStudentsTable = ({ group }) => {
                   {formatPhone(s.phone) || "-"}
                 </span>
               </td>
-              <td className="px-4 py-3 text-muted-foreground">
-                <span className="block truncate" title={`@${s.username}`}>
-                  @{s.username}
-                </span>
-              </td>
               <td className="px-4 py-3">
                 {s.telegram ? (
                   s.telegram.username ? (
@@ -144,38 +149,6 @@ const GroupStudentsTable = ({ group }) => {
                   <span className="text-gray-300">Bog'lanmagan</span>
                 )}
               </td>
-              <td className="px-4 py-3 whitespace-nowrap">
-                {!inv ? (
-                  <span className="text-gray-300">—</span>
-                ) : inv.status === "paid" ? (
-                  <span
-                    className="inline-flex size-8 items-center justify-center rounded-md bg-green-50 text-green-600"
-                    title="To'landi"
-                    aria-label="To'landi"
-                  >
-                    <Check className="size-4" />
-                  </span>
-                ) : inv.status === "cancelled" ? (
-                  <span className="text-gray-300" title="Bekor qilingan">
-                    —
-                  </span>
-                ) : (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    title="To'lash — to'liq summani to'langan deb belgilash"
-                    aria-label="To'lash"
-                    className="size-8 border-green-200 text-green-700 hover:border-green-300 hover:bg-green-50 hover:text-green-800"
-                    onClick={() =>
-                      openModal(MODAL.PAYMENT_RECORD, { invoice: inv })
-                    }
-                    
-                  >
-                    <Check className="size-4" />
-                  </Button>
-                )}
-              </td>
               <td className="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">
                 {debt > 0 ? (
                   <span className="text-rose-500">{formatMoney(debt)}</span>
@@ -189,53 +162,67 @@ const GroupStudentsTable = ({ group }) => {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    title="Muzlatish — vaqtincha to'xtatish"
-                    aria-label="O'quvchini muzlatish"
-                    className="size-8 text-cyan-600 hover:bg-cyan-50 hover:text-cyan-700"
+                    title="Login va parol"
+                    aria-label="Login va parol"
+                    className="size-8 text-amber-600 hover:bg-amber-50 hover:text-amber-700"
                     onClick={() =>
-                      openModal(MODAL.STUDENT_FREEZE, {
-                        studentId: s._id,
-                        studentName: `${s.firstName} ${s.lastName}`,
-                      })
+                      openModal(MODAL.USER_PASSWORD, { user: s })
                     }
-                    
                   >
-                    <Snowflake className="size-4" />
+                    <KeyRound className="size-4" />
                   </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    title="Ko'chirish — boshqa guruhga"
-                    aria-label="Boshqa guruhga ko'chirish"
-                    className="size-8 text-gray-500 hover:text-gray-700"
-                    onClick={() =>
-                      openModal(MODAL.GROUP_TRANSFER_STUDENT, {
-                        groupId: group._id,
-                        student: s,
-                      })
-                    }
-                    
-                  >
-                    <ArrowRightLeft className="size-4" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    title="Chiqarish — guruhdan chiqarish"
-                    aria-label="O'quvchini guruhdan chiqarish"
-                    className="size-8 text-red-600 hover:bg-red-50 hover:text-red-700"
-                    onClick={() =>
-                      openModal(MODAL.GROUP_REMOVE_STUDENT, {
-                        groupId: group._id,
-                        student: s,
-                      })
-                    }
-                    
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        title="Amallar"
+                        aria-label="Amallar"
+                        className="size-8 text-gray-500 hover:text-gray-700"
+                      >
+                        <MoreHorizontal className="size-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="min-w-[12rem]">
+                      <DropdownMenuItem
+                        className="text-cyan-700 focus:text-cyan-800"
+                        onSelect={() =>
+                          openModal(MODAL.STUDENT_FREEZE, {
+                            studentId: s._id,
+                            studentName: `${s.firstName} ${s.lastName}`,
+                          })
+                        }
+                      >
+                        <Snowflake className="size-4" />
+                        Muzlatish
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onSelect={() =>
+                          openModal(MODAL.GROUP_TRANSFER_STUDENT, {
+                            groupId: group._id,
+                            student: s,
+                          })
+                        }
+                      >
+                        <ArrowRightLeft className="size-4" />
+                        Boshqa guruhga ko'chirish
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        className="text-red-600 focus:text-red-700"
+                        onSelect={() =>
+                          openModal(MODAL.GROUP_REMOVE_STUDENT, {
+                            groupId: group._id,
+                            student: s,
+                          })
+                        }
+                      >
+                        <Trash2 className="size-4" />
+                        Guruhdan chiqarish
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </td>
             </tr>
