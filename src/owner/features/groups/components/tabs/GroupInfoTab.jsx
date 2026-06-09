@@ -5,6 +5,7 @@ import { RefreshCw } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Card from "@/shared/components/ui/card/Card";
 import GroupStatsPanel from "../GroupStatsPanel";
+import GroupHistoryList from "../GroupHistoryList";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
@@ -101,6 +102,15 @@ const GroupInfoTab = ({ group }) => {
       </div>
 
       <GroupStatsPanel groupId={group._id} />
+
+      <details className="group/details border rounded-sm bg-white">
+        <summary className="cursor-pointer px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground select-none">
+          Tarix (a'zolik o'zgarishlari)
+        </summary>
+        <div className="p-3 pt-0">
+          <GroupHistoryList groupId={group._id} />
+        </div>
+      </details>
     </div>
   );
 };
