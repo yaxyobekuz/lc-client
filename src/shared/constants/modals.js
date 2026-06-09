@@ -43,6 +43,7 @@ export const MODAL = Object.freeze({
 
   // Notifications + Feedback (Bo'lak 7)
   NOTIFICATION_SEND: "notification:send",
+  NOTIFICATION_CANCEL: "notification:cancel",
   NOTIFICATION_TEMPLATE_CREATE: "notificationTemplate:create",
   NOTIFICATION_TEMPLATE_EDIT: "notificationTemplate:edit",
   NOTIFICATION_TEMPLATE_DELETE: "notificationTemplate:delete",

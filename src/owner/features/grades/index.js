@@ -10,3 +10,11 @@ export { default as useStudentGradeSummaryQuery } from "./hooks/useStudentGradeS
 export { default as GradePicker } from "./components/GradePicker";
 export { default as GradeGrid } from "./components/GradeGrid";
 export { default as StudentGradesTab } from "./components/StudentGradesTab";
+export { default as ScoreButtons } from "./components/ScoreButtons";
+export { default as WeightSlider } from "./components/WeightSlider";
+export {
+  default as SettingsSection,
+  SettingRow,
+} from "./components/SettingsSection";
+
+export * from "./utils/gradingSettings";

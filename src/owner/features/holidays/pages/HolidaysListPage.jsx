@@ -71,12 +71,8 @@ const HolidaysListPage = () => {
 
       {isError ? (
         <ErrorState onRetry={refetch} />
-      ) : isLoading ? (
-        <div className="p-8 text-center text-muted-foreground">
-          Yuklanmoqda...
-        </div>
       ) : (
-        <HolidaysTable items={items} />
+        <HolidaysTable items={items} isLoading={isLoading} />
       )}
 
       <ModalWrapper name={MODAL.HOLIDAY_CREATE} title="Yangi bayram">

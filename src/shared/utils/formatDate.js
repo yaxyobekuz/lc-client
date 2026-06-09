@@ -46,6 +46,16 @@ export const formatDateWithWeekday = (dateLike) => {
   return `${UZ_WEEKDAYS_SHORT[d.getDay()]}, ${d.getDate()} ${UZ_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
 };
 
+// Sana + vaqt: "12.05.2026 14:30"
+export const formatDateTimeUz = (dateLike) => {
+  if (!dateLike) return "-";
+  const d = new Date(dateLike);
+  if (Number.isNaN(d.getTime())) return "-";
+  const hh = String(d.getHours()).padStart(2, "0");
+  const min = String(d.getMinutes()).padStart(2, "0");
+  return `${formatDateUz(d)} ${hh}:${min}`;
+};
+
 // HTML <input type="date"> uchun YYYY-MM-DD
 export const toDateInput = (dateLike) => {
   if (!dateLike) return "";

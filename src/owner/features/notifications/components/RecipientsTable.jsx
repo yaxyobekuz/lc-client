@@ -1,68 +1,109 @@
-import Badge from "@/shared/components/ui/badge/Badge";
-import { formatDateUz } from "@/shared/utils/formatDate";
+import { CheckCheck, Mail, Send, AlertTriangle, Minus } from "lucide-react";
+import DataTable from "@/shared/components/ui/table/DataTable";
+import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
+import EmptyState from "@/shared/components/ui/feedback/EmptyState";
+import { formatDateTimeUz } from "@/shared/utils/formatDate";
+import { formatPhone } from "@/shared/utils/formatPhone";
 
-const RecipientsTable = ({ items = [] }) => {
-  if (!items.length) {
+const th = "px-4 py-2.5 text-left text-xs font-medium text-muted-foreground";
+
+const userName = (r) =>
+  r.user ? `${r.user.firstName} ${r.user.lastName}` : "—";
+
+// Bot yetkazish holati badge
+const BotCell = ({ r }) => {
+  if (r.botDeliveredAt)
     return (
-      <div className="border rounded-lg p-6 text-center text-muted-foreground">
-        Qabul qiluvchilar topilmadi
-      </div>
+      <StatusBadge tone="success" icon={Send}>
+        {formatDateTimeUz(r.botDeliveredAt)}
+      </StatusBadge>
     );
-  }
+  if (r.botFailedReason)
+    return (
+      <StatusBadge tone="danger" icon={AlertTriangle}>
+        {r.botFailedReason === "no-bot-link" ? "Bot ulanmagan" : r.botFailedReason}
+      </StatusBadge>
+    );
+  return (
+    <StatusBadge tone="neutral" icon={Minus}>
+      Yetkazilmadi
+    </StatusBadge>
+  );
+};
+
+// O'qish holati badge
+const ReadCell = ({ r }) =>
+  r.readAt ? (
+    <StatusBadge tone="info" icon={CheckCheck}>
+      {formatDateTimeUz(r.readAt)}
+    </StatusBadge>
+  ) : (
+    <StatusBadge tone="neutral" icon={Mail}>
+      O'qilmagan
+    </StatusBadge>
+  );
+
+const RecipientsTable = ({ items = [], isLoading = false }) => {
+  const columns = [
+    {
+      key: "user",
+      header: "Foydalanuvchi",
+      headerClassName: th,
+      cell: (r) => <span className="font-medium">{userName(r)}</span>,
+    },
+    {
+      key: "phone",
+      header: "Telefon",
+      headerClassName: th,
+      cell: (r) => (
+        <span className="whitespace-nowrap text-muted-foreground">
+          {r.user?.phone ? formatPhone(r.user.phone) : "-"}
+        </span>
+      ),
+    },
+    {
+      key: "bot",
+      header: "Bot yetkazildi",
+      headerClassName: th,
+      cell: (r) => <BotCell r={r} />,
+    },
+    {
+      key: "read",
+      header: "O'qilgan",
+      headerClassName: th,
+      cell: (r) => <ReadCell r={r} />,
+    },
+  ];
+
+  const renderCard = (r) => (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <span className="font-medium">{userName(r)}</span>
+        <span className="text-xs text-muted-foreground">
+          {r.user?.phone ? formatPhone(r.user.phone) : ""}
+        </span>
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        <BotCell r={r} />
+        <ReadCell r={r} />
+      </div>
+    </div>
+  );
 
   return (
-    <div className="overflow-x-auto rounded-lg border bg-white">
-      <table className="w-full text-sm">
-        <thead className=" text-left">
-          <tr>
-            <th className="px-3 py-2">Foydalanuvchi</th>
-            <th className="px-3 py-2">Telefon</th>
-            <th className="px-3 py-2">Bot yetkazib berildi</th>
-            <th className="px-3 py-2">O'qilgan</th>
-            <th className="px-3 py-2">Bot xato</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((r) => (
-            <tr key={r._id} className="border-t">
-              <td className="px-3 py-2">
-                {r.user
-                  ? `${r.user.firstName} ${r.user.lastName}`
-                  : "-"}
-              </td>
-              <td className="px-3 py-2 text-muted-foreground">
-                {r.user?.phone || "-"}
-              </td>
-              <td className="px-3 py-2">
-                {r.botDeliveredAt ? (
-                  <Badge className="bg-green-100 text-green-700">
-                    {formatDateUz(r.botDeliveredAt)}
-                  </Badge>
-                ) : (
-                  <Badge variant="outline" className="text-muted-foreground">
-                    -
-                  </Badge>
-                )}
-              </td>
-              <td className="px-3 py-2">
-                {r.readAt ? (
-                  <Badge className="bg-blue-100 text-blue-700">
-                    {formatDateUz(r.readAt)}
-                  </Badge>
-                ) : (
-                  <Badge variant="outline" className="text-muted-foreground">
-                    O'qilmagan
-                  </Badge>
-                )}
-              </td>
-              <td className="px-3 py-2 text-xs text-red-600">
-                {r.botFailedReason || ""}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      columns={columns}
+      rows={items}
+      isLoading={isLoading}
+      renderCard={renderCard}
+      empty={
+        <EmptyState
+          compact
+          title="Qabul qiluvchilar yo'q"
+          description="Bu xabar uchun qabul qiluvchilar topilmadi."
+        />
+      }
+    />
   );
 };
 

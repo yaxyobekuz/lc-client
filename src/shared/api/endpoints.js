@@ -84,11 +84,12 @@ export const ENDPOINTS = Object.freeze({
     base: "/notifications",
     byId: (id) => `/notifications/${id}`,
     recipients: (id) => `/notifications/${id}/recipients`,
+    preview: "/notifications/preview",
+    cancel: (id) => `/notifications/${id}/cancel`,
     inbox: "/notifications/inbox",
     unreadCount: "/notifications/inbox/unread-count",
     markRead: (id) => `/notifications/inbox/${id}/read`,
     markAllRead: "/notifications/inbox/read-all",
-    stats: "/notifications/stats",
   },
   // Tizim bildirishnomalari (in-app, owner)
   systemNotifications: {

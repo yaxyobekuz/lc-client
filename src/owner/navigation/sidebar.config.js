@@ -93,11 +93,6 @@ const ownerSidebar = [
         permission: "notifications.read",
       },
       {
-        title: "Hisobotlar",
-        url: "/owner/notifications/dashboard",
-        permission: "notifications.read",
-      },
-      {
         title: "Shablonlar",
         url: "/owner/notification-templates",
         permission: "notification_templates.manage",

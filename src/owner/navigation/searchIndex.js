@@ -101,16 +101,6 @@ export const SEARCH_INDEX = [
     permission: "notifications.read",
   },
   {
-    title: "Bildirishnoma hisobotlari",
-    description: "Yuborilgan/yetkazilgan/o'qilgan xabarlar statistikasi",
-    keywords:
-      "bildirishnoma, hisobot, notification, report, statistika, dashboard",
-    url: "/owner/notifications/dashboard",
-    icon: BarChart3,
-    category: "Bildirishnomalar",
-    permission: "notifications.read",
-  },
-  {
     title: "Bildirishnoma shablonlari",
     description: "Tayyor xabar matnlari (qarz, bayram, e'lon)",
     keywords:

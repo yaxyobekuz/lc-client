@@ -15,9 +15,3 @@ export const useNotificationRecipientsQuery = (id, params = {}) =>
     queryFn: () => notificationsAPI.recipients(id, params).then((r) => r.data),
     enabled: !!id,
   });
-
-export const useNotificationStatsQuery = (params = {}) =>
-  useQuery({
-    queryKey: qk.notifications.stats(params),
-    queryFn: () => notificationsAPI.stats(params).then((r) => r.data.data),
-  });

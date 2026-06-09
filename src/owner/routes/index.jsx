@@ -15,7 +15,6 @@ import { RatingPage, RatingSettingsPage } from "@/owner/features/rating";
 import {
   NotificationsListPage,
   NotificationDetailPage,
-  NotificationsDashboardPage,
   MyInboxPage as OwnerInboxPage,
 } from "@/owner/features/notifications";
 import { NotificationTemplatesListPage } from "@/owner/features/notificationTemplates";
@@ -56,7 +55,6 @@ const OwnerRoutes = () => (
     <Route path="settings/rating" element={<RatingSettingsPage />} />
 
     {/* Aloqa: Notifications + Feedback */}
-    <Route path="notifications/dashboard" element={<NotificationsDashboardPage />} />
     <Route path="notifications" element={<NotificationsListPage />} />
     <Route path="notifications/:id" element={<NotificationDetailPage />} />
     <Route path="inbox" element={<OwnerInboxPage />} />

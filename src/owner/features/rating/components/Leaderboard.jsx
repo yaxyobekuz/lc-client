@@ -1,83 +1,146 @@
+// React
+import { useMemo } from "react";
+
 // Icons
-import { Trophy, Medal } from "lucide-react";
+import { Crown, Medal, Trophy } from "lucide-react";
+
+// Components
+import LeaderboardRow from "./LeaderboardRow";
 
 // Utils
 import { cn } from "@/shared/utils/cn";
 
-// Top-3 uchun rang/ikon
-const rankStyle = (rank) => {
-  if (rank === 1) return { ring: "bg-amber-50 border-amber-200", badge: "bg-amber-400 text-white" };
-  if (rank === 2) return { ring: "bg-slate-50 border-slate-200", badge: "bg-slate-400 text-white" };
-  if (rank === 3) return { ring: "bg-orange-50 border-orange-200", badge: "bg-orange-400 text-white" };
-  return { ring: "bg-white border-gray-100", badge: "bg-gray-100 text-gray-500" };
+// Bir xil ballarda tartiblash mantig'i (aniq va deterministik):
+//  1) ball bo'yicha kamayuvchi
+//  2) teng bo'lsa — o'rtacha baho yuqori bo'lgan oldinda
+//  3) yana teng bo'lsa — davomat foizi yuqori bo'lgan oldinda
+//  4) baribir teng bo'lsa — ism bo'yicha (alifbo), barqarorlik uchun
+// Rank "competition ranking": teng ballar bir xil o'rin oladi (1,2,2,4),
+// va isTied=true bilan belgilanadi.
+const num = (v) => (v == null ? -1 : Number(v));
+const fullName = (s) => `${s.firstName || ""} ${s.lastName || ""}`.trim();
+
+const rankItems = (items) => {
+  const sorted = [...items].sort((a, b) => {
+    if (b.point !== a.point) return b.point - a.point;
+    if (num(b.averageGrade) !== num(a.averageGrade))
+      return num(b.averageGrade) - num(a.averageGrade);
+    if (num(b.attendanceRate) !== num(a.attendanceRate))
+      return num(b.attendanceRate) - num(a.attendanceRate);
+    return fullName(a.student).localeCompare(fullName(b.student));
+  });
+
+  let lastPoint = null;
+  let lastRank = 0;
+  const withRank = sorted.map((it, i) => {
+    const isTie = lastPoint != null && it.point === lastPoint;
+    const rank = isTie ? lastRank : i + 1;
+    lastPoint = it.point;
+    lastRank = rank;
+    return { ...it, rank };
+  });
+
+  // isTied: oldingi yoki keyingi qator bilan ball teng bo'lsa
+  return withRank.map((it, i) => ({
+    ...it,
+    isTied:
+      (i > 0 && withRank[i - 1].point === it.point) ||
+      (i < withRank.length - 1 && withRank[i + 1].point === it.point),
+  }));
 };
 
-// items: [{ rank, student, point, averageGrade, attendanceRate }]
-// highlightStudentId: o'quvchining o'z qatorini ajratib ko'rsatish uchun (ixtiyoriy)
-const Leaderboard = ({ items = [], highlightStudentId = null, emptyText = "Ma'lumot yo'q" }) => {
-  if (!items.length) {
+// Podium uchun ikonka
+const PODIUM = {
+  1: { icon: Crown, ring: "ring-amber-300", bg: "bg-amber-50", chip: "bg-amber-400", order: "order-2 sm:scale-105", text: "text-amber-600" },
+  2: { icon: Trophy, ring: "ring-slate-300", bg: "bg-slate-50", chip: "bg-slate-400", order: "order-1", text: "text-slate-600" },
+  3: { icon: Medal, ring: "ring-orange-300", bg: "bg-orange-50", chip: "bg-orange-400", order: "order-3", text: "text-orange-600" },
+};
+
+const PodiumCard = ({ it, isMe }) => {
+  const p = PODIUM[it.rank];
+  const Icon = p.icon;
+  return (
+    <div
+      className={cn(
+        "flex flex-1 flex-col items-center rounded-xl border bg-white p-4 text-center ring-1",
+        p.ring,
+        p.bg,
+        p.order,
+        isMe && "ring-2 ring-primary/50",
+      )}
+    >
+      <span className={cn("grid size-10 place-items-center rounded-full text-white", p.chip)}>
+        <Icon className="size-5" />
+      </span>
+      <p className="mt-2 truncate text-sm font-semibold text-gray-900">
+        {it.student.firstName} {it.student.lastName}
+        {isMe && <span className="ml-1 text-xs font-normal text-primary">(siz)</span>}
+      </p>
+      <p className={cn("text-xs font-medium", p.text)}>{it.rank}-o'rin</p>
+      <p className="mt-1 text-lg font-bold tabular-nums text-gray-900">
+        {it.point}
+        <span className="ml-1 text-xs font-normal text-muted-foreground">ball</span>
+      </p>
+      <p className="mt-0.5 text-[11px] text-muted-foreground">
+        Baho {it.averageGrade ?? "—"} · Davomat{" "}
+        {it.attendanceRate != null ? `${it.attendanceRate}%` : "—"}
+      </p>
+    </div>
+  );
+};
+
+// items: [{ student, point, averageGrade, attendanceRate }]
+// topN: nechta o'quvchi ko'rsatilsin (sozlamadan)
+// highlightStudentId: o'quvchining o'z qatorini ajratish
+const Leaderboard = ({
+  items = [],
+  topN = 100,
+  highlightStudentId = null,
+  emptyText = "Ma'lumot yo'q",
+}) => {
+  const ranked = useMemo(() => rankItems(items).slice(0, topN), [items, topN]);
+
+  if (!ranked.length) {
     return (
-      <div className="border rounded-lg p-8 text-center text-muted-foreground bg-white">
-        {emptyText}
+      <div className="rounded-lg border border-dashed bg-white p-10 text-center">
+        <Trophy className="mx-auto size-8 text-gray-300" />
+        <p className="mt-2 text-sm text-muted-foreground">{emptyText}</p>
       </div>
     );
   }
 
+  const isMe = (it) =>
+    highlightStudentId &&
+    String(it.student._id) === String(highlightStudentId);
+
+  const podium = ranked.filter((it) => it.rank <= 3);
+  const rest = ranked.filter((it) => it.rank > 3);
+  const maxPoint = ranked[0]?.point || 100;
+
   return (
-    <div className="space-y-1.5">
-      {items.map((it) => {
-        const s = rankStyle(it.rank);
-        const isMe =
-          highlightStudentId &&
-          String(it.student._id) === String(highlightStudentId);
-        return (
-          <div
-            key={it.student._id}
-            className={cn(
-              "flex items-center gap-3 rounded-lg border px-3 py-2.5",
-              s.ring,
-              isMe && "ring-2 ring-sky-400 border-sky-300",
-            )}
-          >
-            <span
-              className={cn(
-                "grid size-8 shrink-0 place-items-center rounded-full text-sm font-bold",
-                s.badge,
-              )}
-            >
-              {it.rank <= 3 ? (
-                it.rank === 1 ? (
-                  <Trophy className="size-4" />
-                ) : (
-                  <Medal className="size-4" />
-                )
-              ) : (
-                it.rank
-              )}
-            </span>
+    <div className="space-y-4">
+      {/* Podium (top 3) */}
+      {podium.length > 0 && (
+        <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-end">
+          {podium.map((it) => (
+            <PodiumCard key={it.student._id} it={it} isMe={isMe(it)} />
+          ))}
+        </div>
+      )}
 
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-medium">
-                {it.student.firstName} {it.student.lastName}
-                {isMe && (
-                  <span className="ml-2 text-xs font-normal text-sky-600">(siz)</span>
-                )}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Baho: {it.averageGrade ?? "—"} · Davomat:{" "}
-                {it.attendanceRate != null ? `${it.attendanceRate}%` : "—"}
-              </p>
-            </div>
-
-            <span className="shrink-0 text-lg font-semibold tabular-nums">
-              {it.point}
-              <span className="ml-1 text-xs font-normal text-muted-foreground">
-                ball
-              </span>
-            </span>
-          </div>
-        );
-      })}
+      {/* Qolgan qatorlar */}
+      {rest.length > 0 && (
+        <div className="space-y-1.5">
+          {rest.map((it) => (
+            <LeaderboardRow
+              key={it.student._id}
+              it={it}
+              maxPoint={maxPoint}
+              isMe={isMe(it)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

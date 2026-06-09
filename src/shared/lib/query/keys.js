@@ -91,9 +91,9 @@ export const qk = Object.freeze({
     list: (params) => ["notifications", "list", params],
     one: (id) => ["notifications", "detail", id],
     recipients: (id, params) => ["notifications", id, "recipients", params],
+    preview: (audience) => ["notifications", "preview", audience],
     inbox: (params) => ["notifications", "inbox", params],
     unreadCount: () => ["notifications", "inbox", "unreadCount"],
-    stats: (params) => ["notifications", "stats", params],
   },
   systemNotifications: {
     all: () => ["systemNotifications"],

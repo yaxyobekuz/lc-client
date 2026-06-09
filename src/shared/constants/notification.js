@@ -81,6 +81,71 @@ export const AUDIENCE_TYPE_LABEL = {
   auto_system: "Avto-tizim",
 };
 
+// ───────────────────────────────────────────────────────────────────────────
+// Kanallar (yetkazish usuli)
+// ───────────────────────────────────────────────────────────────────────────
+export const CHANNELS = ["inapp", "telegram"];
+
+export const CHANNEL_LABEL = {
+  inapp: "Platforma (in-app)",
+  telegram: "Telegram bot",
+};
+
+export const CHANNEL_SHORT_LABEL = {
+  inapp: "Platforma",
+  telegram: "Telegram",
+};
+
+// ───────────────────────────────────────────────────────────────────────────
+// Yuborish holati — modul bo'yicha YAGONA status rang tizimi.
+//   sent      -> yashil  (yuborildi / faol)
+//   scheduled -> sariq   (kutilmoqda / rejalashtirilgan)
+//   canceled  -> qizil   (bekor qilingan)
+//   auto      -> kulrang (avto-tizim)
+// StatusBadge `tone` qiymatlari bilan moslashtirilgan.
+// ───────────────────────────────────────────────────────────────────────────
+export const STATUS_LABEL = {
+  sent: "Yuborildi",
+  scheduled: "Rejalashtirilgan",
+  canceled: "Bekor qilingan",
+};
+
+export const STATUS_TONE = {
+  sent: "success",
+  scheduled: "warning",
+  canceled: "danger",
+};
+
+// Avto-tizim xabarini (isAuto) kulrang ko'rsatish uchun yordamchi.
+export const resolveStatusTone = ({ status, isAuto } = {}) => {
+  if (isAuto) return "neutral";
+  return STATUS_TONE[status] || "neutral";
+};
+
+export const resolveStatusLabel = ({ status, isAuto } = {}) => {
+  if (isAuto && status === "sent") return "Avto-tizim";
+  return STATUS_LABEL[status] || STATUS_LABEL.sent;
+};
+
+// ───────────────────────────────────────────────────────────────────────────
+// Xabar o'zgaruvchilari (placeholder) — matnda {ism} kabi qo'llanadi.
+// preview'da namuna qiymat bilan almashtiriladi.
+// ───────────────────────────────────────────────────────────────────────────
+export const MESSAGE_VARIABLES = [
+  { token: "{ism}", label: "Ism", sample: "Aziz" },
+  { token: "{familiya}", label: "Familiya", sample: "Karimov" },
+  { token: "{guruh}", label: "Guruh", sample: "Bayyina-1" },
+  { token: "{qarz}", label: "Qarz", sample: "450 000 so'm" },
+  { token: "{markaz}", label: "Markaz", sample: "Bayyina" },
+];
+
+// preview uchun: {token}larni namuna qiymatlar bilan almashtiradi.
+export const fillSampleVariables = (text = "") =>
+  MESSAGE_VARIABLES.reduce(
+    (acc, v) => acc.split(v.token).join(v.sample),
+    String(text || ""),
+  );
+
 // Template kategoriyalari (alohida - notification kategoriyalaridan farq qiladi)
 export const TEMPLATE_CATEGORIES = [
   "payment",

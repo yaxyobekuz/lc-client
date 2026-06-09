@@ -85,13 +85,9 @@ const NotificationTemplatesListPage = () => {
 
       {isError ? (
         <ErrorState onRetry={refetch} />
-      ) : isLoading ? (
-        <div className="p-8 text-center text-muted-foreground">
-          Yuklanmoqda...
-        </div>
       ) : (
         <>
-          <TemplatesTable items={items} />
+          <TemplatesTable items={items} isLoading={isLoading} />
           {totalPages > 1 && (
             <Pagination
               currentPage={page}

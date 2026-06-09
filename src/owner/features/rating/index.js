@@ -9,3 +9,4 @@ export { default as useRatingSettingsMutation } from "./hooks/useRatingSettingsM
 export { default as useStudentRankQuery } from "./hooks/useStudentRankQuery";
 
 export { default as Leaderboard } from "./components/Leaderboard";
+export { default as LeaderboardRow } from "./components/LeaderboardRow";
