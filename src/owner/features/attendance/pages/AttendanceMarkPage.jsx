@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import InputField from "@/shared/components/ui/input/InputField";
 import Card from "@/shared/components/ui/card/Card";
 import { AttendanceGrid, SessionTabs } from "@/shared/components/attendance";
@@ -10,7 +11,9 @@ import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
 import { todayInput } from "@/shared/utils/formatDate";
 
 const AttendanceMarkPage = () => {
-  const [groupId, setGroupId] = useState("");
+  // Guruh sahifasidan "Davomat belgilash" bilan kelinsa — ?groupId=... oldindan tanlanadi
+  const [searchParams] = useSearchParams();
+  const [groupId, setGroupId] = useState(searchParams.get("groupId") || "");
   const [date, setDate] = useState(todayInput());
   // null → server birinchi sessiyani tanlaydi; tanlangach aniq slot
   const [slot, setSlot] = useState(null);

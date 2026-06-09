@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
+import { Wallet } from "lucide-react";
 import Badge from "@/shared/components/ui/badge/Badge";
+import Button from "@/shared/components/ui/button/Button";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import { formatPhone } from "@/shared/utils/formatPhone";
 
-const DebtorsTable = ({ items = [] }) => {
+// onPay(debtor) berilsa — har bir qatorda "To'lash" tugmasi chiqadi.
+// payingId — hozir yuklanayotgan qarzdor (spinner ko'rsatish uchun).
+const DebtorsTable = ({ items = [], onPay, payingId = null }) => {
+  const payable = typeof onPay === "function";
+
   if (items.length === 0) {
     return (
       <div className="border rounded-lg p-8 text-center text-muted-foreground">
@@ -22,6 +28,9 @@ const DebtorsTable = ({ items = [] }) => {
             <th className="px-4 py-2 font-medium text-left">Telefon</th>
             <th className="px-4 py-2 font-medium text-left w-28">Hisoblar</th>
             <th className="px-4 py-2 font-medium text-left w-40">Qarz</th>
+            {payable && (
+              <th className="px-4 py-2 font-medium text-right w-32">Amal</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -47,6 +56,20 @@ const DebtorsTable = ({ items = [] }) => {
               <td className="px-4 py-2 text-left font-medium text-rose-500">
                 {formatMoney(d.debt)}
               </td>
+              {payable && (
+                <td className="px-4 py-2 text-right">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={!d.oldestOpenInvoiceId || payingId === d.studentId}
+                    onClick={() => onPay(d)}
+                    playClickSound={false}
+                  >
+                    <Wallet className="size-4" />
+                    {payingId === d.studentId ? "..." : "To'lash"}
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

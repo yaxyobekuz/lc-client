@@ -16,6 +16,7 @@ import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
+import useDebounce from "@/shared/hooks/useDebounce";
 import useGroupsListQuery from "../hooks/useGroupsListQuery";
 
 // Constants
@@ -28,9 +29,10 @@ const GroupsListPage = () => {
   const [archived, setArchived] = useState(false);
   const [page, setPage] = useState(1);
   const { openModal } = useModal();
+  const debouncedSearch = useDebounce(search);
 
   const { data, isLoading } = useGroupsListQuery({
-    search,
+    search: debouncedSearch || undefined,
     archived: archived ? "1" : undefined,
     page,
     limit: LIMIT,

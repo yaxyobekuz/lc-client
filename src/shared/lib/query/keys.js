@@ -3,6 +3,9 @@ export const qk = Object.freeze({
   auth: {
     me: () => ["auth", "me"],
   },
+  search: {
+    global: (term) => ["search", "global", term],
+  },
   users: {
     all: () => ["users"],
     list: (params) => ["users", "list", params],

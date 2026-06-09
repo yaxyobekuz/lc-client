@@ -1,8 +1,8 @@
 // Router
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Icons
-import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2, CheckCircle2, Archive } from "lucide-react";
+import { ArrowLeft, Pencil, Plus, RefreshCw, Trash2, CheckCircle2, Archive, CalendarCheck } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -41,6 +41,7 @@ import BackLink from "@/shared/components/ui/link/BackLink";
 
 const GroupDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { openModal } = useModal();
   const goBack = useGoBack("/owner/groups");
   const { data: group, isLoading, isError } = useGroupQuery(id);
@@ -85,6 +86,16 @@ const GroupDetailPage = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          {!isFinished && (
+            <Button
+              onClick={() =>
+                navigate(`/owner/attendance/mark?groupId=${group._id}`)
+              }
+            >
+              <CalendarCheck className="size-4" />
+              Davomat belgilash
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={() => openModal(MODAL.GROUP_EDIT, { group })}

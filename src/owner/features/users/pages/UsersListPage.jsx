@@ -22,6 +22,7 @@ import UserPasswordModal from "../components/UserPasswordModal";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
+import useDebounce from "@/shared/hooks/useDebounce";
 import useUsersListQuery from "../hooks/useUsersListQuery";
 
 // Constants
@@ -33,37 +34,104 @@ const LIMIT = 20;
 const UsersTab = ({ role, archived = false }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  // Ustun bo'yicha saralash holati (UsersTable sarlavhasini bosganda o'zgaradi)
+  const [sort, setSort] = useState("createdAt");
+  const [order, setOrder] = useState("desc");
+  // O'quvchilar uchun tezkor filter: "all" | "debtors"
+  const [quickFilter, setQuickFilter] = useState("all");
+  const debouncedSearch = useDebounce(search);
+
+  const isStudent = role === ROLES.STUDENT;
+  // "Qarzdorlar" filteri qarz bo'yicha kamayish tartibida saralaydi
+  const effectiveSort = quickFilter === "debtors" ? "debt" : sort;
+  const effectiveOrder = quickFilter === "debtors" ? "desc" : order;
 
   const { data, isLoading } = useUsersListQuery({
     role,
-    search: search || undefined,
+    search: debouncedSearch || undefined,
     archived: archived ? "1" : undefined,
+    sort: effectiveSort,
+    order: effectiveOrder,
     page,
     limit: LIMIT,
   });
-  const users = data?.data || [];
+  let users = data?.data || [];
+  // "Qarzdorlar" tanlansa — qarzi 0 bo'lganlarni yashiramiz (sahifa ichida)
+  if (isStudent && quickFilter === "debtors") {
+    users = users.filter((u) => (u.currentDebt || 0) > 0);
+  }
   const total = data?.meta?.total || 0;
   const totalPages = Math.max(1, Math.ceil(total / LIMIT));
 
+  // Ustun sarlavhasi bosilganda: shu ustun bo'yicha yo'nalishni almashtiradi
+  const handleSort = (field) => {
+    setQuickFilter("all");
+    setPage(1);
+    if (sort === field) {
+      setOrder((o) => (o === "asc" ? "desc" : "asc"));
+    } else {
+      setSort(field);
+      setOrder("asc");
+    }
+  };
+
   return (
     <div className="pt-3 space-y-3">
-      <InputField
-        name="search"
-        type="search"
-        value={search}
-        placeholder="Ism, familiya yoki login bo'yicha qidirish..."
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setPage(1);
-        }}
-      />
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="flex-1">
+          <InputField
+            name="search"
+            type="search"
+            value={search}
+            placeholder="Ism, familiya yoki telefon bo'yicha qidirish..."
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
+
+        {/* Tezkor filter chiplar — faqat o'quvchilar uchun */}
+        {isStudent && !archived && (
+          <div className="flex gap-1 rounded-md border bg-white p-0.5">
+            {[
+              { key: "all", label: "Hammasi" },
+              { key: "debtors", label: "Qarzdorlar" },
+            ].map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => {
+                  setQuickFilter(f.key);
+                  setPage(1);
+                }}
+                className={
+                  "rounded px-3 py-1.5 text-sm transition-colors " +
+                  (quickFilter === f.key
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-gray-100")
+                }
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       {isLoading ? (
         <div className="p-4 text-muted-foreground">Yuklanmoqda...</div>
       ) : (
         <>
-          <UsersTable users={users} archived={archived} />
-          {totalPages > 1 && (
+          <UsersTable
+            users={users}
+            archived={archived}
+            role={role}
+            sort={effectiveSort}
+            order={effectiveOrder}
+            onSort={handleSort}
+          />
+          {totalPages > 1 && quickFilter !== "debtors" && (
             <Pagination
               currentPage={page}
               onPageChange={setPage}
