@@ -1,13 +1,17 @@
-// State
-import { useState } from "react";
+// Hooks
+import useObjectState from "@/shared/hooks/useObjectState";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
 import SelectField from "@/shared/components/ui/select/SelectField";
+import InputField from "@/shared/components/ui/input/InputField";
 
 // Hooks
 import useGroupsListQuery from "../../hooks/useGroupsListQuery";
 import useGroupTransferStudentMutation from "../../hooks/useGroupTransferStudentMutation";
+
+// Utils
+import { todayInput } from "@/shared/utils/formatDate";
 
 const GroupTransferStudentModal = ({
   groupId,
@@ -16,7 +20,10 @@ const GroupTransferStudentModal = ({
   isLoading,
   setIsLoading,
 }) => {
-  const [targetGroupId, setTargetGroupId] = useState("");
+  const { targetGroupId, joinedAt, setField } = useObjectState({
+    targetGroupId: "",
+    joinedAt: todayInput(),
+  });
   const { data, isLoading: loadingGroups } = useGroupsListQuery({ limit: 100 });
   const groups = (data?.data || []).filter((g) => String(g._id) !== String(groupId));
 
@@ -34,7 +41,12 @@ const GroupTransferStudentModal = ({
     e.preventDefault();
     if (!targetGroupId) return;
     setIsLoading(true);
-    mutate({ id: groupId, studentId: student._id, targetGroupId });
+    mutate({
+      id: groupId,
+      studentId: student._id,
+      targetGroupId,
+      joinedAt: joinedAt || undefined,
+    });
   };
 
   return (
@@ -52,10 +64,20 @@ const GroupTransferStudentModal = ({
         placeholder="Guruhni tanlang"
         emptyText="Boshqa guruhlar yo'q"
         value={targetGroupId}
-        onChange={setTargetGroupId}
+        onChange={(v) => setField("targetGroupId", v)}
         options={options}
         isLoading={loadingGroups}
         required
+        disabled={isLoading}
+      />
+
+      <InputField
+        type="date"
+        name="joinedAt"
+        label="Yangi guruhda boshlash sanasi"
+        value={joinedAt}
+        max={todayInput()}
+        onChange={(e) => setField("joinedAt", e.target.value)}
         disabled={isLoading}
       />
 

@@ -18,8 +18,8 @@ export const groupsAPI = {
     http.delete(ENDPOINTS.groups.studentById(id, studentId), {
       data: reasonId ? { reasonId } : {},
     }),
-  transferStudent: (id, studentId, targetGroupId) =>
-    http.post(ENDPOINTS.groups.transfer(id, studentId), { targetGroupId }),
+  transferStudent: (id, studentId, targetGroupId, joinedAt) =>
+    http.post(ENDPOINTS.groups.transfer(id, studentId), { targetGroupId, joinedAt }),
 
   replaceTeacher: (id, body) =>
     http.post(`/groups/${id}/replace-teacher`, body),

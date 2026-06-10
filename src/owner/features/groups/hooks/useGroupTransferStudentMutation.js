@@ -14,9 +14,9 @@ import { qk } from "@/shared/lib/query/keys";
 const useGroupTransferStudentMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, studentId, targetGroupId }) =>
+    mutationFn: ({ id, studentId, targetGroupId, joinedAt }) =>
       groupsAPI
-        .transferStudent(id, studentId, targetGroupId)
+        .transferStudent(id, studentId, targetGroupId, joinedAt)
         .then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
@@ -25,6 +25,9 @@ const useGroupTransferStudentMutation = (options = {}) => {
       // Ikkala guruhning davomat ro'yxati (roster) ham yangilanadi - eski
       // guruhdan chiqib, yangi guruhda ko'rinishi uchun.
       qc.invalidateQueries({ queryKey: qk.attendance.all() });
+      // Yangi guruhda moliya to'lovi yaratiladi - moliya/maosh ham yangilanadi
+      qc.invalidateQueries({ queryKey: qk.finance.all() });
+      qc.invalidateQueries({ queryKey: qk.teacherSalary.all() });
       toast.success("O'quvchi boshqa guruhga ko'chirildi");
       options.onSuccess?.(data, vars, ctx);
     },
