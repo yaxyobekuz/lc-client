@@ -33,6 +33,13 @@ import {
 } from "@/owner/features/feedback";
 import { AdminDashboardPage } from "@/owner/features/adminDashboard";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
+import {
+  FinanceReportPage,
+  StudentPaymentsPage,
+  GroupFeesPage,
+  GroupFeeDetailPage,
+  DiscountsPage,
+} from "@/owner/features/finance";
 import { ProfilePage } from "@/owner/features/profile";
 import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
@@ -78,6 +85,13 @@ const OwnerRoutes = () => (
     <Route path="feedback-types" element={<FeedbackTypesListPage />} />
 
     <Route path="settings/attendance" element={<AttendanceSettingsPage />} />
+
+    {/* Moliya */}
+    <Route path="finance" element={<FinanceReportPage />} />
+    <Route path="finance/student-payments" element={<StudentPaymentsPage />} />
+    <Route path="finance/group-fees" element={<GroupFeesPage />} />
+    <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
+    <Route path="finance/discounts" element={<DiscountsPage />} />
 
     <Route path="profile" element={<ProfilePage />} />
     <Route path="*" element={<NotFoundPage />} />

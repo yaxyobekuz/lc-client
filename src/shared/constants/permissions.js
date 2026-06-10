@@ -57,4 +57,9 @@ export const PERMISSIONS = Object.freeze({
   // Admin / boshqaruv paneli (Bo'lak 9)
   ADMIN_DASHBOARD_READ: "admin_dashboard.read",
   ACTIVITY_LOGS_READ: "activity_logs.read",
+
+  // Finance (Moliya)
+  FINANCE_READ: "finance.read",
+  FINANCE_PAY: "finance.pay",
+  FINANCE_MANAGE: "finance.manage",
 });

@@ -81,4 +81,10 @@ export const MODAL = Object.freeze({
 
   // Boshqaruv paneli (Bo'lak 9)
   ACTIVITY_LOG_DETAIL: "activityLog:detail",
+
+  // Finance (Moliya)
+  FINANCE_ADD_PAYMENT: "finance:addPayment",
+  GROUP_FEE_EDIT: "finance:groupFeeEdit",
+  DISCOUNT_CREATE: "finance:discountCreate",
+  DISCOUNT_EDIT: "finance:discountEdit",
 });

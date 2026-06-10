@@ -147,4 +147,18 @@ export const ENDPOINTS = Object.freeze({
     overview: "/admin-dashboard/overview",
     studentFlow: "/admin-dashboard/student-flow",
   },
+
+  // Finance (Moliya)
+  finance: {
+    groupFees: "/finance/group-fees",
+    groupFeesByGroup: (gid) => `/finance/group-fees/group/${gid}`,
+    regenerate: "/finance/regenerate",
+    studentPayments: "/finance/student-payments",
+    studentPaymentById: (id) => `/finance/student-payments/${id}`,
+    transactions: "/finance/transactions",
+    transactionById: (id) => `/finance/transactions/${id}`,
+    discounts: "/finance/discounts",
+    discountById: (id) => `/finance/discounts/${id}`,
+    reportMonthly: "/finance/reports/monthly",
+  },
 });

@@ -6,6 +6,7 @@ import {
   MonitorCog,
   Star,
   Target,
+  Wallet,
 } from "lucide-react";
 
 const ownerSidebar = [
@@ -106,6 +107,34 @@ const ownerSidebar = [
         title: "Sozlamalar",
         url: "/owner/settings/rating",
         permission: "rating.manage",
+      },
+    ],
+  },
+
+  {
+    title: "Moliya",
+    icon: Wallet,
+    isActive: false,
+    items: [
+      {
+        title: "Statistika",
+        url: "/owner/finance",
+        permission: "finance.read",
+      },
+      {
+        title: "O'quvchi to'lovlari",
+        url: "/owner/finance/student-payments",
+        permission: "finance.read",
+      },
+      {
+        title: "Guruh to'lovi",
+        url: "/owner/finance/group-fees",
+        permission: "finance.read",
+      },
+      {
+        title: "Chegirmalar",
+        url: "/owner/finance/discounts",
+        permission: "finance.read",
       },
     ],
   },
