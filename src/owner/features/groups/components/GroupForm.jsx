@@ -12,10 +12,19 @@ import TeacherSinglePicker from "./TeacherSinglePicker";
 
 // Utils
 import { toDateInput } from "@/shared/utils/formatDate";
+import { scheduleActiveOn } from "@/shared/utils/formatSchedule";
 
 const buildInitial = (group) => ({
   name: group?.name || "",
-  schedule: group?.schedule?.map((s) => ({ ...s })) || [],
+  // Versiyalash: tahrirlashda faqat HOZIRGI amaldagi versiya qatorlarini
+  // ko'rsatamiz (effectiveFrom'siz, toza). Tarixiy versiyalar serverda saqlanadi.
+  schedule: scheduleActiveOn(group?.schedule || []).map((s) => ({
+    day: s.day,
+    startTime: s.startTime,
+    endTime: s.endTime,
+  })),
+  // Yangi jadval qaysi sanadan amal qiladi (tahrirlash rejimida) - default bugun
+  scheduleEffectiveFrom: toDateInput(new Date()),
   // Guruhda ko'pi bilan bitta o'qituvchi - birinchisini olamiz (id string)
   teacher: (() => {
     const first = (group?.teachers || [])[0];
@@ -48,8 +57,23 @@ const GroupForm = ({
     teacher,
     startDate,
     durationMonths,
+    scheduleEffectiveFrom,
     setField,
   } = useObjectState(buildInitial(initial));
+
+  // Tahrirlashda jadval HOZIRGI versiyadan o'zgartirilganmi - shunda "amal qilish
+  // sanasi" maydonini ko'rsatamiz (yangi versiya shu sanadan boshlab amal qiladi).
+  const initialScheduleKey = JSON.stringify(
+    (buildInitial(initial).schedule || []).map((s) => [
+      s.day,
+      s.startTime,
+      s.endTime,
+    ]),
+  );
+  const currentScheduleKey = JSON.stringify(
+    schedule.map((s) => [s.day, s.startTime, s.endTime]),
+  );
+  const scheduleChanged = isEdit && initialScheduleKey !== currentScheduleKey;
 
   // Jadvalda takrorlangan kun bormi
   const hasDuplicateDays = (() => {
@@ -107,6 +131,11 @@ const GroupForm = ({
       startDate: startDate || null,
       durationMonths: durationMonths === "" ? null : Number(durationMonths),
     };
+    // Jadval o'zgartirilgan bo'lsa - yangi versiya qaysi sanadan amal qilishini
+    // yuboramiz (server eski versiyani tarix uchun saqlaydi).
+    if (scheduleChanged) {
+      payload.scheduleEffectiveFrom = scheduleEffectiveFrom || null;
+    }
     // O'qituvchini faqat yaratishda yuboramiz. Tahrirlashda o'qituvchi
     // "Almashtirish" orqali boshqariladi - bu yerda tegmaymiz.
     if (!isEdit) payload.teachers = [teacher];
@@ -158,11 +187,31 @@ const GroupForm = ({
             : "grid grid-cols-1 md:grid-cols-2 gap-3"
         }
       >
-        <GroupScheduleField
-          value={schedule}
-          onChange={(next) => setField("schedule", next)}
-          disabled={isLoading}
-        />
+        <div className="space-y-3">
+          <GroupScheduleField
+            value={schedule}
+            onChange={(next) => setField("schedule", next)}
+            disabled={isLoading}
+          />
+          {scheduleChanged && (
+            <div className="rounded-md border border-amber-200 bg-amber-50 p-3 space-y-2">
+              <InputField
+                type="date"
+                name="scheduleEffectiveFrom"
+                label="Yangi jadval qaysi sanadan amal qiladi?"
+                value={scheduleEffectiveFrom}
+                onChange={(e) =>
+                  setField("scheduleEffectiveFrom", e.target.value)
+                }
+                disabled={isLoading}
+              />
+              <p className="text-[11px] text-amber-700">
+                Eski jadval shu sanagacha bo'lgan davomat hisobida saqlanib
+                qoladi - tarixiy dars soni o'zgarmaydi.
+              </p>
+            </div>
+          )}
+        </div>
         {!isEdit && (
           <TeacherSinglePicker
             value={teacher}

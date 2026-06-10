@@ -8,6 +8,7 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateTimeUz } from "@/shared/utils/formatDate";
 import { cn } from "@/shared/utils/cn";
 import { STATUS_LABEL, ATTENDANCE_STATUSES } from "@/shared/constants/attendance";
+import { scheduleActiveOn } from "@/shared/utils/formatSchedule";
 
 // Davomat o'zgartirilgan bo'lsa (history > 1) audit izohini matn ko'rinishida quradi
 const editHistoryTitle = (attendance) => {
@@ -88,7 +89,9 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
 
   // Guruhning dars kunlari (ogohlantirish matni uchun)
   const classDaysLabel = useMemo(() => {
-    const days = [...new Set((data?.group?.schedule || []).map((s) => s.day))];
+    const days = [
+      ...new Set(scheduleActiveOn(data?.group?.schedule).map((s) => s.day)),
+    ];
     days.sort((a, b) => WEEK_ORDER.indexOf(a) - WEEK_ORDER.indexOf(b));
     return days.map((d) => DAY_LABELS_UZ[d] || d).join(", ");
   }, [data]);
