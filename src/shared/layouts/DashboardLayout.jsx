@@ -12,9 +12,9 @@ import AppSidebar from "@/shared/components/layout/AppSidebar";
 const DashboardLayout = () => (
   <SidebarProvider className="relative z-10">
     <AppSidebar />
-    <SidebarInset>
+    <SidebarInset className="min-w-0">
       <AppHeader />
-      <div className="flex flex-1 flex-col gap-4 p-4 md:py-2">
+      <div className="flex min-w-0 flex-1 flex-col gap-4 p-4 md:py-2">
         <Outlet />
       </div>
     </SidebarInset>

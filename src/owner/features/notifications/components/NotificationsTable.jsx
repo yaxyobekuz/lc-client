@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Eye, XCircle, MessageSquare } from "lucide-react";
+import { XCircle, MessageSquare } from "lucide-react";
 import DataTable from "@/shared/components/ui/table/DataTable";
 import Button from "@/shared/components/ui/button/Button";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
@@ -15,7 +15,7 @@ const senderName = (n) =>
   n.sender ? `${n.sender.firstName} ${n.sender.lastName}` : "Tizim";
 
 const th =
-  "px-5 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted-foreground";
+  "px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted-foreground";
 
 const NotificationsTable = ({
   items = [],
@@ -32,7 +32,7 @@ const NotificationsTable = ({
       key: "sender",
       header: "Yuboruvchi",
       headerClassName: th,
-      className: "px-5 py-4",
+      className: "px-4 py-4",
       cell: (n) => (
         <span className="whitespace-nowrap text-sm">{senderName(n)}</span>
       ),
@@ -41,17 +41,17 @@ const NotificationsTable = ({
       key: "category",
       header: "Kategoriya",
       headerClassName: th,
-      className: "px-5 py-4",
+      className: "px-4 py-4",
       cell: (n) => <CategoryBadge category={n.category} />,
     },
     {
       key: "text",
       header: "Matn",
       headerClassName: th,
-      className: "max-w-[360px] px-5 py-4",
+      className: "w-[200px] max-w-[200px] px-4 py-4",
       cell: (n) => (
         <div
-          className="truncate text-sm"
+          className="max-w-[200px] truncate text-sm"
           title={(n.title ? `${n.title}: ` : "") + n.body}
         >
           {n.title && <span className="font-medium">{n.title}: </span>}
@@ -63,14 +63,14 @@ const NotificationsTable = ({
       key: "channels",
       header: "Kanal",
       headerClassName: th,
-      className: "px-5 py-4",
+      className: "px-4 py-4",
       cell: (n) => <ChannelIcons channels={n.channels} />,
     },
     {
       key: "delivery",
       header: "Yetkazish",
       headerClassName: th,
-      className: "px-5 py-4",
+      className: "px-4 py-4",
       cell: (n) => (
         <DeliveryStat
           recipients={n.recipientsCount || 0}
@@ -83,7 +83,7 @@ const NotificationsTable = ({
       key: "status",
       header: "Holat",
       headerClassName: th,
-      className: "px-5 py-4",
+      className: "px-4 py-4",
       cell: (n) => (
         <NotificationStatusBadge status={n.status} isAuto={n.isAuto} />
       ),
@@ -92,7 +92,7 @@ const NotificationsTable = ({
       key: "date",
       header: "Sana",
       headerClassName: th,
-      className: "px-5 py-4",
+      className: "px-4 py-4",
       cell: (n) => (
         <span className="whitespace-nowrap text-sm text-muted-foreground">
           {formatDateUz(n.scheduleAt || n.sentAt)}
@@ -103,10 +103,10 @@ const NotificationsTable = ({
       key: "actions",
       header: "",
       headerClassName: th,
-      className: "px-5 py-4 text-right",
-      cell: (n) => (
-        <div className="flex items-center justify-end gap-1">
-          {n.status === "scheduled" && onCancel && (
+      className: "px-4 py-4 text-right",
+      cell: (n) =>
+        n.status === "scheduled" && onCancel ? (
+          <div className="flex items-center justify-end">
             <Button
               type="button"
               variant="ghost"
@@ -121,22 +121,8 @@ const NotificationsTable = ({
             >
               <XCircle className="size-4" />
             </Button>
-          )}
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            title="Batafsil ko'rish"
-            aria-label="Batafsil ko'rish"
-            onClick={(e) => {
-              e.stopPropagation();
-              open(n);
-            }}
-          >
-            <Eye className="size-4" />
-          </Button>
-        </div>
-      ),
+          </div>
+        ) : null,
     },
   ];
 
