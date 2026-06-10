@@ -6,11 +6,13 @@ import {
   Cake,
   User,
   CalendarPlus,
+  Clock,
   Briefcase,
 } from "lucide-react";
 import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUz } from "@/shared/utils/formatDate";
+import { formatEnrolledDuration } from "@/shared/utils/enrollmentDuration";
 import { calculateAge } from "@/shared/utils/calculateAge";
 
 const GENDER_LABEL = { male: "Erkak", female: "Ayol" };
@@ -91,6 +93,13 @@ const UserProfileCard = ({ profile }) => {
               label="Ro'yxatga olingan"
               value={formatDateUz(profile.enrolledAt)}
             />
+            {profile.enrolledAt && (
+              <InfoRow
+                icon={Clock}
+                label="O'qiyapti"
+                value={`${formatEnrolledDuration(profile.enrolledAt)} oldin qo'shilgan`}
+              />
+            )}
           </>
         )}
 

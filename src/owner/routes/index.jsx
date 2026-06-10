@@ -45,6 +45,7 @@ import {
   TeacherObligationsPage,
 } from "@/owner/features/teacherSalary";
 import { ProfilePage } from "@/owner/features/profile";
+import { StudentStatsPage } from "@/owner/features/studentStats";
 import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
 const OwnerRoutes = () => (
@@ -60,6 +61,7 @@ const OwnerRoutes = () => (
 
     <Route path="users" element={<UsersListPage />} />
     <Route path="users/:id" element={<UserDetailPage />} />
+    <Route path="students/stats" element={<StudentStatsPage />} />
     <Route path="archive-reasons" element={<ArchiveReasonsPage />} />
 
     {/* Lidlar (CRM) */}

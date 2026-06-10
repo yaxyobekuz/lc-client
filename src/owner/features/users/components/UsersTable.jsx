@@ -17,6 +17,7 @@ import { ROLES } from "@/shared/constants/roles";
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUzLong } from "@/shared/utils/formatDate";
+import { formatEnrolledDuration } from "@/shared/utils/enrollmentDuration";
 
 // Guruh ustunida ko'rsatiladigan maksimal chip soni - qolgani "+N" bo'lib chiqadi
 const MAX_GROUP_CHIPS = 3;
@@ -156,7 +157,22 @@ const UsersTable = ({
                 </td>
               )}
               <td className="px-4 py-2 text-muted-foreground">
-                {u.createdAt ? formatDateUzLong(u.createdAt) : "-"}
+                {isStudent ? (
+                  u.enrolledAt ? (
+                    <div className="leading-tight">
+                      <div>{formatDateUzLong(u.enrolledAt)}</div>
+                      <div className="text-xs text-zinc-400">
+                        {formatEnrolledDuration(u.enrolledAt)}
+                      </div>
+                    </div>
+                  ) : (
+                    "-"
+                  )
+                ) : u.createdAt ? (
+                  formatDateUzLong(u.createdAt)
+                ) : (
+                  "-"
+                )}
               </td>
               <td className="px-4 py-2" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-end gap-1">

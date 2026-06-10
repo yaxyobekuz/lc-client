@@ -31,6 +31,11 @@ const ownerSidebar = [
         permission: "users.read",
       },
       {
+        title: "O'quvchilar statistikasi",
+        url: "/owner/students/stats",
+        permission: "admin_dashboard.read",
+      },
+      {
         title: "Arxiv sabablari",
         url: "/owner/archive-reasons",
         permission: "archive_reasons.manage",
