@@ -23,7 +23,7 @@ const CHIPS = [
 ];
 
 /**
- * StatusChips — status bo'yicha tez filtr (segmentli chip qatori).
+ * StatusChips - status bo'yicha tez filtr (segmentli chip qatori).
  */
 const StatusChips = ({ value = "", onChange }) => (
   <div className="flex flex-wrap items-center gap-1.5">

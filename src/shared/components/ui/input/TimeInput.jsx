@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/shared/utils/cn.js";
 
 /**
- * TimeInput — 24 soatlik vaqt kiritish (soat : daqiqa).
+ * TimeInput - 24 soatlik vaqt kiritish (soat : daqiqa).
  *
  * - Faqat raqam qabul qiladi, soat 0–23, daqiqa 0–59 oralig'ida cheklanadi.
  * - Soat to'lganda (2 ta raqam, 2-dan katta raqam yoki ":" bosilganda) fokus daqiqaga o'tadi.
@@ -39,7 +39,7 @@ const TimeInput = React.forwardRef(function TimeInput(
 ) {
   const hourRef = React.useRef(null);
   const minuteRef = React.useRef(null);
-  // Qaysi maydon hozir tahrirlanmoqda — fokuslangan maydon xom (nol bilan
+  // Qaysi maydon hozir tahrirlanmoqda - fokuslangan maydon xom (nol bilan
   // to'ldirilmagan) ko'rinadi, qolganlari "00" kabi 2 xonali ko'rsatiladi.
   const [editing, setEditing] = React.useState(null);
 
@@ -95,7 +95,7 @@ const TimeInput = React.forwardRef(function TimeInput(
   const onMKeyDown = (e) => {
     if (e.key === "ArrowUp") { e.preventDefault(); step("m", 1); }
     else if (e.key === "ArrowDown") { e.preventDefault(); step("m", -1); }
-    // Bo'sh maydonda Backspace — soatga qaytish.
+    // Bo'sh maydonda Backspace - soatga qaytish.
     else if (e.key === "Backspace" && e.target.value === "") {
       hourRef.current?.focus();
     }

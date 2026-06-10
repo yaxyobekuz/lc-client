@@ -78,11 +78,11 @@ const LeaderboardRow = ({ it, maxPoint = 100, isMe = false }) => {
         <p className="mt-1 text-xs text-muted-foreground">
           Baho:{" "}
           <span className="font-medium text-gray-600">
-            {it.averageGrade ?? "—"}
+            {it.averageGrade ?? "-"}
           </span>{" "}
           · Davomat:{" "}
           <span className="font-medium text-gray-600">
-            {it.attendanceRate != null ? `${it.attendanceRate}%` : "—"}
+            {it.attendanceRate != null ? `${it.attendanceRate}%` : "-"}
           </span>
         </p>
       </div>

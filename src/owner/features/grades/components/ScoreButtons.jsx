@@ -7,7 +7,7 @@ import { getGradeToken, MAX_GRADE } from "@/shared/helpers/grade.helpers";
 //
 // Props:
 //  value: number|null
-//  onChange: (n|null) => void   (yana bosilsa null — tanlovni olib tashlaydi)
+//  onChange: (n|null) => void   (yana bosilsa null - tanlovni olib tashlaydi)
 //  disabled
 //  size: "sm" | "md"
 //  labels: { [n]: string }      (tooltip uchun ixtiyoriy nomlar)
@@ -29,7 +29,7 @@ const ScoreButtons = ({
       {SCALE.map((n) => {
         const active = value === n;
         const token = getGradeToken(n);
-        const title = labels[n] ? `${n} — ${labels[n]}` : `Ball ${n}`;
+        const title = labels[n] ? `${n} - ${labels[n]}` : `Ball ${n}`;
         return (
           <button
             key={n}

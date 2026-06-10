@@ -97,7 +97,7 @@ export const CHANNEL_SHORT_LABEL = {
 };
 
 // ───────────────────────────────────────────────────────────────────────────
-// Yuborish holati — modul bo'yicha YAGONA status rang tizimi.
+// Yuborish holati - modul bo'yicha YAGONA status rang tizimi.
 //   sent      -> yashil  (yuborildi / faol)
 //   scheduled -> sariq   (kutilmoqda / rejalashtirilgan)
 //   canceled  -> qizil   (bekor qilingan)
@@ -133,7 +133,7 @@ export const resolveStatusLabel = ({ status, isAuto } = {}) => {
 };
 
 // ───────────────────────────────────────────────────────────────────────────
-// Xabar o'zgaruvchilari (placeholder) — matnda {ism} kabi qo'llanadi.
+// Xabar o'zgaruvchilari (placeholder) - matnda {ism} kabi qo'llanadi.
 // preview'da namuna qiymat bilan almashtiriladi.
 // ───────────────────────────────────────────────────────────────────────────
 export const MESSAGE_VARIABLES = [

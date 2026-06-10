@@ -26,7 +26,7 @@ const Group = ({ name }) =>
   name ? (
     <span>{name}</span>
   ) : (
-    <span className="text-muted-foreground/50">—</span>
+    <span className="text-muted-foreground/50">-</span>
   );
 
 const FeedbackTable = ({ items = [], isLoading = false, onOpen }) => {
@@ -41,7 +41,7 @@ const FeedbackTable = ({ items = [], isLoading = false, onOpen }) => {
       key: "type",
       header: "Tur",
       className: "w-[140px] whitespace-nowrap text-muted-foreground",
-      cell: (f) => f.type?.name || <span className="text-muted-foreground/50">—</span>,
+      cell: (f) => f.type?.name || <span className="text-muted-foreground/50">-</span>,
     },
     {
       key: "group",

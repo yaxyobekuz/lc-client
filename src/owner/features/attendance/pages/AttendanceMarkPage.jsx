@@ -10,7 +10,7 @@ import useBulkRecordMutation from "../hooks/useBulkRecordMutation";
 import { todayInput } from "@/shared/utils/formatDate";
 
 const AttendanceMarkPage = () => {
-  // Guruh sahifasidan "Davomat belgilash" bilan kelinsa — ?groupId=... oldindan tanlanadi
+  // Guruh sahifasidan "Davomat belgilash" bilan kelinsa - ?groupId=... oldindan tanlanadi
   const [searchParams] = useSearchParams();
   const [groupId, setGroupId] = useState(searchParams.get("groupId") || "");
   const [date, setDate] = useState(todayInput());

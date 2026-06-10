@@ -6,7 +6,7 @@ import {
 } from "@/shared/constants/notification";
 
 /**
- * MessagePreview — xabar qanday ko'rinishini jonli ko'rsatadi.
+ * MessagePreview - xabar qanday ko'rinishini jonli ko'rsatadi.
  * O'zgaruvchilar ({ism} kabi) namuna qiymatlar bilan to'ldiriladi.
  *
  * variant: "telegram" (chat bubble) | "inapp" (notification kartasi)

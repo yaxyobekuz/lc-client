@@ -3,7 +3,7 @@ import Skeleton from "@/shared/components/ui/feedback/Skeleton";
 import { Tags } from "lucide-react";
 
 /**
- * TypeBars — "Tur bo'yicha" taqsimot.
+ * TypeBars - "Tur bo'yicha" taqsimot.
  * Har bir tur yonida horizontal progress bar; eng kattasi 100% to'ladi.
  * data: [{ typeId, name, count }]
  */

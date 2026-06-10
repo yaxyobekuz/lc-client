@@ -28,7 +28,7 @@ const GroupCard = ({ group, archived = false }) => {
 
   const schedule = sortSchedule(group.schedule);
 
-  // Link ichidagi tugma — kartani ochmasligi uchun navigatsiyani to'xtatamiz
+  // Link ichidagi tugma - kartani ochmasligi uchun navigatsiyani to'xtatamiz
   const handleDelete = (e) => {
     e.preventDefault();
     e.stopPropagation();

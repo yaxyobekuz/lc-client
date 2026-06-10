@@ -32,7 +32,7 @@ const pct = (part, whole) =>
   whole > 0 ? Math.round((Number(part) / Number(whole)) * 100) : 0;
 
 /**
- * StatTile — neytral stat karta (hammasi bir xil uslubda).
+ * StatTile - neytral stat karta (hammasi bir xil uslubda).
  * Faqat ikonka rang beradi; nisbat kichik progress bilan ko'rsatiladi.
  */
 const StatTile = ({ icon: Icon, iconClass, label, value, ratioPct, ratioTone }) => (
@@ -173,7 +173,7 @@ const NotificationDetailPage = () => {
         </Card>
       </div>
 
-      {/* Stat kartalar — bir xil neytral uslub, rangni faqat ikonka beradi */}
+      {/* Stat kartalar - bir xil neytral uslub, rangni faqat ikonka beradi */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <StatTile
           icon={Users}
@@ -205,7 +205,7 @@ const NotificationDetailPage = () => {
           <AlertTriangle className="mt-0.5 size-4 shrink-0" />
           <span>
             <strong>{unlinkedCount}</strong> ta foydalanuvchi Telegram botga
-            ulanmagan — ularga xabar faqat platformada ko'rinadi.
+            ulanmagan - ularga xabar faqat platformada ko'rinadi.
           </span>
         </div>
       )}

@@ -75,7 +75,7 @@ const RatingSettingsPage = () => {
     });
   }
 
-  // "Saqlangan" tasvir — dirty hisoblash uchun (server + localStorage).
+  // "Saqlangan" tasvir - dirty hisoblash uchun (server + localStorage).
   const savedSnapshot = useMemo(() => {
     const ls = loadGradingSettings();
     return {
@@ -118,7 +118,7 @@ const RatingSettingsPage = () => {
       notifyParents,
       notifyStudents,
     });
-    // Vaznlarni serverga (mavjud backend) — toast mutation ichida
+    // Vaznlarni serverga (mavjud backend) - toast mutation ichida
     mutate({
       gradeWeight: Number(gradePct) / 100,
       attendanceWeight: Number(attPct) / 100,
@@ -183,7 +183,7 @@ const RatingSettingsPage = () => {
       <SettingsSection
         icon={Palette}
         title="Baho shkalasi"
-        description="5 ballik tizim. Har bir bahoning rangi va nomini bu yerdan sozlang — ranglar butun modul bo'ylab bir xil ishlatiladi."
+        description="5 ballik tizim. Har bir bahoning rangi va nomini bu yerdan sozlang - ranglar butun modul bo'ylab bir xil ishlatiladi."
       >
         <div className="space-y-2.5">
           {SCALE.slice()

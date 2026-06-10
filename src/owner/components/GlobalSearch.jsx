@@ -32,7 +32,7 @@ const SHORTCUT_LABEL = isMac ? "⌘K" : "Ctrl+K";
 
 const GlobalSearch = () => {
   const [open, setOpen] = useState(false);
-  // Foydalanuvchi yozayotgan matn — server qidiruvi shu asosida ishlaydi (debounce bilan)
+  // Foydalanuvchi yozayotgan matn - server qidiruvi shu asosida ishlaydi (debounce bilan)
   const [term, setTerm] = useState("");
   const debouncedTerm = useDebounce(term, 250);
   const navigate = useNavigate();
@@ -221,7 +221,7 @@ const GlobalSearch = () => {
                 </CommandGroup>
               )}
 
-              {/* Statik sahifalar — faqat ma'lumot natijalari bo'lmasa, joyni egallab ketmasin */}
+              {/* Statik sahifalar - faqat ma'lumot natijalari bo'lmasa, joyni egallab ketmasin */}
               {(!searching || !hasDataResults) &&
                 grouped.map(([category, list]) => {
                   // qidiruv matniga mos sahifalarni ko'rsatamiz (oddiy substring)

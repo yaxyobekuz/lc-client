@@ -14,7 +14,7 @@ const STATUS_ICON = {
 };
 
 /**
- * Feedback status badge — yagona StatusBadge ustiga o'ralgan.
+ * Feedback status badge - yagona StatusBadge ustiga o'ralgan.
  * `short` - tor joylar (jadval) uchun qisqaroq label ("Ko'rilmoqda").
  * `withIcon` - status oldida kichik ikonka.
  */

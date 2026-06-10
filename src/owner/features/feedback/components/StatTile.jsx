@@ -3,12 +3,12 @@ import { cn } from "@/shared/utils/cn";
 import Skeleton from "@/shared/components/ui/feedback/Skeleton";
 
 /**
- * StatTile — hisobot statistikasi kartasi.
+ * StatTile - hisobot statistikasi kartasi.
  * Bosilsa ro'yxatni shu status bo'yicha filtrlaydi (onClick).
  * tone semantik rang berib turadi: info|warning|success|danger|neutral.
  */
 // Brendning iliq (jigarrang/krem) palitrasiga moslangan ohanglar.
-// Statuslar bir-biridan farqlanadi, lekin "kamalak" emas — hammasi tabiiy tuproq tusida.
+// Statuslar bir-biridan farqlanadi, lekin "kamalak" emas - hammasi tabiiy tuproq tusida.
 const accent = cva("text-2xl font-semibold tabular-nums", {
   variants: {
     tone: {

@@ -33,7 +33,7 @@ const StudentGradesTab = ({ studentId }) => {
                     : "text-rose-600",
             )}
           >
-            {average == null ? "—" : `${average} / 5`}
+            {average == null ? "-" : `${average} / 5`}
           </p>
         </Card>
         <Card>
@@ -59,7 +59,7 @@ const StudentGradesTab = ({ studentId }) => {
                 className="flex items-center justify-between gap-3 py-2 text-sm"
               >
                 <div className="min-w-0">
-                  <p className="font-medium">{g.group?.name || "—"}</p>
+                  <p className="font-medium">{g.group?.name || "-"}</p>
                   <p className="text-xs text-muted-foreground">
                     {formatDateUzLong(g.dateKey)}
                     {g.comment ? ` · ${g.comment}` : ""}

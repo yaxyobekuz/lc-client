@@ -4,7 +4,7 @@ import { systemNotificationsAPI } from "../api/systemNotifications.api";
 import { qk } from "@/shared/lib/query/keys";
 import { apiErrorToast } from "@/shared/utils/apiError";
 
-// Ro'yxat — status: "all" | "read" | "unread"
+// Ro'yxat - status: "all" | "read" | "unread"
 export const useSystemNotificationsQuery = (params = {}, { enabled = true } = {}) =>
   useQuery({
     queryKey: qk.systemNotifications.list(params),
@@ -12,7 +12,7 @@ export const useSystemNotificationsQuery = (params = {}, { enabled = true } = {}
     enabled,
   });
 
-// O'qilmaganlar counti — qo'ng'iroq badge'i uchun (30s polling)
+// O'qilmaganlar counti - qo'ng'iroq badge'i uchun (30s polling)
 export const useSystemUnreadCountQuery = ({ enabled = true } = {}) =>
   useQuery({
     queryKey: qk.systemNotifications.unreadCount(),

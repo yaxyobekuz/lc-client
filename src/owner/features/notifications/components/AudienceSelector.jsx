@@ -31,11 +31,11 @@ const ROLE_TABS = [
 ];
 
 /**
- * AudienceSelector — segment quruvchi: tur tanlash + guruh/user combobox +
+ * AudienceSelector - segment quruvchi: tur tanlash + guruh/user combobox +
  * jonli recipient hisobi. Modulning yuragi.
  *
  * value (controlled obj): { audienceType, groupIds, userIds }
- * onChange(patch) — setFields kabi qisman yangilash.
+ * onChange(patch) - setFields kabi qisman yangilash.
  *
  * Tashqi state'da chip matnlari yo'qolmasligi uchun label'lar shu yerda
  * (selectedLabels) yig'iladi.
@@ -112,7 +112,7 @@ const AudienceSelector = ({ value, onChange, disabled = false }) => {
   };
   const handleUsers = (ids) => {
     rememberLabels(userOptions.filter((o) => ids.includes(o.id)));
-    // individual — faqat oxirgisi
+    // individual - faqat oxirgisi
     onChange({ userIds: isIndividual ? ids.slice(-1) : ids });
   };
 

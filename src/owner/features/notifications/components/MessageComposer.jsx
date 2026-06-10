@@ -11,7 +11,7 @@ import TemplatePicker from "./TemplatePicker";
 import MessagePreview from "./MessagePreview";
 
 /**
- * MessageComposer — kontent qadami: shablon, sarlavha, matn + o'zgaruvchi
+ * MessageComposer - kontent qadami: shablon, sarlavha, matn + o'zgaruvchi
  * tugmalari va jonli preview (Telegram / in-app).
  *
  * value: { templateId, title, body, category }, onChange(patch)
@@ -144,7 +144,7 @@ const MessageComposer = ({ value, onChange, channels = [], disabled = false }) =
         )}
         {!showTelegram && !showInapp && (
           <div className="rounded-lg border border-dashed bg-muted/30 p-4 text-center text-xs text-muted-foreground">
-            Kanal tanlang — preview shu yerda ko'rinadi.
+            Kanal tanlang - preview shu yerda ko'rinadi.
           </div>
         )}
       </div>

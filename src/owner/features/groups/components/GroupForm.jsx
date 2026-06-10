@@ -16,13 +16,13 @@ import { toDateInput } from "@/shared/utils/formatDate";
 const buildInitial = (group) => ({
   name: group?.name || "",
   schedule: group?.schedule?.map((s) => ({ ...s })) || [],
-  // Guruhda ko'pi bilan bitta o'qituvchi — birinchisini olamiz (id string)
+  // Guruhda ko'pi bilan bitta o'qituvchi - birinchisini olamiz (id string)
   teacher: (() => {
     const first = (group?.teachers || [])[0];
     if (!first) return "";
     return typeof first === "string" ? first : first._id;
   })(),
-  // Yangi guruh — default bugun; mavjud guruh — o'z sanasi (yoki bo'sh)
+  // Yangi guruh - default bugun; mavjud guruh - o'z sanasi (yoki bo'sh)
   startDate: group?.startDate
     ? toDateInput(group.startDate)
     : group
@@ -38,7 +38,7 @@ const GroupForm = ({
   isLoading = false,
   submitLabel = "Saqlash",
 }) => {
-  // Tahrirlash rejimida o'qituvchi tanlash KO'RSATILMAYDI — o'qituvchini faqat
+  // Tahrirlash rejimida o'qituvchi tanlash KO'RSATILMAYDI - o'qituvchini faqat
   // "Almashtirish" tugmasi orqali o'zgartirish mumkin (stavka ham to'g'ri ko'chadi).
   const isEdit = Boolean(initial);
 
@@ -95,7 +95,7 @@ const GroupForm = ({
       toast.error("Jadvalda bir kun bir necha marta takrorlangan");
       return;
     }
-    // Yangi guruh — o'qituvchi tanlash majburiy (aniq 1ta)
+    // Yangi guruh - o'qituvchi tanlash majburiy (aniq 1ta)
     if (!isEdit && !teacher) {
       toast.error("O'qituvchi tanlang");
       return;
@@ -108,7 +108,7 @@ const GroupForm = ({
       durationMonths: durationMonths === "" ? null : Number(durationMonths),
     };
     // O'qituvchini faqat yaratishda yuboramiz. Tahrirlashda o'qituvchi
-    // "Almashtirish" orqali boshqariladi — bu yerda tegmaymiz.
+    // "Almashtirish" orqali boshqariladi - bu yerda tegmaymiz.
     if (!isEdit) payload.teachers = [teacher];
 
     onSubmit(payload);
@@ -149,7 +149,7 @@ const GroupForm = ({
         />
       </div>
 
-      {/* 3-qator: jadval va o'qituvchi. Tahrirlashda o'qituvchi ko'rsatilmaydi —
+      {/* 3-qator: jadval va o'qituvchi. Tahrirlashda o'qituvchi ko'rsatilmaydi -
           u faqat "Almashtirish" orqali o'zgartiriladi, shu sabab jadval to'liq enga. */}
       <div
         className={

@@ -15,7 +15,7 @@ import {
 } from "@/shared/components/shadcn/command";
 
 /**
- * EntityCombobox — qidiruvli (single/multi) tanlash.
+ * EntityCombobox - qidiruvli (single/multi) tanlash.
  *
  * Server tomonda qidirish uchun `search`/`onSearchChange` controlled beriladi
  * (cmdk ichki filtri o'chiriladi: shouldFilter=false).
@@ -27,7 +27,7 @@ import {
  *   multiple:  bool (default true)
  *   search, onSearchChange: controlled qidiruv
  *   isLoading, placeholder, searchPlaceholder, emptyText, disabled
- *   selectedLabels: { [id]: label } — chip matni uchun (options'da bo'lmasa)
+ *   selectedLabels: { [id]: label } - chip matni uchun (options'da bo'lmasa)
  */
 const EntityCombobox = ({
   options = [],
@@ -48,7 +48,7 @@ const EntityCombobox = ({
   const labelOf = (id) =>
     selectedLabels[id] ||
     options.find((o) => o.id === id)?.label ||
-    "—";
+    "-";
 
   const toggle = (id) => {
     if (multiple) {
@@ -86,7 +86,7 @@ const EntityCombobox = ({
           align="start"
         >
           <Command shouldFilter={false}>
-            {/* Controlled qidiruv input (cmdk CommandInput o'rniga — server filter) */}
+            {/* Controlled qidiruv input (cmdk CommandInput o'rniga - server filter) */}
             <div className="flex items-center gap-2 border-b px-3">
               <Search className="size-4 shrink-0 opacity-50" />
               <input
@@ -137,7 +137,7 @@ const EntityCombobox = ({
         </PopoverContent>
       </Popover>
 
-      {/* Tanlangan chiplar — bittalab o'chiriladi */}
+      {/* Tanlangan chiplar - bittalab o'chiriladi */}
       {value.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {value.map((id) => (

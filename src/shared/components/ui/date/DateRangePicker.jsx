@@ -41,7 +41,7 @@ const buildGrid = (view) => {
 };
 
 /**
- * DateRangePicker — brendga mos oy-grid kalendar (range tanlash). Dep yo'q.
+ * DateRangePicker - brendga mos oy-grid kalendar (range tanlash). Dep yo'q.
  *
  * value: { from: "YYYY-MM-DD", to: "YYYY-MM-DD" }
  * onChange(key, value): "from" | "to"
@@ -66,7 +66,7 @@ const DateRangePicker = ({
   const grid = useMemo(() => buildGrid(view), [view]);
 
   const label = hasValue
-    ? `${from ? formatDateUz(value.from) : "…"} — ${to ? formatDateUz(value.to) : "…"}`
+    ? `${from ? formatDateUz(value.from) : "…"} - ${to ? formatDateUz(value.to) : "…"}`
     : placeholder;
 
   const handlePick = (day) => {

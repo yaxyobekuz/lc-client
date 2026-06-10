@@ -23,7 +23,7 @@ const MyAttendancePage = () => {
     period,
   );
 
-  // Kartochkalar TANLANGAN oy bo'yicha (kalendar bilan mos bo'lishi uchun) —
+  // Kartochkalar TANLANGAN oy bo'yicha (kalendar bilan mos bo'lishi uchun) -
   // /me dagi statik joriy-oy summary'si emas.
   const range = useMemo(
     () => ({

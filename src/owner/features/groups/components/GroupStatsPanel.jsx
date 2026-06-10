@@ -19,14 +19,14 @@ const GroupStatsPanel = ({ groupId }) => {
   const fromDate = toDateInput(new Date(period.year, period.month - 1, 1));
   const toDate = toDateInput(new Date(period.year, period.month, 0));
 
-  // Davomat — umumiy foiz (groupRate)
+  // Davomat - umumiy foiz (groupRate)
   const { data: attData } = useGroupAttendanceSummaryQuery(groupId, {
     fromDate,
     toDate,
   });
   const rate = attData?.aggregate?.groupRate;
 
-  // Baho — joriy oy o'rtacha balli
+  // Baho - joriy oy o'rtacha balli
   const { data: gradeData } = useGroupGradeSummaryQuery(groupId, { fromDate, toDate });
   const avgGrade = gradeData?.average ?? null;
 

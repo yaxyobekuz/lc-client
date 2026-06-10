@@ -28,7 +28,7 @@ const GroupPermanentDeleteModal = ({ group, close, isLoading, setIsLoading }) =>
       <p className="text-sm">
         <span className="font-semibold">{group?.name}</span> guruhi butunlay
         o'chiriladi. Unga bog'liq barcha o'quvchi a'zoligi, to'lov, hisob,
-        davomat va o'qituvchi stavkasi UI'dan yo'qoladi va hisoblanmaydi. Bu —
+        davomat va o'qituvchi stavkasi UI'dan yo'qoladi va hisoblanmaydi. Bu -
         arxivlash emas (bazada saqlanadi, lekin ko'rinmaydi).
       </p>
 

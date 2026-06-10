@@ -5,7 +5,7 @@ import { TIME_PRESETS } from "../utils/timeRange";
 const PRESETS = TIME_PRESETS;
 
 /**
- * TimeRangeFilter — vaqt bo'yicha preset tugmalari + ixtiyoriy diapazon.
+ * TimeRangeFilter - vaqt bo'yicha preset tugmalari + ixtiyoriy diapazon.
  * Props: preset, custom {from,to}, onPresetChange, onCustomChange
  */
 const TimeRangeFilter = ({

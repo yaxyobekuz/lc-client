@@ -31,7 +31,7 @@ const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
         </span>{" "}
         butunlay o'chiriladi. Unga bog'liq barcha to'lov, hisob, davomat va
         guruh a'zoligi UI'dan butunlay yo'qoladi va hech qayerda hisoblanmaydi.
-        Bu — arxivlash emas (ma'lumotlar bazada saqlanadi, lekin ko'rinmaydi).
+        Bu - arxivlash emas (ma'lumotlar bazada saqlanadi, lekin ko'rinmaydi).
       </p>
 
       <div className="flex gap-2">

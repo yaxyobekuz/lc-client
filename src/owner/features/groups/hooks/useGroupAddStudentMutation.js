@@ -19,7 +19,7 @@ const useGroupAddStudentMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
-      // Davomat ro'yxati (roster) ham yangilanishi kerak — aks holda yangi
+      // Davomat ro'yxati (roster) ham yangilanishi kerak - aks holda yangi
       // qo'shilgan o'quvchi "Davomat belgilash"da eski (stale) cache tufayli
       // ko'rinmay qoladi.
       qc.invalidateQueries({ queryKey: qk.attendance.all() });

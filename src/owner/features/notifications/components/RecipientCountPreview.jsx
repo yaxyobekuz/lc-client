@@ -12,7 +12,7 @@ export const isAudienceReady = (audience) => {
 };
 
 /**
- * RecipientCountPreview — "Bu xabar N ta foydalanuvchiga boradi" jonli hisob.
+ * RecipientCountPreview - "Bu xabar N ta foydalanuvchiga boradi" jonli hisob.
  * Auditoriya to'liq bo'lmaguncha neytral ko'rsatkich chiqaradi.
  */
 const RecipientCountPreview = ({ audience }) => {
@@ -26,7 +26,7 @@ const RecipientCountPreview = ({ audience }) => {
     return (
       <div className="flex items-center gap-2 rounded-lg border border-dashed bg-muted/30 px-3 py-2.5 text-sm text-muted-foreground">
         <Users className="size-4" />
-        Auditoriyani tanlang — qabul qiluvchilar soni shu yerda ko'rinadi.
+        Auditoriyani tanlang - qabul qiluvchilar soni shu yerda ko'rinadi.
       </div>
     );
   }

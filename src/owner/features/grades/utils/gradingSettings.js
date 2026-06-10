@@ -1,15 +1,15 @@
 // Frontend-only baholash sozlamalari (localStorage).
 // MUHIM: hozircha backend faqat gradeWeight/attendanceWeight'ni saqlaydi
 // (rating settings). Quyidagi qo'shimcha sozlamalar (baho labellari, reyting
-// davri, top-N, kechikish hisobi, avtomatlashtirish) shu yerda — localStorage'da
+// davri, top-N, kechikish hisobi, avtomatlashtirish) shu yerda - localStorage'da
 // saqlanadi. Backend tayyor bo'lganda shu defaultlar serverga ko'chiriladi.
 import { defaultGradeLabels } from "@/shared/helpers/grade.helpers";
 
 const STORAGE_KEY = "bayyina:grading-settings:v1";
 
-// Eslatma: vazn (gradeWeight/attendanceWeight) BU YERDA yo'q — ular serverda.
+// Eslatma: vazn (gradeWeight/attendanceWeight) BU YERDA yo'q - ular serverda.
 export const DEFAULT_GRADING_SETTINGS = Object.freeze({
-  // Baho shkalasi — 5 ballik (tanlovsiz), faqat labellar tahrirlanadi.
+  // Baho shkalasi - 5 ballik (tanlovsiz), faqat labellar tahrirlanadi.
   gradeLabels: defaultGradeLabels(), // { 1: "Yomon", ... 5: "A'lo" }
 
   // Reyting
@@ -38,7 +38,7 @@ export const TOP_N_OPTIONS = [
   { value: 100, label: "Hammasi (100)" },
 ];
 
-// localStorage'dan o'qish — buzilgan/eski bo'lsa defaultga qaytadi, har doim
+// localStorage'dan o'qish - buzilgan/eski bo'lsa defaultga qaytadi, har doim
 // defaults bilan birlashtiriladi (kelajakda yangi maydon qo'shilsa ham ishlaydi).
 export const loadGradingSettings = () => {
   try {
@@ -63,6 +63,6 @@ export const saveGradingSettings = (settings) => {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
   } catch {
-    /* localStorage yo'q yoki to'lgan — jim o'tamiz */
+    /* localStorage yo'q yoki to'lgan - jim o'tamiz */
   }
 };

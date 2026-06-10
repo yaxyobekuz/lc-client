@@ -2,7 +2,7 @@ import { Inbox } from "lucide-react";
 import { cn } from "@/shared/utils/cn";
 
 /**
- * EmptyState — ma'lumot yo'qligida ko'rsatiladigan umumiy block.
+ * EmptyState - ma'lumot yo'qligida ko'rsatiladigan umumiy block.
  * icon, sarlavha, tavsif va ixtiyoriy amal (action) qabul qiladi.
  */
 const EmptyState = ({

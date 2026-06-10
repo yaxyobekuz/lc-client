@@ -48,7 +48,7 @@ const StudentFreezeModal = ({ studentId, studentName, close, isLoading, setIsLoa
         <div>
           <p className="text-sm font-medium">Muddatsiz muzlatish</p>
           <p className="text-xs text-muted-foreground">
-            Tugash sanasiz — qo'lda bekor qilinguncha davom etadi
+            Tugash sanasiz - qo'lda bekor qilinguncha davom etadi
           </p>
         </div>
         <Switch

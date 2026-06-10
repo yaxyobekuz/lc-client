@@ -11,7 +11,7 @@ export const useInboxQuery = (params = {}) =>
   });
 
 // Yagona unread-count hook (NotificationBell ham shuni ishlatadi).
-// enabled — login bo'lmaganda polling qilmaslik uchun.
+// enabled - login bo'lmaganda polling qilmaslik uchun.
 export const useUnreadCountQuery = ({ enabled = true } = {}) =>
   useQuery({
     queryKey: qk.notifications.unreadCount(),

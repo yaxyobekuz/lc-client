@@ -44,8 +44,8 @@ const SummaryRow = ({ label, children }) => (
 );
 
 /**
- * SendWizard — yangi xabar yuborish oqimi (ModalWrapper ichida).
- * close/isLoading/setIsLoading — ModalWrapper'dan keladi.
+ * SendWizard - yangi xabar yuborish oqimi (ModalWrapper ichida).
+ * close/isLoading/setIsLoading - ModalWrapper'dan keladi.
  */
 const SendWizard = ({ close, isLoading, setIsLoading }) => {
   const { role } = useAuth();

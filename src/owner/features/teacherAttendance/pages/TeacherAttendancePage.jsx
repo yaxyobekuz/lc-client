@@ -99,7 +99,7 @@ const TeacherAttendancePage = () => {
         <div>
           <h1 className="text-2xl font-semibold">O'qituvchilar davomati</h1>
           <p className="text-sm text-muted-foreground">
-            Default — barchasi "Keldi". Faqat kelmaganlarni belgilang.
+            Default - barchasi "Keldi". Faqat kelmaganlarni belgilang.
           </p>
         </div>
         <div className="flex items-end gap-3">

@@ -19,7 +19,7 @@ import { DAY_OPTIONS, DAY_LABELS_FULL_UZ } from "@/shared/utils/formatSchedule";
 import { cn } from "@/shared/utils/cn";
 
 const ALL_DAYS = DAY_OPTIONS.map((d) => d.value);
-// Bir kunda bir nechta dars (sessiya) bo'lishi mumkin — jami qatorlar uchun yumshoq chegara
+// Bir kunda bir nechta dars (sessiya) bo'lishi mumkin - jami qatorlar uchun yumshoq chegara
 const MAX_ROWS = 21;
 
 const findFirstFreeDay = (usedDays) =>
@@ -37,7 +37,7 @@ const GRID_COLS =
 const ScheduleRow = ({ row, idx, duplicate, disabled, onUpdate, onRemove }) => {
   const endWrapRef = useRef(null);
 
-  // Boshlanish vaqti to'lganda — tugash vaqtining birinchi (soat) maydoniga fokus.
+  // Boshlanish vaqti to'lganda - tugash vaqtining birinchi (soat) maydoniga fokus.
   const focusEnd = () => endWrapRef.current?.querySelector("input")?.focus();
 
   return (
@@ -130,7 +130,7 @@ const GroupScheduleField = ({ value = [], onChange, disabled = false }) => {
 
   return (
     <div className="space-y-2">
-      {/* Header — teachers panel bilan bir xil balandlikda */}
+      {/* Header - teachers panel bilan bir xil balandlikda */}
       <div className="flex items-center justify-between h-6">
         <span className="text-sm font-medium">Dars jadvali</span>
         <span className="text-xs text-muted-foreground">

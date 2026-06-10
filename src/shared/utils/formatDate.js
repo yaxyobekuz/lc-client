@@ -1,4 +1,4 @@
-// O'zbekcha oy nomlari (kichik harf) — butun ilovadagi yagona sana formati uchun
+// O'zbekcha oy nomlari (kichik harf) - butun ilovadagi yagona sana formati uchun
 const UZ_MONTHS = [
   "yanvar", "fevral", "mart", "aprel", "may", "iyun",
   "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr",
@@ -22,7 +22,7 @@ export const formatDateUz = (dateLike) => {
   return `${d.getDate()}-${UZ_MONTHS[d.getMonth()]}, ${d.getFullYear()}`;
 };
 
-// Eski nomlar bilan moslik — barchasi yagona "21-may, 2026" formatini beradi
+// Eski nomlar bilan moslik - barchasi yagona "21-may, 2026" formatini beradi
 export const formatDateUzLong = formatDateUz;
 export const formatDateShort = formatDateUz;
 
@@ -44,7 +44,7 @@ export const formatDateTimeUz = (dateLike, { withSeconds = false } = {}) => {
   return `${formatDateUz(d)}, ${time}`;
 };
 
-// HTML <input type="date"> uchun YYYY-MM-DD (mashina formati — o'zgartirilmaydi)
+// HTML <input type="date"> uchun YYYY-MM-DD (mashina formati - o'zgartirilmaydi)
 export const toDateInput = (dateLike) => {
   if (!dateLike) return "";
   const d = new Date(dateLike);
@@ -55,7 +55,7 @@ export const toDateInput = (dateLike) => {
   return `${yyyy}-${mm}-${dd}`;
 };
 
-// Markaz vaqt zonasi (Asia/Tashkent) bo'yicha "bugun" — YYYY-MM-DD.
+// Markaz vaqt zonasi (Asia/Tashkent) bo'yicha "bugun" - YYYY-MM-DD.
 // Davomat sahifalarida default sana va max chegarasi server bilan mos bo'lishi
 // uchun (brauzer boshqa TZ da bo'lsa ham). Server localTodayMidnight (+5) ishlatadi.
 export const todayInput = () => {

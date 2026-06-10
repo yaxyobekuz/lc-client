@@ -5,7 +5,7 @@ import {
   resolveStatusLabel,
 } from "@/shared/constants/notification";
 
-// Ikonka status bo'yicha (avto-tizim alohida) — tone bo'yicha emas,
+// Ikonka status bo'yicha (avto-tizim alohida) - tone bo'yicha emas,
 // chunki "bekor" ham, "avto" ham neutral tone.
 const statusIcon = ({ status, isAuto }) => {
   if (isAuto && status === "sent") return Bot;
@@ -14,7 +14,7 @@ const statusIcon = ({ status, isAuto }) => {
   return CheckCircle2; // sent
 };
 
-// Modul bo'yicha YAGONA status badge — yuborildi/rejalashtirilgan/bekor/avto.
+// Modul bo'yicha YAGONA status badge - yuborildi/rejalashtirilgan/bekor/avto.
 const NotificationStatusBadge = ({ status = "sent", isAuto = false }) => {
   const tone = resolveStatusTone({ status, isAuto });
   const label = resolveStatusLabel({ status, isAuto });

@@ -10,7 +10,7 @@ const minDateTimeLocal = () => {
 };
 
 /**
- * ScheduleField — "Hozir yuborish" yoki "Belgilangan vaqtga".
+ * ScheduleField - "Hozir yuborish" yoki "Belgilangan vaqtga".
  * value: { mode: "now"|"schedule", scheduleAt: string(datetime-local) }
  * onChange(patch)
  */

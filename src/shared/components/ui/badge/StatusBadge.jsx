@@ -2,7 +2,7 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 
 /**
- * StatusBadge — loyiha bo'ylab yagona status badge.
+ * StatusBadge - loyiha bo'ylab yagona status badge.
  *
  * - Fixed balandlik (h-6), bir qatorda, hech qachon sinmaydi (whitespace-nowrap).
  * - Uzun matn truncate bo'ladi (max-w + truncate), to'liqligi title atributida.

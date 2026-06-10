@@ -8,12 +8,12 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 /**
- * ChannelIcons — yetkazish kanalini KICHIK IKONKA bilan ko'rsatadi (badge emas).
+ * ChannelIcons - yetkazish kanalini KICHIK IKONKA bilan ko'rsatadi (badge emas).
  * Telegram (✈) + Platforma (in-app) ikonkalari yonma-yon, har biri tooltip bilan.
- * Jadval qatorlarini tinch saqlash uchun — eng katta shovqin manbasini yo'qotadi.
+ * Jadval qatorlarini tinch saqlash uchun - eng katta shovqin manbasini yo'qotadi.
  *
  * variant:
- *   "list"   -> yuborilgan xabar (qaysi kanal(lar)ga ketgan) — neytral
+ *   "list"   -> yuborilgan xabar (qaysi kanal(lar)ga ketgan) - neytral
  *   "status" -> qabul qiluvchi qatori uchun yetkazish holatiga qarab rang
  *               (delivered: { telegram, inapp } => yashil/qizil/kulrang)
  */

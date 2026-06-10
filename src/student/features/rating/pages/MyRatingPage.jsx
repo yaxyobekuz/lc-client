@@ -36,7 +36,7 @@ const MyRatingPage = () => {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">Reyting</h1>
 
-      {/* O'z o'rnim — qisqacha */}
+      {/* O'z o'rnim - qisqacha */}
       <div className="grid grid-cols-2 gap-3">
         <StatCard
           icon={Trophy}

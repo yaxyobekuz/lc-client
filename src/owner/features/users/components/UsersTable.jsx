@@ -1,5 +1,5 @@
 // Icons
-import { KeyRound, Trash2, RotateCcw, ChevronUp, ChevronDown } from "lucide-react";
+import { KeyRound, Archive, RotateCcw, ChevronUp, ChevronDown } from "lucide-react";
 
 // Router
 import { Link, useNavigate } from "react-router-dom";
@@ -134,7 +134,7 @@ const UsersTable = ({
                       ))}
                     </div>
                   ) : (
-                    <span className="text-muted-foreground">—</span>
+                    <span className="text-muted-foreground">-</span>
                   )}
                 </td>
               )}
@@ -174,13 +174,12 @@ const UsersTable = ({
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                        className="text-amber-600 hover:bg-amber-50 hover:text-amber-700"
                         onClick={() => openModal(MODAL.USER_DELETE, { user: u })}
-                        
                         aria-label="Foydalanuvchini arxivlash"
                         title="Arxivlash"
                       >
-                        <Trash2 className="size-4" />
+                        <Archive className="size-4" />
                       </Button>
                     </>
                   )}

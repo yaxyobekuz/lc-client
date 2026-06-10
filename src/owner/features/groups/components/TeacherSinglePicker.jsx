@@ -16,9 +16,9 @@ import { ROLES } from "@/shared/constants/roles";
 // Utils
 import { cn } from "@/shared/utils/cn";
 
-// Guruh uchun BITTA o'qituvchi tanlash. Guruhda ko'pi bilan 1ta o'qituvchi bo'ladi —
+// Guruh uchun BITTA o'qituvchi tanlash. Guruhda ko'pi bilan 1ta o'qituvchi bo'ladi -
 // o'qituvchini keyinchalik faqat "Almashtirish" orqali o'zgartirish mumkin.
-// `value` — tanlangan o'qituvchi id (string yoki ""), `onChange(id)` — id qaytaradi.
+// `value` - tanlangan o'qituvchi id (string yoki ""), `onChange(id)` - id qaytaradi.
 const TeacherSinglePicker = ({ value = "", onChange, disabled = false }) => {
   const [search, setSearch] = useState("");
   const { data, isLoading } = useUsersListQuery({
@@ -38,13 +38,13 @@ const TeacherSinglePicker = ({ value = "", onChange, disabled = false }) => {
 
   const select = (id) => {
     if (disabled) return;
-    // Qayta bosilsa — tanlovni bekor qiladi
+    // Qayta bosilsa - tanlovni bekor qiladi
     onChange(value === id ? "" : id);
   };
 
   return (
     <div className="space-y-2">
-      {/* Header — schedule paneli bilan bir xil balandlikda */}
+      {/* Header - schedule paneli bilan bir xil balandlikda */}
       <div className="flex items-center justify-between h-6">
         <label className="text-sm font-medium">
           O'qituvchi <span className="text-red-500">*</span>

@@ -1,10 +1,10 @@
 // ─── Baho rang/label tokenlari (yagona manba) ───
 // Baholash moduli bo'ylab bir xil ranglar shu yerdan keladi. Har bahoga:
-//  - soft: yumshoq fon (tanlangan tugma, badge) — fon + matn + chegara
+//  - soft: yumshoq fon (tanlangan tugma, badge) - fon + matn + chegara
 //  - solid: to'q to'ldirilgan variant (progress, podium aksenti)
 //  - dot: nuqta/indikator rangi
 //  - ring: focus/active halqa rangi
-// label — default nom; sozlamalarda foydalanuvchi uni qayta yozishi mumkin.
+// label - default nom; sozlamalarda foydalanuvchi uni qayta yozishi mumkin.
 export const MAX_GRADE = 5;
 
 export const GRADE_TOKENS = {
@@ -61,7 +61,7 @@ export const defaultGradeLabels = () =>
     Object.entries(GRADE_TOKENS).map(([k, v]) => [k, v.label]),
   );
 
-// Eski API saqlanadi (boshqa joylarda ishlatiladi) — endi token jadvalidan.
+// Eski API saqlanadi (boshqa joylarda ishlatiladi) - endi token jadvalidan.
 export const getGradeColor = (grade) => getGradeToken(grade).soft;
 
 export const calculateAverageGrade = (grades) => {

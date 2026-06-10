@@ -16,13 +16,13 @@ import {
 } from "lucide-react";
 
 // Bayyina admin panelining barcha qidiriladigan sahifalari.
-// title — sahifa nomi (Uzbek)
-// description — qisqa tavsif (Uzbek)
-// keywords — qidiruv uchun qo'shimcha kalit so'zlar (UZ + EN)
-// url — route
-// icon — lucide-react komponenti
-// category — sidebar guruh nomi (groupedga ishlatamiz)
-// permission — RBAC kaliti (yo'q bo'lsa hamma uchun ochiq)
+// title - sahifa nomi (Uzbek)
+// description - qisqa tavsif (Uzbek)
+// keywords - qidiruv uchun qo'shimcha kalit so'zlar (UZ + EN)
+// url - route
+// icon - lucide-react komponenti
+// category - sidebar guruh nomi (groupedga ishlatamiz)
+// permission - RBAC kaliti (yo'q bo'lsa hamma uchun ochiq)
 export const SEARCH_INDEX = [
   // Boshqaruv paneli
   {

@@ -13,7 +13,7 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
   const obj = useObjectState({
     startDate: today,
     endDate: today,
-    // Standart holat — kurs tugaguncha (muddatsiz) ozod
+    // Standart holat - kurs tugaguncha (muddatsiz) ozod
     untilCourseEnd: true,
     daysOfWeek: [],
     reason: "",
@@ -34,7 +34,7 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
     mutate({
       student: studentId,
       startDate: obj.startDate,
-      // Muddatsiz bo'lsa endDate yo'q — barcha guruhlarda avtomatik ozod bo'ladi
+      // Muddatsiz bo'lsa endDate yo'q - barcha guruhlarda avtomatik ozod bo'ladi
       endDate: obj.untilCourseEnd ? null : obj.endDate || null,
       daysOfWeek: obj.daysOfWeek,
       reason: obj.reason,
@@ -47,7 +47,7 @@ const ExemptionCreateModal = ({ studentId, close, isLoading, setIsLoading }) => 
         <div>
           <p className="text-sm font-medium">Kurs tugaguncha (muddatsiz)</p>
           <p className="text-xs text-muted-foreground">
-            Tugash sanasiz — o'quvchi barcha guruhlarida avtomatik ozod bo'ladi
+            Tugash sanasiz - o'quvchi barcha guruhlarida avtomatik ozod bo'ladi
           </p>
         </div>
         <Switch

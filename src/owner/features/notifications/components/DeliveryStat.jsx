@@ -8,7 +8,7 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 /**
- * DeliveryStat — qabul / bot / o'qilgan raqamlarini bitta ixcham guruhga
+ * DeliveryStat - qabul / bot / o'qilgan raqamlarini bitta ixcham guruhga
  * birlashtiradi. Sarlavhasiz: kichik ikonka + raqam, tooltip izohlaydi.
  * Kontekstsiz 3 ta ustun o'rniga skanlash oson bitta blok.
  */

@@ -17,7 +17,7 @@ const CHANNELS = [
 ];
 
 /**
- * ChannelSelector — yetkazish kanallarini tanlash (ikkalasini ham bo'lishi mumkin).
+ * ChannelSelector - yetkazish kanallarini tanlash (ikkalasini ham bo'lishi mumkin).
  * value: string[] ("telegram" | "inapp"), onChange: (string[]) => void
  */
 const ChannelSelector = ({ value = [], onChange, disabled = false }) => {

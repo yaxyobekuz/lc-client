@@ -11,8 +11,8 @@ import { Check, AlertTriangle } from "lucide-react";
 // - Real-time yig'indi badge: yashil=100%, qizil=noto'g'ri.
 //
 // Props:
-//  grade, attendance — 0..100 sonlar
-//  onChange(grade, attendance) — har o'zgarishda chaqiriladi
+//  grade, attendance - 0..100 sonlar
+//  onChange(grade, attendance) - har o'zgarishda chaqiriladi
 //  disabled
 const clamp = (n) => Math.max(0, Math.min(100, Math.round(n)));
 

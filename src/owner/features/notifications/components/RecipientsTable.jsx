@@ -8,7 +8,7 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 const th = "px-4 py-2.5 text-left text-xs font-medium text-muted-foreground";
 
 const userName = (r) =>
-  r.user ? `${r.user.firstName} ${r.user.lastName}` : "—";
+  r.user ? `${r.user.firstName} ${r.user.lastName}` : "-";
 
 // Bot yetkazish holati badge
 const BotCell = ({ r }) => {
@@ -31,7 +31,7 @@ const BotCell = ({ r }) => {
   );
 };
 
-// O'qish holati badge — o'qilgan: yashil (success), o'qilmagan: neytral kulrang
+// O'qish holati badge - o'qilgan: yashil (success), o'qilmagan: neytral kulrang
 const ReadCell = ({ r }) =>
   r.readAt ? (
     <StatusBadge tone="success" icon={CheckCheck}>

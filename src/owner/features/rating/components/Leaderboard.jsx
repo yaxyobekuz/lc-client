@@ -12,9 +12,9 @@ import { cn } from "@/shared/utils/cn";
 
 // Bir xil ballarda tartiblash mantig'i (aniq va deterministik):
 //  1) ball bo'yicha kamayuvchi
-//  2) teng bo'lsa — o'rtacha baho yuqori bo'lgan oldinda
-//  3) yana teng bo'lsa — davomat foizi yuqori bo'lgan oldinda
-//  4) baribir teng bo'lsa — ism bo'yicha (alifbo), barqarorlik uchun
+//  2) teng bo'lsa - o'rtacha baho yuqori bo'lgan oldinda
+//  3) yana teng bo'lsa - davomat foizi yuqori bo'lgan oldinda
+//  4) baribir teng bo'lsa - ism bo'yicha (alifbo), barqarorlik uchun
 // Rank "competition ranking": teng ballar bir xil o'rin oladi (1,2,2,4),
 // va isTied=true bilan belgilanadi.
 const num = (v) => (v == null ? -1 : Number(v));
@@ -82,8 +82,8 @@ const PodiumCard = ({ it, isMe }) => {
         <span className="ml-1 text-xs font-normal text-muted-foreground">ball</span>
       </p>
       <p className="mt-0.5 text-[11px] text-muted-foreground">
-        Baho {it.averageGrade ?? "—"} · Davomat{" "}
-        {it.attendanceRate != null ? `${it.attendanceRate}%` : "—"}
+        Baho {it.averageGrade ?? "-"} · Davomat{" "}
+        {it.attendanceRate != null ? `${it.attendanceRate}%` : "-"}
       </p>
     </div>
   );

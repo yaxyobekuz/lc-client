@@ -31,7 +31,7 @@ const GradeGrid = ({ data, onSubmit, isSubmitting }) => {
   }, [data]);
 
   // Render paytida hosil qilingan state'ni "reset on change" bilan boshqaramiz
-  // (effect ichida setState chaqirmaslik — React tavsiyasi).
+  // (effect ichida setState chaqirmaslik - React tavsiyasi).
   const [state, setState] = useState(initial);
   const [lastInitial, setLastInitial] = useState(initial);
   if (initial !== lastInitial) {
@@ -81,7 +81,7 @@ const GradeGrid = ({ data, onSubmit, isSubmitting }) => {
     for (const r of rows) {
       const sid = String(r.student._id);
       const val = state[sid];
-      if (val == null) continue; // ball qo'yilmagan — yubormaymiz
+      if (val == null) continue; // ball qo'yilmagan - yubormaymiz
       const orig = r.grade ? r.grade.value : null;
       if (val === orig) continue; // o'zgarmagan
       items.push({ studentId: sid, value: val });
@@ -143,7 +143,7 @@ const GradeGrid = ({ data, onSubmit, isSubmitting }) => {
                   type="button"
                   disabled={locked || isSubmitting}
                   onClick={() => setAll(n)}
-                  title={gradeLabels[n] ? `${n} — ${gradeLabels[n]}` : `Ball ${n}`}
+                  title={gradeLabels[n] ? `${n} - ${gradeLabels[n]}` : `Ball ${n}`}
                   className={cn(
                     "size-7 rounded border border-gray-200 bg-white text-xs font-semibold text-gray-500 transition",
                     "hover:border-primary/40 hover:bg-primary/5 hover:text-primary",

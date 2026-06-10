@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // Qiymatni `delay` ms kechiktirib qaytaradi.
 // Qidiruv inputlarida ishlatamiz: foydalanuvchi yozishni to'xtatgach
-// (delay ms jim turgach) bitta so'rov yuboriladi — har harfda emas.
+// (delay ms jim turgach) bitta so'rov yuboriladi - har harfda emas.
 //
 // const debounced = useDebounce(search);
 // useUsersListQuery({ search: debounced });

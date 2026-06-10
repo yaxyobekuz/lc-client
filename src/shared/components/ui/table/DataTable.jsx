@@ -3,7 +3,7 @@ import Skeleton from "@/shared/components/ui/feedback/Skeleton";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 
 /**
- * DataTable — qayta ishlatiladigan jadval.
+ * DataTable - qayta ishlatiladigan jadval.
  *
  * Desktopda klassik jadval, mobil (< md) da har bir qator kartaga aylanadi.
  * Yuklash (skeleton) va empty holatlari ichida boshqariladi.

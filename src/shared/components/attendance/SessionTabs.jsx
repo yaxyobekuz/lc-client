@@ -1,6 +1,6 @@
 import { cn } from "@/shared/utils/cn";
 
-// Kunda bir nechta dars (sessiya) bo'lsa — sessiyani tanlash tablari.
+// Kunda bir nechta dars (sessiya) bo'lsa - sessiyani tanlash tablari.
 // Bitta sessiya bo'lsa hech narsa ko'rsatilmaydi.
 const SessionTabs = ({ sessions = [], activeSlot, onSelect }) => {
   if (!sessions || sessions.length <= 1) return null;

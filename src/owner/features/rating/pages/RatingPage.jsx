@@ -31,7 +31,7 @@ const RatingPage = () => {
   // Sozlamadan: nechta top o'quvchi ko'rsatilsin
   const { ratingTopN } = loadGradingSettings();
 
-  // Sana berilsa filterga qo'shamiz (bo'sh bo'lsa — "umrbod")
+  // Sana berilsa filterga qo'shamiz (bo'sh bo'lsa - "umrbod")
   const params = { scope };
   if (fromDate) params.fromDate = fromDate;
   if (toDate) params.toDate = toDate;
@@ -39,7 +39,7 @@ const RatingPage = () => {
   const { data, isLoading } = useLeaderboardQuery(params);
   const items = data?.items || [];
 
-  // Guruh bo'yicha, lekin guruh hali tanlanmagan bo'lsa — natija ko'rsatmaymiz
+  // Guruh bo'yicha, lekin guruh hali tanlanmagan bo'lsa - natija ko'rsatmaymiz
   const needsGroup = isGroup && !groupId;
 
   return (
@@ -93,7 +93,7 @@ const RatingPage = () => {
           </div>
         </div>
 
-        {/* Guruh bo'yicha — guruh tanlash */}
+        {/* Guruh bo'yicha - guruh tanlash */}
         {isGroup && (
           <GroupPicker
             value={groupId}

@@ -22,7 +22,7 @@ const useGroupTransferStudentMutation = (options = {}) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.targetGroupId) });
-      // Ikkala guruhning davomat ro'yxati (roster) ham yangilanadi — eski
+      // Ikkala guruhning davomat ro'yxati (roster) ham yangilanadi - eski
       // guruhdan chiqib, yangi guruhda ko'rinishi uchun.
       qc.invalidateQueries({ queryKey: qk.attendance.all() });
       toast.success("O'quvchi boshqa guruhga ko'chirildi");

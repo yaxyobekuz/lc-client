@@ -16,7 +16,7 @@ const editHistoryTitle = (attendance) => {
   return hist
     .map((h) => {
       const ts = formatDateTimeUz(h.at);
-      const from = h.from ? STATUS_LABEL[h.from] || h.from : "—";
+      const from = h.from ? STATUS_LABEL[h.from] || h.from : "-";
       const to = STATUS_LABEL[h.to] || h.to;
       return `${ts}: ${from} → ${to}`;
     })
@@ -25,7 +25,7 @@ const editHistoryTitle = (attendance) => {
 
 const DEFAULT_STATUS = "absent";
 
-// Hafta kunlari (uz) — "dars kuni emas" ogohlantirishida guruh jadvalini ko'rsatish uchun
+// Hafta kunlari (uz) - "dars kuni emas" ogohlantirishida guruh jadvalini ko'rsatish uchun
 const DAY_LABELS_UZ = {
   mon: "Dushanba",
   tue: "Seshanba",
@@ -94,7 +94,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
   }, [data]);
 
   const [state, setState] = useState(initial);
-  // Data o'zgarsa state'ni reset qilamiz — render-time sync (effekt'siz)
+  // Data o'zgarsa state'ni reset qilamiz - render-time sync (effekt'siz)
   const [lastInitial, setLastInitial] = useState(initial);
   if (initial !== lastInitial) {
     setLastInitial(initial);
@@ -111,7 +111,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
   // Sudrash (mouse + touch): pointer eventlar bilan ishlaydi. Barmoq/sichqoncha
   // qaysi qator ustida ekanini elementFromPoint orqali aniqlaymiz; qo'yib
   // yuborilganda oraliqdagi barcha o'quvchiga status beriladi.
-  // drag o'zgarganda qayta obuna bo'lamiz — handler eng so'nggi qiymatlarni ko'radi.
+  // drag o'zgarganda qayta obuna bo'lamiz - handler eng so'nggi qiymatlarni ko'radi.
   useEffect(() => {
     if (!drag || !data) return undefined;
     const idxAt = (x, y) => {
@@ -154,9 +154,9 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
   }, [drag, data]);
 
   // Klaviatura yorliqlari (desktop reception uchun tezkor belgilash):
-  //  ↑/↓ — qatorlar bo'ylab harakat,  1-4 — fokusdagi qatorga status,
-  //  P — hammaga "Keldi",  ⌘/Ctrl+Enter — saqlash.
-  // Early-return'lardan oldin turishi shart (Hooks tartibi) — shuning uchun
+  //  ↑/↓ - qatorlar bo'ylab harakat,  1-4 - fokusdagi qatorga status,
+  //  P - hammaga "Keldi",  ⌘/Ctrl+Enter - saqlash.
+  // Early-return'lardan oldin turishi shart (Hooks tartibi) - shuning uchun
   // ichkarida `data`/`isClassDay` guard'lari bilan himoyalangan.
   useEffect(() => {
     const rows = data?.rows || [];
@@ -248,7 +248,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
   }, [focusedIndex]);
 
   if (!data) return null;
-  // Dars kuni bo'lmasa ham belgilash mumkin — pastda ogohlantirish ko'rsatiladi
+  // Dars kuni bo'lmasa ham belgilash mumkin - pastda ogohlantirish ko'rsatiladi
   if ((data.rows || []).length === 0) {
     return (
       <div className="border rounded-md p-8 text-center text-muted-foreground bg-white">
@@ -316,7 +316,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
     <div className="space-y-3">
       {data.isHoliday ? (
         <div className="rounded-md border border-rose-200 bg-rose-50 px-4 py-2.5 text-sm text-rose-700">
-          Bu kun bayram/dam olish kuni — davomat belgilanmaydi va davomat foiziga
+          Bu kun bayram/dam olish kuni - davomat belgilanmaydi va davomat foiziga
           ta'sir qilmaydi.
         </div>
       ) : (
@@ -374,7 +374,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
         {/* Mobil/tablet uchun qisqa maslahat (drag funksiyasini bilishi uchun) */}
         {!locked && (
           <p className="mt-2 text-xs text-muted-foreground sm:hidden">
-            Maslahat: statusni bosib turib qatorlar ustidan suring — bir nechta
+            Maslahat: statusni bosib turib qatorlar ustidan suring - bir nechta
             o'quvchini birdaniga belgilaysiz
           </p>
         )}

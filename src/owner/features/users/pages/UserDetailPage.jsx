@@ -180,7 +180,7 @@ const UserDetailPage = () => {
     );
   }
 
-  // O'quvchi hech qaysi guruhda emas — to'lov/chegirma/ozod amallari bloklanadi
+  // O'quvchi hech qaysi guruhda emas - to'lov/chegirma/ozod amallari bloklanadi
   const noActiveGroup = isStudent && (profile.activeGroups?.length ?? 0) === 0;
 
   const tabsItems = [
