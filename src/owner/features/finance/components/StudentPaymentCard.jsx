@@ -50,17 +50,16 @@ const StudentPaymentCard = ({ payment }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-sm">
-          {remaining > 0 ? (
-            <span className="text-rose-600">Qoldiq: {formatMoney(remaining)}</span>
-          ) : (
-            <span className="text-emerald-600">To'liq to'langan</span>
-          )}
-        </span>
+      <div className="flex flex-col gap-2">
+        {remaining > 0 && (
+          <span className="text-sm text-rose-600">
+            Qoldiq: {formatMoney(remaining)}
+          </span>
+        )}
         <Button
           size="sm"
           variant="outline"
+          className="w-full"
           onClick={() => openModal(MODAL.FINANCE_ADD_PAYMENT, { payment })}
         >
           <Plus className="size-4" />

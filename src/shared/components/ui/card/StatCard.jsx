@@ -59,7 +59,16 @@ const StatCard = ({
         {Icon && <Icon className={cn("size-4", iconTone)} />}
       </div>
 
-      <p className="text-2xl font-semibold tracking-tight">
+      <p
+        className={cn(
+          "font-semibold tracking-tight tabular-nums",
+          // Pul summalari uzun bo'lishi mumkin - kichikroq, moslashuvchan o'lcham.
+          // min-h: animatsiya paytida 1->2 qatorga o'tganda karta sakramasligi uchun.
+          isMoney
+            ? "min-h-[3.25rem] text-xl leading-snug break-words"
+            : "text-2xl",
+        )}
+      >
         {value === null || value === undefined ? (
           <span className="text-zinc-400">-</span>
         ) : (

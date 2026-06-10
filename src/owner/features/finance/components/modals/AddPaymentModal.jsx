@@ -58,69 +58,69 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
 
   const transactions = detail.transactions || [];
 
+  const baseFee = detail.baseFee || 0;
+  const factor = detail.prorationFactor ?? 1;
+  const prorated = Math.round(baseFee * factor);
+  const prorationCut = Math.max(0, baseFee - prorated);
+  const discount = detail.discountApplied || 0;
+  const joinedAt = detail.membership?.joinedAt;
+  const hasBreakdown = prorationCut > 0 || discount > 0;
+
   return (
-    <div className="space-y-4">
-      {/* Summary */}
-      <div className="rounded-lg border bg-muted/30 p-3">
-        <div className="flex items-center justify-between">
-          <p className="font-medium">
+    <div className="space-y-5">
+      {/* Student + status */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="truncate font-medium leading-tight">
             {detail.student?.firstName} {detail.student?.lastName}
           </p>
-          <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
+          <p className="truncate text-xs text-muted-foreground">
+            {detail.group?.name}
+          </p>
         </div>
-        <p className="text-xs text-muted-foreground">{detail.group?.name}</p>
-        <div className="mt-2 grid grid-cols-3 gap-2 text-center text-sm">
-          <div>
-            <p className="text-xs text-muted-foreground">Kutilgan</p>
-            <p className="font-semibold">{formatMoney(expected)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">To'langan</p>
-            <p className="font-semibold text-emerald-600">{formatMoney(paid)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Qoldiq</p>
-            <p className="font-semibold text-rose-600">{formatMoney(remaining)}</p>
-          </div>
+        <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
+      </div>
+
+      {/* Qoldiq - asosiy ko'rsatkich */}
+      <div className="rounded-lg bg-muted/40 px-4 py-3">
+        <div className="flex items-baseline justify-between">
+          <span className="text-sm text-muted-foreground">Qoldiq</span>
+          <span className="text-xl font-semibold text-rose-600">
+            {formatMoney(remaining)}
+          </span>
         </div>
-        {/* Yakuniy summa qanday chiqqani - tafsilot */}
-        {(() => {
-          const baseFee = detail.baseFee || 0;
-          const factor = detail.prorationFactor ?? 1;
-          const prorated = Math.round(baseFee * factor);
-          const prorationCut = Math.max(0, baseFee - prorated);
-          const discount = detail.discountApplied || 0;
-          const joinedAt = detail.membership?.joinedAt;
-          if (!baseFee && !discount) return null;
-          return (
-            <div className="mt-3 space-y-1 border-t pt-2 text-xs">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Guruh oylik to'lovi</span>
-                <span>{formatMoney(baseFee)}</span>
-              </div>
-              {prorationCut > 0 && (
-                <div className="flex justify-between text-amber-600">
-                  <span>
-                    Oy yarmida qo'shilgan
-                    {joinedAt ? ` (${String(joinedAt).slice(0, 10)})` : ""} ·{" "}
-                    {Math.round(factor * 100)}%
-                  </span>
-                  <span>−{formatMoney(prorationCut)}</span>
-                </div>
-              )}
-              {discount > 0 && (
-                <div className="flex justify-between text-amber-600">
-                  <span>Chegirma</span>
-                  <span>−{formatMoney(discount)}</span>
-                </div>
-              )}
-              <div className="flex justify-between border-t pt-1 font-semibold">
-                <span>Jami (oylik)</span>
-                <span>{formatMoney(expected)}</span>
-              </div>
+        <div className="mt-2 flex justify-between border-t pt-2 text-xs text-muted-foreground">
+          <span>Kutilgan: {formatMoney(expected)}</span>
+          <span className="text-emerald-600">
+            To'langan: {formatMoney(paid)}
+          </span>
+        </div>
+
+        {/* Yakuniy summa qanday chiqqani - tafsilot (faqat kerak bo'lsa) */}
+        {hasBreakdown && (
+          <div className="mt-2 space-y-1 border-t pt-2 text-xs">
+            <div className="flex justify-between text-muted-foreground">
+              <span>Guruh oylik to'lovi</span>
+              <span>{formatMoney(baseFee)}</span>
             </div>
-          );
-        })()}
+            {prorationCut > 0 && (
+              <div className="flex justify-between text-amber-600">
+                <span>
+                  Oy yarmida qo'shilgan
+                  {joinedAt ? ` (${String(joinedAt).slice(0, 10)})` : ""} ·{" "}
+                  {Math.round(factor * 100)}%
+                </span>
+                <span>−{formatMoney(prorationCut)}</span>
+              </div>
+            )}
+            {discount > 0 && (
+              <div className="flex justify-between text-amber-600">
+                <span>Chegirma</span>
+                <span>−{formatMoney(discount)}</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Add form */}
@@ -150,37 +150,52 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
             onChange={(e) => form.setField("paidAt", e.target.value)}
           />
         </div>
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={() => close?.()}>
+        <div className="flex gap-2 pt-1">
+          <Button
+            type="button"
+            variant="outline"
+            className="flex-1"
+            onClick={() => close?.()}
+          >
             Yopish
           </Button>
-          <Button type="submit" disabled={addMut.isPending}>
+          <Button type="submit" className="flex-1" disabled={addMut.isPending}>
             To'lovni qo'shish
           </Button>
         </div>
       </form>
 
       {/* Transactions */}
-      <div className="space-y-2">
-        <p className="text-sm font-medium">To'lovlar tarixi</p>
+      <div className="space-y-2 border-t pt-4">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-medium">To'lovlar tarixi</p>
+          {transactions.length > 0 && (
+            <span className="text-xs text-muted-foreground">
+              {transactions.length} ta
+            </span>
+          )}
+        </div>
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Yuklanmoqda...</p>
         ) : transactions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">To'lovlar yo'q</p>
+          <p className="text-sm text-muted-foreground">Hali to'lov qilinmagan</p>
         ) : (
-          <ul className="divide-y rounded-lg border">
+          <ul className="space-y-1">
             {transactions.map((t) => (
-              <li key={t._id} className="flex items-center justify-between gap-2 px-3 py-2 text-sm">
-                <div>
+              <li
+                key={t._id}
+                className="flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm"
+              >
+                <div className="flex items-baseline gap-2">
                   <span className="font-medium">{formatMoney(t.amount)}</span>
-                  <span className="ml-2 text-xs text-muted-foreground">
-                    {t.method === "cash" ? "Naqd" : "Karta"} •{" "}
+                  <span className="text-xs text-muted-foreground">
+                    {t.method === "cash" ? "Naqd" : "Karta"} ·{" "}
                     {String(t.paidAt).slice(0, 10)}
                   </span>
                 </div>
                 <button
                   type="button"
-                  className="text-rose-500 hover:text-rose-700"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-md text-rose-500 active:bg-rose-50"
                   onClick={() => removeMut.mutate(t._id)}
                   aria-label="O'chirish"
                 >
