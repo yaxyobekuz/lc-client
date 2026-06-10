@@ -160,4 +160,14 @@ export const qk = Object.freeze({
     discounts: (params) => ["finance", "discounts", params],
     report: (params) => ["finance", "report", params],
   },
+
+  // Teacher salary (O'qituvchi maoshlari)
+  teacherSalary: {
+    all: () => ["teacherSalary"],
+    salaries: (params) => ["teacherSalary", "salaries", params],
+    salary: (id) => ["teacherSalary", "salary", id],
+    obligations: (params) => ["teacherSalary", "obligations", params],
+    adjustments: (params) => ["teacherSalary", "adjustments", params],
+    report: (params) => ["teacherSalary", "report", params],
+  },
 });

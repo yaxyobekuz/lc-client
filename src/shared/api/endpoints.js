@@ -161,4 +161,17 @@ export const ENDPOINTS = Object.freeze({
     discountById: (id) => `/finance/discounts/${id}`,
     reportMonthly: "/finance/reports/monthly",
   },
+
+  // Teacher salary (O'qituvchi maoshlari)
+  teacherSalary: {
+    salaries: "/teacher-salary/salaries",
+    salaryById: (id) => `/teacher-salary/salaries/${id}`,
+    regenerate: "/teacher-salary/regenerate",
+    obligations: "/teacher-salary/obligations",
+    transactions: "/teacher-salary/transactions",
+    transactionById: (id) => `/teacher-salary/transactions/${id}`,
+    adjustments: "/teacher-salary/adjustments",
+    adjustmentById: (id) => `/teacher-salary/adjustments/${id}`,
+    reportMonthly: "/teacher-salary/reports/monthly",
+  },
 });

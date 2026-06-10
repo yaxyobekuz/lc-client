@@ -40,6 +40,10 @@ import {
   GroupFeeDetailPage,
   DiscountsPage,
 } from "@/owner/features/finance";
+import {
+  TeacherSalariesPage,
+  TeacherObligationsPage,
+} from "@/owner/features/teacherSalary";
 import { ProfilePage } from "@/owner/features/profile";
 import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
@@ -92,6 +96,8 @@ const OwnerRoutes = () => (
     <Route path="finance/group-fees" element={<GroupFeesPage />} />
     <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
     <Route path="finance/discounts" element={<DiscountsPage />} />
+    <Route path="finance/teacher-salaries" element={<TeacherSalariesPage />} />
+    <Route path="finance/obligations" element={<TeacherObligationsPage />} />
 
     <Route path="profile" element={<ProfilePage />} />
     <Route path="*" element={<NotFoundPage />} />

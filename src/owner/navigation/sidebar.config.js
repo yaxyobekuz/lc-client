@@ -136,6 +136,16 @@ const ownerSidebar = [
         url: "/owner/finance/discounts",
         permission: "finance.read",
       },
+      {
+        title: "O'qituvchi maoshlari",
+        url: "/owner/finance/teacher-salaries",
+        permission: "salary.read",
+      },
+      {
+        title: "Majburiyatlar",
+        url: "/owner/finance/obligations",
+        permission: "salary.read",
+      },
     ],
   },
 
