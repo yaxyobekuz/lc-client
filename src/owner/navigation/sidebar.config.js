@@ -28,6 +28,11 @@ const ownerSidebar = [
         url: "/owner/users",
         permission: "users.read",
       },
+      {
+        title: "Arxiv sabablari",
+        url: "/owner/archive-reasons",
+        permission: "archive_reasons.manage",
+      },
     ],
   },
 

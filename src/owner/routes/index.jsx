@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // Pages
 import { GroupsListPage, GroupDetailPage } from "@/owner/features/groups";
 import { UsersListPage, UserDetailPage } from "@/owner/features/users";
+import { ArchiveReasonsPage } from "@/owner/features/archiveReasons";
 import {
   AttendanceMarkPage,
   AttendanceDashboardPage,
@@ -43,6 +44,7 @@ const OwnerRoutes = () => (
 
     <Route path="users" element={<UsersListPage />} />
     <Route path="users/:id" element={<UserDetailPage />} />
+    <Route path="archive-reasons" element={<ArchiveReasonsPage />} />
 
     {/* Davomat */}
     <Route path="attendance" element={<AttendanceDashboardPage />} />

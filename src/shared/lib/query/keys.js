@@ -13,6 +13,11 @@ export const qk = Object.freeze({
     password: (id) => ["users", "password", id],
     groupHistory: (id, params) => ["users", id, "group-history", params],
   },
+  archiveReasons: {
+    all: () => ["archiveReasons"],
+    list: (params) => ["archiveReasons", "list", params],
+    report: (params) => ["archiveReasons", "report", params],
+  },
   students: {
     all: () => ["students"],
     list: (params) => ["students", "list", params],

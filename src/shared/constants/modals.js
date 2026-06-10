@@ -23,6 +23,11 @@ export const MODAL = Object.freeze({
   USER_PERMANENT_DELETE: "user:permanentDelete",
   USER_PASSWORD: "user:password",
 
+  // Archive reasons
+  ARCHIVE_REASON_CREATE: "archiveReason:create",
+  ARCHIVE_REASON_EDIT: "archiveReason:edit",
+  ARCHIVE_REASON_DELETE: "archiveReason:delete",
+
   // Groups
   GROUP_CREATE: "group:create",
   GROUP_EDIT: "group:edit",

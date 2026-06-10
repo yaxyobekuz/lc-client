@@ -2,6 +2,7 @@
 export const PERMISSIONS = Object.freeze({
   // Users
   USERS_READ: "users.read",
+  ARCHIVE_REASONS_MANAGE: "archive_reasons.manage",
 
   // Students
   STUDENTS_READ: "students.read",

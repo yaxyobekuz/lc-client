@@ -14,6 +14,11 @@ export const ENDPOINTS = Object.freeze({
     password: (id) => `/users/${id}/password`,
     groupHistory: (id) => `/users/${id}/group-history`,
   },
+  archiveReasons: {
+    base: "/archive-reasons",
+    byId: (id) => `/archive-reasons/${id}`,
+    report: "/archive-reasons/report",
+  },
   students: {
     base: "/students",
     byId: (id) => `/students/${id}`,
