@@ -7,6 +7,7 @@ import {
   Check,
 } from "lucide-react";
 import { cn } from "@/shared/utils/cn";
+import { formatDateTimeUz } from "@/shared/utils/formatDate";
 import Button from "@/shared/components/ui/button/Button";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useAuth from "@/shared/hooks/useAuth";
@@ -235,7 +236,7 @@ const SendWizard = ({ close, isLoading, setIsLoading }) => {
                   {scheduled ? (
                     <span className="inline-flex items-center gap-1 text-amber-700">
                       <CalendarClock className="size-3.5" />
-                      {new Date(form.scheduleAt).toLocaleString("uz")}
+                      {formatDateTimeUz(form.scheduleAt)}
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 text-emerald-700">

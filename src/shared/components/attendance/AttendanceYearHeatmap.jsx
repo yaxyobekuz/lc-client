@@ -58,7 +58,7 @@ const aggStatus = (entries) => {
 };
 
 const cellTitle = (year, month, day, entries) => {
-  const head = `${day}-${MONTHS[month]} ${year}`;
+  const head = `${day}-${MONTHS[month].toLowerCase()}, ${year}`;
   const lines = entries.map(
     (e) =>
       `${e.groupName || "Guruh"}: ${e.status ? STATUS_LABEL[e.status] : "Belgilanmagan"}`,
@@ -183,7 +183,7 @@ const AttendanceYearHeatmap = ({ data, year, onPrevYear, onNextYear }) => {
                     return (
                       <div
                         key={day}
-                        title={`${day}-${monthName} ${year}\nDars kuni emas`}
+                        title={`${day}-${monthName.toLowerCase()}, ${year}\nDars kuni emas`}
                         className={`size-3.5 rounded-[3px] bg-gray-100 ${
                           isToday ? "ring-2 ring-sky-400" : ""
                         }`}

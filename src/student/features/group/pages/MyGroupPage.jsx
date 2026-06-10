@@ -6,15 +6,9 @@ import useMyGroupQuery from "../hooks/useMyGroupQuery";
 
 // Utils
 import { formatSchedule } from "@/shared/utils/formatSchedule";
+import { formatDateUz } from "@/shared/utils/formatDate";
 
-const fmtDate = (iso) => {
-  if (!iso) return "-";
-  return new Date(iso).toLocaleDateString("uz-UZ", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+const fmtDate = (iso) => (iso ? formatDateUz(iso) : "-");
 
 const MyGroupPage = () => {
   const { data, isLoading } = useMyGroupQuery();

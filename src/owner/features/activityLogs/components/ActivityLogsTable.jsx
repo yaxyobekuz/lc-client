@@ -3,21 +3,10 @@ import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { cn } from "@/shared/utils/cn";
+import { formatDateTimeUz } from "@/shared/utils/formatDate";
 import MethodBadge from "./MethodBadge";
 
-const formatTime = (d) => {
-  if (!d) return "-";
-  const dt = new Date(d);
-  return dt.toLocaleString("uz-UZ", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
-};
+const formatTime = (d) => formatDateTimeUz(d, { withSeconds: true });
 
 const fullName = (u) =>
   u

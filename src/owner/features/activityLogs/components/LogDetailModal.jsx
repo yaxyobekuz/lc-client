@@ -1,5 +1,6 @@
 import MethodBadge from "./MethodBadge";
 import useActivityLogDetailQuery from "../hooks/useActivityLogDetailQuery";
+import { formatDateTimeUz } from "@/shared/utils/formatDate";
 
 const fullName = (u) =>
   u
@@ -38,9 +39,7 @@ const LogDetailModal = ({ logId }) => {
       <div className="space-y-0">
         <Row
           label="Vaqt"
-          value={new Date(log.createdAt).toLocaleString("uz-UZ", {
-            hour12: false,
-          })}
+          value={formatDateTimeUz(log.createdAt, { withSeconds: true })}
         />
         <Row
           label="Metod"

@@ -1,62 +1,50 @@
-const UZ_MONTHS_SHORT = [
-  "Yan", "Fev", "Mar", "Apr", "May", "Iyun",
-  "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek",
+// O'zbekcha oy nomlari (kichik harf) — butun ilovadagi yagona sana formati uchun
+const UZ_MONTHS = [
+  "yanvar", "fevral", "mart", "aprel", "may", "iyun",
+  "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr",
 ];
 
-const UZ_MONTHS_LONG = [
-  "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun",
-  "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr",
+const UZ_WEEKDAYS = [
+  "Yakshanba", "Dushanba", "Seshanba", "Chorshanba",
+  "Payshanba", "Juma", "Shanba",
 ];
 
-const UZ_WEEKDAYS_SHORT = ["Yak", "Du", "Se", "Ch", "Pa", "Ju", "Sh"];
+const toDate = (dateLike) => {
+  if (!dateLike) return null;
+  const d = new Date(dateLike);
+  return Number.isNaN(d.getTime()) ? null : d;
+};
 
-// Sana formati: "12.05.2026"
+// Yagona sana formati: "21-may, 2026"
 export const formatDateUz = (dateLike) => {
-  if (!dateLike) return "-";
-  const d = new Date(dateLike);
-  if (Number.isNaN(d.getTime())) return "-";
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}.${mm}.${d.getFullYear()}`;
+  const d = toDate(dateLike);
+  if (!d) return "-";
+  return `${d.getDate()}-${UZ_MONTHS[d.getMonth()]}, ${d.getFullYear()}`;
 };
 
-// Uzun formati: "09 Iyun 2026" (DD MMM YYYY — to'liq oy nomi, kun nol bilan to'ldirilgan).
-// Butun ilovada o'quvchi/guruh sanalari uchun yagona "clean" format.
-export const formatDateUzLong = (dateLike) => {
-  if (!dateLike) return "-";
-  const d = new Date(dateLike);
-  if (Number.isNaN(d.getTime())) return "-";
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${dd} ${UZ_MONTHS_LONG[d.getMonth()]} ${d.getFullYear()}`;
-};
+// Eski nomlar bilan moslik — barchasi yagona "21-may, 2026" formatini beradi
+export const formatDateUzLong = formatDateUz;
+export const formatDateShort = formatDateUz;
 
-// Qisqa formati: "29 May, 2026"
-export const formatDateShort = (dateLike) => {
-  if (!dateLike) return "-";
-  const d = new Date(dateLike);
-  if (Number.isNaN(d.getTime())) return "-";
-  return `${d.getDate()} ${UZ_MONTHS_SHORT[d.getMonth()]}, ${d.getFullYear()}`;
-};
-
-// Hafta kuni bilan: "Du, 29 May 2026"
+// Hafta kuni bilan: "Dushanba, 21-may, 2026"
 export const formatDateWithWeekday = (dateLike) => {
-  if (!dateLike) return "-";
-  const d = new Date(dateLike);
-  if (Number.isNaN(d.getTime())) return "-";
-  return `${UZ_WEEKDAYS_SHORT[d.getDay()]}, ${d.getDate()} ${UZ_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+  const d = toDate(dateLike);
+  if (!d) return "-";
+  return `${UZ_WEEKDAYS[d.getDay()]}, ${formatDateUz(d)}`;
 };
 
-// Sana + vaqt: "12.05.2026 14:30"
-export const formatDateTimeUz = (dateLike) => {
-  if (!dateLike) return "-";
-  const d = new Date(dateLike);
-  if (Number.isNaN(d.getTime())) return "-";
+// Sana + vaqt: "21-may, 2026, 14:30" (withSeconds bilan: "21-may, 2026, 14:30:45")
+export const formatDateTimeUz = (dateLike, { withSeconds = false } = {}) => {
+  const d = toDate(dateLike);
+  if (!d) return "-";
   const hh = String(d.getHours()).padStart(2, "0");
   const min = String(d.getMinutes()).padStart(2, "0");
-  return `${formatDateUz(d)} ${hh}:${min}`;
+  let time = `${hh}:${min}`;
+  if (withSeconds) time += `:${String(d.getSeconds()).padStart(2, "0")}`;
+  return `${formatDateUz(d)}, ${time}`;
 };
 
-// HTML <input type="date"> uchun YYYY-MM-DD
+// HTML <input type="date"> uchun YYYY-MM-DD (mashina formati — o'zgartirilmaydi)
 export const toDateInput = (dateLike) => {
   if (!dateLike) return "";
   const d = new Date(dateLike);

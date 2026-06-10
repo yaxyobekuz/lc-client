@@ -4,17 +4,8 @@ import { useNavigate } from "react-router-dom";
 // Hooks
 import { useMarkSystemReadMutation } from "@/owner/features/systemNotifications";
 
-// Sana + vaqt: "12.05.2026 14:30"
-const formatDateTime = (dateLike) => {
-  if (!dateLike) return "";
-  const d = new Date(dateLike);
-  if (Number.isNaN(d.getTime())) return "";
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const hh = String(d.getHours()).padStart(2, "0");
-  const min = String(d.getMinutes()).padStart(2, "0");
-  return `${dd}.${mm}.${d.getFullYear()} ${hh}:${min}`;
-};
+// Utils
+import { formatDateTimeUz } from "@/shared/utils/formatDate";
 
 const SystemNotificationItem = ({ notification, onNavigate }) => {
   const navigate = useNavigate();
@@ -53,7 +44,7 @@ const SystemNotificationItem = ({ notification, onNavigate }) => {
           {message}
         </p>
         <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-          <span>{formatDateTime(createdAt)}</span>
+          <span>{formatDateTimeUz(createdAt)}</span>
           {link && <span className="text-primary">Ko'rish →</span>}
         </div>
       </div>

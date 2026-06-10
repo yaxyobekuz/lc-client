@@ -5,6 +5,7 @@ import AttendanceMarker from "./AttendanceMarker";
 import AttendanceLegend from "./AttendanceLegend";
 import BulkStatusSlider from "./BulkStatusSlider";
 import { formatPhone } from "@/shared/utils/formatPhone";
+import { formatDateTimeUz } from "@/shared/utils/formatDate";
 import { cn } from "@/shared/utils/cn";
 import { STATUS_LABEL, ATTENDANCE_STATUSES } from "@/shared/constants/attendance";
 
@@ -14,8 +15,7 @@ const editHistoryTitle = (attendance) => {
   if (hist.length <= 1) return "";
   return hist
     .map((h) => {
-      const d = new Date(h.at);
-      const ts = Number.isNaN(d.getTime()) ? "" : d.toLocaleString("uz");
+      const ts = formatDateTimeUz(h.at);
       const from = h.from ? STATUS_LABEL[h.from] || h.from : "—";
       const to = STATUS_LABEL[h.to] || h.to;
       return `${ts}: ${from} → ${to}`;
