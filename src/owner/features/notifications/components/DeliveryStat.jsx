@@ -35,7 +35,7 @@ const DeliveryStat = ({
   <TooltipProvider delayDuration={150}>
     <div
       className={cn(
-        "inline-flex items-center gap-3 text-muted-foreground",
+        "inline-flex items-center gap-3.5 text-muted-foreground",
         className,
       )}
     >

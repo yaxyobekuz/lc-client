@@ -14,6 +14,7 @@ import {
 } from "@/teacher/features/grades";
 import {
   TeacherNotificationsListPage,
+  TeacherNotificationDetailPage,
   MyInboxPage,
 } from "@/teacher/features/notifications";
 import { MyFeedbackPage } from "@/teacher/features/feedback";
@@ -29,6 +30,10 @@ const TeacherRoutes = () => (
     <Route path="grades" element={<TeacherGradesPage />} />
     <Route path="grades/:groupId" element={<TeacherGradesMarkPage />} />
     <Route path="notifications" element={<TeacherNotificationsListPage />} />
+    <Route
+      path="notifications/:id"
+      element={<TeacherNotificationDetailPage />}
+    />
     <Route path="inbox" element={<MyInboxPage />} />
     <Route path="feedback" element={<MyFeedbackPage />} />
     <Route path="profile" element={<TeacherProfilePage />} />

@@ -24,9 +24,14 @@ const TeacherNotificationsListPage = () => {
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold">Yuborilgan xabarlar</h1>
+        <div>
+          <h1 className="text-2xl font-semibold">Yuborilgan xabarlar</h1>
+          <p className="text-sm text-muted-foreground">
+            O'quvchilarga yuborgan xabarlaringiz{total ? ` · ${total} ta` : ""}
+          </p>
+        </div>
         <Button onClick={() => openModal(MODAL.NOTIFICATION_SEND)}>
           <Plus className="size-4" />
           Yangi xabar
@@ -37,6 +42,7 @@ const TeacherNotificationsListPage = () => {
         items={items}
         isLoading={isLoading}
         basePath="/teacher/notifications"
+        rowClassName="border-b border-border/60 last:border-0"
       />
       {totalPages > 1 && (
         <Pagination

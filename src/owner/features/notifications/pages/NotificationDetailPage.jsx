@@ -1,5 +1,11 @@
 import { useParams } from "react-router-dom";
-import { Users, Send, Eye, AlertTriangle } from "lucide-react";
+import {
+  Users,
+  Send,
+  Eye,
+  AlertTriangle,
+  Smartphone,
+} from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import BackLink from "@/shared/components/ui/link/BackLink";
 import Skeleton from "@/shared/components/ui/feedback/Skeleton";
@@ -27,6 +33,121 @@ const InfoRow = ({ label, children }) => (
     <span className="text-right font-medium">{children || "-"}</span>
   </div>
 );
+
+// Bullet (•, -, *, –) bilan boshlanadigan qator — ro'yxat elementimi?
+const LIST_LINE = /^\s*[•\-*–]\s+/;
+const stripBullet = (line) => line.replace(LIST_LINE, "").trim();
+
+/**
+ * MessageBody — xabar matnini chiroyli ko'rsatadi.
+ * Ketma-ket bullet qatorlar (•/-/*) RAQAMLI ro'yxatga aylanadi (1. 2. 3. ...),
+ * qolgan qatorlar oddiy paragraf bo'lib qoladi. Quruq "•" devori o'rniga toza ko'rinish.
+ */
+const MessageBody = ({ text }) => {
+  const lines = String(text || "").split("\n");
+
+  const blocks = [];
+  let listBuf = [];
+  const flushList = () => {
+    if (listBuf.length) {
+      blocks.push({ type: "list", items: listBuf });
+      listBuf = [];
+    }
+  };
+
+  lines.forEach((raw) => {
+    if (LIST_LINE.test(raw)) {
+      listBuf.push(stripBullet(raw));
+    } else {
+      flushList();
+      blocks.push({ type: "text", value: raw });
+    }
+  });
+  flushList();
+
+  return (
+    <div className="space-y-2 text-[15px] leading-relaxed text-slate-800">
+      {blocks.map((b, i) =>
+        b.type === "list" ? (
+          <ol key={i} className="space-y-1.5">
+            {b.items.map((item, j) => (
+              <li key={j} className="flex gap-2.5">
+                <span className="min-w-[1.75rem] shrink-0 text-right font-semibold tabular-nums text-slate-400">
+                  {j + 1}.
+                </span>
+                <span className="break-words">{item}</span>
+              </li>
+            ))}
+          </ol>
+        ) : b.value.trim() === "" ? (
+          // bo'sh qatorni kichik bo'shliq sifatida saqlaymiz
+          <div key={i} className="h-1" />
+        ) : (
+          <p key={i} className="whitespace-pre-wrap break-words">
+            {b.value}
+          </p>
+        ),
+      )}
+    </div>
+  );
+};
+
+/**
+ * MessageBubble — yuborilgan xabarni qabul qiluvchi ko'rgan ko'rinishda
+ * ko'rsatadi (telegram chat pufakchasi yoki ilova ichidagi bildirishnoma
+ * kartasi). Quruq matn o'rniga — bu "xabar" ekanligi darhol bilinadi.
+ */
+const MessageBubble = ({ title, body, sentAt, variant }) => {
+  const filledTitle = fillSampleVariables(title || "");
+  const filledBody = fillSampleVariables(body || "");
+  const time = sentAt ? formatDateTimeUz(sentAt) : "";
+
+  if (variant === "inapp") {
+    return (
+      <div className="rounded-xl border bg-white p-3.5 shadow-sm">
+        <div className="flex items-start gap-2.5">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-violet-50 text-violet-500">
+            <Smartphone className="size-4" />
+          </span>
+          <div className="min-w-0 flex-1">
+            {filledTitle && (
+              <p className="text-base font-semibold text-slate-900">
+                {filledTitle}
+              </p>
+            )}
+            <div className="mt-1">
+              <MessageBody text={filledBody} />
+            </div>
+            {time && (
+              <p className="mt-1.5 text-[11px] text-muted-foreground">{time}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Telegram chat ko'rinishi
+  return (
+    <div className="rounded-xl bg-[#e7ebf0] p-3.5">
+      <div className="mb-2 flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
+        <Send className="size-3" />
+        Telegram bot
+      </div>
+      <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-4 py-3 shadow-sm">
+        {filledTitle && (
+          <p className="mb-1.5 text-base font-semibold text-slate-900">
+            {filledTitle}
+          </p>
+        )}
+        <MessageBody text={filledBody} />
+        {time && (
+          <p className="mt-1.5 text-right text-[10px] text-slate-400">{time}</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const pct = (part, whole) =>
   whole > 0 ? Math.round((Number(part) / Number(whole)) * 100) : 0;
@@ -73,9 +194,9 @@ const audienceTargets = (notif) => {
   return null;
 };
 
-const NotificationDetailPage = () => {
+const NotificationDetailPage = ({ backTo = "/owner/notifications" }) => {
   const { id } = useParams();
-  const goBack = useGoBack("/owner/notifications");
+  const goBack = useGoBack(backTo);
   const { data: notif, isLoading } = useNotificationDetailQuery(id);
   const { data: recipientsData, isLoading: recLoading } =
     useNotificationRecipientsQuery(id, { limit: 200 });
@@ -114,7 +235,8 @@ const NotificationDetailPage = () => {
 
   const targets = audienceTargets(notif);
 
-  const usesTelegram = (notif.channels || []).includes("telegram");
+  const channels = notif.channels || [];
+  const usesTelegram = channels.includes("telegram");
   const unlinkedCount = recipients.filter(
     (r) => r.botFailedReason === "no-bot-link",
   ).length;
@@ -128,7 +250,7 @@ const NotificationDetailPage = () => {
     <div className="space-y-5">
       {/* Header */}
       <header className="flex flex-wrap items-center gap-3">
-        <BackLink to="/owner/notifications" />
+        <BackLink to={backTo} />
         <h1 className="text-2xl font-semibold">{notif.title || "Xabar"}</h1>
         <CategoryBadge category={notif.category} />
         <NotificationStatusBadge status={notif.status} isAuto={notif.isAuto} />
@@ -137,10 +259,39 @@ const NotificationDetailPage = () => {
       {/* Matn + Meta */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="space-y-3 lg:col-span-2">
-          <h3 className="font-semibold">Xabar matni</h3>
-          <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">
-            {fillSampleVariables(notif.body)}
+          <h3 className="font-semibold">Xabar ko'rinishi</h3>
+          <p className="-mt-1 text-xs text-muted-foreground">
+            Qabul qiluvchilarga shu ko'rinishda yetkazildi
           </p>
+          <div className="space-y-3">
+            {channels.includes("telegram") && (
+              <MessageBubble
+                title={notif.title}
+                body={notif.body}
+                category={notif.category}
+                sentAt={notif.sentAt || notif.scheduleAt}
+                variant="telegram"
+              />
+            )}
+            {channels.includes("inapp") && (
+              <MessageBubble
+                title={notif.title}
+                body={notif.body}
+                category={notif.category}
+                sentAt={notif.sentAt || notif.scheduleAt}
+                variant="inapp"
+              />
+            )}
+            {channels.length === 0 && (
+              <MessageBubble
+                title={notif.title}
+                body={notif.body}
+                category={notif.category}
+                sentAt={notif.sentAt || notif.scheduleAt}
+                variant="inapp"
+              />
+            )}
+          </div>
           {notif.template && (
             <p className="text-xs text-muted-foreground">
               Shablon asosida:{" "}

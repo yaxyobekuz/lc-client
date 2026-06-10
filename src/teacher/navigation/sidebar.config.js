@@ -21,11 +21,10 @@ const teacherSidebar = [
     ],
   },
   {
-    title: "Aloqa",
+    title: "Xabarlar",
     icon: Bell,
     isActive: true,
     items: [
-    
       {
         title: "Xabar yuborish",
         url: "/teacher/notifications",

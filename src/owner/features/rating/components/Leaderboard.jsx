@@ -56,8 +56,9 @@ const PODIUM = {
   3: { icon: Medal, ring: "ring-orange-300", bg: "bg-orange-50", chip: "bg-orange-400", order: "order-3", text: "text-orange-600" },
 };
 
-const PodiumCard = ({ it, isMe }) => {
-  const p = PODIUM[it.rank];
+const PodiumCard = ({ it, slot, isMe }) => {
+  // Podium ko'rinishi joylashuv (slot: 1/2/3) bo'yicha; yorliq esa haqiqiy o'rin.
+  const p = PODIUM[slot];
   const Icon = p.icon;
   return (
     <div
@@ -113,17 +114,30 @@ const Leaderboard = ({
     highlightStudentId &&
     String(it.student._id) === String(highlightStudentId);
 
-  const podium = ranked.filter((it) => it.rank <= 3);
-  const rest = ranked.filter((it) => it.rank > 3);
   const maxPoint = ranked[0]?.point || 100;
+
+  // Top tie: 1-o'rinni nechta o'quvchi bo'lishyapti.
+  // 3 tadan ko'p bo'lsa podium ma'nosiz ("1-o'rin"lar to'lib ketadi) —
+  // bu holatda podium ko'rsatmaymiz, hammasini qator ko'rinishida beramiz.
+  const topTieCount = ranked.filter((it) => it.rank === 1).length;
+  const showPodium = ranked.length >= 3 && topTieCount <= 3;
+
+  // Podium aniq 3 ta joylashuv (slot 1/2/3) — ortiqcha tenglar qatorga tushadi.
+  const podium = showPodium ? ranked.slice(0, 3) : [];
+  const rest = showPodium ? ranked.slice(3) : ranked;
 
   return (
     <div className="space-y-4">
       {/* Podium (top 3) */}
       {podium.length > 0 && (
         <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-end">
-          {podium.map((it) => (
-            <PodiumCard key={it.student._id} it={it} isMe={isMe(it)} />
+          {podium.map((it, i) => (
+            <PodiumCard
+              key={it.student._id}
+              it={it}
+              slot={i + 1}
+              isMe={isMe(it)}
+            />
           ))}
         </div>
       )}
