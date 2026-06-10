@@ -148,6 +148,7 @@ export const ENDPOINTS = Object.freeze({
     studentFlow: "/admin-dashboard/student-flow",
     studentStats: "/admin-dashboard/student-stats",
     retention: "/admin-dashboard/retention",
+    churnedStudents: "/admin-dashboard/churned-students",
   },
 
   // Finance (Moliya)

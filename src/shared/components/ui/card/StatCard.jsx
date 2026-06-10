@@ -21,6 +21,7 @@ const StatCard = ({
   isMoney = false,
   tone = "default",
   to,
+  onClick,
 }) => {
   const toneClass = {
     default: "bg-white",
@@ -41,12 +42,14 @@ const StatCard = ({
   const safeValue =
     typeof value === "number" && Number.isFinite(value) ? value : 0;
 
+  const interactive = !!to || !!onClick;
+
   const card = (
     <Card
       className={cn(
         toneClass,
         "h-full",
-        to &&
+        interactive &&
           "group cursor-pointer transition hover:-translate-y-0.5 hover:shadow-md hover:border-primary/40",
       )}
     >
@@ -68,10 +71,10 @@ const StatCard = ({
         )}
       </p>
 
-      {(hint || to) && (
+      {(hint || interactive) && (
         <p className="text-xs text-zinc-500 mt-1 flex items-center gap-1">
           {hint}
-          {to && (
+          {interactive && (
             <ArrowUpRight className="size-3 text-zinc-400 transition group-hover:text-primary" />
           )}
         </p>
@@ -84,6 +87,17 @@ const StatCard = ({
       <Link to={to} className="block focus:outline-none">
         {card}
       </Link>
+    );
+  }
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="block w-full text-left focus:outline-none"
+      >
+        {card}
+      </button>
     );
   }
   return card;

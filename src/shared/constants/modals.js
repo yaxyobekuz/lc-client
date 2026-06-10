@@ -81,6 +81,7 @@ export const MODAL = Object.freeze({
 
   // Boshqaruv paneli (Bo'lak 9)
   ACTIVITY_LOG_DETAIL: "activityLog:detail",
+  CHURNED_STUDENTS: "retention:churnedStudents",
 
   // Finance (Moliya)
   FINANCE_ADD_PAYMENT: "finance:addPayment",

@@ -150,6 +150,7 @@ export const qk = Object.freeze({
     studentFlow: (params) => ["adminDashboard", "studentFlow", params],
     studentStats: (params) => ["adminDashboard", "studentStats", params],
     retention: (params) => ["adminDashboard", "retention", params],
+    churnedStudents: (params) => ["adminDashboard", "churnedStudents", params],
   },
 
   // Finance (Moliya)

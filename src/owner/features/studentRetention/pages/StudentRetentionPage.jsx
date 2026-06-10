@@ -2,13 +2,17 @@ import { useMemo, useState } from "react";
 
 import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
+import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 
 import RetentionStatCards from "../components/RetentionStatCards";
 import DurationBeforeLeavingChart from "../components/DurationBeforeLeavingChart";
 import ChurnReasonsTable from "../components/ChurnReasonsTable";
 import TeacherChurnTable from "../components/TeacherChurnTable";
+import ChurnedStudentsModal from "../components/ChurnedStudentsModal";
 
 import useRetentionQuery from "../hooks/useRetentionQuery";
+import useModal from "@/shared/hooks/useModal";
+import { MODAL } from "@/shared/constants/modals";
 
 // Davr presetlari - leftAt diapazonini hisoblaydi (mashina sanasi YYYY-MM-DD).
 const toISO = (d) => d.toISOString().slice(0, 10);
@@ -23,6 +27,7 @@ const rangeFor = (preset) => {
 const RetentionContent = ({ preset }) => {
   const params = useMemo(() => rangeFor(preset), [preset]);
   const { data, isLoading, isError, refetch } = useRetentionQuery(params);
+  const { openModal } = useModal();
 
   if (isError) return <ErrorState onRetry={refetch} />;
   if (isLoading) {
@@ -33,7 +38,10 @@ const RetentionContent = ({ preset }) => {
 
   return (
     <div className="space-y-5 pt-3">
-      <RetentionStatCards data={data} />
+      <RetentionStatCards
+        data={data}
+        onShowChurned={() => openModal(MODAL.CHURNED_STUDENTS, { params })}
+      />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <DurationBeforeLeavingChart buckets={data?.durationBuckets || []} />
@@ -67,6 +75,14 @@ const StudentRetentionPage = () => {
           { value: "3m", label: "Oxirgi 3 oy", content: <RetentionContent preset="3m" /> },
         ]}
       />
+
+      <ModalWrapper
+        name={MODAL.CHURNED_STUDENTS}
+        title="Chiqib ketgan o'quvchilar"
+        className="max-w-3xl"
+      >
+        <ChurnedStudentsModal />
+      </ModalWrapper>
     </div>
   );
 };

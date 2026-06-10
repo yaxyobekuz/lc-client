@@ -2,7 +2,7 @@ import { UserMinus, Clock, TrendingDown } from "lucide-react";
 import StatCard from "@/shared/components/ui/card/StatCard";
 import { formatMonths } from "../utils/formatMonths";
 
-const RetentionStatCards = ({ data }) => {
+const RetentionStatCards = ({ data, onShowChurned }) => {
   if (!data) return null;
 
   // Erta chiqib ketganlar = 3 oydan kam o'qib ketganlar (0-1 va 1-3 oy kohortalari).
@@ -22,7 +22,8 @@ const RetentionStatCards = ({ data }) => {
         label="Jami chiqib ketgan"
         value={data.totalChurned}
         tone="negative"
-        hint="Tanlangan davrda guruhdan chiqarilgan"
+        hint="Ro'yxatni ko'rish uchun bosing"
+        onClick={onShowChurned}
       />
       <StatCard
         icon={Clock}
