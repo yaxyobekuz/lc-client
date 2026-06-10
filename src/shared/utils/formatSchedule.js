@@ -33,10 +33,41 @@ const DAY_ORDER = Object.freeze({
   sun: 7,
 });
 
-// Jadvalni hafta kuni, so'ng boshlanish vaqti bo'yicha saralaydi (nusxa qaytaradi)
+// Sanani UTC-yarim tun timestampiga keltiradi (backend toUtcMidnight bilan mos)
+const dayTs = (d) => {
+  const dt = new Date(d);
+  return Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate());
+};
+
+// Versiyalash: berilgan sanada (default - bugun) AMAL QILGAN jadval versiyasini
+// qaytaradi. Har kun uchun effectiveFrom <= sana bo'lgan slotlardan eng so'nggi
+// effectiveFrom ga ega bo'lganlari (null = boshidan). Backend scheduleActiveOn
+// bilan bir xil mantiq.
+export const scheduleActiveOn = (schedule = [], onDate = null) => {
+  if (!Array.isArray(schedule) || schedule.length === 0) return [];
+  const target = onDate ? dayTs(onDate) : dayTs(new Date());
+  const effTs = (it) =>
+    it.effectiveFrom ? dayTs(it.effectiveFrom) : -Infinity;
+
+  const latestEffByDay = new Map();
+  for (const it of schedule) {
+    const ts = effTs(it);
+    if (ts > target) continue;
+    const cur = latestEffByDay.get(it.day);
+    if (cur === undefined || ts > cur) latestEffByDay.set(it.day, ts);
+  }
+  return schedule.filter((it) => {
+    const ts = effTs(it);
+    if (ts > target) return false;
+    return latestEffByDay.get(it.day) === ts;
+  });
+};
+
+// Jadvalni hafta kuni, so'ng boshlanish vaqti bo'yicha saralaydi (nusxa qaytaradi).
+// Ko'rsatish uchun - faqat HOZIR amal qilayotgan versiyani qaytaradi (versiyalash).
 export const sortSchedule = (schedule = []) => {
   if (!Array.isArray(schedule)) return [];
-  return [...schedule].sort((a, b) => {
+  return [...scheduleActiveOn(schedule)].sort((a, b) => {
     const da = DAY_ORDER[a.day] || 99;
     const db = DAY_ORDER[b.day] || 99;
     if (da !== db) return da - db;

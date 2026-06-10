@@ -5,6 +5,7 @@ import Badge from "@/shared/components/ui/badge/Badge";
 import Button from "@/shared/components/ui/button/Button";
 import useMyGroupsQuery from "@/teacher/features/groups/hooks/useMyGroupsQuery";
 import GroupScheduleLines from "@/shared/components/userProfile/GroupScheduleLines";
+import { scheduleActiveOn } from "@/shared/utils/formatSchedule";
 
 const dayOfWeekOf = (d) => {
   const map = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
@@ -30,7 +31,9 @@ const TeacherGradesPage = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {groups.map((g) => {
-            const isToday = (g.schedule || []).some((s) => s.day === todayDow);
+            const isToday = scheduleActiveOn(g.schedule).some(
+              (s) => s.day === todayDow,
+            );
             return (
               <Card key={g._id} className="space-y-3">
                 <div className="flex items-start justify-between gap-2">
