@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Plus, Pencil } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
@@ -26,12 +27,15 @@ const TeacherSalaryCard = ({ salary }) => {
   return (
     <Card className="flex flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
+        <Link
+          to={`/owner/finance/teacher-salaries/teacher/${teacher._id}`}
+          className="min-w-0 rounded-md outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+        >
           <p className="truncate font-semibold text-gray-900">
             {teacher.firstName} {teacher.lastName}
           </p>
           <p className="truncate text-xs text-muted-foreground">{salary.group?.name}</p>
-        </div>
+        </Link>
         <div className="flex flex-col items-end gap-1">
           <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
           <span className="text-[11px] text-muted-foreground">
@@ -69,14 +73,12 @@ const TeacherSalaryCard = ({ salary }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-sm">
-          {remaining > 0 ? (
-            <span className="text-rose-600">Qoldiq: {formatMoney(remaining)}</span>
-          ) : (
-            <span className="text-emerald-600">To'liq to'langan</span>
-          )}
-        </span>
+      <div className="flex flex-col gap-2">
+        {remaining > 0 && (
+          <span className="text-sm text-rose-600">
+            Qoldiq: {formatMoney(remaining)}
+          </span>
+        )}
         <div className="flex gap-2">
           <Button
             size="sm"
@@ -88,6 +90,7 @@ const TeacherSalaryCard = ({ salary }) => {
           <Button
             size="sm"
             variant="outline"
+            className="flex-1"
             onClick={() => openModal(MODAL.SALARY_ADD_PAYOUT, { salary })}
           >
             <Plus className="size-4" />

@@ -6,6 +6,8 @@ export const teacherSalaryAPI = {
   // Maoshlar
   salaries: (params) => http.get(ENDPOINTS.teacherSalary.salaries, { params }),
   salary: (id) => http.get(ENDPOINTS.teacherSalary.salaryById(id)),
+  salaryHistory: (teacherId) =>
+    http.get(ENDPOINTS.teacherSalary.salaryHistory(teacherId)),
   upsertSalary: (body) => http.put(ENDPOINTS.teacherSalary.salaries, body),
   regenerate: (body) => http.post(ENDPOINTS.teacherSalary.regenerate, body),
   obligations: (params) => http.get(ENDPOINTS.teacherSalary.obligations, { params }),

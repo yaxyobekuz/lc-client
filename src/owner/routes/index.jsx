@@ -36,12 +36,14 @@ import { ActivityLogsPage } from "@/owner/features/activityLogs";
 import {
   FinanceReportPage,
   StudentPaymentsPage,
+  StudentPaymentHistoryPage,
   GroupFeesPage,
   GroupFeeDetailPage,
   DiscountsPage,
 } from "@/owner/features/finance";
 import {
   TeacherSalariesPage,
+  TeacherSalaryHistoryPage,
   TeacherObligationsPage,
 } from "@/owner/features/teacherSalary";
 import { ProfilePage } from "@/owner/features/profile";
@@ -97,10 +99,18 @@ const OwnerRoutes = () => (
     {/* Moliya */}
     <Route path="finance" element={<FinanceReportPage />} />
     <Route path="finance/student-payments" element={<StudentPaymentsPage />} />
+    <Route
+      path="finance/student-payments/student/:studentId"
+      element={<StudentPaymentHistoryPage />}
+    />
     <Route path="finance/group-fees" element={<GroupFeesPage />} />
     <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
     <Route path="finance/discounts" element={<DiscountsPage />} />
     <Route path="finance/teacher-salaries" element={<TeacherSalariesPage />} />
+    <Route
+      path="finance/teacher-salaries/teacher/:teacherId"
+      element={<TeacherSalaryHistoryPage />}
+    />
     <Route path="finance/obligations" element={<TeacherObligationsPage />} />
 
     <Route path="profile" element={<ProfilePage />} />

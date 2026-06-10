@@ -158,6 +158,8 @@ export const ENDPOINTS = Object.freeze({
     regenerate: "/finance/regenerate",
     studentPayments: "/finance/student-payments",
     studentPaymentById: (id) => `/finance/student-payments/${id}`,
+    studentPaymentHistory: (studentId) =>
+      `/finance/student-payments/by-student/${studentId}`,
     transactions: "/finance/transactions",
     transactionById: (id) => `/finance/transactions/${id}`,
     discounts: "/finance/discounts",
@@ -169,6 +171,8 @@ export const ENDPOINTS = Object.freeze({
   teacherSalary: {
     salaries: "/teacher-salary/salaries",
     salaryById: (id) => `/teacher-salary/salaries/${id}`,
+    salaryHistory: (teacherId) =>
+      `/teacher-salary/salaries/by-teacher/${teacherId}`,
     regenerate: "/teacher-salary/regenerate",
     obligations: "/teacher-salary/obligations",
     transactions: "/teacher-salary/transactions",

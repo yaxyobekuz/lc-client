@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
@@ -26,14 +27,17 @@ const StudentPaymentCard = ({ payment }) => {
   return (
     <Card className="flex flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
+        <Link
+          to={`/owner/finance/student-payments/student/${student._id}`}
+          className="min-w-0 rounded-md outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+        >
           <p className="truncate font-semibold text-gray-900">
             {student.firstName} {student.lastName}
           </p>
           <p className="truncate text-xs text-muted-foreground">
             {payment.group?.name}
           </p>
-        </div>
+        </Link>
         <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
       </div>
 

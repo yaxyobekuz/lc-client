@@ -13,6 +13,8 @@ export const financeAPI = {
   studentPayments: (params) =>
     http.get(ENDPOINTS.finance.studentPayments, { params }),
   studentPayment: (id) => http.get(ENDPOINTS.finance.studentPaymentById(id)),
+  studentPaymentHistory: (studentId) =>
+    http.get(ENDPOINTS.finance.studentPaymentHistory(studentId)),
 
   // Kirim (tranzaksiyalar)
   addTransaction: (body) => http.post(ENDPOINTS.finance.transactions, body),

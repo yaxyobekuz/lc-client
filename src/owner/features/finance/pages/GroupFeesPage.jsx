@@ -14,6 +14,12 @@ import useGroupFeesQuery from "../hooks/useGroupFeesQuery";
 
 const now = new Date();
 
+// effectiveFrom UTC midnight'da saqlanadi - ISO kun qismidan DD.MM.YYYY (off-by-one yo'q).
+const formatEffectiveDate = (value) => {
+  const [y, m, d] = String(value).slice(0, 10).split("-");
+  return d && m && y ? `${d}.${m}.${y}` : String(value).slice(0, 10);
+};
+
 const GroupFeesPage = () => {
   const navigate = useNavigate();
   const { openModal } = useModal();
@@ -39,6 +45,7 @@ const GroupFeesPage = () => {
       year: row.year,
       month: row.month,
       amount: row.amount,
+      effectiveFrom: row.effectiveFrom,
       lockPeriod: true,
     });
 
@@ -57,7 +64,14 @@ const GroupFeesPage = () => {
         r.amount == null ? (
           <span className="text-muted-foreground">Belgilanmagan</span>
         ) : (
-          <span className="font-medium">{formatMoney(r.amount)}</span>
+          <div className="flex flex-col">
+            <span className="font-medium">{formatMoney(r.amount)}</span>
+            {r.effectiveFrom && (
+              <span className="text-xs text-amber-600">
+                {formatEffectiveDate(r.effectiveFrom)} dan
+              </span>
+            )}
+          </div>
         ),
     },
     {
@@ -91,6 +105,11 @@ const GroupFeesPage = () => {
         <p className="text-sm text-muted-foreground">
           {r.amount == null ? "Belgilanmagan" : formatMoney(r.amount)}
         </p>
+        {r.effectiveFrom && (
+          <p className="text-xs text-amber-600">
+            {formatEffectiveDate(r.effectiveFrom)} dan kuchga kiradi
+          </p>
+        )}
       </div>
       <button
         type="button"

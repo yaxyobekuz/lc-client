@@ -12,6 +12,13 @@ import { MONTH_LABELS } from "@/shared/constants/calendar";
 import GroupFeeEditModal from "../components/modals/GroupFeeEditModal";
 import useGroupFeesByGroupQuery from "../hooks/useGroupFeesByGroupQuery";
 
+// effectiveFrom UTC midnight'da saqlanadi - ISO'ning kun qismidan DD.MM.YYYY chiqaramiz
+// (local TZ'ga o'tkazmaymiz, off-by-one bo'lmasligi uchun).
+const formatEffectiveDate = (value) => {
+  const [y, m, d] = String(value).slice(0, 10).split("-");
+  return d && m && y ? `${d}.${m}.${y}` : String(value).slice(0, 10);
+};
+
 const GroupFeeDetailPage = () => {
   const { groupId } = useParams();
   const { openModal } = useModal();
@@ -27,6 +34,7 @@ const GroupFeeDetailPage = () => {
       year: fee?.year,
       month: fee?.month,
       amount: fee?.amount,
+      effectiveFrom: fee?.effectiveFrom,
       lockPeriod: !!fee,
     });
 
@@ -54,13 +62,20 @@ const GroupFeeDetailPage = () => {
         <ul className="divide-y rounded-lg border bg-white">
           {fees.map((fee) => (
             <li key={fee._id} className="flex items-center justify-between gap-3 px-4 py-3">
-              <div className="flex items-center gap-3">
-                <span className="font-medium">
-                  {MONTH_LABELS[fee.month - 1]} {fee.year}
-                </span>
-                <StatusBadge tone={fee.source === "manual" ? "info" : "neutral"}>
-                  {fee.source === "manual" ? "Qo'lda" : "Avto"}
-                </StatusBadge>
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-3">
+                  <span className="font-medium">
+                    {MONTH_LABELS[fee.month - 1]} {fee.year}
+                  </span>
+                  <StatusBadge tone={fee.source === "manual" ? "info" : "neutral"}>
+                    {fee.source === "manual" ? "Qo'lda" : "Avto"}
+                  </StatusBadge>
+                </div>
+                {fee.effectiveFrom && (
+                  <span className="text-xs text-amber-600">
+                    {formatEffectiveDate(fee.effectiveFrom)} dan kuchga kiradi
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <span className="font-semibold">{formatMoney(fee.amount)}</span>
