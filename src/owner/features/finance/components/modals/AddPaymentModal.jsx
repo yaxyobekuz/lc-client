@@ -83,11 +83,44 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
             <p className="font-semibold text-rose-600">{formatMoney(remaining)}</p>
           </div>
         </div>
-        {detail.discountApplied > 0 && (
-          <p className="mt-1 text-xs text-muted-foreground">
-            Chegirma: {formatMoney(detail.discountApplied)}
-          </p>
-        )}
+        {/* Yakuniy summa qanday chiqqani - tafsilot */}
+        {(() => {
+          const baseFee = detail.baseFee || 0;
+          const factor = detail.prorationFactor ?? 1;
+          const prorated = Math.round(baseFee * factor);
+          const prorationCut = Math.max(0, baseFee - prorated);
+          const discount = detail.discountApplied || 0;
+          const joinedAt = detail.membership?.joinedAt;
+          if (!baseFee && !discount) return null;
+          return (
+            <div className="mt-3 space-y-1 border-t pt-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Guruh oylik to'lovi</span>
+                <span>{formatMoney(baseFee)}</span>
+              </div>
+              {prorationCut > 0 && (
+                <div className="flex justify-between text-amber-600">
+                  <span>
+                    Oy yarmida qo'shilgan
+                    {joinedAt ? ` (${String(joinedAt).slice(0, 10)})` : ""} ·{" "}
+                    {Math.round(factor * 100)}%
+                  </span>
+                  <span>−{formatMoney(prorationCut)}</span>
+                </div>
+              )}
+              {discount > 0 && (
+                <div className="flex justify-between text-amber-600">
+                  <span>Chegirma</span>
+                  <span>−{formatMoney(discount)}</span>
+                </div>
+              )}
+              <div className="flex justify-between border-t pt-1 font-semibold">
+                <span>Jami (oylik)</span>
+                <span>{formatMoney(expected)}</span>
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Add form */}

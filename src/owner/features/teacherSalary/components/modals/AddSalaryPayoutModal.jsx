@@ -83,6 +83,51 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
             <p className="font-semibold text-rose-600">{formatMoney(remaining)}</p>
           </div>
         </div>
+
+        {/* Maosh qanday hisoblangani - tafsilot */}
+        {(() => {
+          const proratedFixed = detail.proratedFixed || 0;
+          const percentAmount = detail.percentAmount || 0;
+          const bonus = detail.bonusTotal || 0;
+          const fine = detail.fineTotal || 0;
+          if (!proratedFixed && !percentAmount && !bonus && !fine) return null;
+          return (
+            <div className="mt-3 space-y-1 border-t pt-2 text-xs">
+              {proratedFixed > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    Fiksa{detail.prorationFactor < 1 ? ` (${Math.round(detail.prorationFactor * 100)}%)` : ""}
+                  </span>
+                  <span>{formatMoney(proratedFixed)}</span>
+                </div>
+              )}
+              {percentAmount > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    Foiz ({detail.percentRate}% × {formatMoney(detail.groupRevenue || 0)})
+                  </span>
+                  <span>{formatMoney(percentAmount)}</span>
+                </div>
+              )}
+              {bonus > 0 && (
+                <div className="flex justify-between text-emerald-600">
+                  <span>Bonus</span>
+                  <span>+{formatMoney(bonus)}</span>
+                </div>
+              )}
+              {fine > 0 && (
+                <div className="flex justify-between text-rose-600">
+                  <span>Jarima</span>
+                  <span>−{formatMoney(fine)}</span>
+                </div>
+              )}
+              <div className="flex justify-between border-t pt-1 font-semibold">
+                <span>Jami maosh</span>
+                <span>{formatMoney(expected)}</span>
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Add form */}
