@@ -8,7 +8,7 @@ import {
   Send,
   Snowflake,
   KeyRound,
-  MoreHorizontal,
+  MoreVertical,
 } from "lucide-react";
 
 // Components
@@ -46,12 +46,13 @@ const GroupStudentsTable = ({ group }) => {
 
   return (
     <div className="rounded-lg border border-gray-200 overflow-x-auto bg-white">
-      <table className="w-full min-w-[720px] table-fixed text-sm">
+      <table className="w-full min-w-[820px] table-fixed text-sm">
         <colgroup>
           <col className="w-12" />
-          <col className="w-[30%]" />
-          <col className="w-[22%]" />
-          <col className="w-[22%]" />
+          <col className="w-[26%]" />
+          <col className="w-[18%]" />
+          <col className="w-[18%]" />
+          <col className="w-[20%]" />
           <col className="w-[16%]" />
         </colgroup>
         <thead>
@@ -60,6 +61,7 @@ const GroupStudentsTable = ({ group }) => {
             <th className="px-4 py-3">Ism familiya</th>
             <th className="px-4 py-3">Telefon</th>
             <th className="px-4 py-3">Telegram</th>
+            <th className="px-4 py-3">Qo'shilgan</th>
             <th className="px-4 py-3 text-right">Amallar</th>
           </tr>
         </thead>
@@ -70,16 +72,11 @@ const GroupStudentsTable = ({ group }) => {
               <td className="px-4 py-3">
                 <Link
                   to={`/owner/users/${s._id}`}
-                  className="block truncate font-medium text-sky-700 hover:text-sky-800 hover:underline"
+                  className="block truncate font-medium hover:underline"
                   title={`${s.firstName} ${s.lastName}`}
                 >
                   {s.firstName} {s.lastName}
                 </Link>
-                {s.joinedAt && (
-                  <p className="mt-0.5 text-xs text-gray-400">
-                    Qo'shilgan: {formatDateUzLong(s.joinedAt)}
-                  </p>
-                )}
                 {s.frozen && (
                   <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2 py-0.5 text-xs font-medium text-cyan-700">
                     <Snowflake className="size-3" />
@@ -87,7 +84,7 @@ const GroupStudentsTable = ({ group }) => {
                   </span>
                 )}
               </td>
-              <td className="px-4 py-3 text-gray-600 tabular-nums">
+              <td className="px-4 py-3 text-gray-600">
                 <span
                   className="block truncate"
                   title={formatPhone(s.phone) || "-"}
@@ -121,6 +118,9 @@ const GroupStudentsTable = ({ group }) => {
                   <span className="text-gray-300">Bog'lanmagan</span>
                 )}
               </td>
+              <td className="px-4 py-3 text-gray-600">
+                {s.joinedAt ? formatDateUzLong(s.joinedAt) : "-"}
+              </td>
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-1">
                   <Button
@@ -146,7 +146,7 @@ const GroupStudentsTable = ({ group }) => {
                         aria-label="Amallar"
                         className="size-8 text-gray-500 hover:text-gray-700"
                       >
-                        <MoreHorizontal className="size-4" />
+                        <MoreVertical className="size-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="min-w-[12rem]">
