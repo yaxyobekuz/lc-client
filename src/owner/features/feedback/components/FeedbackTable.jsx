@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { UserCircle2, Inbox } from "lucide-react";
 import DataTable from "@/shared/components/ui/table/DataTable";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
@@ -29,7 +30,8 @@ const Group = ({ name }) =>
     <span className="text-muted-foreground/50">-</span>
   );
 
-const FeedbackTable = ({ items = [], isLoading = false, onOpen }) => {
+const FeedbackTable = ({ items = [], isLoading = false }) => {
+  const navigate = useNavigate();
   const columns = [
     {
       key: "author",
@@ -79,7 +81,7 @@ const FeedbackTable = ({ items = [], isLoading = false, onOpen }) => {
       rows={items}
       isLoading={isLoading}
       rowKey={(f) => f._id}
-      onRowClick={(f) => onOpen?.(f._id)}
+      onRowClick={(f) => navigate(`/owner/feedback/${f._id}`)}
       empty={
         <EmptyState
           icon={Inbox}

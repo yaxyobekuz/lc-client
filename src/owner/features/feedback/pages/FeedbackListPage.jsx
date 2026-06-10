@@ -10,7 +10,6 @@ import useObjectState from "@/shared/hooks/useObjectState";
 import FeedbackTable from "../components/FeedbackTable";
 import FeedbackTypePicker from "../components/FeedbackTypePicker";
 import StatusChips from "../components/StatusChips";
-import FeedbackDetailDrawer from "../components/FeedbackDetailDrawer";
 import { useFeedbackListQuery } from "../hooks/useFeedbackQueries";
 
 const LIMIT = 20;
@@ -23,7 +22,6 @@ const FeedbackListPage = () => {
     type: "",
   });
   const [page, setPage] = useState(1);
-  const [openId, setOpenId] = useState(null);
 
   const { data, isLoading, isError, refetch } = useFeedbackListQuery({
     search: filters.search || undefined,
@@ -100,11 +98,7 @@ const FeedbackListPage = () => {
         <ErrorState onRetry={refetch} />
       ) : (
         <>
-          <FeedbackTable
-            items={items}
-            isLoading={isLoading}
-            onOpen={setOpenId}
-          />
+          <FeedbackTable items={items} isLoading={isLoading} />
           {totalPages > 1 && (
             <Pagination
               currentPage={page}
@@ -116,12 +110,6 @@ const FeedbackListPage = () => {
           )}
         </>
       )}
-
-      <FeedbackDetailDrawer
-        id={openId}
-        open={!!openId}
-        onClose={() => setOpenId(null)}
-      />
     </div>
   );
 };
