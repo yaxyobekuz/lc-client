@@ -4,7 +4,7 @@ import Card from "@/shared/components/ui/card/Card";
 import Badge from "@/shared/components/ui/badge/Badge";
 import Button from "@/shared/components/ui/button/Button";
 import useMyGroupsQuery from "@/teacher/features/groups/hooks/useMyGroupsQuery";
-import { formatSchedule } from "@/shared/utils/formatSchedule";
+import GroupScheduleLines from "@/shared/components/userProfile/GroupScheduleLines";
 
 const dayOfWeekOf = (d) => {
   const map = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
@@ -39,9 +39,7 @@ const TeacherGradesPage = () => {
                     <Badge className="bg-blue-100 text-blue-700">Bugun</Badge>
                   )}
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {formatSchedule(g.schedule)}
-                </p>
+                <GroupScheduleLines schedule={g.schedule} />
                 <p className="text-sm">{g.studentsCount || 0} o'quvchi</p>
 
                 <div className="pt-2">

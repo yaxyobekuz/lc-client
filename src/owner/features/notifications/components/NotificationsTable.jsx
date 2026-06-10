@@ -14,7 +14,8 @@ import NotificationStatusBadge from "./NotificationStatusBadge";
 const senderName = (n) =>
   n.sender ? `${n.sender.firstName} ${n.sender.lastName}` : "Tizim";
 
-const th = "px-4 py-2 text-left text-xs font-medium text-muted-foreground";
+const th =
+  "px-5 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted-foreground";
 
 const NotificationsTable = ({
   items = [],
@@ -31,7 +32,7 @@ const NotificationsTable = ({
       key: "sender",
       header: "Yuboruvchi",
       headerClassName: th,
-      className: "py-3.5",
+      className: "px-5 py-4",
       cell: (n) => (
         <span className="whitespace-nowrap text-sm">{senderName(n)}</span>
       ),
@@ -40,14 +41,14 @@ const NotificationsTable = ({
       key: "category",
       header: "Kategoriya",
       headerClassName: th,
-      className: "py-3.5",
+      className: "px-5 py-4",
       cell: (n) => <CategoryBadge category={n.category} />,
     },
     {
       key: "text",
       header: "Matn",
       headerClassName: th,
-      className: "max-w-[320px] py-3.5",
+      className: "max-w-[360px] px-5 py-4",
       cell: (n) => (
         <div
           className="truncate text-sm"
@@ -62,14 +63,14 @@ const NotificationsTable = ({
       key: "channels",
       header: "Kanal",
       headerClassName: th,
-      className: "py-3.5",
+      className: "px-5 py-4",
       cell: (n) => <ChannelIcons channels={n.channels} />,
     },
     {
       key: "delivery",
       header: "Yetkazish",
       headerClassName: th,
-      className: "py-3.5",
+      className: "px-5 py-4",
       cell: (n) => (
         <DeliveryStat
           recipients={n.recipientsCount || 0}
@@ -82,7 +83,7 @@ const NotificationsTable = ({
       key: "status",
       header: "Holat",
       headerClassName: th,
-      className: "py-3.5",
+      className: "px-5 py-4",
       cell: (n) => (
         <NotificationStatusBadge status={n.status} isAuto={n.isAuto} />
       ),
@@ -91,7 +92,7 @@ const NotificationsTable = ({
       key: "date",
       header: "Sana",
       headerClassName: th,
-      className: "py-3.5",
+      className: "px-5 py-4",
       cell: (n) => (
         <span className="whitespace-nowrap text-sm text-muted-foreground">
           {formatDateUz(n.scheduleAt || n.sentAt)}
@@ -102,7 +103,7 @@ const NotificationsTable = ({
       key: "actions",
       header: "",
       headerClassName: th,
-      className: "py-3.5 text-right",
+      className: "px-5 py-4 text-right",
       cell: (n) => (
         <div className="flex items-center justify-end gap-1">
           {n.status === "scheduled" && onCancel && (
