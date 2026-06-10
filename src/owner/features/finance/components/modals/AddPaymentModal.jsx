@@ -133,6 +133,7 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
           placeholder="0"
           value={form.amount}
           onChange={(e) => form.setField("amount", e.target.value)}
+          description="Qoldiqdan ortiq kiritsangiz, ortig'i keyingi oylarga avans sifatida o'tadi"
         />
         <div className="grid grid-cols-2 gap-3">
           <SelectField
