@@ -24,6 +24,7 @@ import {
 } from "@/shared/components/userProfile";
 
 import GroupTransferStudentModal from "@/owner/features/groups/components/modals/GroupTransferStudentModal";
+import StudentAddToGroupModal from "@/owner/features/groups/components/modals/StudentAddToGroupModal";
 import UserEditModal from "../components/UserEditModal";
 import UserDeleteModal from "../components/UserDeleteModal";
 import UserPermanentDeleteModal from "../components/UserPermanentDeleteModal";
@@ -313,6 +314,12 @@ const UserDetailPage = () => {
       </ModalWrapper>
 
       {/* Guruh modallari */}
+      <ModalWrapper
+        name={MODAL.STUDENT_ADD_TO_GROUP}
+        title="O'quvchini guruhga qo'shish"
+      >
+        <StudentAddToGroupModal />
+      </ModalWrapper>
       <ModalWrapper
         name={MODAL.GROUP_TRANSFER_STUDENT}
         title="Boshqa guruhga ko'chirish"
