@@ -50,43 +50,34 @@ const GroupAttendanceStatsTab = ({ groupId }) => {
           </p>
         </Card>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-          <Card>
-            <p className="text-xs text-muted-foreground">Davomat (kelgan | umumiy)</p>
-            <p className="text-xl font-semibold text-sky-600">
-              {agg.present} | {Math.max(0, agg.totalClasses - agg.exempt)}
-            </p>
-          </Card>
-          <Card>
-            <p className="text-xs text-muted-foreground">Jami darslar</p>
-            <p className="text-xl font-semibold text-gray-700">
-              {agg.totalClasses}
-            </p>
-          </Card>
-          <Card>
-            <p className="text-xs text-muted-foreground">Keldi</p>
-            <p className="text-xl font-semibold text-green-600">
-              {agg.present}
-            </p>
-          </Card>
-          <Card>
-            <p className="text-xs text-muted-foreground">Kelmadi</p>
-            <p className="text-xl font-semibold text-rose-500">{agg.absent}</p>
-          </Card>
-          <Card>
-            <p className="text-xs text-muted-foreground">Sababli</p>
-            <p className="text-xl font-semibold text-amber-500">{agg.excused}</p>
-          </Card>
-          <Card>
-            <p className="text-xs text-muted-foreground">Ozod</p>
-            <p className="text-xl font-semibold text-gray-400">{agg.exempt}</p>
-          </Card>
-          <Card>
-            <p className="text-xs text-muted-foreground">Belgilanmagan</p>
-            <p className="text-xl font-semibold text-slate-500">
-              {agg.unmarked || 0}
-            </p>
-          </Card>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {[
+            { label: "Jami darslar", value: agg.totalClasses },
+            { label: "Keldi", value: agg.present, dot: "bg-emerald-500" },
+            { label: "Kelmadi", value: agg.absent, dot: "bg-rose-500" },
+            { label: "Sababli", value: agg.excused, dot: "bg-amber-500" },
+            { label: "Ozod", value: agg.exempt, dot: "bg-slate-400" },
+            {
+              label: "Belgilanmagan",
+              value: agg.unmarked || 0,
+              dot: "bg-gray-200",
+            },
+          ].map((stat) => (
+            <Card
+              key={stat.label}
+              className="flex flex-col justify-between gap-2"
+            >
+              <div className="flex items-center gap-1.5">
+                {stat.dot && (
+                  <span className={`block h-2 w-2 shrink-0 rounded-full ${stat.dot}`} />
+                )}
+                <p className="text-xs font-medium text-gray-500">{stat.label}</p>
+              </div>
+              <p className="text-2xl font-semibold tabular-nums text-gray-800">
+                {stat.value}
+              </p>
+            </Card>
+          ))}
         </div>
       )}
 
