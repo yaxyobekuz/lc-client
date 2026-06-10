@@ -73,9 +73,9 @@ const audienceTargets = (notif) => {
   return null;
 };
 
-const NotificationDetailPage = () => {
+const NotificationDetailPage = ({ backTo = "/owner/notifications" }) => {
   const { id } = useParams();
-  const goBack = useGoBack("/owner/notifications");
+  const goBack = useGoBack(backTo);
   const { data: notif, isLoading } = useNotificationDetailQuery(id);
   const { data: recipientsData, isLoading: recLoading } =
     useNotificationRecipientsQuery(id, { limit: 200 });
@@ -128,7 +128,7 @@ const NotificationDetailPage = () => {
     <div className="space-y-5">
       {/* Header */}
       <header className="flex flex-wrap items-center gap-3">
-        <BackLink to="/owner/notifications" />
+        <BackLink to={backTo} />
         <h1 className="text-2xl font-semibold">{notif.title || "Xabar"}</h1>
         <CategoryBadge category={notif.category} />
         <NotificationStatusBadge status={notif.status} isAuto={notif.isAuto} />

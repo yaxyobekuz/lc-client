@@ -21,6 +21,7 @@ const NotificationsTable = ({
   isLoading = false,
   basePath = "/owner/notifications",
   onCancel,
+  rowClassName = "border-b border-border/60 last:border-0",
 }) => {
   const navigate = useNavigate();
   const open = (n) => navigate(`${basePath}/${n._id}`);
@@ -30,7 +31,7 @@ const NotificationsTable = ({
       key: "sender",
       header: "Yuboruvchi",
       headerClassName: th,
-      className: "py-2",
+      className: "py-3.5",
       cell: (n) => (
         <span className="whitespace-nowrap text-sm">{senderName(n)}</span>
       ),
@@ -39,14 +40,14 @@ const NotificationsTable = ({
       key: "category",
       header: "Kategoriya",
       headerClassName: th,
-      className: "py-2",
+      className: "py-3.5",
       cell: (n) => <CategoryBadge category={n.category} />,
     },
     {
       key: "text",
       header: "Matn",
       headerClassName: th,
-      className: "max-w-[320px] py-2",
+      className: "max-w-[320px] py-3.5",
       cell: (n) => (
         <div
           className="truncate text-sm"
@@ -61,14 +62,14 @@ const NotificationsTable = ({
       key: "channels",
       header: "Kanal",
       headerClassName: th,
-      className: "py-2",
+      className: "py-3.5",
       cell: (n) => <ChannelIcons channels={n.channels} />,
     },
     {
       key: "delivery",
       header: "Yetkazish",
       headerClassName: th,
-      className: "py-2",
+      className: "py-3.5",
       cell: (n) => (
         <DeliveryStat
           recipients={n.recipientsCount || 0}
@@ -81,7 +82,7 @@ const NotificationsTable = ({
       key: "status",
       header: "Holat",
       headerClassName: th,
-      className: "py-2",
+      className: "py-3.5",
       cell: (n) => (
         <NotificationStatusBadge status={n.status} isAuto={n.isAuto} />
       ),
@@ -90,7 +91,7 @@ const NotificationsTable = ({
       key: "date",
       header: "Sana",
       headerClassName: th,
-      className: "py-2",
+      className: "py-3.5",
       cell: (n) => (
         <span className="whitespace-nowrap text-sm text-muted-foreground">
           {formatDateUz(n.scheduleAt || n.sentAt)}
@@ -101,7 +102,7 @@ const NotificationsTable = ({
       key: "actions",
       header: "",
       headerClassName: th,
-      className: "py-2 text-right",
+      className: "py-3.5 text-right",
       cell: (n) => (
         <div className="flex items-center justify-end gap-1">
           {n.status === "scheduled" && onCancel && (
@@ -109,6 +110,8 @@ const NotificationsTable = ({
               type="button"
               variant="ghost"
               size="sm"
+              title="Rejani bekor qilish"
+              aria-label="Rejani bekor qilish"
               className="text-red-600 hover:bg-red-50 hover:text-red-700"
               onClick={(e) => {
                 e.stopPropagation();
@@ -122,6 +125,8 @@ const NotificationsTable = ({
             type="button"
             variant="ghost"
             size="sm"
+            title="Batafsil ko'rish"
+            aria-label="Batafsil ko'rish"
             onClick={(e) => {
               e.stopPropagation();
               open(n);
@@ -168,7 +173,7 @@ const NotificationsTable = ({
       rows={items}
       isLoading={isLoading}
       onRowClick={open}
-      rowClassName="border-b border-border/60 last:border-0"
+      rowClassName={rowClassName}
       renderCard={renderCard}
       empty={
         <EmptyState

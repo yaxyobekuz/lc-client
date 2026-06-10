@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Users } from "lucide-react";
+import { Users, ChevronRight } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
+import { cn } from "@/shared/utils/cn";
 import GroupScheduleLines from "./GroupScheduleLines";
 
 const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
@@ -24,34 +25,50 @@ const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
         </p>
       ) : (
         <div className="space-y-2.5">
-          {groups.map((g) => (
-            <div
-              key={g._id}
-              className="rounded-xl border border-border/60 p-3.5 transition-colors hover:bg-muted/30"
-            >
-              <div className="flex items-center justify-between gap-3">
-                {ownerLinks ? (
-                  <Link
-                    to={`/owner/groups/${g._id}`}
-                    className="truncate font-semibold text-foreground transition-colors hover:text-primary"
-                  >
-                    {g.name}
-                  </Link>
-                ) : (
-                  <p className="truncate font-semibold text-foreground">
-                    {g.name}
-                  </p>
-                )}
-                <span className="inline-flex shrink-0 items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                  {g.studentsCount || 0} o'quvchi
-                </span>
-              </div>
+          {groups.map((g) => {
+            // ownerLinks bo'lsa — butun karta guruh detaliga o'tadi
+            const body = (
+              <>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    <span className="truncate font-semibold text-foreground">
+                      {g.name}
+                    </span>
+                    {ownerLinks && (
+                      <ChevronRight className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+                    )}
+                  </span>
+                  <span className="inline-flex shrink-0 items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                    {g.studentsCount || 0} o'quvchi
+                  </span>
+                </div>
 
-              <div className="mt-2.5">
-                <GroupScheduleLines schedule={g.schedule} />
+                <div className="mt-2.5">
+                  <GroupScheduleLines schedule={g.schedule} />
+                </div>
+              </>
+            );
+
+            const cardClass =
+              "block rounded-xl border border-border/60 p-3.5 transition-colors";
+
+            return ownerLinks ? (
+              <Link
+                key={g._id}
+                to={`/owner/groups/${g._id}`}
+                className={cn(
+                  cardClass,
+                  "group hover:border-primary/40 hover:bg-muted/40",
+                )}
+              >
+                {body}
+              </Link>
+            ) : (
+              <div key={g._id} className={cn(cardClass, "hover:bg-muted/30")}>
+                {body}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </Card>

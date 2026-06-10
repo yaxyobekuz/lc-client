@@ -1,5 +1,8 @@
+// Router
+import { Link } from "react-router-dom";
+
 // Icons
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, ChevronRight } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -50,9 +53,16 @@ const GroupInfoTab = ({ group }) => {
                   key={t._id}
                   className="flex items-center justify-between gap-2"
                 >
-                  <span className="font-medium">
-                    {t.firstName} {t.lastName || ""}
-                  </span>
+                  <Link
+                    to={`/owner/users/${t._id}`}
+                    className="group/teacher flex min-w-0 items-center gap-1 font-medium text-foreground transition-colors hover:text-primary"
+                    title="O'qituvchi detaliga o'tish"
+                  >
+                    <span className="truncate">
+                      {t.firstName} {t.lastName || ""}
+                    </span>
+                    <ChevronRight className="size-4 shrink-0 text-muted-foreground transition-transform group-hover/teacher:translate-x-0.5 group-hover/teacher:text-primary" />
+                  </Link>
                   <Button
                     variant="outline"
                     size="sm"
