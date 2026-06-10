@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // Icons
-import { Trash2, RotateCcw } from "lucide-react";
+import { Trash2, RotateCcw, Archive } from "lucide-react";
 
 // Components
 import Card from "@/shared/components/ui/card/Card";
@@ -46,42 +46,38 @@ const GroupCard = ({ group, archived = false }) => {
       <Card className="h-full flex flex-col gap-3 transition-colors group-hover:border-primary">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-base">{group.name}</h3>
-          <div className="flex items-center gap-2 shrink-0">
-            <Badge variant="secondary">{group.studentsCount || 0} o'quvchi</Badge>
-            {archived ? (
-              <button
-                type="button"
-                onClick={handleRestore}
-                disabled={isRestoring}
-                title="Tiklash"
-                aria-label="Guruhni tiklash"
-                className="flex items-center justify-center size-8 rounded-md text-gray-400 hover:bg-green-50 hover:text-green-600 transition-colors disabled:opacity-50"
-              >
-                <RotateCcw className="size-4" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleDelete}
-                title="Arxivlash"
-                aria-label="Guruhni arxivlash"
-                className="flex items-center justify-center size-8 rounded-md text-gray-400 hover:bg-red-50 hover:text-red-600 transition-colors"
-              >
-                <Trash2 className="size-4" />
-              </button>
-            )}
-          </div>
+          {archived ? (
+            <button
+              type="button"
+              onClick={handleRestore}
+              disabled={isRestoring}
+              title="Tiklash"
+              aria-label="Guruhni tiklash"
+              className="flex items-center justify-center size-8 rounded-md text-gray-400 hover:bg-green-50 hover:text-green-600 transition-colors disabled:opacity-50"
+            >
+              <RotateCcw className="size-4" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleDelete}
+              title="Arxivlash"
+              aria-label="Guruhni arxivlash"
+              className="flex items-center justify-center size-8 rounded-md text-gray-400 hover:bg-yellow-50 hover:text-yellow-600 transition-colors"
+            >
+              <Archive className="size-4" />
+            </button>
+          )}
         </div>
 
         <div className="text-sm text-muted-foreground space-y-2">
           <div className="space-y-1.5">
-            <span className="font-medium text-foreground">Dars jadvali:</span>
             {schedule.length ? (
               <div className="flex flex-wrap gap-1.5">
                 {schedule.map((s, i) => (
                   <span
                     key={`${s.day}-${i}`}
-                    className="inline-flex items-center gap-1 rounded-md border bg-muted/40 px-2 py-0.5 text-xs"
+                    className="inline-flex items-center gap-1 rounded-md border bg-background px-2 py-0.5 text-xs"
                   >
                     <span className="font-medium text-foreground">
                       {DAY_LABELS_UZ[s.day] || s.day}
@@ -96,9 +92,15 @@ const GroupCard = ({ group, archived = false }) => {
               <span> -</span>
             )}
           </div>
+
           <div>
             <span className="font-medium text-foreground">O'qituvchi:</span>{" "}
             {teachers || "-"}
+          </div>
+
+          <div>
+            <span className="font-medium text-foreground">O'quvchilar:</span>{" "}
+            {group.studentsCount || 0} ta
           </div>
         </div>
       </Card>
