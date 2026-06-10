@@ -34,24 +34,28 @@ const UserActiveGroupsList = ({
 
   return (
     <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between gap-2">
+      <div className="mb-4 space-y-3">
         <h3 className="flex items-center gap-2 font-semibold text-foreground">
-          <Users className="size-4 text-muted-foreground" />
-          Hozirgi guruhlar
-        </h3>
-        <div className="flex items-center gap-2">
+          <Users className="size-4 shrink-0 text-muted-foreground" />
+          <span>Hozirgi guruhlar</span>
           {activeGroups.length > 0 && (
-            <span className="text-xs text-muted-foreground">
+            <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
               {activeGroups.length} ta
             </span>
           )}
-          {!readonly && (
-            <Button type="button" size="sm" onClick={openAdd}>
-              <Plus className="size-4" />
-              Guruhga qo'shish
-            </Button>
-          )}
-        </div>
+        </h3>
+        {!readonly && activeGroups.length > 0 && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={openAdd}
+            className="w-full"
+          >
+            <Plus className="size-4" />
+            Guruhga qo'shish
+          </Button>
+        )}
       </div>
 
       {activeGroups.length === 0 ? (

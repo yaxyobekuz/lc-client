@@ -18,6 +18,9 @@ import { ROLES } from "@/shared/constants/roles";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUzLong } from "@/shared/utils/formatDate";
 
+// Guruh ustunida ko'rsatiladigan maksimal chip soni - qolgani "+N" bo'lib chiqadi
+const MAX_GROUP_CHIPS = 3;
+
 // Bosiluvchi (saralanadigan) ustun sarlavhasi
 const SortableTh = ({ field, sort, order, onSort, children, className = "" }) => {
   const active = sort === field;
@@ -123,16 +126,30 @@ const UsersTable = ({
               {isStudent && (
                 <td className="px-4 py-2">
                   {u.activeGroups?.length ? (
-                    <div className="flex flex-wrap gap-1">
-                      {u.activeGroups.map((g) => (
-                        <span
-                          key={g._id}
-                          className="inline-flex rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-700"
-                        >
-                          {g.name}
-                        </span>
-                      ))}
-                    </div>
+                    (() => {
+                      const shown = u.activeGroups.slice(0, MAX_GROUP_CHIPS);
+                      const rest = u.activeGroups.slice(MAX_GROUP_CHIPS);
+                      return (
+                        <div className="flex flex-wrap gap-1">
+                          {shown.map((g) => (
+                            <span
+                              key={g._id}
+                              className="inline-flex rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-700"
+                            >
+                              {g.name}
+                            </span>
+                          ))}
+                          {rest.length > 0 && (
+                            <span
+                              className="inline-flex rounded bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-500"
+                              title={rest.map((g) => g.name).join(", ")}
+                            >
+                              +{rest.length}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()
                   ) : (
                     <span className="text-muted-foreground">-</span>
                   )}
