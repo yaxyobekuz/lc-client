@@ -66,7 +66,7 @@ const AttendanceSummaryCard = ({ summary }) => {
       <Card>
         <p className="text-xs text-muted-foreground">Keldi</p>
         <p className="text-xl font-semibold text-green-600">
-          {summary.present + summary.late}
+          {summary.present}
         </p>
       </Card>
       <Card>

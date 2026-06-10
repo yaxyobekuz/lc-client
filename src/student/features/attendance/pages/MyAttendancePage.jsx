@@ -67,7 +67,7 @@ const MyAttendancePage = () => {
         <Card>
           <p className="text-sm text-muted-foreground">Keldi</p>
           <p className="text-2xl font-semibold text-green-600">
-            {(summary?.present || 0) + (summary?.late || 0)}
+            {summary?.present || 0}
           </p>
         </Card>
         <Card>

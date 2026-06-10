@@ -54,7 +54,7 @@ const GroupAttendanceStatsTab = ({ groupId }) => {
           <Card>
             <p className="text-xs text-muted-foreground">Davomat (kelgan | umumiy)</p>
             <p className="text-xl font-semibold text-sky-600">
-              {agg.present + agg.late} | {Math.max(0, agg.totalClasses - agg.exempt)}
+              {agg.present} | {Math.max(0, agg.totalClasses - agg.exempt)}
             </p>
           </Card>
           <Card>
@@ -66,7 +66,7 @@ const GroupAttendanceStatsTab = ({ groupId }) => {
           <Card>
             <p className="text-xs text-muted-foreground">Keldi</p>
             <p className="text-xl font-semibold text-green-600">
-              {agg.present + agg.late}
+              {agg.present}
             </p>
           </Card>
           <Card>
