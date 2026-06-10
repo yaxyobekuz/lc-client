@@ -1,13 +1,42 @@
 import { useState } from "react";
-import { Bell, CheckCheck, Inbox, Check } from "lucide-react";
+import {
+  Bell,
+  CheckCheck,
+  Inbox,
+  Check,
+  Wallet,
+  AlertTriangle,
+  CalendarX,
+  Megaphone,
+  Mail,
+  GraduationCap,
+  MessageSquare,
+  PartyPopper,
+  ClipboardList,
+  FileText,
+} from "lucide-react";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import { cn } from "@/shared/utils/cn";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import {
   CATEGORY_LABEL,
-  CATEGORY_EMOJI,
   CATEGORY_BADGE_CLASS,
 } from "@/shared/constants/notification";
+
+// Kategoriya -> vektor ikona (emoji/sticker o'rniga)
+const CATEGORY_ICON = {
+  payment_reminder: Wallet,
+  debt_warning: AlertTriangle,
+  class_cancel: CalendarX,
+  announcement: Megaphone,
+  admin_personal: Mail,
+  teacher_message: GraduationCap,
+  feedback_status: MessageSquare,
+  holiday: PartyPopper,
+  attendance: ClipboardList,
+  template_based: FileText,
+  other: Bell,
+};
 import {
   useInboxQuery,
   useMarkReadMutation,
@@ -19,7 +48,7 @@ const InboxItem = ({ recipient, onMarkRead }) => {
   const n = recipient.notification;
   if (!n) return null;
   const isUnread = !recipient.readAt;
-  const emoji = CATEGORY_EMOJI[n.category] || "📨";
+  const Icon = CATEGORY_ICON[n.category] || Bell;
   const categoryLabel = CATEGORY_LABEL[n.category];
   const badgeClass = CATEGORY_BADGE_CLASS[n.category] || CATEGORY_BADGE_CLASS.other;
 
@@ -48,8 +77,8 @@ const InboxItem = ({ recipient, onMarkRead }) => {
         <span className="absolute right-3 top-3 size-2 rounded-full bg-primary" />
       )}
 
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted/60 text-xl">
-        {emoji}
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted/60 text-muted-foreground">
+        <Icon className="size-5" />
       </div>
 
       <div className="min-w-0 flex-1">
