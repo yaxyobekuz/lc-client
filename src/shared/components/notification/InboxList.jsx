@@ -1,16 +1,18 @@
 import { useState } from "react";
-import Button from "@/shared/components/ui/button/Button";
-import Card from "@/shared/components/ui/card/Card";
+import { Bell, CheckCheck, Inbox, Check } from "lucide-react";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
+import { cn } from "@/shared/utils/cn";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import {
   CATEGORY_LABEL,
   CATEGORY_EMOJI,
+  CATEGORY_BADGE_CLASS,
 } from "@/shared/constants/notification";
 import {
   useInboxQuery,
   useMarkReadMutation,
   useMarkAllReadMutation,
+  useUnreadCountQuery,
 } from "@/owner/features/notifications/hooks/useInboxQuery";
 
 const InboxItem = ({ recipient, onMarkRead }) => {
@@ -18,36 +20,84 @@ const InboxItem = ({ recipient, onMarkRead }) => {
   if (!n) return null;
   const isUnread = !recipient.readAt;
   const emoji = CATEGORY_EMOJI[n.category] || "📨";
+  const categoryLabel = CATEGORY_LABEL[n.category];
+  const badgeClass = CATEGORY_BADGE_CLASS[n.category] || CATEGORY_BADGE_CLASS.other;
+
+  const markRead = () => isUnread && onMarkRead(recipient._id);
 
   return (
     <div
-      className={`border rounded-md p-3 flex gap-3 ${
-        isUnread ? "bg-blue-50/40 border-blue-200" : "bg-white"
-      }`}
+      role={isUnread ? "button" : undefined}
+      tabIndex={isUnread ? 0 : undefined}
+      onClick={markRead}
+      onKeyDown={(e) => {
+        if (isUnread && (e.key === "Enter" || e.key === " ")) {
+          e.preventDefault();
+          markRead();
+        }
+      }}
+      className={cn(
+        "relative flex gap-3 rounded-2xl border p-3.5 transition-colors",
+        isUnread
+          ? "cursor-pointer border-primary/20 bg-primary/5 hover:bg-primary/10"
+          : "border-border/60 bg-white",
+      )}
     >
-      <div className="text-2xl">{emoji}</div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <p className="font-medium text-sm">
-            {n.title || CATEGORY_LABEL[n.category] || "Xabar"}
-          </p>
-          <span className="text-xs text-muted-foreground shrink-0">
+      {/* O'qilmagan indikatori */}
+      {isUnread && (
+        <span className="absolute right-3 top-3 size-2 rounded-full bg-primary" />
+      )}
+
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted/60 text-xl">
+        {emoji}
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {categoryLabel && (
+            <span
+              className={cn(
+                "inline-flex shrink-0 rounded-full px-2 py-0.5 text-[11px] font-medium",
+                badgeClass,
+              )}
+            >
+              {categoryLabel}
+            </span>
+          )}
+          <span className="text-[11px] text-muted-foreground">
             {formatDateUz(n.sentAt)}
           </span>
         </div>
-        <p className="text-sm whitespace-pre-wrap">{n.body}</p>
-        <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-muted-foreground">
-            {n.sender
-              ? `${n.sender.firstName} ${n.sender.lastName}`
-              : "Tizim"}
+
+        {n.title && (
+          <p
+            className={cn(
+              "mt-1 truncate text-sm",
+              isUnread ? "font-semibold text-foreground" : "font-medium",
+            )}
+          >
+            {n.title}
+          </p>
+        )}
+
+        <p className="mt-0.5 whitespace-pre-wrap break-words text-sm text-foreground/90">
+          {n.body}
+        </p>
+
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <span className="truncate text-xs text-muted-foreground">
+            {n.sender ? `${n.sender.firstName} ${n.sender.lastName}` : "Tizim"}
           </span>
           {isUnread && (
             <button
               type="button"
-              onClick={() => onMarkRead(recipient._id)}
-              className="text-xs text-blue-600 hover:underline"
+              onClick={(e) => {
+                e.stopPropagation();
+                onMarkRead(recipient._id);
+              }}
+              className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary hover:underline"
             >
+              <Check className="size-3.5" />
               O'qilgan deb belgilash
             </button>
           )}
@@ -57,12 +107,31 @@ const InboxItem = ({ recipient, onMarkRead }) => {
   );
 };
 
+const FilterTab = ({ active, onClick, children }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={cn(
+      "flex-1 rounded-lg px-3 py-1.5 text-sm font-medium transition",
+      active
+        ? "bg-white text-foreground shadow-sm"
+        : "text-muted-foreground hover:text-foreground",
+    )}
+  >
+    {children}
+  </button>
+);
+
 const InboxList = () => {
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 20;
 
   const { data, isLoading } = useInboxQuery({ page, limit, unreadOnly });
+  // Kesh qiymati { count } yoki optimistik holatda oddiy son bo'lishi mumkin
+  const { data: unreadRaw } = useUnreadCountQuery();
+  const unreadCount =
+    typeof unreadRaw === "number" ? unreadRaw : unreadRaw?.count || 0;
   const { mutate: markRead } = useMarkReadMutation();
   const { mutate: markAllRead, isPending } = useMarkAllReadMutation();
 
@@ -70,45 +139,72 @@ const InboxList = () => {
   const total = data?.meta?.total || 0;
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
+  const setFilter = (only) => {
+    setUnreadOnly(only);
+    setPage(1);
+  };
+
   return (
-    <div className="space-y-4">
-      <header className="flex items-center justify-between gap-3 flex-wrap">
-        <h1 className="text-2xl font-semibold">Bildirishnomalar</h1>
-        <div className="flex items-center gap-2 flex-wrap">
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={unreadOnly}
-              onChange={(e) => {
-                setUnreadOnly(e.target.checked);
-                setPage(1);
-              }}
-            />
-            Faqat o'qilmaganlar
-          </label>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => markAllRead()}
-            disabled={isPending}
-          >
-            Hammasini o'qilgan deb belgilash
-          </Button>
+    <div className="mx-auto max-w-2xl space-y-4 pb-4">
+      {/* Sarlavha */}
+      <header className="sticky top-0 z-10 -mx-1 bg-background/80 px-1 pb-2 pt-1 backdrop-blur">
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="flex items-center gap-2 text-xl font-semibold">
+            <Bell className="size-5 text-primary" />
+            Bildirishnomalar
+            {unreadCount > 0 && (
+              <span className="inline-flex min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">
+                {unreadCount}
+              </span>
+            )}
+          </h1>
+          {unreadCount > 0 && (
+            <button
+              type="button"
+              onClick={() => markAllRead()}
+              disabled={isPending}
+              className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline disabled:opacity-50"
+            >
+              <CheckCheck className="size-4" />
+              <span className="hidden sm:inline">Hammasini o'qildi</span>
+              <span className="sm:hidden">O'qildi</span>
+            </button>
+          )}
+        </div>
+
+        {/* Filtr segmenti */}
+        <div className="mt-3 flex gap-1 rounded-xl bg-muted/60 p-1">
+          <FilterTab active={!unreadOnly} onClick={() => setFilter(false)}>
+            Hammasi
+          </FilterTab>
+          <FilterTab active={unreadOnly} onClick={() => setFilter(true)}>
+            O'qilmagan{unreadCount > 0 ? ` (${unreadCount})` : ""}
+          </FilterTab>
         </div>
       </header>
 
       {isLoading ? (
-        <Card>
-          <p className="text-center text-muted-foreground">Yuklanmoqda...</p>
-        </Card>
-      ) : items.length === 0 ? (
-        <Card>
-          <p className="text-center text-muted-foreground">
-            Xabarlar yo'q
-          </p>
-        </Card>
-      ) : (
         <div className="space-y-2">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="h-24 animate-pulse rounded-2xl border border-border/60 bg-muted/40"
+            />
+          ))}
+        </div>
+      ) : items.length === 0 ? (
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border/60 bg-white py-16 text-center">
+          <div className="flex size-14 items-center justify-center rounded-full bg-muted/60">
+            <Inbox className="size-7 text-muted-foreground" />
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {unreadOnly
+              ? "O'qilmagan xabarlar yo'q"
+              : "Hozircha xabarlar yo'q"}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-2.5">
           {items.map((r) => (
             <InboxItem
               key={r._id}
