@@ -19,6 +19,7 @@ export const MODAL = Object.freeze({
   USER_CREATE: "user:create",
   USER_EDIT: "user:edit",
   USER_DELETE: "user:delete",
+  USER_RESTORE: "user:restore",
   USER_PERMANENT_DELETE: "user:permanentDelete",
   USER_PASSWORD: "user:password",
 

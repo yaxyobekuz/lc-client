@@ -17,6 +17,7 @@ import Pagination from "@/shared/components/ui/pagination/Pagination";
 import UsersTable from "../components/UsersTable";
 import UserCreateModal from "../components/UserCreateModal";
 import UserDeleteModal from "../components/UserDeleteModal";
+import UserRestoreModal from "../components/UserRestoreModal";
 import UserEditModal from "../components/UserEditModal";
 import UserPasswordModal from "../components/UserPasswordModal";
 
@@ -156,6 +157,10 @@ const UsersListPage = () => {
 
       <ModalWrapper name={MODAL.USER_DELETE} title="Foydalanuvchini arxivlash">
         <UserDeleteModal />
+      </ModalWrapper>
+
+      <ModalWrapper name={MODAL.USER_RESTORE} title="Foydalanuvchini tiklash">
+        <UserRestoreModal />
       </ModalWrapper>
 
       <ModalWrapper

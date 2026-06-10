@@ -5,31 +5,18 @@ import { KeyRound, Trash2, RotateCcw, ChevronUp, ChevronDown } from "lucide-reac
 import { Link, useNavigate } from "react-router-dom";
 
 // Components
-import Badge from "@/shared/components/ui/badge/Badge";
 import Button from "@/shared/components/ui/button/Button";
 
 // Hooks
 import useModal from "@/shared/hooks/useModal";
-import useUserRestoreMutation from "../hooks/useUserRestoreMutation";
 
 // Constants
 import { MODAL } from "@/shared/constants/modals";
-import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
+import { ROLES } from "@/shared/constants/roles";
 
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUzLong } from "@/shared/utils/formatDate";
-
-// Foydalanuvchi shu oyda qo'shilganmi? ("Yangi" badge uchun)
-const isNewThisMonth = (createdAt) => {
-  if (!createdAt) return false;
-  const d = new Date(createdAt);
-  if (Number.isNaN(d.getTime())) return false;
-  const now = new Date();
-  return (
-    d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
-  );
-};
 
 // Bosiluvchi (saralanadigan) ustun sarlavhasi
 const SortableTh = ({ field, sort, order, onSort, children, className = "" }) => {
@@ -63,11 +50,13 @@ const UsersTable = ({
 }) => {
   const { openModal } = useModal();
   const navigate = useNavigate();
-  const { mutate: restore, isPending: isRestoring } = useUserRestoreMutation();
 
   // Faqat o'quvchilar ro'yxatida Guruh ustuni ko'rsatiladi
   const isStudent = role === ROLES.STUDENT;
   const canSort = typeof onSort === "function";
+
+  // O'quvchi uchun "Kelgan", o'qituvchi uchun "Ish boshlagan"
+  const joinedLabel = isStudent ? "Kelgan" : "Ish boshlagan";
 
   if (users.length === 0) {
     return (
@@ -108,15 +97,8 @@ const UsersTable = ({
               <th className="px-4 py-2 font-medium">Ism familiya</th>
             )}
             <th className="px-4 py-2 font-medium">Telefon</th>
-            {isStudent ? (
-              <th className="px-4 py-2 font-medium">Guruh</th>
-            ) : (
-              <>
-                <th className="px-4 py-2 font-medium">Login</th>
-                <th className="px-4 py-2 font-medium">Rol</th>
-              </>
-            )}
-            <th className="px-4 py-2 font-medium">Holat</th>
+            {isStudent && <th className="px-4 py-2 font-medium">Guruh</th>}
+            <th className="px-4 py-2 font-medium">{joinedLabel}</th>
             <th className="px-4 py-2 font-medium text-right">Amallar</th>
           </tr>
         </thead>
@@ -129,28 +111,16 @@ const UsersTable = ({
             >
               <td className="px-4 py-2 text-muted-foreground">{i + 1}</td>
               <td className="px-4 py-2">
-                <div className="flex items-center gap-2">
-                  <div className="min-w-0">
-                    <Link
-                      to={`/owner/users/${u._id}`}
-                      className="font-medium hover:underline"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {u.firstName} {u.lastName}
-                    </Link>
-                    {u.createdAt && (
-                      <p className="text-xs text-muted-foreground">
-                        Kelgan: {formatDateUzLong(u.createdAt)}
-                      </p>
-                    )}
-                  </div>
-                  {!archived && isNewThisMonth(u.createdAt) && (
-                    <Badge className="bg-sky-100 text-sky-700">Yangi</Badge>
-                  )}
-                </div>
+                <Link
+                  to={`/owner/users/${u._id}`}
+                  className="font-medium hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {u.firstName} {u.lastName}
+                </Link>
               </td>
               <td className="px-4 py-2">{formatPhone(u.phone) || "-"}</td>
-              {isStudent ? (
+              {isStudent && (
                 <td className="px-4 py-2">
                   {u.activeGroups?.length ? (
                     <div className="flex flex-wrap gap-1">
@@ -167,22 +137,9 @@ const UsersTable = ({
                     <span className="text-muted-foreground">—</span>
                   )}
                 </td>
-              ) : (
-                <>
-                  <td className="px-4 py-2 text-muted-foreground">
-                    @{u.username}
-                  </td>
-                  <td className="px-4 py-2">{ROLE_LABELS[u.role] || u.role}</td>
-                </>
               )}
-              <td className="px-4 py-2">
-                {u.isActive ? (
-                  <Badge variant="default" className="bg-green-100 text-green-700">
-                    Faol
-                  </Badge>
-                ) : (
-                  <Badge variant="outline">Nofaol</Badge>
-                )}
+              <td className="px-4 py-2 text-muted-foreground">
+                {u.createdAt ? formatDateUzLong(u.createdAt) : "-"}
               </td>
               <td className="px-4 py-2" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-end gap-1">
@@ -192,9 +149,7 @@ const UsersTable = ({
                       variant="ghost"
                       size="sm"
                       className="text-green-600 hover:bg-green-50 hover:text-green-700"
-                      disabled={isRestoring}
-                      onClick={() => restore(u._id)}
-                      
+                      onClick={() => openModal(MODAL.USER_RESTORE, { user: u })}
                       aria-label="Tiklash"
                       title="Tiklash"
                     >
