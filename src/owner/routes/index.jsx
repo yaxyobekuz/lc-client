@@ -6,6 +6,11 @@ import { GroupsListPage, GroupDetailPage } from "@/owner/features/groups";
 import { UsersListPage, UserDetailPage } from "@/owner/features/users";
 import { ArchiveReasonsPage } from "@/owner/features/archiveReasons";
 import {
+  LeadsListPage,
+  LeadsStatsPage,
+  LeadsSettingsPage,
+} from "@/owner/features/leads";
+import {
   AttendanceMarkPage,
   AttendanceDashboardPage,
   AttendanceSettingsPage,
@@ -45,6 +50,11 @@ const OwnerRoutes = () => (
     <Route path="users" element={<UsersListPage />} />
     <Route path="users/:id" element={<UserDetailPage />} />
     <Route path="archive-reasons" element={<ArchiveReasonsPage />} />
+
+    {/* Lidlar (CRM) */}
+    <Route path="leads" element={<LeadsListPage />} />
+    <Route path="leads/stats" element={<LeadsStatsPage />} />
+    <Route path="leads/settings" element={<LeadsSettingsPage />} />
 
     {/* Davomat */}
     <Route path="attendance" element={<AttendanceDashboardPage />} />

@@ -19,6 +19,16 @@ export const ENDPOINTS = Object.freeze({
     byId: (id) => `/archive-reasons/${id}`,
     report: "/archive-reasons/report",
   },
+  leads: {
+    base: "/leads",
+    byId: (id) => `/leads/${id}`,
+    convert: (id) => `/leads/${id}/convert`,
+    stats: "/leads/stats",
+  },
+  leadOptions: {
+    base: "/lead-options",
+    byId: (id) => `/lead-options/${id}`,
+  },
   students: {
     base: "/students",
     byId: (id) => `/students/${id}`,

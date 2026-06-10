@@ -18,6 +18,16 @@ export const qk = Object.freeze({
     list: (params) => ["archiveReasons", "list", params],
     report: (params) => ["archiveReasons", "report", params],
   },
+  leads: {
+    all: () => ["leads"],
+    list: (params) => ["leads", "list", params],
+    one: (id) => ["leads", "detail", id],
+    stats: (params) => ["leads", "stats", params],
+  },
+  leadOptions: {
+    all: () => ["leadOptions"],
+    list: (params) => ["leadOptions", "list", params],
+  },
   students: {
     all: () => ["students"],
     list: (params) => ["students", "list", params],

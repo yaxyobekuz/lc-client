@@ -28,6 +28,15 @@ export const MODAL = Object.freeze({
   ARCHIVE_REASON_EDIT: "archiveReason:edit",
   ARCHIVE_REASON_DELETE: "archiveReason:delete",
 
+  // Leads
+  LEAD_CREATE: "lead:create",
+  LEAD_EDIT: "lead:edit",
+  LEAD_DELETE: "lead:delete",
+  LEAD_CONVERT: "lead:convert",
+  LEAD_OPTION_CREATE: "leadOption:create",
+  LEAD_OPTION_EDIT: "leadOption:edit",
+  LEAD_OPTION_DELETE: "leadOption:delete",
+
   // Groups
   GROUP_CREATE: "group:create",
   GROUP_EDIT: "group:edit",

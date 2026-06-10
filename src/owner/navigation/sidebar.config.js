@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   MonitorCog,
   Star,
+  Target,
 } from "lucide-react";
 
 const ownerSidebar = [
@@ -32,6 +33,29 @@ const ownerSidebar = [
         title: "Arxiv sabablari",
         url: "/owner/archive-reasons",
         permission: "archive_reasons.manage",
+      },
+    ],
+  },
+
+  {
+    title: "Lidlar",
+    icon: Target,
+    isActive: false,
+    items: [
+      {
+        title: "Ro'yxatlar",
+        url: "/owner/leads",
+        permission: "leads.read",
+      },
+      {
+        title: "Statistika",
+        url: "/owner/leads/stats",
+        permission: "leads.read",
+      },
+      {
+        title: "Sozlamalar",
+        url: "/owner/leads/settings",
+        permission: "leads.manage",
       },
     ],
   },
