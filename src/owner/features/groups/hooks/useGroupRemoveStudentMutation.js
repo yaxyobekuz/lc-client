@@ -14,8 +14,8 @@ import { qk } from "@/shared/lib/query/keys";
 const useGroupRemoveStudentMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, studentId }) =>
-      groupsAPI.removeStudent(id, studentId).then((r) => r.data),
+    mutationFn: ({ id, studentId, reasonId }) =>
+      groupsAPI.removeStudent(id, studentId, reasonId).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });

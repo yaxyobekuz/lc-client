@@ -149,6 +149,7 @@ export const qk = Object.freeze({
     overview: (params) => ["adminDashboard", "overview", params],
     studentFlow: (params) => ["adminDashboard", "studentFlow", params],
     studentStats: (params) => ["adminDashboard", "studentStats", params],
+    retention: (params) => ["adminDashboard", "retention", params],
   },
 
   // Finance (Moliya)

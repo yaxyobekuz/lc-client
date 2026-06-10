@@ -36,6 +36,11 @@ const ownerSidebar = [
         permission: "admin_dashboard.read",
       },
       {
+        title: "Chiqib ketish tahlili",
+        url: "/owner/students/retention",
+        permission: "admin_dashboard.read",
+      },
+      {
         title: "Arxiv sabablari",
         url: "/owner/archive-reasons",
         permission: "archive_reasons.manage",
