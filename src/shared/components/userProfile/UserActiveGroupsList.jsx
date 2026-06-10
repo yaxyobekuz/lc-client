@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-import { ArrowRightLeft, CalendarDays, Trash2, Users } from "lucide-react";
+import {
+  ArrowRightLeft,
+  CalendarDays,
+  Trash2,
+  Users,
+  Plus,
+} from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
@@ -15,6 +21,17 @@ const UserActiveGroupsList = ({
 }) => {
   const { openModal } = useModal();
 
+  // O'quvchining hozirgi guruh id'lari — qo'shishda takror chiqmasligi uchun
+  const activeGroupIds = activeGroups
+    .map((m) => m.group?._id)
+    .filter(Boolean);
+
+  const openAdd = () =>
+    openModal(MODAL.STUDENT_ADD_TO_GROUP, {
+      studentId,
+      excludeGroupIds: activeGroupIds,
+    });
+
   return (
     <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-2">
@@ -22,17 +39,39 @@ const UserActiveGroupsList = ({
           <Users className="size-4 text-muted-foreground" />
           Hozirgi guruhlar
         </h3>
-        {activeGroups.length > 0 && (
-          <span className="text-xs text-muted-foreground">
-            {activeGroups.length} ta
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {activeGroups.length > 0 && (
+            <span className="text-xs text-muted-foreground">
+              {activeGroups.length} ta
+            </span>
+          )}
+          {!readonly && (
+            <Button type="button" size="sm" onClick={openAdd}>
+              <Plus className="size-4" />
+              Guruhga qo'shish
+            </Button>
+          )}
+        </div>
       </div>
 
       {activeGroups.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          Hech qaysi guruhga biriktirilmagan
-        </p>
+        <div className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Hech qaysi guruhga biriktirilmagan
+          </p>
+          {!readonly && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={openAdd}
+              className="w-full"
+            >
+              <Plus className="size-4" />
+              Guruhga qo'shish
+            </Button>
+          )}
+        </div>
       ) : (
         <div className="space-y-2.5">
           {activeGroups.map((m) => {

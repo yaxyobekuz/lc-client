@@ -5,7 +5,9 @@ import Button from "@/shared/components/ui/button/Button";
 import Pagination from "@/shared/components/ui/pagination/Pagination";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import useModal from "@/shared/hooks/useModal";
+import useAuth from "@/shared/hooks/useAuth";
 import { MODAL } from "@/shared/constants/modals";
+import { ROLES } from "@/shared/constants/roles";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
 import {
@@ -44,6 +46,9 @@ const FeedbackCard = ({ feedback: f }) => (
 
 const MyFeedbackPage = () => {
   const { openModal } = useModal();
+  const { role } = useAuth();
+  // O'quvchida guruhlar ro'yxatiga ruxsat yo'q — guruh tanlagichni yashiramiz
+  const showGroupPicker = role !== ROLES.STUDENT;
   const [page, setPage] = useState(1);
   const limit = 20;
 
@@ -95,7 +100,7 @@ const MyFeedbackPage = () => {
       )}
 
       <ModalWrapper name={MODAL.FEEDBACK_SUBMIT} title="Yangi feedback">
-        <FeedbackSubmitModal />
+        <FeedbackSubmitModal showGroupPicker={showGroupPicker} />
       </ModalWrapper>
     </div>
   );
