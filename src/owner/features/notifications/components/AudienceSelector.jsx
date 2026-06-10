@@ -45,7 +45,11 @@ const AudienceSelector = ({ value, onChange, disabled = false }) => {
   const isTeacher = role === ROLES.TEACHER;
   const types = isTeacher ? TEACHER_TYPES : OWNER_TYPES;
 
-  const { audienceType, groupIds = [], userIds = [] } = value;
+  // Audience obyekti `.type` kalitidan foydalanadi (backend va RecipientCountPreview
+  // bilan mos). Tashqi state'da `audienceType` deb saqlansa ham shu yerga `type`
+  // sifatida keladi - shuning uchun ikkalasini ham qabul qilamiz.
+  const audienceType = value.type ?? value.audienceType;
+  const { groupIds = [], userIds = [] } = value;
 
   // Ichki UI holati: qidiruv matnlari + tanlangan label keshi
   const ui = useObjectState({
