@@ -1,4 +1,11 @@
-import { Pencil, Trash2, UserCheck, MoreVertical, Inbox } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  UserCheck,
+  MoreVertical,
+  Inbox,
+  BellRing,
+} from "lucide-react";
 import DataTable from "@/shared/components/ui/table/DataTable";
 import Button from "@/shared/components/ui/button/Button";
 import Select from "@/shared/components/ui/select/Select";
@@ -54,6 +61,12 @@ const LeadsTable = ({ items = [], isLoading = false }) => {
             Tahrirlash
           </DropdownMenuItem>
           <DropdownMenuItem
+            onSelect={() => openModal(MODAL.LEAD_REMINDER, { lead: l })}
+          >
+            <BellRing className="size-4" />
+            Eslatma bildirishnomasi
+          </DropdownMenuItem>
+          <DropdownMenuItem
             disabled={!!l.studentId}
             onSelect={() => openModal(MODAL.LEAD_CONVERT, { lead: l })}
           >
@@ -90,9 +103,17 @@ const LeadsTable = ({ items = [], isLoading = false }) => {
       header: "Ism",
       headerClassName: th,
       cell: (l) => (
-        <span className="font-medium">
-          {l.firstName} {l.lastName}
-        </span>
+        <div className="flex items-center gap-1.5">
+          <span className="font-medium">
+            {l.firstName} {l.lastName}
+          </span>
+          {l.followUpAt && !l.followUpNotifiedAt && (
+            <BellRing
+              className="size-3.5 shrink-0 text-amber-500"
+              title={`Qayta bog'lanish: ${formatDateUz(l.followUpAt)}`}
+            />
+          )}
+        </div>
       ),
     },
     {

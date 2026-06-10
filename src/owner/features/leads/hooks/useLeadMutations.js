@@ -49,6 +49,20 @@ export const useLeadRemoveMutation = (options = {}) => {
   });
 };
 
+export const useLeadReminderMutation = (options = {}) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }) =>
+      leadsAPI.setReminder(id, body).then((r) => r.data.data),
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({ queryKey: qk.leads.all() });
+      toast.success("Eslatma saqlandi");
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: onErr(options),
+  });
+};
+
 export const useLeadConvertMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({

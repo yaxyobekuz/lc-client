@@ -33,6 +33,7 @@ export const MODAL = Object.freeze({
   LEAD_EDIT: "lead:edit",
   LEAD_DELETE: "lead:delete",
   LEAD_CONVERT: "lead:convert",
+  LEAD_REMINDER: "lead:reminder",
   LEAD_OPTION_CREATE: "leadOption:create",
   LEAD_OPTION_EDIT: "leadOption:edit",
   LEAD_OPTION_DELETE: "leadOption:delete",

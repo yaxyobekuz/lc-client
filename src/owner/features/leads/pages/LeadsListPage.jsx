@@ -17,6 +17,7 @@ import LeadCreateModal from "../components/LeadCreateModal";
 import LeadEditModal from "../components/LeadEditModal";
 import LeadDeleteModal from "../components/LeadDeleteModal";
 import LeadConvertModal from "../components/LeadConvertModal";
+import LeadReminderModal from "../components/LeadReminderModal";
 import useLeadsQuery from "../hooks/useLeadsQuery";
 import useLeadOptionsQuery from "../hooks/useLeadOptionsQuery";
 
@@ -124,6 +125,9 @@ const LeadsListPage = () => {
       </ModalWrapper>
       <ModalWrapper name={MODAL.LEAD_CONVERT} title="O'quvchiga aylantirish" className="max-w-xl">
         <LeadConvertModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.LEAD_REMINDER} title="Qayta bog'lanish eslatmasi">
+        <LeadReminderModal />
       </ModalWrapper>
     </div>
   );

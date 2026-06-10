@@ -23,6 +23,7 @@ export const ENDPOINTS = Object.freeze({
     base: "/leads",
     byId: (id) => `/leads/${id}`,
     convert: (id) => `/leads/${id}/convert`,
+    reminder: (id) => `/leads/${id}/reminder`,
     stats: "/leads/stats",
   },
   leadOptions: {
