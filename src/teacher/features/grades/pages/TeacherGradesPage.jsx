@@ -34,9 +34,11 @@ const TeacherGradesPage = () => {
             return (
               <Card key={g._id} className="space-y-3">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-semibold">{g.name}</h3>
+                  <h3 className="min-w-0 break-words font-semibold">{g.name}</h3>
                   {isToday && (
-                    <Badge className="bg-blue-100 text-blue-700">Bugun</Badge>
+                    <Badge className="shrink-0 bg-blue-100 text-blue-700">
+                      Bugun
+                    </Badge>
                   )}
                 </div>
                 <GroupScheduleLines schedule={g.schedule} />

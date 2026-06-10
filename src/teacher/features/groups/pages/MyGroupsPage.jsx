@@ -39,8 +39,12 @@ const MyGroupsPage = () => {
           >
             <Card className="h-full flex flex-col gap-3">
               <div className="flex items-start justify-between gap-2">
-                <h3 className="font-semibold text-base">{g.name}</h3>
-                <Badge variant="secondary">{g.studentsCount || 0} o'quvchi</Badge>
+                <h3 className="min-w-0 break-words text-base font-semibold">
+                  {g.name}
+                </h3>
+                <Badge variant="secondary" className="shrink-0">
+                  {g.studentsCount || 0} o'quvchi
+                </Badge>
               </div>
               <div className="space-y-2 text-sm text-muted-foreground">
                 <ScheduleCards schedule={g.schedule} />

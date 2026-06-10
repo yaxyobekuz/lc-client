@@ -19,7 +19,9 @@ import {
 const FeedbackCard = ({ feedback: f }) => (
   <Card className="space-y-2">
     <div className="flex items-center justify-between gap-2">
-      <span className="font-medium">{f.type?.name || "Feedback"}</span>
+      <span className="min-w-0 truncate font-medium">
+        {f.type?.name || "Feedback"}
+      </span>
       <FeedbackStatusBadge status={f.status} />
     </div>
     <p className="text-sm whitespace-pre-wrap text-muted-foreground">
