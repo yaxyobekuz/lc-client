@@ -5,10 +5,14 @@ import { apiErrorToast } from "@/shared/utils/apiError";
 import { financeAPI } from "../api/finance.api";
 
 // Moliya o'zgarishlari ko'p query'ga ta'sir qiladi (to'lovlar, hisobot, guruh fee) →
-// barchasini invalidate qilamiz.
+// barchasini invalidate qilamiz. Guruh to'lovi/chegirma o'qituvchining billed maoshini
+// ham o'zgartiradi → teacherSalary query'lari ham yangilanadi.
 const useInvalidate = () => {
   const qc = useQueryClient();
-  return () => qc.invalidateQueries({ queryKey: qk.finance.all() });
+  return () => {
+    qc.invalidateQueries({ queryKey: qk.finance.all() });
+    qc.invalidateQueries({ queryKey: qk.teacherSalary.all() });
+  };
 };
 
 export const useGroupFeeUpsertMutation = (options = {}) => {

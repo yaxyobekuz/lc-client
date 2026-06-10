@@ -134,7 +134,7 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
         />
         {showPercent && (
           <p className="text-xs text-muted-foreground">
-            Guruh shu oy yiqqan tushum: {formatMoney(detail.groupRevenue || 0)}
+            Guruh hisoblangan tushumi (billed): {formatMoney(detail.groupRevenue || 0)}
           </p>
         )}
         <div className="flex justify-end">
