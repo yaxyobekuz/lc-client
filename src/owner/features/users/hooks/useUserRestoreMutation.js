@@ -7,7 +7,8 @@ import { apiErrorToast } from "@/shared/utils/apiError";
 const useUserRestoreMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id) => usersAPI.restore(id).then((r) => r.data),
+    mutationFn: ({ id, reasonId } = {}) =>
+      usersAPI.restore(id, { reasonId }).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.users.all() });
       toast.success("Tiklandi");

@@ -1,10 +1,29 @@
+// State
+import { useState } from "react";
+
 // Components
 import Button from "@/shared/components/ui/button/Button";
+import SelectField from "@/shared/components/ui/select/SelectField";
 
 // Hooks
 import useUserRemoveMutation from "../hooks/useUserRemoveMutation";
+import useArchiveReasonsQuery from "@/owner/features/archiveReasons/hooks/useArchiveReasonsQuery";
+
+// Constants
+import { ROLES } from "@/shared/constants/roles";
 
 const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
+  const [reasonId, setReasonId] = useState("");
+  const isStudent = user?.role === ROLES.STUDENT;
+
+  const { data } = useArchiveReasonsQuery(
+    isStudent ? { limit: 200 } : undefined,
+  );
+  const reasonOptions = [
+    { value: "", label: "Sababsiz" },
+    ...(data?.data || []).map((r) => ({ value: r._id, label: r.title })),
+  ];
+
   const { mutate } = useUserRemoveMutation({
     onSuccess: () => {
       setIsLoading(false);
@@ -15,7 +34,7 @@ const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
 
   const handleConfirm = () => {
     setIsLoading(true);
-    mutate(user._id);
+    mutate({ id: user._id, reasonId: reasonId || undefined });
   };
 
   return (
@@ -27,6 +46,17 @@ const UserDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
         arxivlanadi (Arxiv filtrida ko'rinadi, qaytarish mumkin). Davom
         etasizmi?
       </p>
+
+      {isStudent && (
+        <SelectField
+          searchable
+          label="Arxivlash sababi"
+          value={reasonId}
+          onChange={setReasonId}
+          options={reasonOptions}
+          disabled={isLoading}
+        />
+      )}
 
       <div className="flex gap-2">
         <Button
