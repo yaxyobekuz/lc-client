@@ -67,4 +67,7 @@ export const PERMISSIONS = Object.freeze({
   SALARY_READ: "salary.read",
   SALARY_PAY: "salary.pay",
   SALARY_MANAGE: "salary.manage",
+
+  // Onboarding (mavjud tarixiy ma'lumotni import qilish)
+  ONBOARDING_IMPORT: "onboarding.import",
 });

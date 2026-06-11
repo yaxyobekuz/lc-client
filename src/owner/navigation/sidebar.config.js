@@ -152,7 +152,7 @@ const ownerSidebar = [
         permission: "salary.read",
       },
       {
-        title: "Majburiyatlar",
+        title: "Qarzdorliklar",
         url: "/owner/finance/obligations",
         permission: "salary.read",
       },

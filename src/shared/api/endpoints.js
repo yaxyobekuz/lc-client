@@ -53,6 +53,11 @@ export const ENDPOINTS = Object.freeze({
     myTeach: "/groups/me/teach",
   },
 
+  // Onboarding (mavjud tarixiy ma'lumotni import qilish)
+  onboarding: {
+    import: "/onboarding/import",
+  },
+
 
   // Attendance subsystem
   attendance: {
