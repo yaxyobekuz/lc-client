@@ -17,6 +17,7 @@ import { MODAL } from "@/shared/constants/modals";
 
 // Utils
 import { sortSchedule, DAY_LABELS_UZ } from "@/shared/utils/formatSchedule";
+import { formatMoney } from "@/shared/utils/formatMoney";
 
 const GroupCard = ({ group, archived = false }) => {
   const { openModal } = useModal();
@@ -101,6 +102,15 @@ const GroupCard = ({ group, archived = false }) => {
           <div>
             <span className="font-medium text-foreground">O'quvchilar:</span>{" "}
             {group.studentsCount || 0} ta
+          </div>
+
+          <div>
+            <span className="font-medium text-foreground">Oylik to'lov:</span>{" "}
+            {group.monthlyFee != null ? (
+              formatMoney(group.monthlyFee)
+            ) : (
+              <span className="text-amber-600">Belgilanmagan</span>
+            )}
           </div>
         </div>
       </Card>

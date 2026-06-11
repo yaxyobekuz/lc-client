@@ -38,6 +38,8 @@ const buildInitial = (group) => ({
       ? ""
       : toDateInput(new Date()),
   durationMonths: group?.durationMonths ?? "",
+  // Oylik narx - faqat yangi guruh yaratishda (joriy oy GroupFee summasi).
+  monthlyPrice: "",
 });
 
 const GroupForm = ({
@@ -57,6 +59,7 @@ const GroupForm = ({
     teacher,
     startDate,
     durationMonths,
+    monthlyPrice,
     scheduleEffectiveFrom,
     setField,
   } = useObjectState(buildInitial(initial));
@@ -138,7 +141,11 @@ const GroupForm = ({
     }
     // O'qituvchini faqat yaratishda yuboramiz. Tahrirlashda o'qituvchi
     // "Almashtirish" orqali boshqariladi - bu yerda tegmaymiz.
-    if (!isEdit) payload.teachers = [teacher];
+    if (!isEdit) {
+      payload.teachers = [teacher];
+      // Oylik narx (ixtiyoriy) - berilsa joriy oy GroupFee summasi bo'ladi.
+      if (monthlyPrice !== "") payload.monthlyPrice = Number(monthlyPrice);
+    }
 
     onSubmit(payload);
   };
@@ -177,6 +184,21 @@ const GroupForm = ({
           disabled={isLoading}
         />
       </div>
+
+      {/* Oylik narx - faqat yangi guruh yaratishda (keyin Moliyadan tahrirlanadi) */}
+      {!isEdit && (
+        <InputField
+          type="number"
+          name="monthlyPrice"
+          label="Oylik to'lov (so'm)"
+          placeholder="Masalan: 500000"
+          min="0"
+          value={monthlyPrice}
+          onChange={(e) => setField("monthlyPrice", e.target.value)}
+          disabled={isLoading}
+          description="Ixtiyoriy - keyin Moliya bo'limidan ham belgilash mumkin"
+        />
+      )}
 
       {/* 3-qator: jadval va o'qituvchi. Tahrirlashda o'qituvchi ko'rsatilmaydi -
           u faqat "Almashtirish" orqali o'zgartiriladi, shu sabab jadval to'liq enga. */}
