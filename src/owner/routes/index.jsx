@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 // Pages
 import { GroupsListPage, GroupDetailPage } from "@/owner/features/groups";
-import { ImportWizardPage } from "@/owner/features/onboarding";
 import { UsersListPage, UserDetailPage } from "@/owner/features/users";
 import { ArchiveReasonsPage } from "@/owner/features/archiveReasons";
 import {
@@ -61,8 +60,6 @@ const OwnerRoutes = () => (
     <Route path="activity-logs" element={<ActivityLogsPage />} />
 
     <Route path="groups" element={<GroupsListPage />} />
-    {/* "import" :id'dan oldin - aks holda id sifatida tushuniladi */}
-    <Route path="groups/import" element={<ImportWizardPage />} />
     <Route path="groups/:id" element={<GroupDetailPage />} />
 
     <Route path="users" element={<UsersListPage />} />

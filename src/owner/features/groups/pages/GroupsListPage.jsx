@@ -1,11 +1,8 @@
 // State
 import { useState } from "react";
 
-// Router
-import { useNavigate } from "react-router-dom";
-
 // Icons
-import { Plus, Search, Upload } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
@@ -31,7 +28,6 @@ const GroupsListPage = () => {
   const [search, setSearch] = useState("");
   const [archived, setArchived] = useState(false);
   const [page, setPage] = useState(1);
-  const navigate = useNavigate();
   const { openModal } = useModal();
   const debouncedSearch = useDebounce(search);
 
@@ -72,20 +68,10 @@ const GroupsListPage = () => {
         />
 
         {!archived && (
-          <div className="flex gap-2 shrink-0">
-            <Button
-              variant="outline"
-              onClick={() => navigate("/groups/import")}
-              title="Tizimga kirishdan oldingi guruh va to'lovlarni import qilish"
-            >
-              <Upload className="size-4" />
-              Import qilish
-            </Button>
-            <Button onClick={() => openModal(MODAL.GROUP_CREATE)}>
-              <Plus className="size-4" />
-              Yangi guruh
-            </Button>
-          </div>
+          <Button onClick={() => openModal(MODAL.GROUP_CREATE)}>
+            <Plus className="size-4" />
+            Yangi guruh
+          </Button>
         )}
       </div>
 
