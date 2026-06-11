@@ -39,7 +39,7 @@ const TeacherObligationsPage = () => {
     <div className="space-y-4">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">Majburiyatlar</h1>
+          <h1 className="text-2xl font-semibold">Qarzdorliklar</h1>
           <p className="text-sm text-muted-foreground">
             O'qituvchilarga to'lanishi kerak bo'lgan qoldiq
           </p>

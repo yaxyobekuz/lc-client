@@ -92,7 +92,7 @@ const FinanceReportPage = () => {
               tone={net >= 0 ? "positive" : "negative"}
             />
             <StatCard label="Qarzdorlik" value={debt} isMoney icon={TriangleAlert} tone="negative" />
-            <StatCard label="Majburiyatlar" value={obligations} isMoney icon={Wallet} tone="info" />
+            <StatCard label="Qarzdorliklar" value={obligations} isMoney icon={Wallet} tone="info" />
           </div>
 
           {/* O'quvchi to'lovlari tafsiloti */}
