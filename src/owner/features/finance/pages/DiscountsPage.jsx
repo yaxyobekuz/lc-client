@@ -11,8 +11,8 @@ import MonthPicker from "../components/MonthPicker";
 import DiscountsTable from "../components/DiscountsTable";
 import DiscountCreateModal from "../components/modals/DiscountCreateModal";
 import DiscountEditModal from "../components/modals/DiscountEditModal";
+import DiscountDeleteModal from "../components/modals/DiscountDeleteModal";
 import useDiscountsQuery from "../hooks/useDiscountsQuery";
-import { useDiscountRemoveMutation } from "../hooks/useFinanceMutations";
 
 const now = new Date();
 
@@ -41,7 +41,6 @@ const DiscountsPage = () => {
   });
 
   const rows = data?.data || [];
-  const removeMut = useDiscountRemoveMutation();
 
   return (
     <div className="space-y-4">
@@ -74,7 +73,7 @@ const DiscountsPage = () => {
         rows={rows}
         isLoading={isLoading}
         onEdit={(d) => openModal(MODAL.DISCOUNT_EDIT, { discount: d })}
-        onDelete={(d) => removeMut.mutate(d._id)}
+        onDelete={(d) => openModal(MODAL.DISCOUNT_DELETE, { discount: d })}
       />
 
       <ModalWrapper name={MODAL.DISCOUNT_CREATE} title="Yangi chegirma">
@@ -82,6 +81,9 @@ const DiscountsPage = () => {
       </ModalWrapper>
       <ModalWrapper name={MODAL.DISCOUNT_EDIT} title="Chegirmani tahrirlash">
         <DiscountEditModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.DISCOUNT_DELETE} title="Chegirmani o'chirish">
+        <DiscountDeleteModal />
       </ModalWrapper>
     </div>
   );

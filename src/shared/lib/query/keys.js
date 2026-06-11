@@ -171,6 +171,7 @@ export const qk = Object.freeze({
     salaries: (params) => ["teacherSalary", "salaries", params],
     salary: (id) => ["teacherSalary", "salary", id],
     teacherHistory: (teacherId) => ["teacherSalary", "teacherHistory", teacherId],
+    myFinance: () => ["teacherSalary", "me", "finance"],
     obligations: (params) => ["teacherSalary", "obligations", params],
     adjustments: (params) => ["teacherSalary", "adjustments", params],
     report: (params) => ["teacherSalary", "report", params],

@@ -1,4 +1,4 @@
-import { GraduationCap, User, CalendarCheck, Bell } from "lucide-react";
+import { GraduationCap, User, CalendarCheck, Bell, Wallet } from "lucide-react";
 
 const teacherSidebar = [
   {
@@ -32,6 +32,17 @@ const teacherSidebar = [
       {
         title: "Feedback",
         url: "/teacher/feedback",
+      },
+    ],
+  },
+  {
+    title: "Moliya",
+    icon: Wallet,
+    isActive: true,
+    items: [
+      {
+        title: "Mening oyligim",
+        url: "/teacher/finance",
       },
     ],
   },

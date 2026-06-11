@@ -52,7 +52,8 @@ import useUserDetailQuery from "../hooks/useUserDetailQuery";
 import useUserGroupHistoryQuery from "../hooks/useUserGroupHistoryQuery";
 
 import { MODAL } from "@/shared/constants/modals";
-import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
+import { ROLES } from "@/shared/constants/roles";
+import { getRoleLabel, hasValidRole } from "@/shared/helpers/role.helpers";
 import BackLink from "@/shared/components/ui/link/BackLink";
 
 const AttendanceSummaryCard = ({ summary }) => {
@@ -261,8 +262,10 @@ const UserDetailPage = () => {
             {profile.firstName} {profile.lastName}
           </h1>
 
-          <Badge variant="secondary">
-            {ROLE_LABELS[profile.role] || profile.role}
+          <Badge
+            variant={hasValidRole(profile.role) ? "secondary" : "destructive"}
+          >
+            {getRoleLabel(profile.role)}
           </Badge>
         </div>
 

@@ -55,6 +55,8 @@ const UserCreateModal = ({ defaultRole, close, isLoading, setIsLoading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isValid()) return;
+    // Rol majburiy: bo'sh yoki noto'g'ri qiymat bilan yuborilmasin
+    if (obj.role !== ROLES.STUDENT && obj.role !== ROLES.TEACHER) return;
 
     const body = {
       firstName: obj.firstName.trim(),

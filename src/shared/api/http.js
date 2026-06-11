@@ -28,7 +28,13 @@ http.interceptors.response.use(
   (response) => response,
   async (error) => {
     const original = error.config || {};
-    const isAuthRequest = original.url?.includes("/auth/");
+    // Faqat login/refresh/logout refresh oqimidan istisno qilinadi. /auth/me
+    // ataylab KIRADI: access token muddati tuganda (sahifa yangilashda birinchi
+    // so'rov odatda shu) refresh ishlab, foydalanuvchi bekorga logout bo'lmasin.
+    const url = original.url || "";
+    const isAuthRequest = ["/auth/login", "/auth/refresh", "/auth/logout"].some(
+      (p) => url.includes(p),
+    );
 
     if (error.response?.status !== 401 || original._retry || isAuthRequest) {
       return Promise.reject(error);

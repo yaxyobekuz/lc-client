@@ -9,6 +9,9 @@ import { Toaster } from "sonner";
 // Routes
 import Routes from "@/app/routes.jsx";
 
+// Error boundary
+import ErrorBoundary from "@/shared/components/ErrorBoundary";
+
 // Store (Redux)
 import store from "@/app/store";
 import { Provider } from "react-redux";
@@ -24,18 +27,20 @@ import queryClient from "@/app/query-client";
 import { QueryClientProvider } from "@tanstack/react-query";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Routes />
+  <ErrorBoundary>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Routes />
 
-        <Toaster
-          richColors
-          position="top-right"
-          offset={{ top: 24 }}
-          mobileOffset={{ top: 24 }}
-        />
-      </Provider>
-    </QueryClientProvider>
-  </BrowserRouter>,
+          <Toaster
+            richColors
+            position="top-right"
+            offset={{ top: 24 }}
+            mobileOffset={{ top: 24 }}
+          />
+        </Provider>
+      </QueryClientProvider>
+    </BrowserRouter>
+  </ErrorBoundary>,
 );

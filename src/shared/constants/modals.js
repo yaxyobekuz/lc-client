@@ -88,6 +88,7 @@ export const MODAL = Object.freeze({
   GROUP_FEE_EDIT: "finance:groupFeeEdit",
   DISCOUNT_CREATE: "finance:discountCreate",
   DISCOUNT_EDIT: "finance:discountEdit",
+  DISCOUNT_DELETE: "finance:discountDelete",
 
   // Teacher salary (O'qituvchi maoshlari)
   SALARY_EDIT: "salary:edit",

@@ -1,33 +1,37 @@
-// Router
-import { useNavigate } from "react-router-dom";
-
 // Components
 import Button from "@/shared/components/ui/button/Button";
 
 // Hooks
-import useGroupRemoveMutation from "../../hooks/useGroupRemoveMutation";
+import { useDiscountRemoveMutation } from "../../hooks/useFinanceMutations";
 
-const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
-  const navigate = useNavigate();
-  const { mutate } = useGroupRemoveMutation({
+// discount - karta orqali uzatiladi (ModalWrapper data)
+const DiscountDeleteModal = ({ discount, close, isLoading, setIsLoading }) => {
+  const { mutate } = useDiscountRemoveMutation({
     onSuccess: () => {
       setIsLoading(false);
       close?.();
-      navigate("/owner/groups", { replace: true });
     },
     onError: () => setIsLoading(false),
   });
 
   const handleConfirm = () => {
     setIsLoading(true);
-    mutate(group._id);
+    mutate(discount._id);
   };
+
+  const label =
+    discount?.type === "percent"
+      ? `${discount?.value}%`
+      : `${discount?.value} so'm`;
 
   return (
     <div className="space-y-4">
       <p className="text-sm">
-        <span className="font-semibold">{group?.name}</span> guruhi arxivlanadi
-        (Arxiv filtrida ko'rinadi, qaytarish mumkin). Davom etasizmi?
+        <span className="font-semibold">
+          {discount?.student?.firstName} {discount?.student?.lastName}
+        </span>{" "}
+        uchun {label} chegirma o'chiriladi. Bog'liq to'lovlar qayta hisoblanadi.
+        Davom etasizmi?
       </p>
 
       <div className="flex gap-2">
@@ -48,11 +52,11 @@ const GroupDeleteModal = ({ group, close, isLoading, setIsLoading }) => {
           disabled={isLoading}
           className="flex-1"
         >
-          {isLoading ? "Arxivlanmoqda..." : "Ha, arxivlash"}
+          {isLoading ? "O'chirilmoqda..." : "Ha, o'chirish"}
         </Button>
       </div>
     </div>
   );
 };
 
-export default GroupDeleteModal;
+export default DiscountDeleteModal;

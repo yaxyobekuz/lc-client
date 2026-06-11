@@ -14,6 +14,12 @@ import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { ROLES } from "@/shared/constants/roles";
 
+// Helpers
+import { getRoleLabel, hasValidRole } from "@/shared/helpers/role.helpers";
+
+// Components
+import Badge from "@/shared/components/ui/badge/Badge";
+
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUzLong } from "@/shared/utils/formatDate";
@@ -101,6 +107,7 @@ const UsersTable = ({
               <th className="px-4 py-2 font-medium">Ism familiya</th>
             )}
             <th className="px-4 py-2 font-medium">Telefon</th>
+            <th className="px-4 py-2 font-medium">Rol</th>
             {isStudent && <th className="px-4 py-2 font-medium">Guruh</th>}
             <th className="px-4 py-2 font-medium">{joinedLabel}</th>
             <th className="px-4 py-2 font-medium text-right">Amallar</th>
@@ -124,6 +131,14 @@ const UsersTable = ({
                 </Link>
               </td>
               <td className="px-4 py-2">{formatPhone(u.phone) || "-"}</td>
+              <td className="px-4 py-2">
+                <Badge
+                  variant={hasValidRole(u.role) ? "secondary" : "destructive"}
+                  className="font-medium"
+                >
+                  {getRoleLabel(u.role)}
+                </Badge>
+              </td>
               {isStudent && (
                 <td className="px-4 py-2">
                   {u.activeGroups?.length ? (

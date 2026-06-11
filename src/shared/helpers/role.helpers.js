@@ -1,8 +1,16 @@
-export const getRoleLabel = (roleValue, roles = []) => {
-  if (roleValue === "owner") return "Ega";
-  const found = roles.find((r) => r.value === roleValue);
-  return found ? found.name : roleValue;
+import { ROLE_LABELS } from "@/shared/constants/roles";
+
+// Foydalanuvchining roli HECH QACHON bo'sh ko'rinmasligi kerak.
+// 1) tanilgan rol -> o'zbekcha label (ROLE_LABELS)
+// 2) noma'lum, lekin qiymat bor -> qiymatning o'zi
+// 3) umuman yo'q (null/undefined/"") -> ogohlantiruvchi label
+export const getRoleLabel = (roleValue) => {
+  if (!roleValue) return "Rol biriktirilmagan";
+  return ROLE_LABELS[roleValue] || roleValue;
 };
+
+// Rol mavjud va tizimga tanish ekanligini bildiradi (UI'da ogohlantirish uchun)
+export const hasValidRole = (roleValue) => Boolean(ROLE_LABELS[roleValue]);
 
 export const isRoleAllowed = (userRole, allowedRoles) => {
   return allowedRoles.includes(userRole);

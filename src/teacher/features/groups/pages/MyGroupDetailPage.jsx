@@ -1,5 +1,5 @@
 // Router
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Icons
 import { ArrowLeft, Send } from "lucide-react";
@@ -20,6 +20,7 @@ import { formatPhone } from "@/shared/utils/formatPhone";
 
 const MyGroupDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const goBack = useGoBack("/teacher/groups");
   const { data: group, isLoading, isError } = useGroupQuery(id);
 
@@ -73,11 +74,19 @@ const MyGroupDetailPage = () => {
       </Card>
 
       <Card>
-        <h2 className="font-semibold mb-3">O'quvchilar</h2>
+        <h2 className="font-semibold mb-1">O'quvchilar</h2>
+        <p className="mb-3 text-xs text-muted-foreground">
+          Davomat va darsdan ozod qilish uchun o'quvchini tanlang
+        </p>
         {students.length === 0 ? (
           <p className="text-muted-foreground text-sm">O'quvchilar yo'q</p>
         ) : (
-          <StudentsList students={students} />
+          <StudentsList
+            students={students}
+            onSelect={(s) =>
+              navigate(`/teacher/groups/${id}/students/${s._id}`)
+            }
+          />
         )}
       </Card>
     </div>
@@ -95,6 +104,7 @@ const TelegramStatus = ({ telegram }) => {
         href={`https://t.me/${telegram.username}`}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
         className="inline-flex min-w-0 items-center gap-1 font-medium text-sky-600 hover:text-sky-700 hover:underline"
       >
         <Send className="size-3.5 shrink-0" />
@@ -113,15 +123,17 @@ const TelegramStatus = ({ telegram }) => {
   );
 };
 
-// Mobil — card ro'yxati, sm+ — jadval (gorizontal scroll bilan)
-const StudentsList = ({ students }) => (
+// Mobil — card ro'yxati, sm+ — jadval (gorizontal scroll bilan).
+// Qatorni bosish o'quvchi detali sahifasiga olib boradi (davomat + ozod davrlari).
+const StudentsList = ({ students, onSelect }) => (
   <>
     {/* Mobil ko'rinish: stacked cards */}
     <ul className="space-y-2.5 sm:hidden">
       {students.map((s, i) => (
         <li
           key={s._id}
-          className="rounded-xl border border-border/60 p-3"
+          onClick={() => onSelect?.(s)}
+          className="cursor-pointer rounded-xl border border-border/60 p-3 transition-colors hover:bg-gray-50"
         >
           <div className="flex items-start gap-2">
             <span className="mt-0.5 text-xs text-muted-foreground">{i + 1}.</span>
@@ -154,9 +166,13 @@ const StudentsList = ({ students }) => (
         </thead>
         <tbody>
           {students.map((s, i) => (
-            <tr key={s._id} className="border-t">
+            <tr
+              key={s._id}
+              onClick={() => onSelect?.(s)}
+              className="cursor-pointer border-t transition-colors hover:bg-gray-50"
+            >
               <td className="px-3 py-2 text-muted-foreground">{i + 1}</td>
-              <td className="px-3 py-2">
+              <td className="px-3 py-2 font-medium">
                 {s.firstName} {s.lastName}
               </td>
               <td className="px-3 py-2">{formatPhone(s.phone) || "-"}</td>

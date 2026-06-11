@@ -67,7 +67,7 @@ const UserPasswordModal = ({ user, close, isLoading, setIsLoading }) => {
           <div className="flex items-center gap-2">
             <InputField
               className="flex-1"
-              type="password"
+              type="text"
               value={currentPassword}
               readOnly
               autoComplete="off"

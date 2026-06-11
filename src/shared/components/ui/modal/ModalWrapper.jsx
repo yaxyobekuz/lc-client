@@ -69,15 +69,15 @@ const ModalWrapper = ({
 
   return (
     <Drawer open={isOpen} onOpenChange={hanldeCloseModal}>
-      <DrawerContent className={cn("px-5 pb-5", className)}>
+      <DrawerContent className={cn("px-5 pb-5 max-h-[90dvh]", className)}>
         {/* Header */}
-        <DialogHeader className="bg-white pb-3.5">
+        <DialogHeader className="bg-white pb-3.5 shrink-0">
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
 
         {/* Body */}
-        <div className="w-full max-h-[calc(100vh-154px)] overflow-y-auto hidden-scroll">
+        <div className="w-full flex-1 min-h-0 overflow-y-auto hidden-scroll">
           {body}
         </div>
       </DrawerContent>

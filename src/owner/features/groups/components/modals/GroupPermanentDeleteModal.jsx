@@ -27,9 +27,7 @@ const GroupPermanentDeleteModal = ({ group, close, isLoading, setIsLoading }) =>
     <div className="space-y-4">
       <p className="text-sm">
         <span className="font-semibold">{group?.name}</span> guruhi butunlay
-        o'chiriladi. Unga bog'liq barcha o'quvchi a'zoligi, to'lov, hisob,
-        davomat va o'qituvchi stavkasi UI'dan yo'qoladi va hisoblanmaydi. Bu -
-        arxivlash emas (bazada saqlanadi, lekin ko'rinmaydi).
+        o'chiriladi. Bog'liq barcha ma'lumotlar ko'rinmaydi.
       </p>
 
       <div className="flex gap-2">

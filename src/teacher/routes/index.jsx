@@ -2,7 +2,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Pages
-import { MyGroupsPage, MyGroupDetailPage } from "@/teacher/features/groups";
+import {
+  MyGroupsPage,
+  MyGroupDetailPage,
+  MyStudentDetailPage,
+} from "@/teacher/features/groups";
 import { TeacherProfilePage } from "@/teacher/features/profile";
 import {
   TeacherAttendancePage,
@@ -18,6 +22,7 @@ import {
   MyInboxPage,
 } from "@/teacher/features/notifications";
 import { MyFeedbackPage } from "@/teacher/features/feedback";
+import { TeacherFinancePage } from "@/teacher/features/finance";
 import NotFoundPage from "@/shared/components/ui/feedback/NotFoundPage";
 
 const TeacherRoutes = () => (
@@ -25,6 +30,10 @@ const TeacherRoutes = () => (
     <Route index element={<Navigate to="groups" replace />} />
     <Route path="groups" element={<MyGroupsPage />} />
     <Route path="groups/:id" element={<MyGroupDetailPage />} />
+    <Route
+      path="groups/:id/students/:studentId"
+      element={<MyStudentDetailPage />}
+    />
     <Route path="attendance" element={<TeacherAttendancePage />} />
     <Route path="attendance/:groupId" element={<TeacherAttendanceMarkPage />} />
     <Route path="grades" element={<TeacherGradesPage />} />
@@ -36,6 +45,7 @@ const TeacherRoutes = () => (
     />
     <Route path="inbox" element={<MyInboxPage />} />
     <Route path="feedback" element={<MyFeedbackPage />} />
+    <Route path="finance" element={<TeacherFinancePage />} />
     <Route path="profile" element={<TeacherProfilePage />} />
     <Route path="*" element={<NotFoundPage />} />
   </Routes>

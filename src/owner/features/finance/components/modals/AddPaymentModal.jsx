@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
@@ -45,12 +47,21 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
     },
     onError: () => setIsLoading(false),
   });
-  const removeMut = useRemoveTransactionMutation();
+  // O'chirishni tasdiqlash uchun: qaysi tranzaksiya tasdiq kutmoqda (inline confirm)
+  const [confirmId, setConfirmId] = useState(null);
+  const removeMut = useRemoveTransactionMutation({
+    onSuccess: () => setConfirmId(null),
+    onError: () => setConfirmId(null),
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const amount = Number(form.amount);
     if (!amount || amount <= 0) return;
+    if (amount > 10_000_000) {
+      toast.error("Summa 10 000 000 dan oshmasligi kerak");
+      return;
+    }
     setIsLoading(true);
     addMut.mutate({
       paymentId: payment._id,
@@ -198,14 +209,39 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
                     {String(t.paidAt).slice(0, 10)}
                   </span>
                 </div>
-                <button
-                  type="button"
-                  className="flex size-8 shrink-0 items-center justify-center rounded-md text-rose-500 active:bg-rose-50"
-                  onClick={() => removeMut.mutate(t._id)}
-                  aria-label="O'chirish"
-                >
-                  <Trash2 className="size-4" />
-                </button>
+                {confirmId === t._id ? (
+                  // Inline tasdiq: tasodifan bosishdan himoya. To'lovni o'chirish
+                  // qaytarib bo'lmaydi (balansni qayta hisoblaydi).
+                  <div className="flex shrink-0 items-center gap-1">
+                    <Button
+                      type="button"
+                      variant="danger"
+                      className="h-7 px-2 text-xs"
+                      disabled={removeMut.isPending}
+                      onClick={() => removeMut.mutate(t._id)}
+                    >
+                      {removeMut.isPending ? "..." : "O'chirish"}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-7 px-2 text-xs"
+                      disabled={removeMut.isPending}
+                      onClick={() => setConfirmId(null)}
+                    >
+                      Yo'q
+                    </Button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="flex size-8 shrink-0 items-center justify-center rounded-md text-rose-500 active:bg-rose-50"
+                    onClick={() => setConfirmId(t._id)}
+                    aria-label="O'chirish"
+                  >
+                    <Trash2 className="size-4" />
+                  </button>
+                )}
               </li>
             ))}
           </ul>

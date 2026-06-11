@@ -9,7 +9,8 @@ import {
   Clock,
   Briefcase,
 } from "lucide-react";
-import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
+import { ROLES } from "@/shared/constants/roles";
+import { getRoleLabel, hasValidRole } from "@/shared/helpers/role.helpers";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import { formatEnrolledDuration } from "@/shared/utils/enrollmentDuration";
@@ -52,8 +53,11 @@ const UserProfileCard = ({ profile }) => {
             {profile.firstName} {profile.lastName}
           </h2>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
-            <Badge variant="secondary" className="rounded-full font-medium">
-              {ROLE_LABELS[profile.role] || profile.role}
+            <Badge
+              variant={hasValidRole(profile.role) ? "secondary" : "destructive"}
+              className="rounded-full font-medium"
+            >
+              {getRoleLabel(profile.role)}
             </Badge>
             {profile.isActive ? (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-600">
