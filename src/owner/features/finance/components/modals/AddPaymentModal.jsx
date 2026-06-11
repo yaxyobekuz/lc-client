@@ -32,12 +32,16 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
     amount: remaining > 0 ? String(remaining) : "",
     method: "cash",
     paidAt: todayKey(),
+    // Double-click/retry bitta to'lovni ikki marta yozmasligi uchun server
+    // tomonda dedupe kaliti. Muvaffaqiyatdan keyin yangilanadi (yangi to'lov
+    // uchun), xatoda esa o'sha kalit qoladi (retry xavfsiz).
+    idemKey: crypto.randomUUID(),
   });
 
   const addMut = useAddTransactionMutation({
     onSuccess: () => {
       setIsLoading(false);
-      form.setField("amount", "");
+      form.setFields({ amount: "", idemKey: crypto.randomUUID() });
     },
     onError: () => setIsLoading(false),
   });
@@ -53,6 +57,7 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
       amount,
       method: form.method,
       paidAt: form.paidAt,
+      idempotencyKey: form.idemKey,
     });
   };
 
