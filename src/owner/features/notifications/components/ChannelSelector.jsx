@@ -10,7 +10,7 @@ const CHANNELS = [
   },
   {
     key: "inapp",
-    title: "Platforma (in-app)",
+    title: "Platforma (Ilova ichida)",
     description: "Xabar foydalanuvchining platforma ichidagi inbox'ida ko'rinadi.",
     icon: Smartphone,
   },

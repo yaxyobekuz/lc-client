@@ -9,7 +9,7 @@ import { cn } from "@/shared/utils/cn";
 
 /**
  * ChannelIcons - yetkazish kanalini KICHIK IKONKA bilan ko'rsatadi (badge emas).
- * Telegram (✈) + Platforma (in-app) ikonkalari yonma-yon, har biri tooltip bilan.
+ * Telegram (✈) +  ikonkalari yonma-yon, har biri tooltip bilan.
  * Jadval qatorlarini tinch saqlash uchun - eng katta shovqin manbasini yo'qotadi.
  *
  * variant:
@@ -19,7 +19,7 @@ import { cn } from "@/shared/utils/cn";
  */
 const CHANNEL_META = {
   telegram: { icon: Send, label: "Telegram bot orqali yuborildi" },
-  inapp: { icon: Smartphone, label: "Platforma (in-app) orqali ko'rinadi" },
+  inapp: { icon: Smartphone, label: "Platforma (Ilova ichida) orqali ko'rinadi" },
 };
 
 const IconDot = ({ channel, tone = "muted", label }) => {

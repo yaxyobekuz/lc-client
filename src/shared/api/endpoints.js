@@ -107,7 +107,7 @@ export const ENDPOINTS = Object.freeze({
     markRead: (id) => `/notifications/inbox/${id}/read`,
     markAllRead: "/notifications/inbox/read-all",
   },
-  // Tizim bildirishnomalari (in-app, owner)
+  // Tizim bildirishnomalari (, owner)
   systemNotifications: {
     base: "/system-notifications",
     unreadCount: "/system-notifications/unread-count",

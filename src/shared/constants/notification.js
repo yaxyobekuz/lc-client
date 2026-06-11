@@ -87,7 +87,7 @@ export const AUDIENCE_TYPE_LABEL = {
 export const CHANNELS = ["inapp", "telegram"];
 
 export const CHANNEL_LABEL = {
-  inapp: "Platforma (in-app)",
+  inapp: "Platforma (Ilova ichida)",
   telegram: "Telegram bot",
 };
 
