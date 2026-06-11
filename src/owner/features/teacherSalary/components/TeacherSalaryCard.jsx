@@ -58,6 +58,12 @@ const TeacherSalaryCard = ({ salary }) => {
         {salary.fineTotal > 0 && (
           <span className="text-rose-600">Jarima: −{formatMoney(salary.fineTotal)}</span>
         )}
+        {salary.prorationFactor < 1 && salary.totalDays > 0 && (
+          <span className="col-span-2 text-amber-600">
+            Proratsiya: {salary.payableDays}/{salary.totalDays} kun (
+            {Math.round(salary.prorationFactor * 100)}%)
+          </span>
+        )}
       </div>
 
       {/* Progress */}

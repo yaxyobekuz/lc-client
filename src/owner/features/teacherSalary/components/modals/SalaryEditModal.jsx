@@ -37,6 +37,7 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
     fixedAmount: detail.fixedAmount ? String(detail.fixedAmount) : "",
     percentRate: detail.percentRate ? String(detail.percentRate) : "",
     workStartDate: dateKey(detail.workStartDate),
+    workEndDate: dateKey(detail.workEndDate),
   });
 
   const adj = useObjectState({
@@ -73,6 +74,7 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
       fixedAmount: Number(cfg.fixedAmount) || 0,
       percentRate: Number(cfg.percentRate) || 0,
       workStartDate: cfg.workStartDate || null,
+      workEndDate: cfg.workEndDate || null,
     });
   };
 
@@ -125,13 +127,25 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
             />
           )}
         </div>
-        <InputField
-          name="workStartDate"
-          type="date"
-          label="Ish boshlagan sana (oy o'rtasida bo'lsa)"
-          value={cfg.workStartDate}
-          onChange={(e) => cfg.setField("workStartDate", e.target.value)}
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <InputField
+            name="workStartDate"
+            type="date"
+            label="Ish boshlagan sana"
+            value={cfg.workStartDate}
+            onChange={(e) => cfg.setField("workStartDate", e.target.value)}
+          />
+          <InputField
+            name="workEndDate"
+            type="date"
+            label="Ish tugatgan sana"
+            value={cfg.workEndDate}
+            onChange={(e) => cfg.setField("workEndDate", e.target.value)}
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Sanalar oy o'rtasida bo'lsa, maosh ishlangan kunlarga proratsiya qilinadi.
+        </p>
         {showPercent && (
           <p className="text-xs text-muted-foreground">
             Guruh hisoblangan tushumi (billed): {formatMoney(detail.groupRevenue || 0)}

@@ -19,6 +19,13 @@ const METHODS = [
 
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
+// ISO sanani DD.MM.YYYY ko'rinishiga (TZ siljishisiz)
+const fmtDate = (d) => {
+  if (!d) return "";
+  const [y, m, day] = String(d).slice(0, 10).split("-");
+  return day && m && y ? `${day}.${m}.${y}` : "";
+};
+
 // salary - karta orqali uzatiladi (ModalWrapper data)
 const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
   const { data, isLoading } = useTeacherSalaryQuery(salary?._id);
@@ -58,12 +65,6 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
 
   const transactions = detail.transactions || [];
 
-  const proratedFixed = detail.proratedFixed || 0;
-  const percentAmount = detail.percentAmount || 0;
-  const bonus = detail.bonusTotal || 0;
-  const fine = detail.fineTotal || 0;
-  const hasBreakdown = proratedFixed || percentAmount || bonus || fine;
-
   return (
     <div className="space-y-5">
       {/* Teacher + status */}
@@ -95,46 +96,75 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
         </div>
 
         {/* Maosh qanday hisoblangani - tafsilot */}
-        {hasBreakdown ? (
-          <div className="mt-2 space-y-1 border-t pt-2 text-xs">
-            {proratedFixed > 0 && (
-              <div className="flex justify-between text-muted-foreground">
-                <span>
-                  Fiksa
-                  {detail.prorationFactor < 1
-                    ? ` (${Math.round(detail.prorationFactor * 100)}%)`
-                    : ""}
-                </span>
-                <span>{formatMoney(proratedFixed)}</span>
+        {(() => {
+          const proratedFixed = detail.proratedFixed || 0;
+          const percentAmount = detail.percentAmount || 0;
+          const bonus = detail.bonusTotal || 0;
+          const fine = detail.fineTotal || 0;
+          if (!proratedFixed && !percentAmount && !bonus && !fine) return null;
+
+          const factor = detail.prorationFactor ?? 1;
+          const prorated = factor < 1;
+          const payableDays = detail.payableDays || 0;
+          const totalDays = detail.totalDays || 0;
+          const daysLabel =
+            prorated && totalDays
+              ? ` (${payableDays}/${totalDays} kun · ${Math.round(factor * 100)}%)`
+              : "";
+          // To'liq oylikdan kunlarga ko'ra ayrilgan summa
+          const fullFixed = factor > 0 ? Math.round(proratedFixed / factor) : 0;
+          const fullPercent = factor > 0 ? Math.round(percentAmount / factor) : 0;
+          const deducted =
+            fullFixed - proratedFixed + (fullPercent - percentAmount);
+
+          return (
+            <div className="mt-3 space-y-1 border-t pt-2 text-xs">
+              {proratedFixed > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Fiksa{daysLabel}</span>
+                  <span>{formatMoney(proratedFixed)}</span>
+                </div>
+              )}
+              {percentAmount > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    Foiz ({detail.percentRate}% × {formatMoney(detail.groupRevenue || 0)})
+                    {daysLabel}
+                  </span>
+                  <span>{formatMoney(percentAmount)}</span>
+                </div>
+              )}
+              {prorated && (detail.workStartDate || detail.workEndDate) && (
+                <p className="text-[11px] text-muted-foreground">
+                  Ish davri: {fmtDate(detail.workStartDate) || "oy boshi"} —{" "}
+                  {fmtDate(detail.workEndDate) || "oy oxiri"}
+                </p>
+              )}
+              {prorated && deducted > 0 && (
+                <div className="flex justify-between text-rose-600">
+                  <span>Kam ishlangan kunlar uchun</span>
+                  <span>−{formatMoney(deducted)}</span>
+                </div>
+              )}
+              {bonus > 0 && (
+                <div className="flex justify-between text-emerald-600">
+                  <span>Bonus</span>
+                  <span>+{formatMoney(bonus)}</span>
+                </div>
+              )}
+              {fine > 0 && (
+                <div className="flex justify-between text-rose-600">
+                  <span>Jarima</span>
+                  <span>−{formatMoney(fine)}</span>
+                </div>
+              )}
+              <div className="flex justify-between border-t pt-1 font-semibold">
+                <span>Jami maosh</span>
+                <span>{formatMoney(expected)}</span>
               </div>
-            )}
-            {percentAmount > 0 && (
-              <div className="flex justify-between text-muted-foreground">
-                <span>
-                  Foiz ({detail.percentRate}% ×{" "}
-                  {formatMoney(detail.groupRevenue || 0)})
-                </span>
-                <span>{formatMoney(percentAmount)}</span>
-              </div>
-            )}
-            {bonus > 0 && (
-              <div className="flex justify-between text-emerald-600">
-                <span>Bonus</span>
-                <span>+{formatMoney(bonus)}</span>
-              </div>
-            )}
-            {fine > 0 && (
-              <div className="flex justify-between text-rose-600">
-                <span>Jarima</span>
-                <span>−{formatMoney(fine)}</span>
-              </div>
-            )}
-            <div className="flex justify-between border-t pt-1 font-semibold">
-              <span>Jami maosh</span>
-              <span>{formatMoney(expected)}</span>
             </div>
-          </div>
-        ) : null}
+          );
+        })()}
       </div>
 
       {/* Add form */}
