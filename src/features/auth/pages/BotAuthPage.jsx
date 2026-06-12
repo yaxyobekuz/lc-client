@@ -43,7 +43,7 @@ const BotAuthPage = () => {
 
   const goHome = (r) => navigate(ROLE_HOME[r] || "/", { replace: true });
 
-  const { mutate: verify } = useBotAuthMutation({
+  const { mutate: verify, isPending: isVerifying } = useBotAuthMutation({
     onSuccess: (data) => goHome(data.user?.role),
     onError: () => {
       // Verify qaysi sabab bilan o'tmasin (hisob bog'lanmagan=404, yoki initData
@@ -66,9 +66,12 @@ const BotAuthPage = () => {
 
   useEffect(() => {
     if (triedRef.current) return;
+    triedRef.current = true;
 
     const tg = typeof window !== "undefined" ? window.Telegram?.WebApp : null;
     const initData = tg?.initData || "";
+    // initDataUnsafe.user faqat HMAC tekshiruvisiz ko'rsatish uchun (diagnostika).
+    const unsafeUser = tg?.initDataUnsafe?.user || null;
 
     // Telegram Mini App ichida EMAS (oddiy brauzer): login bo'lsa panelga, aks holda xabar.
     if (!tg || !initData) {
@@ -76,18 +79,31 @@ const BotAuthPage = () => {
         goHome(role);
         return;
       }
+      // Diagnostika: initData nega bo'sh ekanini aniqlash uchun. tg bor-yo'qligi,
+      // initDataUnsafe'da user bor-yo'qligi - ko'p hollarda WebApp tugmasi `web_app`
+      // emas `url` turida yoki URL HTTPS emas bo'lsa, tg bor lekin initData bo'sh keladi.
+      console.warn("[bot-auth] initData bo'sh", {
+        hasTelegram: !!window.Telegram,
+        hasWebApp: !!tg,
+        version: tg?.version,
+        platform: tg?.platform,
+        hasInitDataUnsafeUser: !!unsafeUser,
+        initDataLen: (tg?.initData || "").length,
+      });
       ui.setField(
         "errorMsg",
         !tg
           ? "Bu sahifa faqat Telegram Mini ilovasi orqali ochilishi kerak."
-          : "Telegram ma'lumotlari topilmadi. Mini ilovani Telegram'dan qayta oching.",
+          : "Telegram ma'lumotlari topilmadi. Mini ilovani Telegram'dan qayta oching (tugmani qayta bosing).",
       );
       return;
     }
 
-    // Telegram ichida: login bo'lgan-bo'lmasligidan qat'i nazar verify/bog'lash oqimini
-    // ishga tushiramiz. TG hali bog'lanmagan bo'lsa (404) login formasi chiqadi va
-    // kirgach avtomatik bog'lanadi; bog'langan bo'lsa to'g'ridan-to'g'ri panelga o'tadi.
+    // Telegram ichida: localStorage'dagi eski/qoldiq tokenga ISHONMAYMIZ. Har safar
+    // eng so'nggi initData bilan verify qilamiz - bu eng ishonchli manba (Telegram
+    // sessiyasi har ochilishda yangilanadi). Shu sabab user bor-yo'qligidan qat'i
+    // nazar oqimni doim verify'dan boshlaymiz; TG bog'lanmagan bo'lsa (404) login
+    // formasi chiqadi, bog'langan bo'lsa to'g'ridan-to'g'ri panelga o'tadi.
     try {
       tg.ready();
       tg.expand();
@@ -96,10 +112,9 @@ const BotAuthPage = () => {
     }
 
     initDataRef.current = initData;
-    triedRef.current = true;
     verify(initData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, role]);
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -112,7 +127,10 @@ const BotAuthPage = () => {
     });
   };
 
-  if (user) {
+  // user bor (eski/qoldiq tokendan) - lekin Telegram ichida verify hali ketayotgan
+  // bo'lsa, eski user'ga ishonib uyga yo'naltirmaymiz: verify tugashini kutamiz.
+  // Verify muvaffaqiyatli bo'lsa onSuccess o'zi goHome qiladi.
+  if (user && !isVerifying) {
     return (
       <Container>
         <p className="text-muted-foreground">Yo'naltirilmoqda...</p>
