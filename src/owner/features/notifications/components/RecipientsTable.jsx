@@ -4,6 +4,7 @@ import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 import { formatDateTimeUz } from "@/shared/utils/formatDate";
 import { formatPhone } from "@/shared/utils/formatPhone";
+import { formatBotFailReason } from "@/shared/constants/notification";
 
 const th = "px-4 py-2.5 text-left text-xs font-medium text-muted-foreground";
 
@@ -21,7 +22,7 @@ const BotCell = ({ r }) => {
   if (r.botFailedReason)
     return (
       <StatusBadge tone="danger" icon={AlertTriangle}>
-        {r.botFailedReason === "no-bot-link" ? "Bot ulanmagan" : r.botFailedReason}
+        {formatBotFailReason(r.botFailedReason)}
       </StatusBadge>
     );
   return (

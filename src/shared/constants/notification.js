@@ -133,6 +133,39 @@ export const resolveStatusLabel = ({ status, isAuto } = {}) => {
 };
 
 // ───────────────────────────────────────────────────────────────────────────
+// Bot yetkazilmaganlik sabablari (botFailedReason) - texnik qiymatlarni
+// admin tushunadigan o'zbekcha matnga o'giradi.
+//   no-bot-link     -> foydalanuvchi botni ulamagan (/start bosmagan)
+//   blocked         -> foydalanuvchi botni bloklagan
+//   bot-not-running -> bot vaqtincha ishlamayapti (transient, odatda saqlanmaydi)
+// Qolgan qiymatlar Telegram'dan kelgan xom xato matni (chat not found, ...) -
+// ularni naqsh bo'yicha aniqlaymiz.
+// ───────────────────────────────────────────────────────────────────────────
+export const BOT_FAIL_REASON_LABEL = {
+  "no-bot-link": "Bot ulanmagan",
+  blocked: "Bot bloklangan",
+  "bot-not-running": "Bot vaqtincha ishlamadi",
+  "send-failed": "Yuborishda xato",
+};
+
+// botFailedReason qiymatini o'zbekcha matnga o'giradi. Aniq kalit topilmasa,
+// Telegram'ning xom matnidan ma'noni naqsh bo'yicha aniqlashga harakat qiladi.
+export const formatBotFailReason = (reason) => {
+  if (!reason) return "";
+  const known = BOT_FAIL_REASON_LABEL[reason];
+  if (known) return known;
+
+  const r = String(reason).toLowerCase();
+  if (/bot was blocked|user is deactivated|bot can't initiate|forbidden/.test(r))
+    return "Bot bloklangan";
+  if (/chat not found|user not found/.test(r)) return "Foydalanuvchi topilmadi";
+  if (/too many requests|retry after|429/.test(r)) return "Limit oshib ketdi";
+  if (/deactivated/.test(r)) return "Hisob o'chirilgan";
+  // Noma'lum xato - umumiy matn (xom inglizcha matnni adminga ko'rsatmaymiz)
+  return "Yuborishda xato";
+};
+
+// ───────────────────────────────────────────────────────────────────────────
 // Xabar o'zgaruvchilari (placeholder) - matnda {ism} kabi qo'llanadi.
 // preview'da namuna qiymat bilan almashtiriladi.
 // ───────────────────────────────────────────────────────────────────────────
