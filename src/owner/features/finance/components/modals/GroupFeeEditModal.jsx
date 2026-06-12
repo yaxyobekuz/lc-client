@@ -65,7 +65,7 @@ const GroupFeeEditModal = ({
 
       <InputField
         name="amount"
-        type="number"
+        type="money"
         label="To'lov miqdori (so'm)"
         required
         placeholder="0"

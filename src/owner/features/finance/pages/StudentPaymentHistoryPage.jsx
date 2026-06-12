@@ -1,10 +1,16 @@
 import { useParams } from "react-router-dom";
+import { Plus } from "lucide-react";
 import BackLink from "@/shared/components/ui/link/BackLink";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
+import Button from "@/shared/components/ui/button/Button";
+import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import useModal from "@/shared/hooks/useModal";
+import { MODAL } from "@/shared/constants/modals";
 import { formatMoney } from "@/shared/utils/formatMoney";
 import { MONTH_LABELS } from "@/shared/constants/calendar";
 import useStudentPaymentHistoryQuery from "../hooks/useStudentPaymentHistoryQuery";
+import AddPaymentModal from "../components/modals/AddPaymentModal";
 import { statusMeta } from "../utils/status";
 
 const monthLabel = (m) => MONTH_LABELS[m - 1] || m;
@@ -69,6 +75,10 @@ const StudentPaymentHistoryPage = () => {
           </div>
         </>
       )}
+
+      <ModalWrapper name={MODAL.FINANCE_ADD_PAYMENT} title="To'lov qo'shish">
+        <AddPaymentModal />
+      </ModalWrapper>
     </div>
   );
 };
@@ -89,6 +99,7 @@ const SummaryCard = ({ label, value, tone }) => {
 };
 
 const PaymentMonthCard = ({ payment }) => {
+  const { openModal } = useModal();
   const meta = statusMeta(payment.status);
   const expected = payment.expectedAmount || 0;
   const paid = payment.paidAmount || 0;
@@ -139,6 +150,16 @@ const PaymentMonthCard = ({ payment }) => {
           ))}
         </ul>
       )}
+
+      <Button
+        size="sm"
+        variant="outline"
+        className="mt-3 w-full"
+        onClick={() => openModal(MODAL.FINANCE_ADD_PAYMENT, { payment })}
+      >
+        <Plus className="size-4" />
+        To'lov
+      </Button>
     </div>
   );
 };

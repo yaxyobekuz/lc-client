@@ -11,7 +11,7 @@ import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery
 import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
 
 // Utils
-import { todayInput } from "@/shared/utils/formatDate";
+import { todayInput, toDateInput } from "@/shared/utils/formatDate";
 
 /**
  * StudentAddToGroupModal — o'quvchi detalidan turib uni guruhga qo'shadi.
@@ -26,7 +26,7 @@ const StudentAddToGroupModal = ({
   isLoading,
   setIsLoading,
 }) => {
-  const { groupId, joinedAt, setField, resetState } = useObjectState({
+  const { groupId, joinedAt, setField, setFields, resetState } = useObjectState({
     groupId: "",
     joinedAt: todayInput(),
   });
@@ -70,7 +70,16 @@ const StudentAddToGroupModal = ({
         placeholder="Guruhni tanlang"
         emptyText="Mos guruh topilmadi"
         value={groupId}
-        onChange={(v) => setField("groupId", v)}
+        onChange={(v) => {
+          // Guruh tanlanganda default qo'shilgan sana — guruh boshlangan sana
+          // (startDate, bo'lmasa createdAt).
+          const g = groups.find((x) => String(x._id) === String(v));
+          const startedAt = g?.startDate || g?.createdAt;
+          setFields({
+            groupId: v,
+            joinedAt: startedAt ? toDateInput(startedAt) : todayInput(),
+          });
+        }}
         options={options}
         isLoading={loadingGroups}
         required
@@ -80,9 +89,9 @@ const StudentAddToGroupModal = ({
       <InputField
         type="date"
         name="joinedAt"
-        label="Boshlash sanasi"
+        label="Guruhga qo'shilgan sana"
         value={joinedAt}
-        max={todayInput()}
+        max={joinedAt > todayInput() ? joinedAt : todayInput()}
         onChange={(e) => setField("joinedAt", e.target.value)}
         disabled={isLoading}
       />

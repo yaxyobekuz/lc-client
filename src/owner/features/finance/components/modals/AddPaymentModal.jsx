@@ -143,7 +143,7 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
       <form onSubmit={handleSubmit} className="space-y-3">
         <InputField
           name="amount"
-          type="number"
+          type="money"
           label="To'lov summasi"
           required
           placeholder="0"

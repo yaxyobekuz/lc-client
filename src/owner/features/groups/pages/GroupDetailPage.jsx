@@ -165,7 +165,11 @@ const GroupDetailPage = () => {
                 <div className="flex justify-end">
                   <Button
                     onClick={() =>
-                      openModal(MODAL.GROUP_ADD_STUDENT, { groupId: group._id })
+                      openModal(MODAL.GROUP_ADD_STUDENT, {
+                        groupId: group._id,
+                        // Guruh boshlangan sana: startDate, bo'lmasa createdAt.
+                        groupStartedAt: group.startDate || group.createdAt,
+                      })
                     }
                   >
                     <Plus className="size-4" />

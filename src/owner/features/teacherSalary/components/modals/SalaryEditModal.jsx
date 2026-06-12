@@ -109,7 +109,7 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
           {showFixed && (
             <InputField
               name="fixedAmount"
-              type="number"
+              type="money"
               label="Fiksa (so'm)"
               placeholder="0"
               value={cfg.fixedAmount}
@@ -200,7 +200,7 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
         <div className="flex items-end gap-2">
           <InputField
             name="adjValue"
-            type="number"
+            type={adj.valueType === "percent" ? "number" : "money"}
             className="flex-1"
             placeholder={adj.valueType === "percent" ? "Foiz" : "Summa"}
             value={adj.value}

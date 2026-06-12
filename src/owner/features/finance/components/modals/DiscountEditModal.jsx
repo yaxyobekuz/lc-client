@@ -65,7 +65,7 @@ const DiscountEditModal = ({ discount, close, setIsLoading }) => {
         />
         <InputField
           name="value"
-          type="number"
+          type={form.type === "percent" ? "number" : "money"}
           required
           label={form.type === "percent" ? "Foiz (%)" : "Summa (so'm)"}
           value={form.value}

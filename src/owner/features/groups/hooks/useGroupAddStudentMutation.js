@@ -14,8 +14,8 @@ import { qk } from "@/shared/lib/query/keys";
 const useGroupAddStudentMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, studentId, joinedAt }) =>
-      groupsAPI.addStudent(id, studentId, joinedAt).then((r) => r.data.data),
+    mutationFn: ({ id, studentId, joinedAt, leftAt }) =>
+      groupsAPI.addStudent(id, studentId, joinedAt, leftAt).then((r) => r.data.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
       qc.invalidateQueries({ queryKey: qk.groups.one(vars.id) });

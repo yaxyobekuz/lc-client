@@ -11,15 +11,24 @@ import useUsersListQuery from "@/owner/features/users/hooks/useUsersListQuery";
 import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
 
 // Utils
-import { todayInput } from "@/shared/utils/formatDate";
+import { todayInput, toDateInput } from "@/shared/utils/formatDate";
 
 // Constants
 import { ROLES } from "@/shared/constants/roles";
 
-const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
-  const { studentId, joinedAt, setField, resetState } = useObjectState({
+const GroupAddStudentModal = ({
+  groupId,
+  groupStartedAt,
+  close,
+  isLoading,
+  setIsLoading,
+}) => {
+  // Default boshlash sanasi — guruh boshlangan sana (owner o'zgartira oladi).
+  // leftAt (tugatgan sana) ixtiyoriy: bo'sh bo'lsa o'quvchi "o'qimoqda".
+  const { studentId, joinedAt, leftAt, setField, resetState } = useObjectState({
     studentId: "",
-    joinedAt: todayInput(),
+    joinedAt: groupStartedAt ? toDateInput(groupStartedAt) : todayInput(),
+    leftAt: "",
   });
 
   const { data, isLoading: loadingStudents } = useUsersListQuery({
@@ -44,9 +53,15 @@ const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!studentId) return;
+    // joinedAt majburiy — bo'sh bo'lsa yubormaymiz.
+    if (!studentId || !joinedAt) return;
     setIsLoading(true);
-    mutate({ id: groupId, studentId, joinedAt: joinedAt || undefined });
+    mutate({
+      id: groupId,
+      studentId,
+      joinedAt,
+      leftAt: leftAt || undefined,
+    });
   };
 
   return (
@@ -68,9 +83,23 @@ const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
         type="date"
         name="joinedAt"
         label="Boshlash sanasi"
+        description="Shu sanadan boshlab har bir oy uchun qarz avtomatik yoziladi."
         value={joinedAt}
-        max={todayInput()}
+        max={joinedAt > todayInput() ? joinedAt : todayInput()}
         onChange={(e) => setField("joinedAt", e.target.value)}
+        disabled={isLoading}
+        required
+      />
+
+      <InputField
+        type="date"
+        name="leftAt"
+        label="Tugatgan sana (ixtiyoriy)"
+        description="Bo'sh qoldirilsa o'quvchi hali o'qiyapti deb hisoblanadi."
+        value={leftAt}
+        min={joinedAt || undefined}
+        max={todayInput()}
+        onChange={(e) => setField("leftAt", e.target.value)}
         disabled={isLoading}
       />
 
@@ -84,7 +113,11 @@ const GroupAddStudentModal = ({ groupId, close, isLoading, setIsLoading }) => {
         >
           Bekor qilish
         </Button>
-        <Button type="submit" disabled={isLoading || !studentId} className="flex-1">
+        <Button
+          type="submit"
+          disabled={isLoading || !studentId || !joinedAt}
+          className="flex-1"
+        >
           {isLoading ? "Qo'shilmoqda..." : "Qo'shish"}
         </Button>
       </div>

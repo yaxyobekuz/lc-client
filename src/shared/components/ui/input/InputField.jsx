@@ -3,6 +3,7 @@ import Input from "./Input";
 import InputPwd from "./InputPwd";
 import InputOtp from "./InputOtp";
 import InputTel from "./InputTel";
+import InputMoney from "./InputMoney";
 import InputSearch from "./InputSearch";
 import {
   Field,
@@ -15,6 +16,7 @@ const InputComponent = ({ ...props }) => {
   if (props.type === "password") return <InputPwd {...props} />;
   if (props.type === "otp") return <InputOtp {...props} />;
   if (props.type === "tel") return <InputTel {...props} />;
+  if (props.type === "money") return <InputMoney {...props} />;
   if (props.type === "search") return <InputSearch {...props} />;
   return <Input {...props} />;
 };

@@ -18,6 +18,7 @@ import { MODAL } from "@/shared/constants/modals";
 // Utils
 import { sortSchedule, DAY_LABELS_UZ } from "@/shared/utils/formatSchedule";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUzLong } from "@/shared/utils/formatDate";
 
 const GroupCard = ({ group, archived = false }) => {
   const { openModal } = useModal();
@@ -112,6 +113,21 @@ const GroupCard = ({ group, archived = false }) => {
               <span className="text-amber-600">Belgilanmagan</span>
             )}
           </div>
+
+          {archived && (
+            <div className="pt-1 mt-1 border-t space-y-0.5">
+              <div>
+                <span className="font-medium text-foreground">Boshlagan:</span>{" "}
+                {formatDateUzLong(group.startDate || group.createdAt)}
+              </div>
+              <div>
+                <span className="font-medium text-foreground">
+                  Arxivlangan:
+                </span>{" "}
+                {formatDateUzLong(group.finishedAt)}
+              </div>
+            </div>
+          )}
         </div>
       </Card>
     </Link>

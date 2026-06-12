@@ -35,10 +35,10 @@ const GRID_COLS =
   "grid-cols-[minmax(100px,1.2fr)_minmax(110px,1fr)_minmax(110px,1fr)_36px]";
 
 const ScheduleRow = ({ row, idx, duplicate, disabled, onUpdate, onRemove }) => {
-  const endWrapRef = useRef(null);
+  const endRef = useRef(null);
 
-  // Boshlanish vaqti to'lganda - tugash vaqtining birinchi (soat) maydoniga fokus.
-  const focusEnd = () => endWrapRef.current?.querySelector("input")?.focus();
+  // Boshlanish vaqti to'lganda - tugash vaqti maydoniga fokus.
+  const focusEnd = () => endRef.current?.focus();
 
   return (
     <div>
@@ -74,7 +74,7 @@ const ScheduleRow = ({ row, idx, duplicate, disabled, onUpdate, onRemove }) => {
           disabled={disabled}
         />
         <TimeInput
-          ref={endWrapRef}
+          ref={endRef}
           value={row.endTime}
           onChange={(v) => onUpdate("endTime", v)}
           disabled={disabled}

@@ -99,7 +99,7 @@ const DiscountCreateModal = ({ close, setIsLoading }) => {
         />
         <InputField
           name="value"
-          type="number"
+          type={form.type === "percent" ? "number" : "money"}
           required
           label={form.type === "percent" ? "Foiz (%)" : "Summa (so'm)"}
           placeholder="0"

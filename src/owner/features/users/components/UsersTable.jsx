@@ -67,6 +67,8 @@ const UsersTable = ({
 
   // O'quvchi uchun "Kelgan", o'qituvchi uchun "Ish boshlagan"
   const joinedLabel = isStudent ? "Ro'yxatga olingan" : "Ish boshlagan";
+  // Arxiv ro'yxatida boshlangan/arxivlangan sanalar bir ustunda ko'rsatiladi
+  const joinedColLabel = archived ? "Boshlagan / Arxivlangan" : joinedLabel;
 
   if (users.length === 0) {
     return (
@@ -76,14 +78,6 @@ const UsersTable = ({
             ? "Arxivda foydalanuvchi yo'q"
             : "Foydalanuvchi topilmadi"}
         </p>
-        {!archived && (
-          <Button
-            className="mt-4"
-            onClick={() => openModal(MODAL.USER_CREATE, { defaultRole: role })}
-          >
-            Yangi foydalanuvchi qo'shish
-          </Button>
-        )}
       </div>
     );
   }
@@ -109,7 +103,7 @@ const UsersTable = ({
             <th className="px-4 py-2 font-medium">Telefon</th>
             <th className="px-4 py-2 font-medium">Rol</th>
             {isStudent && <th className="px-4 py-2 font-medium">Guruh</th>}
-            <th className="px-4 py-2 font-medium">{joinedLabel}</th>
+            <th className="px-4 py-2 font-medium">{joinedColLabel}</th>
             <th className="px-4 py-2 font-medium text-right">Amallar</th>
           </tr>
         </thead>
@@ -172,7 +166,22 @@ const UsersTable = ({
                 </td>
               )}
               <td className="px-4 py-2 text-muted-foreground">
-                {isStudent ? (
+                {archived ? (
+                  <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 items-center">
+                    <span className="text-xs uppercase tracking-wide text-zinc-400">
+                      Boshlagan
+                    </span>
+                    <span>
+                      {u.createdAt ? formatDateUzLong(u.createdAt) : "-"}
+                    </span>
+                    <span className="text-xs uppercase tracking-wide text-zinc-400">
+                      Arxivlangan
+                    </span>
+                    <span>
+                      {u.archivedAt ? formatDateUzLong(u.archivedAt) : "-"}
+                    </span>
+                  </div>
+                ) : isStudent ? (
                   u.createdAt ? (
                     <div className="leading-tight">
                       <div>{formatDateUzLong(u.createdAt)}</div>

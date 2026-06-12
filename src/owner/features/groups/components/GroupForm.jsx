@@ -188,11 +188,10 @@ const GroupForm = ({
       {/* Oylik narx - faqat yangi guruh yaratishda (keyin Moliyadan tahrirlanadi) */}
       {!isEdit && (
         <InputField
-          type="number"
+          type="money"
           name="monthlyPrice"
           label="Oylik to'lov (so'm)"
-          placeholder="Masalan: 500000"
-          min="0"
+          placeholder="Masalan: 500 000"
           value={monthlyPrice}
           onChange={(e) => setField("monthlyPrice", e.target.value)}
           disabled={isLoading}

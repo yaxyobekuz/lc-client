@@ -4,135 +4,127 @@ import * as React from "react";
 import { cn } from "@/shared/utils/cn.js";
 
 /**
- * TimeInput - 24 soatlik vaqt kiritish (soat : daqiqa).
+ * TimeInput - bitta maydonda 24 soatlik vaqt kiritish ("HH:mm").
  *
- * - Faqat raqam qabul qiladi, soat 0–23, daqiqa 0–59 oralig'ida cheklanadi.
- * - Soat to'lganda (2 ta raqam, 2-dan katta raqam yoki ":" bosilganda) fokus daqiqaga o'tadi.
- * - Daqiqa to'lganda fokus `onComplete` orqali keyingi maydonga uzatiladi.
- * - Maydondan chiqilganda qiymat "00" kabi 2 xonaga to'ldirib ko'rsatiladi (14 : 00).
- * - ↑ / ↓ strelkalar bilan qiymatni 1 ga oshirish/kamaytirish mumkin.
+ * - Foydalanuvchi shunchaki raqam yozadi: "1400" -> "14:00" (":" avtomatik qo'yiladi).
+ * - Faqat raqam qabul qiladi, eng ko'pi 4 ta (HHmm).
+ * - Maydondan chiqilganda ("blur") qiymat to'g'rilanadi: soat 0–23, daqiqa 0–59
+ *   chegarasiga keltiriladi va "HH:mm" ko'rinishida to'ldiriladi (masalan "9:5" -> "09:05").
+ * - ↑ / ↓ strelkalar bilan daqiqani 5 ga oshirish/kamaytirish mumkin.
+ * - 4 ta raqam to'lganda fokus `onComplete` orqali keyingi maydonga uzatiladi.
  * - "HH:mm" matn ko'rinishida qiymat chiqaradi (masalan "14:00").
  *
  * @param {string}   value       "HH:mm" ko'rinishidagi qiymat
  * @param {Function} onChange    (next: "HH:mm") => void
  * @param {boolean}  disabled
- * @param {Function} onComplete  daqiqa to'liq kiritilganda chaqiriladi (keyingi inputga focus berish uchun)
+ * @param {Function} onComplete  vaqt to'liq kiritilganda chaqiriladi (keyingi inputga focus berish uchun)
  */
 
 const pad2 = (n) => String(n).padStart(2, "0");
 
-const clampNum = (raw, max) => {
-  if (raw === "") return "";
-  let n = Number(raw);
-  if (Number.isNaN(n)) return "";
-  if (n < 0) n = 0;
-  if (n > max) n = max;
-  return n;
+// Xom raqamlardan ("1400") ko'rsatiladigan matn yasaydi ("14:00").
+// Hali yozilayotgan bo'lsa, qisman ko'rinadi: "1" -> "1", "14" -> "14:", "143" -> "14:3".
+const formatDigits = (digits) => {
+  if (digits.length <= 2) return digits;
+  return `${digits.slice(0, 2)}:${digits.slice(2, 4)}`;
 };
 
-const cellClasses =
-  "h-9 w-12 rounded-[2px] border border-input bg-white px-1 text-center text-sm tabular-nums outline-2 outline-primary outline-offset-0 focus:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50";
+// "HH:mm" qiymatdan xom raqamlarni ajratib oladi ("14:00" -> "1400").
+const valueToDigits = (val) => (val || "").replace(/\D/g, "").slice(0, 4);
+
+// Xom raqamlarni to'g'rilab "HH:mm" ga keltiradi (soat 0–23, daqiqa 0–59).
+const normalize = (digits) => {
+  if (!digits) return "";
+  let h;
+  let m;
+  if (digits.length <= 2) {
+    h = Number(digits);
+    m = 0;
+  } else {
+    h = Number(digits.slice(0, 2));
+    m = Number(digits.slice(2, 4));
+  }
+  if (h > 23) h = 23;
+  if (m > 59) m = 59;
+  return `${pad2(h)}:${pad2(m)}`;
+};
+
+const inputClasses =
+  "h-9 w-full rounded-md border border-input bg-white px-2 text-center text-sm tabular-nums outline-2 outline-primary outline-offset-0 focus:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50";
 
 const TimeInput = React.forwardRef(function TimeInput(
   { value, onChange, disabled = false, onComplete, className },
   ref,
 ) {
-  const hourRef = React.useRef(null);
-  const minuteRef = React.useRef(null);
-  // Qaysi maydon hozir tahrirlanmoqda - fokuslangan maydon xom (nol bilan
-  // to'ldirilmagan) ko'rinadi, qolganlari "00" kabi 2 xonali ko'rsatiladi.
-  const [editing, setEditing] = React.useState(null);
+  // Fokuslangan paytda foydalanuvchi yozayotgan xom raqamlar; aks holda null
+  // bo'lib, ko'rsatiladigan matn `value` dan olinadi.
+  const [draft, setDraft] = React.useState(null);
 
-  const parts = (value || "").split(":");
-  const h = parts[0] === "" || parts[0] == null ? "" : Number(parts[0]);
-  const m = parts[1] === "" || parts[1] == null ? "" : Number(parts[1]);
+  const display =
+    draft != null ? formatDigits(draft) : formatDigits(valueToDigits(value));
 
-  const compose = (hh, mm) =>
-    `${pad2(hh === "" ? 0 : hh)}:${pad2(mm === "" ? 0 : mm)}`;
+  const commit = (digits) => onChange(normalize(digits));
 
-  // Ko'rsatiladigan matn: tahrirlanayotgan maydon xom, aks holda 2 xonali.
-  const display = (val, field) => {
-    if (val === "") return "";
-    return editing === field ? String(val) : pad2(val);
+  const handleChange = (e) => {
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+    setDraft(digits);
+    commit(digits);
+    if (digits.length === 4) onComplete?.();
   };
 
-  const onH = (e) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
-    const hh = clampNum(raw, 23);
-    onChange(compose(hh, m));
-    const filled = raw.length >= 2 || (raw.length === 1 && Number(raw) > 2);
-    if (filled) minuteRef.current?.focus();
-  };
-
-  const onM = (e) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
-    const mm = clampNum(raw, 59);
-    onChange(compose(h, mm));
-    const filled = raw.length >= 2 || (raw.length === 1 && Number(raw) > 5);
-    if (filled) onComplete?.();
-  };
-
-  // ↑/↓ bilan qiymatni o'zgartirish; ":" yoki "Enter" bosilsa daqiqaga o'tish.
-  const step = (field, delta) => {
-    if (field === "h") {
-      const next = (((h === "" ? 0 : h) + delta) + 24) % 24;
-      onChange(compose(next, m));
-    } else {
-      const next = (((m === "" ? 0 : m) + delta) + 60) % 60;
-      onChange(compose(h, next));
+  // ↑/↓ - daqiqani 5 ga o'zgartiradi (qiymatni umumiy daqiqaga aylantirib).
+  const step = (delta) => {
+    const digits = draft != null ? draft : valueToDigits(value);
+    let h = 0;
+    let m = 0;
+    if (digits.length <= 2) h = Number(digits || 0);
+    else {
+      h = Number(digits.slice(0, 2));
+      m = Number(digits.slice(2, 4));
     }
+    let total = (((h * 60 + m) + delta) % 1440 + 1440) % 1440;
+    const next = `${pad2(Math.floor(total / 60))}:${pad2(total % 60)}`;
+    setDraft(valueToDigits(next));
+    onChange(next);
   };
 
-  const onHKeyDown = (e) => {
-    if (e.key === "ArrowUp") { e.preventDefault(); step("h", 1); }
-    else if (e.key === "ArrowDown") { e.preventDefault(); step("h", -1); }
-    else if (e.key === ":" || e.key === "Enter") {
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowUp") {
       e.preventDefault();
-      minuteRef.current?.focus();
-    }
-  };
-
-  const onMKeyDown = (e) => {
-    if (e.key === "ArrowUp") { e.preventDefault(); step("m", 1); }
-    else if (e.key === "ArrowDown") { e.preventDefault(); step("m", -1); }
-    // Bo'sh maydonda Backspace - soatga qaytish.
-    else if (e.key === "Backspace" && e.target.value === "") {
-      hourRef.current?.focus();
+      step(5);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      step(-5);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const digits = draft != null ? draft : valueToDigits(value);
+      commit(digits);
+      onComplete?.();
     }
   };
 
   return (
-    <div ref={ref} className={cn("flex items-center gap-1", className)}>
-      <input
-        ref={hourRef}
-        inputMode="numeric"
-        maxLength={2}
-        placeholder="00"
-        aria-label="Soat"
-        value={display(h, "h")}
-        onChange={onH}
-        onKeyDown={onHKeyDown}
-        onFocus={(e) => { setEditing("h"); e.target.select(); }}
-        onBlur={() => setEditing(null)}
-        disabled={disabled}
-        className={cellClasses}
-      />
-      <span className="text-sm font-medium text-muted-foreground">:</span>
-      <input
-        ref={minuteRef}
-        inputMode="numeric"
-        maxLength={2}
-        placeholder="00"
-        aria-label="Daqiqa"
-        value={display(m, "m")}
-        onChange={onM}
-        onKeyDown={onMKeyDown}
-        onFocus={(e) => { setEditing("m"); e.target.select(); }}
-        onBlur={() => setEditing(null)}
-        disabled={disabled}
-        className={cellClasses}
-      />
-    </div>
+    <input
+      ref={ref}
+      inputMode="numeric"
+      maxLength={5}
+      placeholder="00:00"
+      aria-label="Vaqt"
+      value={display}
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
+      onFocus={(e) => {
+        setDraft(valueToDigits(value));
+        e.target.select();
+      }}
+      onBlur={() => {
+        const digits = draft != null ? draft : valueToDigits(value);
+        commit(digits);
+        setDraft(null);
+      }}
+      disabled={disabled}
+      className={cn(inputClasses, className)}
+    />
   );
 });
 
