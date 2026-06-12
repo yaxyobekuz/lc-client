@@ -45,16 +45,11 @@ const BotAuthPage = () => {
 
   const { mutate: verify } = useBotAuthMutation({
     onSuccess: (data) => goHome(data.user?.role),
-    onError: (err) => {
-      // 404 = hisob bog'lanmagan -> login formasini ko'rsatamiz
-      if (err?.response?.status === 404) {
-        ui.setField("needLogin", true);
-        return;
-      }
-      ui.setField(
-        "errorMsg",
-        extractApiErrorMessage(err, "Telegram orqali kirishda xatolik yuz berdi."),
-      );
+    onError: () => {
+      // Verify qaysi sabab bilan o'tmasin (hisob bog'lanmagan=404, yoki initData
+      // HMAC tekshiruvi o'tmadi=401), login formasini ko'rsatamiz - foydalanuvchi
+      // parol bilan kiradi va Telegram avtomatik bog'lanadi (loginAndLink fallback).
+      ui.setField("needLogin", true);
     },
   });
 
@@ -70,36 +65,34 @@ const BotAuthPage = () => {
     });
 
   useEffect(() => {
-    // Allaqachon login bo'lgan bo'lsa darhol panelga o'tkaz
-    if (user) {
-      goHome(role);
-      return;
-    }
     if (triedRef.current) return;
 
     const tg = typeof window !== "undefined" ? window.Telegram?.WebApp : null;
-    if (!tg) {
+    const initData = tg?.initData || "";
+
+    // Telegram Mini App ichida EMAS (oddiy brauzer): login bo'lsa panelga, aks holda xabar.
+    if (!tg || !initData) {
+      if (user) {
+        goHome(role);
+        return;
+      }
       ui.setField(
         "errorMsg",
-        "Bu sahifa faqat Telegram Mini ilovasi orqali ochilishi kerak.",
+        !tg
+          ? "Bu sahifa faqat Telegram Mini ilovasi orqali ochilishi kerak."
+          : "Telegram ma'lumotlari topilmadi. Mini ilovani Telegram'dan qayta oching.",
       );
       return;
     }
 
+    // Telegram ichida: login bo'lgan-bo'lmasligidan qat'i nazar verify/bog'lash oqimini
+    // ishga tushiramiz. TG hali bog'lanmagan bo'lsa (404) login formasi chiqadi va
+    // kirgach avtomatik bog'lanadi; bog'langan bo'lsa to'g'ridan-to'g'ri panelga o'tadi.
     try {
       tg.ready();
       tg.expand();
     } catch {
       /* noop */
-    }
-
-    const initData = tg.initData;
-    if (!initData) {
-      ui.setField(
-        "errorMsg",
-        "Telegram ma'lumotlari topilmadi. Mini ilovani Telegram'dan qayta oching.",
-      );
-      return;
     }
 
     initDataRef.current = initData;
