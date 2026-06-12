@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 // Hooks
 import useAuth from "@/shared/hooks/useAuth";
 import useObjectState from "@/shared/hooks/useObjectState";
-import useBotAuthMutation from "../hooks/useBotAuthMutation";
 import { extractApiErrorMessage } from "@/shared/utils/apiError";
 import useBotAuthLoginMutation from "../hooks/useBotAuthLoginMutation";
 
@@ -33,7 +32,7 @@ const BotAuthPage = () => {
   const triedRef = useRef(false);
   const initDataRef = useRef("");
 
-  // needLogin: hisob bog'lanmagan -> login formasi; qolganlari UI holati
+  // needLogin: Telegram ichida login formasini ko'rsatamiz; qolganlari UI holati
   const ui = useObjectState({
     needLogin: false,
     errorMsg: "",
@@ -42,16 +41,6 @@ const BotAuthPage = () => {
   });
 
   const goHome = (r) => navigate(ROLE_HOME[r] || "/", { replace: true });
-
-  const { mutate: verify, isPending: isVerifying } = useBotAuthMutation({
-    onSuccess: (data) => goHome(data.user?.role),
-    onError: () => {
-      // Verify qaysi sabab bilan o'tmasin (hisob bog'lanmagan=404, yoki initData
-      // HMAC tekshiruvi o'tmadi=401), login formasini ko'rsatamiz - foydalanuvchi
-      // parol bilan kiradi va Telegram avtomatik bog'lanadi (loginAndLink fallback).
-      ui.setField("needLogin", true);
-    },
-  });
 
   const { mutate: loginAndLink, isPending: isLoggingIn } =
     useBotAuthLoginMutation({
@@ -99,11 +88,9 @@ const BotAuthPage = () => {
       return;
     }
 
-    // Telegram ichida: localStorage'dagi eski/qoldiq tokenga ISHONMAYMIZ. Har safar
-    // eng so'nggi initData bilan verify qilamiz - bu eng ishonchli manba (Telegram
-    // sessiyasi har ochilishda yangilanadi). Shu sabab user bor-yo'qligidan qat'i
-    // nazar oqimni doim verify'dan boshlaymiz; TG bog'lanmagan bo'lsa (404) login
-    // formasi chiqadi, bog'langan bo'lsa to'g'ridan-to'g'ri panelga o'tadi.
+    // Telegram ichida: HAR SAFAR login+parol so'raymiz va shu Telegram ID ni
+    // kiritilgan akkauntga bog'laymiz. Avtomatik kirish (verify) YO'Q - shunda bitta
+    // Telegram istalgancha akkauntga bog'lana oladi (har login yangi bog'lanish qo'shadi).
     try {
       tg.ready();
       tg.expand();
@@ -112,7 +99,7 @@ const BotAuthPage = () => {
     }
 
     initDataRef.current = initData;
-    verify(initData);
+    ui.setField("needLogin", true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -127,18 +114,9 @@ const BotAuthPage = () => {
     });
   };
 
-  // user bor (eski/qoldiq tokendan) - lekin Telegram ichida verify hali ketayotgan
-  // bo'lsa, eski user'ga ishonib uyga yo'naltirmaymiz: verify tugashini kutamiz.
-  // Verify muvaffaqiyatli bo'lsa onSuccess o'zi goHome qiladi.
-  if (user && !isVerifying) {
-    return (
-      <Container>
-        <p className="text-muted-foreground">Yo'naltirilmoqda...</p>
-      </Container>
-    );
-  }
-
-  // Hisob bog'lanmagan: login+parol so'raymiz, kirgach TG avtomatik bog'lanadi
+  // Telegram ichida: doim login+parol so'raymiz (kiritilgan akkauntga TG bog'lanadi).
+  // Bu tekshiruv `user` tekshiruvidan OLDIN - qoldiq token bo'lsa ham yangi akkaunt
+  // bog'lash uchun login formasi ko'rinishi kerak.
   if (ui.needLogin) {
     return (
       <Container>
@@ -146,7 +124,6 @@ const BotAuthPage = () => {
         <h1 className="text-lg font-semibold">Tizimga kirish</h1>
         <p className="text-sm text-muted-foreground">
           Hisobingizni Telegram'ga bog'lash uchun login va parolingizni kiriting.
-          Keyingi safar avtomatik kirasiz.
         </p>
         <form onSubmit={handleLogin} className="space-y-3 text-left">
           <InputField
@@ -192,11 +169,20 @@ const BotAuthPage = () => {
     );
   }
 
-  // Boshlang'ich / initData tekshiruvi
+  // Oddiy brauzer + qoldiq token: useEffect goHome qiladi, shu orada kutamiz.
+  if (user) {
+    return (
+      <Container>
+        <p className="text-muted-foreground">Yo'naltirilmoqda...</p>
+      </Container>
+    );
+  }
+
+  // Boshlang'ich holat (initData o'qilmoqda)
   return (
     <Container>
       <Spinner />
-      <h1 className="text-lg font-semibold">Telegram orqali kirilyapti</h1>
+      <h1 className="text-lg font-semibold">Yuklanmoqda...</h1>
       <p className="text-sm text-muted-foreground">Iltimos, kuting...</p>
     </Container>
   );
