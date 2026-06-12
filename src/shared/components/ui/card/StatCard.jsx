@@ -33,10 +33,10 @@ const StatCard = ({
 
   const iconTone = {
     default: "text-zinc-500",
-    positive: "text-green-600",
-    negative: "text-rose-600",
-    info: "text-blue-600",
-    warn: "text-amber-600",
+    positive: "text-green-500",
+    negative: "text-rose-500",
+    info: "text-blue-500",
+    warn: "text-amber-500",
   }[tone];
 
   const safeValue =

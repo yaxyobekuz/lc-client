@@ -23,7 +23,7 @@ const WeekdayActivityHeatmap = ({ items = [] }) => {
             >
               <div className="text-xs font-mono mb-1">{d.lessonsCount}</div>
               <div
-                className="w-full bg-blue-500 rounded-t transition-all"
+                className="w-full bg-blue-400 rounded-t transition-all"
                 style={{ height: `${heightPct}%`, minHeight: "2px" }}
               />
               <div className="text-xs text-zinc-600 mt-1">{d.day}</div>
