@@ -51,6 +51,7 @@ export const ENDPOINTS = Object.freeze({
     history: (id) => `/groups/${id}/history`,
     myActive: "/groups/me/active",
     myTeach: "/groups/me/teach",
+    removalNoticeSeen: "/groups/me/removal-notice/seen",
   },
 
 

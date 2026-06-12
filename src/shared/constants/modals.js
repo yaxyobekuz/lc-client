@@ -50,6 +50,9 @@ export const MODAL = Object.freeze({
   GROUP_REMOVE_STUDENT: "group:removeStudent",
   GROUP_REPLACE_TEACHER: "group:replaceTeacher",
 
+  // Student panel: guruhdan chiqarilganlik xabari
+  STUDENT_REMOVED_NOTICE: "student:removedNotice",
+
   // Attendance
   ATTENDANCE_BULK_SAVE_CONFIRM: "attendance:bulkSaveConfirm",
   ATTENDANCE_EXEMPTION_CREATE: "attendanceExemption:create",
