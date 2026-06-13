@@ -33,7 +33,7 @@ export const useSalaryUpsertMutation = makeMutation(
 
 export const useSalaryRegenerateMutation = makeMutation(
   (body) => teacherSalaryAPI.regenerate(body).then((r) => r.data.data),
-  "Generatsiya yakunlandi",
+  "Oylik hisoblandi",
 );
 
 export const useAddSalaryPayoutMutation = makeMutation(

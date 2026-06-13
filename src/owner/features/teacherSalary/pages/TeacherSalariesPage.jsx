@@ -72,7 +72,7 @@ const TeacherSalariesPage = () => {
             onClick={() => regenerate.mutate({ year: filters.year, month: filters.month })}
           >
             <RefreshCw className="size-4" />
-            Generatsiya
+            Oylikni Hisoblash
           </Button>
         </div>
       </header>
