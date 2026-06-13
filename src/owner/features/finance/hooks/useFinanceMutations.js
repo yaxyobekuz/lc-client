@@ -79,6 +79,22 @@ export const useRemoveTransactionMutation = (options = {}) => {
   });
 };
 
+export const useRefundCreateMutation = (options = {}) => {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: (body) => financeAPI.createRefund(body).then((r) => r.data.data),
+    onSuccess: (data, vars, ctx) => {
+      invalidate();
+      toast.success("Pul o'quvchiga qaytarib berildi");
+      options.onSuccess?.(data, vars, ctx);
+    },
+    onError: (err) => {
+      apiErrorToast(err);
+      options.onError?.(err);
+    },
+  });
+};
+
 export const useDiscountCreateMutation = (options = {}) => {
   const invalidate = useInvalidate();
   return useMutation({

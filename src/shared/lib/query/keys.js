@@ -161,6 +161,8 @@ export const qk = Object.freeze({
     studentPayments: (params) => ["finance", "studentPayments", params],
     studentPayment: (id) => ["finance", "studentPayment", id],
     studentHistory: (studentId) => ["finance", "studentHistory", studentId],
+    refundsPending: (params) => ["finance", "refunds", "pending", params],
+    refundsHistory: (params) => ["finance", "refunds", "history", params],
     discounts: (params) => ["finance", "discounts", params],
     report: (params) => ["finance", "report", params],
   },

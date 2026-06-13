@@ -37,6 +37,7 @@ import {
   FinanceReportPage,
   StudentPaymentsPage,
   StudentPaymentHistoryPage,
+  RefundsPage,
   GroupFeesPage,
   GroupFeeDetailPage,
   DiscountsPage,
@@ -103,6 +104,7 @@ const OwnerRoutes = () => (
       path="finance/student-payments/student/:studentId"
       element={<StudentPaymentHistoryPage />}
     />
+    <Route path="finance/refunds" element={<RefundsPage />} />
     <Route path="finance/group-fees" element={<GroupFeesPage />} />
     <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
     <Route path="finance/discounts" element={<DiscountsPage />} />

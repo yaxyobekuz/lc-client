@@ -88,6 +88,7 @@ export const MODAL = Object.freeze({
 
   // Finance (Moliya)
   FINANCE_ADD_PAYMENT: "finance:addPayment",
+  FINANCE_REFUND: "finance:refund",
   GROUP_FEE_EDIT: "finance:groupFeeEdit",
   DISCOUNT_CREATE: "finance:discountCreate",
   DISCOUNT_EDIT: "finance:discountEdit",

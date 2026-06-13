@@ -137,6 +137,11 @@ const ownerSidebar = [
         permission: "finance.read",
       },
       {
+        title: "Qaytariladigan pul",
+        url: "/owner/finance/refunds",
+        permission: "finance.read",
+      },
+      {
         title: "Guruh to'lovi",
         url: "/owner/finance/group-fees",
         permission: "finance.read",

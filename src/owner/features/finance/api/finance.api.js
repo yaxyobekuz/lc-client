@@ -20,6 +20,13 @@ export const financeAPI = {
   addTransaction: (body) => http.post(ENDPOINTS.finance.transactions, body),
   removeTransaction: (id) => http.delete(ENDPOINTS.finance.transactionById(id)),
 
+  // Qaytariladigan pul (refund)
+  refundsPending: (params) =>
+    http.get(ENDPOINTS.finance.refundsPending, { params }),
+  refundsHistory: (params) =>
+    http.get(ENDPOINTS.finance.refundsHistory, { params }),
+  createRefund: (body) => http.post(ENDPOINTS.finance.refunds, body),
+
   // Chegirmalar
   discounts: (params) => http.get(ENDPOINTS.finance.discounts, { params }),
   createDiscount: (body) => http.post(ENDPOINTS.finance.discounts, body),
