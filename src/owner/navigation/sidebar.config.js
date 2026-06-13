@@ -157,6 +157,11 @@ const ownerSidebar = [
         permission: "salary.read",
       },
       {
+        title: "Maosh sozlamalari",
+        url: "/owner/finance/salary-configs",
+        permission: "salary.manage",
+      },
+      {
         title: "Qarzdorliklar",
         url: "/owner/finance/obligations",
         permission: "salary.read",

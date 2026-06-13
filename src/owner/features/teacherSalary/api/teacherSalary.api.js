@@ -17,6 +17,12 @@ export const teacherSalaryAPI = {
   removeTransaction: (id) =>
     http.delete(ENDPOINTS.teacherSalary.transactionById(id)),
 
+  // Stabil maosh sozlamalari (foiz/fiksa per o'qituvchi+guruh)
+  configs: (params) => http.get(ENDPOINTS.teacherSalary.configs, { params }),
+  upsertConfig: (body) => http.put(ENDPOINTS.teacherSalary.configs, body),
+  removeConfig: (teacher, group) =>
+    http.delete(ENDPOINTS.teacherSalary.configByPair(teacher, group)),
+
   // Bonus / Jarima
   adjustments: (params) => http.get(ENDPOINTS.teacherSalary.adjustments, { params }),
   createAdjustment: (body) => http.post(ENDPOINTS.teacherSalary.adjustments, body),

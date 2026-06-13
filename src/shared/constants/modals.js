@@ -97,4 +97,5 @@ export const MODAL = Object.freeze({
   // Teacher salary (O'qituvchi maoshlari)
   SALARY_EDIT: "salary:edit",
   SALARY_ADD_PAYOUT: "salary:addPayout",
+  SALARY_CONFIG_EDIT: "salary:configEdit",
 });

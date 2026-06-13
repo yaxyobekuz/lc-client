@@ -46,6 +46,7 @@ import {
   TeacherSalariesPage,
   TeacherSalaryHistoryPage,
   TeacherObligationsPage,
+  SalaryConfigsPage,
 } from "@/owner/features/teacherSalary";
 import { ProfilePage } from "@/owner/features/profile";
 import { StudentStatsPage } from "@/owner/features/studentStats";
@@ -109,6 +110,7 @@ const OwnerRoutes = () => (
     <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
     <Route path="finance/discounts" element={<DiscountsPage />} />
     <Route path="finance/teacher-salaries" element={<TeacherSalariesPage />} />
+    <Route path="finance/salary-configs" element={<SalaryConfigsPage />} />
     <Route
       path="finance/teacher-salaries/teacher/:teacherId"
       element={<TeacherSalaryHistoryPage />}

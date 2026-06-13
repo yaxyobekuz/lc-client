@@ -46,6 +46,17 @@ export const useRemoveSalaryPayoutMutation = makeMutation(
   "To'lov bekor qilindi",
 );
 
+export const useSalaryConfigUpsertMutation = makeMutation(
+  (body) => teacherSalaryAPI.upsertConfig(body).then((r) => r.data.data),
+  "Maosh sozlamasi saqlandi",
+);
+
+export const useSalaryConfigRemoveMutation = makeMutation(
+  ({ teacher, group }) =>
+    teacherSalaryAPI.removeConfig(teacher, group).then((r) => r.data.data),
+  "Maosh sozlamasi o'chirildi",
+);
+
 export const useAdjustmentCreateMutation = makeMutation(
   (body) => teacherSalaryAPI.createAdjustment(body).then((r) => r.data.data),
   "Saqlandi",
