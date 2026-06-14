@@ -34,12 +34,12 @@ const InfoRow = ({ label, children }) => (
   </div>
 );
 
-// Bullet (•, -, *, –) bilan boshlanadigan qator — ro'yxat elementimi?
+// Bullet (•, -, *, –) bilan boshlanadigan qator - ro'yxat elementimi?
 const LIST_LINE = /^\s*[•\-*–]\s+/;
 const stripBullet = (line) => line.replace(LIST_LINE, "").trim();
 
 /**
- * MessageBody — xabar matnini chiroyli ko'rsatadi.
+ * MessageBody - xabar matnini chiroyli ko'rsatadi.
  * Ketma-ket bullet qatorlar (•/-/*) RAQAMLI ro'yxatga aylanadi (1. 2. 3. ...),
  * qolgan qatorlar oddiy paragraf bo'lib qoladi. Quruq "•" devori o'rniga toza ko'rinish.
  */
@@ -93,9 +93,9 @@ const MessageBody = ({ text }) => {
 };
 
 /**
- * MessageBubble — yuborilgan xabarni qabul qiluvchi ko'rgan ko'rinishda
+ * MessageBubble - yuborilgan xabarni qabul qiluvchi ko'rgan ko'rinishda
  * ko'rsatadi (telegram chat pufakchasi yoki ilova ichidagi bildirishnoma
- * kartasi). Quruq matn o'rniga — bu "xabar" ekanligi darhol bilinadi.
+ * kartasi). Quruq matn o'rniga - bu "xabar" ekanligi darhol bilinadi.
  */
 const MessageBubble = ({ title, body, sentAt, variant }) => {
   const filledTitle = fillSampleVariables(title || "");

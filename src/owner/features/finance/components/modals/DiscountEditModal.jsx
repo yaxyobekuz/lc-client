@@ -53,7 +53,7 @@ const DiscountEditModal = ({ discount, close, setIsLoading }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <p className="text-sm text-muted-foreground">
-        {discount?.student?.firstName} {discount?.student?.lastName} —{" "}
+        {discount?.student?.firstName} {discount?.student?.lastName} -{" "}
         {discount?.group?.name}
       </p>
       <div className="grid grid-cols-2 gap-3">

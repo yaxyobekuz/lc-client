@@ -14,7 +14,7 @@ import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
 import { todayInput, toDateInput } from "@/shared/utils/formatDate";
 
 /**
- * StudentAddToGroupModal — o'quvchi detalidan turib uni guruhga qo'shadi.
+ * StudentAddToGroupModal - o'quvchi detalidan turib uni guruhga qo'shadi.
  * GroupAddStudentModal'ning teskarisi: bu yerda o'quvchi tayin, GURUH tanlanadi.
  *
  * Props (openModal payload'idan): studentId, excludeGroupIds (allaqachon a'zo).
@@ -71,7 +71,7 @@ const StudentAddToGroupModal = ({
         emptyText="Mos guruh topilmadi"
         value={groupId}
         onChange={(v) => {
-          // Guruh tanlanganda default qo'shilgan sana — guruh boshlangan sana
+          // Guruh tanlanganda default qo'shilgan sana - guruh boshlangan sana
           // (startDate, bo'lmasa createdAt).
           const g = groups.find((x) => String(x._id) === String(v));
           const startedAt = g?.startDate || g?.createdAt;

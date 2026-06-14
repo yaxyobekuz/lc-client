@@ -117,12 +117,12 @@ const Leaderboard = ({
   const maxPoint = ranked[0]?.point || 100;
 
   // Top tie: 1-o'rinni nechta o'quvchi bo'lishyapti.
-  // 3 tadan ko'p bo'lsa podium ma'nosiz ("1-o'rin"lar to'lib ketadi) —
+  // 3 tadan ko'p bo'lsa podium ma'nosiz ("1-o'rin"lar to'lib ketadi) -
   // bu holatda podium ko'rsatmaymiz, hammasini qator ko'rinishida beramiz.
   const topTieCount = ranked.filter((it) => it.rank === 1).length;
   const showPodium = ranked.length >= 3 && topTieCount <= 3;
 
-  // Podium aniq 3 ta joylashuv (slot 1/2/3) — ortiqcha tenglar qatorga tushadi.
+  // Podium aniq 3 ta joylashuv (slot 1/2/3) - ortiqcha tenglar qatorga tushadi.
   const podium = showPodium ? ranked.slice(0, 3) : [];
   const rest = showPodium ? ranked.slice(3) : ranked;
 

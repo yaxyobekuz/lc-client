@@ -49,7 +49,7 @@ const FeedbackCard = ({ feedback: f }) => (
 const MyFeedbackPage = () => {
   const { openModal } = useModal();
   const { role } = useAuth();
-  // O'quvchida guruhlar ro'yxatiga ruxsat yo'q — guruh tanlagichni yashiramiz
+  // O'quvchida guruhlar ro'yxatiga ruxsat yo'q - guruh tanlagichni yashiramiz
   const showGroupPicker = role !== ROLES.STUDENT;
   const [page, setPage] = useState(1);
   const limit = 20;

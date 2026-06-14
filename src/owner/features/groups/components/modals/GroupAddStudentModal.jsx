@@ -23,7 +23,7 @@ const GroupAddStudentModal = ({
   isLoading,
   setIsLoading,
 }) => {
-  // Default boshlash sanasi — guruh boshlangan sana (owner o'zgartira oladi).
+  // Default boshlash sanasi - guruh boshlangan sana (owner o'zgartira oladi).
   // leftAt (tugatgan sana) ixtiyoriy: bo'sh bo'lsa o'quvchi "o'qimoqda".
   const { studentId, joinedAt, leftAt, setField, resetState } = useObjectState({
     studentId: "",
@@ -53,7 +53,7 @@ const GroupAddStudentModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // joinedAt majburiy — bo'sh bo'lsa yubormaymiz.
+    // joinedAt majburiy - bo'sh bo'lsa yubormaymiz.
     if (!studentId || !joinedAt) return;
     setIsLoading(true);
     mutate({

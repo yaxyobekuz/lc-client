@@ -37,7 +37,7 @@ const SalaryConfigsPage = () => {
         <h1 className="text-2xl font-semibold">Maosh sozlamalari</h1>
         <p className="text-sm text-muted-foreground">
           Har bir o'qituvchi va guruh uchun stabil foiz/fiksani bir marta
-          belgilang — har oy avtomatik qo'llanadi.
+          belgilang - har oy avtomatik qo'llanadi.
           {notSet > 0 && (
             <span className="ml-1 text-amber-600">
               {notSet} ta juftlik hali belgilanmagan.

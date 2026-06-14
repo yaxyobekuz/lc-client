@@ -2,7 +2,7 @@ import Card from "@/shared/components/ui/card/Card";
 import { formatMonths } from "../utils/formatMonths";
 
 // Chiqib ketish sabablari: har sabab uchun nechta o'quvchi + ular o'rtacha
-// qancha o'qib chiqqani. Masalan "Dars zerikarli — 18 ta, o'rtacha 4 oy".
+// qancha o'qib chiqqani. Masalan "Dars zerikarli - 18 ta, o'rtacha 4 oy".
 const ChurnReasonsTable = ({ reasons = [] }) => {
   const max = reasons.reduce((m, r) => Math.max(m, r.count || 0), 0) || 1;
 

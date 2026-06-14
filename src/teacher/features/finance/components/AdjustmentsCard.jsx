@@ -68,7 +68,7 @@ const AdjustmentList = ({ title, icon: Icon, items, tone, sign, emptyText }) => 
                   {a.reason || (a.kind === "bonus" ? "Bonus" : "Jarima")}
                 </p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {a.group?.name || "—"} · {adjustmentScopeLabel(a)}
+                  {a.group?.name || "-"} · {adjustmentScopeLabel(a)}
                 </p>
               </div>
               <span className={`shrink-0 text-sm font-semibold tabular-nums ${accent}`}>

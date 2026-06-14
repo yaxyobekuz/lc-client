@@ -136,7 +136,7 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
               )}
               {prorated && (detail.workStartDate || detail.workEndDate) && (
                 <p className="text-[11px] text-muted-foreground">
-                  Ish davri: {fmtDate(detail.workStartDate) || "oy boshi"} —{" "}
+                  Ish davri: {fmtDate(detail.workStartDate) || "oy boshi"} -{" "}
                   {fmtDate(detail.workEndDate) || "oy oxiri"}
                 </p>
               )}

@@ -225,7 +225,7 @@ const SalaryEditModal = ({ salary, close, setIsLoading }) => {
                 <span className={a.kind === "bonus" ? "text-emerald-600" : "text-rose-600"}>
                   {a.kind === "bonus" ? "Bonus" : "Jarima"}:{" "}
                   {a.valueType === "percent" ? `${a.value}%` : formatMoney(a.value)}
-                  {a.reason ? ` — ${a.reason}` : ""}
+                  {a.reason ? ` - ${a.reason}` : ""}
                 </span>
                 <button
                   type="button"

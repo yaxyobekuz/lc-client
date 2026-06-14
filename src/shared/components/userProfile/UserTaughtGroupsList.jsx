@@ -26,7 +26,7 @@ const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
       ) : (
         <div className="space-y-2.5">
           {groups.map((g) => {
-            // ownerLinks bo'lsa — butun karta guruh detaliga o'tadi
+            // ownerLinks bo'lsa - butun karta guruh detaliga o'tadi
             const body = (
               <>
                 <div className="flex items-center justify-between gap-3">

@@ -3,7 +3,7 @@ import SelectField from "@/shared/components/ui/select/SelectField";
 import { LEAD_STATUS_OPTIONS } from "@/shared/constants/leadStatus";
 import useLeadOptionsQuery from "../hooks/useLeadOptionsQuery";
 
-const withEmpty = (data, placeholder = "—") => [
+const withEmpty = (data, placeholder = "-") => [
   { value: "", label: placeholder },
   ...(data?.data || []).map((o) => ({ value: o._id, label: o.name })),
 ];

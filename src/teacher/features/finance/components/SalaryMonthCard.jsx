@@ -28,7 +28,7 @@ const SalaryMonthCard = ({ salary }) => {
             {monthLabel(salary.month)} {salary.year}
           </p>
           <p className="truncate text-xs text-muted-foreground">
-            {salary.group?.name || "—"}
+            {salary.group?.name || "-"}
           </p>
         </div>
         <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
@@ -43,13 +43,13 @@ const SalaryMonthCard = ({ salary }) => {
         <div>
           <p className="text-[11px] text-muted-foreground">Bonus</p>
           <p className="font-medium tabular-nums text-emerald-600">
-            {bonus ? `+${formatMoney(bonus)}` : "—"}
+            {bonus ? `+${formatMoney(bonus)}` : "-"}
           </p>
         </div>
         <div>
           <p className="text-[11px] text-muted-foreground">Jarima</p>
           <p className="font-medium tabular-nums text-rose-600">
-            {fine ? `−${formatMoney(fine)}` : "—"}
+            {fine ? `−${formatMoney(fine)}` : "-"}
           </p>
         </div>
       </div>

@@ -123,7 +123,7 @@ const TelegramStatus = ({ telegram }) => {
   );
 };
 
-// Mobil — card ro'yxati, sm+ — jadval (gorizontal scroll bilan).
+// Mobil - card ro'yxati, sm+ - jadval (gorizontal scroll bilan).
 // Qatorni bosish o'quvchi detali sahifasiga olib boradi (davomat + ozod davrlari).
 const StudentsList = ({ students, onSelect }) => (
   <>

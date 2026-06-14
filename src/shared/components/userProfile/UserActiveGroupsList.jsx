@@ -21,7 +21,7 @@ const UserActiveGroupsList = ({
 }) => {
   const { openModal } = useModal();
 
-  // O'quvchining hozirgi guruh id'lari — qo'shishda takror chiqmasligi uchun
+  // O'quvchining hozirgi guruh id'lari - qo'shishda takror chiqmasligi uchun
   const activeGroupIds = activeGroups
     .map((m) => m.group?._id)
     .filter(Boolean);
