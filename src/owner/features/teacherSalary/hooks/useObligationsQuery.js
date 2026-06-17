@@ -6,7 +6,7 @@ const useObligationsQuery = (params, options = {}) =>
   useQuery({
     queryKey: qk.teacherSalary.obligations(params),
     queryFn: () => teacherSalaryAPI.obligations(params).then((r) => r.data.data),
-    enabled: !!params?.year && !!params?.month,
+    enabled: !!params?.year,
     ...options,
   });
 

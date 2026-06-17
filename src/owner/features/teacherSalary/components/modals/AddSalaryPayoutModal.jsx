@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import InputField from "@/shared/components/ui/input/InputField";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
@@ -54,6 +55,11 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
     e.preventDefault();
     const amount = Number(form.amount);
     if (!amount || amount <= 0) return;
+    // Maosh plani bo'yicha ORTIQCHA berib bo'lmaydi - faqat qoldiqqacha.
+    if (amount > remaining) {
+      toast.error(`Qoldiqdan oshib ketadi (qoldiq: ${formatMoney(remaining)})`);
+      return;
+    }
     setIsLoading(true);
     addMut.mutate({
       salaryId: salary._id,
@@ -202,8 +208,12 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
           >
             Yopish
           </Button>
-          <Button type="submit" className="flex-1" disabled={addMut.isPending}>
-            To'lash
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={addMut.isPending || remaining <= 0}
+          >
+            {remaining <= 0 ? "To'liq berilgan" : "To'lash"}
           </Button>
         </div>
       </form>

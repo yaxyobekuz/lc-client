@@ -9,7 +9,6 @@ export const teacherSalaryAPI = {
   salaryHistory: (teacherId) =>
     http.get(ENDPOINTS.teacherSalary.salaryHistory(teacherId)),
   upsertSalary: (body) => http.put(ENDPOINTS.teacherSalary.salaries, body),
-  regenerate: (body) => http.post(ENDPOINTS.teacherSalary.regenerate, body),
   obligations: (params) => http.get(ENDPOINTS.teacherSalary.obligations, { params }),
 
   // To'lovlar (chiqim)
@@ -22,6 +21,14 @@ export const teacherSalaryAPI = {
   upsertConfig: (body) => http.put(ENDPOINTS.teacherSalary.configs, body),
   removeConfig: (teacher, group) =>
     http.delete(ENDPOINTS.teacherSalary.configByPair(teacher, group)),
+
+  // Maosh stavkasi DAVRLARI (manba haqiqati - timeline)
+  ratePeriods: (params) => http.get(ENDPOINTS.teacherSalary.ratePeriods, { params }),
+  createRatePeriod: (body) => http.post(ENDPOINTS.teacherSalary.ratePeriods, body),
+  updateRatePeriod: (id, body) =>
+    http.patch(ENDPOINTS.teacherSalary.ratePeriodById(id), body),
+  removeRatePeriod: (id) =>
+    http.delete(ENDPOINTS.teacherSalary.ratePeriodById(id)),
 
   // Bonus / Jarima
   adjustments: (params) => http.get(ENDPOINTS.teacherSalary.adjustments, { params }),

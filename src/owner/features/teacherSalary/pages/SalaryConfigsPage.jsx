@@ -9,6 +9,7 @@ import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery
 import { MODAL } from "@/shared/constants/modals";
 import SalaryConfigsTable from "../components/SalaryConfigsTable";
 import SalaryConfigEditModal from "../components/modals/SalaryConfigEditModal";
+import RatePeriodsModal from "../components/modals/RatePeriodsModal";
 import useSalaryConfigsQuery from "../hooks/useSalaryConfigsQuery";
 
 const SalaryConfigsPage = () => {
@@ -82,6 +83,14 @@ const SalaryConfigsPage = () => {
         className="max-w-md"
       >
         <SalaryConfigEditModal />
+      </ModalWrapper>
+
+      <ModalWrapper
+        name={MODAL.SALARY_RATE_PERIODS}
+        title="Maosh stavkasi davrlari"
+        className="max-w-lg"
+      >
+        <RatePeriodsModal />
       </ModalWrapper>
     </div>
   );

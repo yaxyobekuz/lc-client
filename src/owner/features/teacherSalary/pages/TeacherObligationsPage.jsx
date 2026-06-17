@@ -1,14 +1,20 @@
 import { useMemo } from "react";
 import SelectField from "@/shared/components/ui/select/SelectField";
+import SelectYear from "@/shared/components/ui/select/SelectYear";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { MONTH_OPTIONS } from "@/shared/constants/calendar";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery";
-import MonthPicker from "../components/MonthPicker";
 import ObligationsTable from "../components/ObligationsTable";
 import useObligationsQuery from "../hooks/useObligationsQuery";
 
 const now = new Date();
+
+const MONTH_FILTER_OPTIONS = [
+  { value: "", label: "Barcha oylar" },
+  ...MONTH_OPTIONS.map((o) => ({ value: String(o.value), label: o.label })),
+];
 
 const TeacherObligationsPage = () => {
   const filters = useObjectState({
@@ -26,10 +32,12 @@ const TeacherObligationsPage = () => {
     [groupsData],
   );
 
+  const allMonths = filters.month === "";
+
   const { data, isLoading } = useObligationsQuery({
     groupId: filters.groupId || undefined,
     year: filters.year,
-    month: filters.month,
+    month: allMonths ? undefined : filters.month,
   });
 
   const rows = data || [];
@@ -37,42 +45,45 @@ const TeacherObligationsPage = () => {
 
   return (
     <div className="space-y-4">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold">Qarzdorliklar</h1>
-          <p className="text-sm text-muted-foreground">
-            O'qituvchilarga to'lanishi kerak bo'lgan qoldiq
-          </p>
-        </div>
-        <MonthPicker
-          year={filters.year}
-          month={filters.month}
-          onChange={({ year, month }) => filters.setFields({ year, month })}
-        />
+      <header>
+        <p className="text-sm text-muted-foreground">
+          O'qituvchilarga to'lanishi kerak bo'lgan qoldiq
+        </p>
       </header>
 
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div className="max-w-xs flex-1">
-          <SelectField
-            searchable
-            label="Guruh"
-            value={filters.groupId}
-            onChange={(v) => filters.setField("groupId", v)}
-            options={groupOptions}
-          />
-        </div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <SelectYear
+          label="Yil"
+          value={filters.year}
+          onChange={(v) => filters.setField("year", Number(v))}
+        />
+        <SelectField
+          label="Oy"
+          value={String(filters.month)}
+          onChange={(v) => filters.setField("month", v === "" ? "" : Number(v))}
+          options={MONTH_FILTER_OPTIONS}
+        />
+        <SelectField
+          searchable
+          label="Guruh"
+          value={filters.groupId}
+          onChange={(v) => filters.setField("groupId", v)}
+          options={groupOptions}
+        />
         {!isLoading && rows.length > 0 && (
-          <p className="text-sm">
-            Umumiy majburiyat:{" "}
-            <span className="font-semibold text-rose-600">{formatMoney(totalRemaining)}</span>
-          </p>
+          <div className="flex items-end">
+            <p className="text-sm">
+              Umumiy majburiyat:{" "}
+              <span className="font-semibold text-rose-600">{formatMoney(totalRemaining)}</span>
+            </p>
+          </div>
         )}
       </div>
 
       {!isLoading && rows.length === 0 ? (
-        <EmptyState title="Qarzdorlik yo'q" description="Barcha maoshlar to'langan" />
+        <EmptyState title="Qarzdorlik yo'q" description="Tanlangan davr uchun barcha maoshlar to'langan" />
       ) : (
-        <ObligationsTable rows={rows} isLoading={isLoading} />
+        <ObligationsTable rows={rows} isLoading={isLoading} showMonth={allMonths} />
       )}
     </div>
   );
