@@ -1,25 +1,20 @@
-import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
-import StudentPaymentsPanel from "../components/StudentPaymentsPanel";
-import StudentObligationsPanel from "../components/StudentObligationsPanel";
+import { Outlet } from "react-router-dom";
+import TabsLinks from "@/shared/components/ui/tabs/TabsLinks";
 
+const BASE = "/owner/finance/student-payments";
+
+// Layout: tab kontenti route darajasida (Outlet). Tablar - TabsLinks (NavLink).
 const StudentPaymentsPage = () => {
   const items = [
-    {
-      value: "payments",
-      label: "To'lovlar",
-      content: <StudentPaymentsPanel />,
-    },
-    {
-      value: "debtors",
-      label: "Qarzdorlar",
-      content: <StudentObligationsPanel />,
-    },
+    { to: BASE, label: "To'lovlar", exact: true },
+    { to: `${BASE}/debtors`, label: "Qarzdorlar" },
   ];
 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">O'quvchi to'lovlari</h1>
-      <TabsButtons items={items} />
+      <TabsLinks items={items} />
+      <Outlet />
     </div>
   );
 };

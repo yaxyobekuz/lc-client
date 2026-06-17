@@ -1,4 +1,5 @@
 export { default as RatingPage } from "./pages/RatingPage";
+export { default as RatingLeaderboardPanel } from "./components/RatingLeaderboardPanel";
 export { default as RatingSettingsPage } from "./pages/RatingSettingsPage";
 
 export { ratingAPI } from "./api/rating.api";
