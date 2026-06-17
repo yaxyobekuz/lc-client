@@ -13,7 +13,7 @@ const ownerSidebar = [
   {
     title: "Asosiy",
     icon: LayoutDashboard,
-    isActive: false,
+    isActive: true,
     items: [
       {
         title: "Bosh sahifa",
@@ -21,14 +21,14 @@ const ownerSidebar = [
         permission: "admin_dashboard.read",
       },
       {
-        title: "Guruhlar",
-        url: "/owner/groups",
-        permission: "groups.read",
-      },
-      {
         title: "Foydalanuvchilar",
         url: "/owner/users",
         permission: "users.read",
+      },
+      {
+        title: "Guruhlar",
+        url: "/owner/groups",
+        permission: "groups.read",
       },
       {
         title: "O'quvchilar statistikasi",
@@ -44,6 +44,39 @@ const ownerSidebar = [
         title: "Arxiv sabablari",
         url: "/owner/archive-reasons",
         permission: "archive_reasons.manage",
+      },
+    ],
+  },
+
+  {
+    title: "Moliya",
+    icon: Wallet,
+    isActive: true,
+    items: [
+      {
+        title: "Hisobot & Statistika",
+        url: "/owner/finance",
+        permission: "finance.read",
+      },
+      {
+        title: "O'qituvchi maoshlari",
+        url: "/owner/finance/teacher-salaries",
+        permission: "salary.read",
+      },
+      {
+        title: "O'quvchi to'lovlari",
+        url: "/owner/finance/student-payments",
+        permission: "finance.read",
+      },
+      {
+        title: "Guruh to'lovi",
+        url: "/owner/finance/group-fees",
+        permission: "finance.read",
+      },
+      {
+        title: "Chegirmalar",
+        url: "/owner/finance/discounts",
+        permission: "finance.read",
       },
     ],
   },
@@ -122,59 +155,10 @@ const ownerSidebar = [
   },
 
   {
-    title: "Moliya",
-    icon: Wallet,
-    isActive: false,
-    items: [
-      {
-        title: "Statistika",
-        url: "/owner/finance",
-        permission: "finance.read",
-      },
-      {
-        title: "O'quvchi to'lovlari",
-        url: "/owner/finance/student-payments",
-        permission: "finance.read",
-      },
-      {
-        title: "Qaytariladigan pul",
-        url: "/owner/finance/refunds",
-        permission: "finance.read",
-      },
-      {
-        title: "Guruh to'lovi",
-        url: "/owner/finance/group-fees",
-        permission: "finance.read",
-      },
-      {
-        title: "Chegirmalar",
-        url: "/owner/finance/discounts",
-        permission: "finance.read",
-      },
-      {
-        title: "O'qituvchi maoshlari",
-        url: "/owner/finance/teacher-salaries",
-        permission: "salary.read",
-      },
-      {
-        title: "Maosh sozlamalari",
-        url: "/owner/finance/salary-configs",
-        permission: "salary.manage",
-      },
-      {
-        title: "Qarzdorliklar",
-        url: "/owner/finance/obligations",
-        permission: "salary.read",
-      },
-    ],
-  },
-
-  {
     title: "Bildirishnomalar",
     icon: Bell,
     isActive: false,
     items: [
-      
       {
         title: "Xabarlar",
         url: "/owner/notifications",

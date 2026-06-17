@@ -52,6 +52,8 @@ export const ENDPOINTS = Object.freeze({
     myActive: "/groups/me/active",
     myTeach: "/groups/me/teach",
     removalNoticeSeen: "/groups/me/removal-notice/seen",
+    teacherPeriods: (id) => `/groups/${id}/teacher-periods`,
+    teacherPeriodById: (id, pid) => `/groups/${id}/teacher-periods/${pid}`,
   },
 
 
@@ -156,16 +158,13 @@ export const ENDPOINTS = Object.freeze({
   finance: {
     groupFees: "/finance/group-fees",
     groupFeesByGroup: (gid) => `/finance/group-fees/group/${gid}`,
-    regenerate: "/finance/regenerate",
     studentPayments: "/finance/student-payments",
+    studentObligations: "/finance/student-payments/obligations",
     studentPaymentById: (id) => `/finance/student-payments/${id}`,
     studentPaymentHistory: (studentId) =>
       `/finance/student-payments/by-student/${studentId}`,
     transactions: "/finance/transactions",
     transactionById: (id) => `/finance/transactions/${id}`,
-    refundsPending: "/finance/refunds/pending",
-    refundsHistory: "/finance/refunds/history",
-    refunds: "/finance/refunds",
     discounts: "/finance/discounts",
     discountById: (id) => `/finance/discounts/${id}`,
     reportMonthly: "/finance/reports/monthly",
@@ -178,7 +177,6 @@ export const ENDPOINTS = Object.freeze({
     salaryHistory: (teacherId) =>
       `/teacher-salary/salaries/by-teacher/${teacherId}`,
     myFinance: "/teacher-salary/me/finance",
-    regenerate: "/teacher-salary/regenerate",
     obligations: "/teacher-salary/obligations",
     transactions: "/teacher-salary/transactions",
     transactionById: (id) => `/teacher-salary/transactions/${id}`,
@@ -187,6 +185,8 @@ export const ENDPOINTS = Object.freeze({
     configs: "/teacher-salary/configs",
     configByPair: (teacher, group) =>
       `/teacher-salary/configs/${teacher}/${group}`,
+    ratePeriods: "/teacher-salary/rate-periods",
+    ratePeriodById: (id) => `/teacher-salary/rate-periods/${id}`,
     reportMonthly: "/teacher-salary/reports/monthly",
   },
 });

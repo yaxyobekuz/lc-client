@@ -88,7 +88,6 @@ export const MODAL = Object.freeze({
 
   // Finance (Moliya)
   FINANCE_ADD_PAYMENT: "finance:addPayment",
-  FINANCE_REFUND: "finance:refund",
   GROUP_FEE_EDIT: "finance:groupFeeEdit",
   DISCOUNT_CREATE: "finance:discountCreate",
   DISCOUNT_EDIT: "finance:discountEdit",
@@ -98,4 +97,6 @@ export const MODAL = Object.freeze({
   SALARY_EDIT: "salary:edit",
   SALARY_ADD_PAYOUT: "salary:addPayout",
   SALARY_CONFIG_EDIT: "salary:configEdit",
+  SALARY_RATE_PERIODS: "salary:ratePeriods",
+  GROUP_TEACHER_PERIODS: "group:teacherPeriods",
 });

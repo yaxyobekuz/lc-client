@@ -37,7 +37,6 @@ import {
   FinanceReportPage,
   StudentPaymentsPage,
   StudentPaymentHistoryPage,
-  RefundsPage,
   GroupFeesPage,
   GroupFeeDetailPage,
   DiscountsPage,
@@ -45,7 +44,6 @@ import {
 import {
   TeacherSalariesPage,
   TeacherSalaryHistoryPage,
-  TeacherObligationsPage,
   SalaryConfigsPage,
 } from "@/owner/features/teacherSalary";
 import { ProfilePage } from "@/owner/features/profile";
@@ -105,7 +103,6 @@ const OwnerRoutes = () => (
       path="finance/student-payments/student/:studentId"
       element={<StudentPaymentHistoryPage />}
     />
-    <Route path="finance/refunds" element={<RefundsPage />} />
     <Route path="finance/group-fees" element={<GroupFeesPage />} />
     <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
     <Route path="finance/discounts" element={<DiscountsPage />} />
@@ -115,7 +112,11 @@ const OwnerRoutes = () => (
       path="finance/teacher-salaries/teacher/:teacherId"
       element={<TeacherSalaryHistoryPage />}
     />
-    <Route path="finance/obligations" element={<TeacherObligationsPage />} />
+    {/* Qarzdorliklar endi "O'quvchi to'lovlari" sahifasida tab sifatida */}
+    <Route
+      path="finance/obligations"
+      element={<Navigate to="/owner/finance/student-payments" replace />}
+    />
 
     <Route path="profile" element={<ProfilePage />} />
     <Route path="*" element={<NotFoundPage />} />
