@@ -1,5 +1,4 @@
 // Pages
-export { default as FinanceReportPage } from "./pages/FinanceReportPage";
 export { default as StudentPaymentsPage } from "./pages/StudentPaymentsPage";
 export { default as StudentPaymentsPanel } from "./components/StudentPaymentsPanel";
 export { default as StudentObligationsPanel } from "./components/StudentObligationsPanel";

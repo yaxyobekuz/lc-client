@@ -26,7 +26,4 @@ export const financeAPI = {
   createDiscount: (body) => http.post(ENDPOINTS.finance.discounts, body),
   updateDiscount: (id, body) => http.patch(ENDPOINTS.finance.discountById(id), body),
   removeDiscount: (id) => http.delete(ENDPOINTS.finance.discountById(id)),
-
-  // Hisobotlar
-  reportMonthly: (params) => http.get(ENDPOINTS.finance.reportMonthly, { params }),
 };
