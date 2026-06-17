@@ -1,38 +1,27 @@
-import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
+import { Outlet } from "react-router-dom";
+import TabsLinks from "@/shared/components/ui/tabs/TabsLinks";
 import usePermissions from "@/shared/hooks/usePermissions";
-import TeacherSalariesPanel from "../components/TeacherSalariesPanel";
-import TeacherObligationsPage from "./TeacherObligationsPage";
-import SalaryConfigsPage from "./SalaryConfigsPage";
 
+const BASE = "/owner/finance/teacher-salaries";
+
+// Layout: tab kontenti route darajasida (Outlet). Tablar - TabsLinks (NavLink).
 const TeacherSalariesPage = () => {
   const { has } = usePermissions();
 
   const items = [
-    {
-      value: "salaries",
-      label: "Maoshlar",
-      content: <TeacherSalariesPanel />,
-    },
-    {
-      value: "obligations",
-      label: "Berilishi kerak",
-      content: <TeacherObligationsPage />,
-    },
+    { to: BASE, label: "Maoshlar", exact: true },
+    { to: `${BASE}/berilishi-kerak`, label: "Berilishi kerak" },
   ];
-
   // Maosh sozlamalari - faqat salary.manage huquqi borlarga.
   if (has("salary.manage")) {
-    items.push({
-      value: "settings",
-      label: "Sozlamalar",
-      content: <SalaryConfigsPage />,
-    });
+    items.push({ to: `${BASE}/sozlamalar`, label: "Sozlamalar" });
   }
 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">O'qituvchi maoshlari</h1>
-      <TabsButtons items={items} />
+      <TabsLinks items={items} />
+      <Outlet />
     </div>
   );
 };

@@ -8,26 +8,18 @@ import useDebounce from "@/shared/hooks/useDebounce";
 import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery";
 import { MODAL } from "@/shared/constants/modals";
 import MonthPicker from "./MonthPicker";
-import TeacherSalaryCard from "./TeacherSalaryCard";
+import TeacherSalariesTable from "./TeacherSalariesTable";
 import SalaryEditModal from "./modals/SalaryEditModal";
 import AddSalaryPayoutModal from "./modals/AddSalaryPayoutModal";
 import useTeacherSalariesQuery from "../hooks/useTeacherSalariesQuery";
 
 const now = new Date();
 
-const STATUS_OPTIONS = [
-  { value: "", label: "Barchasi" },
-  { value: "unpaid", label: "To'lanmagan" },
-  { value: "partial", label: "Qisman" },
-  { value: "paid", label: "To'langan" },
-];
-
 const TeacherSalariesPanel = () => {
   const filters = useObjectState({
     groupId: "",
     year: now.getFullYear(),
     month: now.getMonth() + 1,
-    status: "",
     search: "",
   });
   const debouncedSearch = useDebounce(filters.search);
@@ -45,7 +37,6 @@ const TeacherSalariesPanel = () => {
     groupId: filters.groupId || undefined,
     year: filters.year,
     month: filters.month,
-    status: filters.status || undefined,
     search: debouncedSearch || undefined,
     limit: 200,
   });
@@ -54,32 +45,21 @@ const TeacherSalariesPanel = () => {
 
   return (
     <div className="space-y-4">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-muted-foreground">
-          Tanlangan oy uchun o'qituvchi maoshlari
-        </p>
-        <div className="flex flex-wrap items-end gap-2">
-          <MonthPicker
-            year={filters.year}
-            month={filters.month}
-            onChange={({ year, month }) => filters.setFields({ year, month })}
-          />
-        </div>
+      <header className="flex justify-end">
+        <MonthPicker
+          year={filters.year}
+          month={filters.month}
+          onChange={({ year, month }) => filters.setFields({ year, month })}
+        />
       </header>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <SelectField
           searchable
           label="Guruh"
           value={filters.groupId}
           onChange={(v) => filters.setField("groupId", v)}
           options={groupOptions}
-        />
-        <SelectField
-          label="Holat"
-          value={filters.status}
-          onChange={(v) => filters.setField("status", v)}
-          options={STATUS_OPTIONS}
         />
         <InputField
           name="search"
@@ -92,16 +72,10 @@ const TeacherSalariesPanel = () => {
         />
       </div>
 
-      {isLoading ? (
-        <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
-      ) : salaries.length === 0 ? (
+      {salaries.length === 0 && !isLoading ? (
         <EmptyState title="Maoshlar topilmadi" />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {salaries.map((s) => (
-            <TeacherSalaryCard key={s._id} salary={s} />
-          ))}
-        </div>
+        <TeacherSalariesTable rows={salaries} isLoading={isLoading} />
       )}
 
       <ModalWrapper name={MODAL.SALARY_EDIT} title="Maoshni tahrirlash" className="max-w-lg">

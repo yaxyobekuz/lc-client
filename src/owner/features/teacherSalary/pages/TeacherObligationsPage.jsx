@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import SelectYear from "@/shared/components/ui/select/SelectYear";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
-import { formatMoney } from "@/shared/utils/formatMoney";
 import { MONTH_OPTIONS } from "@/shared/constants/calendar";
 import useObjectState from "@/shared/hooks/useObjectState";
 import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery";
@@ -20,7 +19,7 @@ const TeacherObligationsPage = () => {
   const filters = useObjectState({
     groupId: "",
     year: now.getFullYear(),
-    month: now.getMonth() + 1,
+    month: "",
   });
 
   const { data: groupsData } = useGroupsListQuery({ limit: 200 });
@@ -41,24 +40,19 @@ const TeacherObligationsPage = () => {
   });
 
   const rows = data || [];
-  const totalRemaining = rows.reduce((s, r) => s + (r.remaining || 0), 0);
 
   return (
     <div className="space-y-4">
-      <header>
-        <p className="text-sm text-muted-foreground">
-          O'qituvchilarga to'lanishi kerak bo'lgan qoldiq
-        </p>
-      </header>
-
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <SelectYear
           label="Yil"
+          className="flex-1"
           value={filters.year}
           onChange={(v) => filters.setField("year", Number(v))}
         />
         <SelectField
           label="Oy"
+          className="flex-1"
           value={String(filters.month)}
           onChange={(v) => filters.setField("month", v === "" ? "" : Number(v))}
           options={MONTH_FILTER_OPTIONS}
@@ -66,18 +60,11 @@ const TeacherObligationsPage = () => {
         <SelectField
           searchable
           label="Guruh"
+          className="flex-1"
           value={filters.groupId}
           onChange={(v) => filters.setField("groupId", v)}
           options={groupOptions}
         />
-        {!isLoading && rows.length > 0 && (
-          <div className="flex items-end">
-            <p className="text-sm">
-              Umumiy majburiyat:{" "}
-              <span className="font-semibold text-rose-600">{formatMoney(totalRemaining)}</span>
-            </p>
-          </div>
-        )}
       </div>
 
       {!isLoading && rows.length === 0 ? (

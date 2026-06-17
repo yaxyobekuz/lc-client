@@ -30,23 +30,8 @@ const SalaryConfigsPage = () => {
     search: debouncedSearch || undefined,
   });
 
-  const notSet = rows.filter((r) => !r.configured).length;
-
   return (
     <div className="space-y-4">
-      <header>
-        <h1 className="text-2xl font-semibold">Maosh sozlamalari</h1>
-        <p className="text-sm text-muted-foreground">
-          Har bir o'qituvchi va guruh uchun stabil foiz/fiksani bir marta
-          belgilang - har oy avtomatik qo'llanadi.
-          {notSet > 0 && (
-            <span className="ml-1 text-amber-600">
-              {notSet} ta juftlik hali belgilanmagan.
-            </span>
-          )}
-        </p>
-      </header>
-
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <SelectField
           searchable
