@@ -14,6 +14,7 @@ import {
 } from "../../hooks/useFinanceMutations";
 import { statusMeta } from "../../utils/status";
 import { formatDateUZ } from "@/shared/utils/date.utils";
+import { Badge } from "@/shared/components/shadcn/badge";
 
 const METHODS = [
   { value: "cash", label: "Naqd" },
@@ -208,22 +209,23 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
             Hali to'lov qilinmagan
           </p>
         ) : (
-          <ul className="space-y-1">
+          <ul className="divide-y">
             {transactions.map((t) => (
               <li
                 key={t._id}
-                className="flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm"
+                className="flex items-center justify-between gap-2 rounded-md py-1.5 text-sm"
               >
                 <div className="flex items-baseline gap-2">
+                  <Badge variant={t.method === "cash" ? "default" : "secondary"}>
+                    {t.method === "cash" ? "Naqd" : "Karta"}
+                  </Badge>
                   <span className="font-medium">{formatMoney(t.amount)}</span>
                   <span className="text-xs text-muted-foreground">
-                    {t.method === "cash" ? "Naqd" : "Karta"} ·{" "}
-                    {String(t.paidAt).slice(0, 10)}
+                    {formatDateUZ(t.paidAt)}
                   </span>
                 </div>
+
                 {confirmId === t._id ? (
-                  // Inline tasdiq: tasodifan bosishdan himoya. To'lovni o'chirish
-                  // qaytarib bo'lmaydi (balansni qayta hisoblaydi).
                   <div className="flex shrink-0 items-center gap-1">
                     <Button
                       type="button"
