@@ -54,11 +54,6 @@ const ownerSidebar = [
     isActive: true,
     items: [
       {
-        title: "Hisobot & Statistika",
-        url: "/owner/finance",
-        permission: "finance.read",
-      },
-      {
         title: "O'qituvchi maoshlari",
         url: "/owner/finance/teacher-salaries",
         permission: "salary.read",

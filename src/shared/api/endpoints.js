@@ -167,7 +167,6 @@ export const ENDPOINTS = Object.freeze({
     transactionById: (id) => `/finance/transactions/${id}`,
     discounts: "/finance/discounts",
     discountById: (id) => `/finance/discounts/${id}`,
-    reportMonthly: "/finance/reports/monthly",
   },
 
   // Teacher salary (O'qituvchi maoshlari)
@@ -187,6 +186,5 @@ export const ENDPOINTS = Object.freeze({
       `/teacher-salary/configs/${teacher}/${group}`,
     ratePeriods: "/teacher-salary/rate-periods",
     ratePeriodById: (id) => `/teacher-salary/rate-periods/${id}`,
-    reportMonthly: "/teacher-salary/reports/monthly",
   },
 });

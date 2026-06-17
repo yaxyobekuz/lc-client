@@ -61,7 +61,6 @@ import {
 import { AdminDashboardPage } from "@/owner/features/adminDashboard";
 import { ActivityLogsPage } from "@/owner/features/activityLogs";
 import {
-  FinanceReportPage,
   StudentPaymentsPage,
   StudentPaymentsPanel,
   StudentObligationsPanel,
@@ -167,8 +166,8 @@ const OwnerRoutes = () => (
 
     <Route path="settings/attendance" element={<AttendanceSettingsPage />} />
 
-    {/* Moliya */}
-    <Route path="finance" element={<FinanceReportPage />} />
+    {/* Moliya - bazaviy URL o'quvchi to'lovlariga yo'naltiriladi */}
+    <Route path="finance" element={<Navigate to="/owner/finance/student-payments" replace />} />
 
     {/* O'quvchi to'lovlari - tablar route darajasida */}
     <Route path="finance/student-payments" element={<StudentPaymentsPage />}>
