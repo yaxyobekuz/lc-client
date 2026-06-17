@@ -1,43 +1,20 @@
-// React
-import { useState } from "react";
-
-// Router
-import { useParams } from "react-router-dom";
-
-// Icons
-import { ArrowLeft, Plus, Send } from "lucide-react";
-
-// UI
+import { Outlet, useParams } from "react-router-dom";
+import { ArrowLeft, Send } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Badge from "@/shared/components/ui/badge/Badge";
-import Button from "@/shared/components/ui/button/Button";
-import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
+import TabsLinks from "@/shared/components/ui/tabs/TabsLinks";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
-
-// Hooks
 import useGoBack from "@/shared/hooks/useGoBack";
-import useModal from "@/shared/hooks/useModal";
 import useGroupQuery from "../hooks/useGroupQuery";
-
-// Davomat heatmap (owner feature qayta ishlatiladi - rolga bog'liq emas)
-import { AttendanceYearHeatmap } from "@/shared/components/attendance";
-import useStudentYearAttendanceQuery from "@/owner/features/attendance/hooks/useStudentYearAttendanceQuery";
-
-// Davomatdan ozod davrlari (owner feature qayta ishlatiladi)
 import {
-  ExemptionsTable,
   ExemptionCreateModal,
   ExemptionDeleteModal,
 } from "@/owner/features/attendanceExemptions";
-
-// Utils & constants
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { MODAL } from "@/shared/constants/modals";
 
 const TelegramStatus = ({ telegram }) => {
-  if (!telegram) {
-    return <span className="text-muted-foreground">Bog'lanmagan</span>;
-  }
+  if (!telegram) return <span className="text-muted-foreground">Bog'lanmagan</span>;
   if (telegram.username) {
     return (
       <a
@@ -59,56 +36,15 @@ const TelegramStatus = ({ telegram }) => {
   );
 };
 
-const StudentAttendanceTab = ({ studentId }) => {
-  const now = new Date();
-  const [year, setYear] = useState(now.getFullYear());
-  const { data, isLoading } = useStudentYearAttendanceQuery(studentId, { year });
-
-  return (
-    <Card className="mt-3">
-      {isLoading ? (
-        <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>
-      ) : (
-        <AttendanceYearHeatmap
-          data={data}
-          year={year}
-          onPrevYear={() => setYear((y) => y - 1)}
-          onNextYear={() => setYear((y) => y + 1)}
-        />
-      )}
-    </Card>
-  );
-};
-
-const StudentExemptionsTab = ({ studentId }) => {
-  const { openModal } = useModal();
-  return (
-    <div className="space-y-3 pt-3">
-      <div className="flex justify-end">
-        <Button
-          onClick={() =>
-            openModal(MODAL.ATTENDANCE_EXEMPTION_CREATE, { studentId })
-          }
-        >
-          <Plus className="size-4" />
-          Yangi davr
-        </Button>
-      </div>
-      <ExemptionsTable studentId={studentId} />
-    </div>
-  );
-};
-
+// Layout: tablar (Davomat / Darsdan ozod) route darajasida. Bola panellar
+// studentId ni useParams orqali oladi.
 const MyStudentDetailPage = () => {
   const { id, studentId } = useParams();
   const goBack = useGoBack(`/teacher/groups/${id}`);
   const { data: group, isLoading, isError } = useGroupQuery(id);
-  const [tab, setTab] = useState("attendance");
 
   if (isLoading) {
-    return (
-      <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
-    );
+    return <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>;
   }
 
   const student = (group?.students || []).find((s) => s._id === studentId);
@@ -126,6 +62,8 @@ const MyStudentDetailPage = () => {
       </div>
     );
   }
+
+  const BASE = `/teacher/groups/${id}/students/${studentId}`;
 
   return (
     <div className="space-y-4">
@@ -161,22 +99,15 @@ const MyStudentDetailPage = () => {
         </div>
       </Card>
 
-      <TabsButtons
-        value={tab}
-        onChange={setTab}
+      <TabsLinks
         items={[
-          { value: "attendance", label: "Davomat" },
-          { value: "exemptions", label: "Darsdan ozod" },
+          { to: BASE, label: "Davomat", exact: true },
+          { to: `${BASE}/ozod`, label: "Darsdan ozod" },
         ]}
       />
+      <Outlet />
 
-      {tab === "attendance" && <StudentAttendanceTab studentId={studentId} />}
-      {tab === "exemptions" && <StudentExemptionsTab studentId={studentId} />}
-
-      <ModalWrapper
-        name={MODAL.ATTENDANCE_EXEMPTION_CREATE}
-        title="Darsdan ozod qilish"
-      >
+      <ModalWrapper name={MODAL.ATTENDANCE_EXEMPTION_CREATE} title="Darsdan ozod qilish">
         <ExemptionCreateModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.ATTENDANCE_EXEMPTION_DELETE} title="Davrni o'chirish">
