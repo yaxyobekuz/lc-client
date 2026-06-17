@@ -1,10 +1,9 @@
 // Router
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Outlet } from "react-router-dom";
 
 // Icons
 import {
   Pencil,
-  Plus,
   Trash2,
   CheckCircle2,
   Archive,
@@ -16,7 +15,7 @@ import {
 // Components
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
-import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
+import TabsLinks from "@/shared/components/ui/tabs/TabsLinks";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import {
   DropdownMenu,
@@ -25,9 +24,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/shared/components/shadcn/dropdown-menu";
-import GroupStudentsTable from "../components/GroupStudentsTable";
-import GroupInfoTab from "../components/tabs/GroupInfoTab";
-import GroupAttendanceStatsTab from "../components/tabs/GroupAttendanceStatsTab";
 import GroupEditModal from "../components/modals/GroupEditModal";
 import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 import GroupFinishModal from "../components/modals/GroupFinishModal";
@@ -158,43 +154,14 @@ const GroupDetailPage = () => {
         </div>
       </div>
 
-      <TabsButtons
+      <TabsLinks
         items={[
-          {
-            value: "info",
-            label: "Ma'lumot",
-            content: <GroupInfoTab group={group} />,
-          },
-          {
-            value: "students",
-            label: "O'quvchilar",
-            content: (
-              <div className="space-y-3 pt-3">
-                <div className="flex justify-end">
-                  <Button
-                    onClick={() =>
-                      openModal(MODAL.GROUP_ADD_STUDENT, {
-                        groupId: group._id,
-                        // Guruh boshlangan sana: startDate, bo'lmasa createdAt.
-                        groupStartedAt: group.startDate || group.createdAt,
-                      })
-                    }
-                  >
-                    <Plus className="size-4" />
-                    O'quvchi qo'shish
-                  </Button>
-                </div>
-                <GroupStudentsTable group={group} />
-              </div>
-            ),
-          },
-          {
-            value: "attendance",
-            label: "Davomat",
-            content: <GroupAttendanceStatsTab groupId={group._id} />,
-          },
+          { to: `/owner/groups/${id}`, label: "Ma'lumot", exact: true },
+          { to: `/owner/groups/${id}/o-quvchilar`, label: "O'quvchilar" },
+          { to: `/owner/groups/${id}/davomat`, label: "Davomat" },
         ]}
       />
+      <Outlet context={{ group }} />
 
       <ModalWrapper
         name={MODAL.GROUP_EDIT}
