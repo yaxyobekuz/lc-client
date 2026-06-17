@@ -6,6 +6,8 @@ import {
   MyGroupsPage,
   MyGroupDetailPage,
   MyStudentDetailPage,
+  MyStudentAttendancePanel,
+  MyStudentExemptionsPanel,
 } from "@/teacher/features/groups";
 import { TeacherProfilePage } from "@/teacher/features/profile";
 import {
@@ -33,7 +35,10 @@ const TeacherRoutes = () => (
     <Route
       path="groups/:id/students/:studentId"
       element={<MyStudentDetailPage />}
-    />
+    >
+      <Route index element={<MyStudentAttendancePanel />} />
+      <Route path="ozod" element={<MyStudentExemptionsPanel />} />
+    </Route>
     <Route path="attendance" element={<TeacherAttendancePage />} />
     <Route path="attendance/:groupId" element={<TeacherAttendanceMarkPage />} />
     <Route path="grades" element={<TeacherGradesPage />} />
