@@ -7,11 +7,12 @@ export const financeAPI = {
   groupFees: (params) => http.get(ENDPOINTS.finance.groupFees, { params }),
   groupFeesByGroup: (gid) => http.get(ENDPOINTS.finance.groupFeesByGroup(gid)),
   upsertGroupFee: (body) => http.put(ENDPOINTS.finance.groupFees, body),
-  regenerate: (body) => http.post(ENDPOINTS.finance.regenerate, body),
 
   // O'quvchi to'lovlari
   studentPayments: (params) =>
     http.get(ENDPOINTS.finance.studentPayments, { params }),
+  studentObligations: (params) =>
+    http.get(ENDPOINTS.finance.studentObligations, { params }),
   studentPayment: (id) => http.get(ENDPOINTS.finance.studentPaymentById(id)),
   studentPaymentHistory: (studentId) =>
     http.get(ENDPOINTS.finance.studentPaymentHistory(studentId)),
@@ -19,13 +20,6 @@ export const financeAPI = {
   // Kirim (tranzaksiyalar)
   addTransaction: (body) => http.post(ENDPOINTS.finance.transactions, body),
   removeTransaction: (id) => http.delete(ENDPOINTS.finance.transactionById(id)),
-
-  // Qaytariladigan pul (refund)
-  refundsPending: (params) =>
-    http.get(ENDPOINTS.finance.refundsPending, { params }),
-  refundsHistory: (params) =>
-    http.get(ENDPOINTS.finance.refundsHistory, { params }),
-  createRefund: (body) => http.post(ENDPOINTS.finance.refunds, body),
 
   // Chegirmalar
   discounts: (params) => http.get(ENDPOINTS.finance.discounts, { params }),

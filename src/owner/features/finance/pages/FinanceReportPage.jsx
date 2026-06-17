@@ -1,5 +1,4 @@
-import { RefreshCw, TrendingUp, TrendingDown, Scale, TriangleAlert, Wallet } from "lucide-react";
-import Button from "@/shared/components/ui/button/Button";
+import { TrendingUp, TrendingDown, Scale, TriangleAlert, Wallet } from "lucide-react";
 import StatCard from "@/shared/components/ui/card/StatCard";
 import ErrorState from "@/shared/components/ui/feedback/ErrorState";
 import useObjectState from "@/shared/hooks/useObjectState";
@@ -9,7 +8,6 @@ import StatCards from "../components/report/StatCards";
 import DailyIncomeChart from "../components/report/DailyIncomeChart";
 import GroupsBreakdown from "../components/report/GroupsBreakdown";
 import useFinanceReportQuery from "../hooks/useFinanceReportQuery";
-import { useRegenerateMutation } from "../hooks/useFinanceMutations";
 
 const now = new Date();
 
@@ -27,8 +25,6 @@ const FinanceReportPage = () => {
     year: period.year,
     month: period.month,
   });
-
-  const regenerate = useRegenerateMutation();
 
   const income = data?.totals?.income || 0;
   const expense = salary?.totals?.expense || 0;
@@ -63,14 +59,6 @@ const FinanceReportPage = () => {
             month={period.month}
             onChange={({ year, month }) => period.setFields({ year, month })}
           />
-          <Button
-            variant="outline"
-            disabled={regenerate.isPending}
-            onClick={() => regenerate.mutate({ year: period.year, month: period.month })}
-          >
-            <RefreshCw className="size-4" />
-            Generatsiya
-          </Button>
         </div>
       </header>
 

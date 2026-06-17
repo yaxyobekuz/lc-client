@@ -13,6 +13,7 @@ import {
   useRemoveTransactionMutation,
 } from "../../hooks/useFinanceMutations";
 import { statusMeta } from "../../utils/status";
+import { formatDateUZ } from "@/shared/utils/date.utils";
 
 const METHODS = [
   { value: "cash", label: "Naqd" },
@@ -58,8 +59,11 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
     e.preventDefault();
     const amount = Number(form.amount);
     if (!amount || amount <= 0) return;
-    if (amount > 10_000_000) {
-      toast.error("Summa 10 000 000 dan oshmasligi kerak");
+    // Plan bo'yicha ORTIQCHA to'lov qilib bo'lmaydi - faqat qoldiqqacha.
+    if (amount > remaining) {
+      toast.error(
+        `Plan qoldig'idan oshib ketadi (qoldiq: ${formatMoney(remaining)})`,
+      );
       return;
     }
     setIsLoading(true);
@@ -86,55 +90,58 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
     <div className="space-y-5">
       {/* Student + status */}
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="truncate font-medium leading-tight">
-            {detail.student?.firstName} {detail.student?.lastName}
-          </p>
-          <p className="truncate text-xs text-muted-foreground">
-            {detail.group?.name}
-          </p>
-        </div>
-        <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
+        <p className="truncate font-medium leading-tight">
+          {detail.student?.firstName} {detail.student?.lastName}
+        </p>
+
+        <p className="truncate text-xs text-muted-foreground">
+          {detail.group?.name}
+        </p>
       </div>
 
-      {/* Qoldiq - asosiy ko'rsatkich */}
-      <div className="rounded-lg bg-muted/40 px-4 py-3">
-        <div className="flex items-baseline justify-between">
-          <span className="text-sm text-muted-foreground">Qoldiq</span>
-          <span className="text-xl font-semibold text-rose-600">
-            {formatMoney(remaining)}
-          </span>
-        </div>
-        <div className="mt-2 flex justify-between border-t pt-2 text-xs text-muted-foreground">
-          <span>Kutilgan: {formatMoney(expected)}</span>
-          <span className="text-emerald-600">
-            To'langan: {formatMoney(paid)}
-          </span>
+      <div className="divide-y">
+        <div className="flex items-center justify-between gap-2 py-1.5">
+          <p className="text-sm text-muted-foreground">To'lanishi kerak</p>
+          <p className="text-sm">{formatMoney(expected)}</p>
         </div>
 
-        {/* Yakuniy summa qanday chiqqani - tafsilot (faqat kerak bo'lsa) */}
-        {hasBreakdown && (
-          <div className="mt-2 space-y-1 border-t pt-2 text-xs">
-            <div className="flex justify-between text-muted-foreground">
-              <span>Guruh oylik to'lovi</span>
-              <span>{formatMoney(baseFee)}</span>
-            </div>
-            {prorationCut > 0 && (
-              <div className="flex justify-between text-amber-600">
-                <span>
-                  Oy yarmida qo'shilgan
-                  {joinedAt ? ` (${String(joinedAt).slice(0, 10)})` : ""} ·{" "}
-                  {Math.round(factor * 100)}%
-                </span>
-                <span>−{formatMoney(prorationCut)}</span>
-              </div>
-            )}
-            {discount > 0 && (
-              <div className="flex justify-between text-amber-600">
-                <span>Chegirma</span>
-                <span>−{formatMoney(discount)}</span>
-              </div>
-            )}
+        <div className="flex items-center justify-between gap-2 py-1.5">
+          <p className="text-sm text-muted-foreground">To'langan</p>
+          <p className="text-sm text-green-600">{formatMoney(paid)}</p>
+        </div>
+
+        <div className="flex items-center justify-between gap-2 py-1.5">
+          <p className="text-sm text-muted-foreground">To'lanmagan</p>
+          <p className="text-sm text-red-600">{formatMoney(remaining)}</p>
+        </div>
+      </div>
+
+      <div className="divide-y">
+        <div className="flex items-center justify-between gap-2 py-1.5">
+          <p className="text-sm text-muted-foreground">Guruh to'lovi</p>
+          <p className="text-sm">{formatMoney(baseFee)}</p>
+        </div>
+
+        <div className="flex items-center justify-between gap-2 py-1.5">
+          <p className="text-sm text-muted-foreground">Guruhga qo'shilgan</p>
+          <p className="text-sm">
+            {joinedAt ? ` ${formatDateUZ(joinedAt)}` : ""}
+          </p>
+        </div>
+
+        {prorationCut > 0 && (
+          <div className="flex items-center justify-between gap-2 py-1.5">
+            <p className="text-sm text-muted-foreground">Proratsiya</p>
+            <p className="text-sm text-yellow-600">
+              −{formatMoney(prorationCut)} / -{Math.round((1 - factor) * 100)}%
+            </p>
+          </div>
+        )}
+
+        {discount > 0 && (
+          <div className="flex items-center justify-between gap-2 py-1.5">
+            <p className="text-sm text-muted-foreground">Chegirma</p>
+            <p className="text-sm text-yellow-600">−{formatMoney(discount)}</p>
           </div>
         )}
       </div>
@@ -149,7 +156,6 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
           placeholder="0"
           value={form.amount}
           onChange={(e) => form.setField("amount", e.target.value)}
-          description="Qoldiqdan ortiq kiritsangiz, ortig'i keyingi oylarga avans sifatida o'tadi"
         />
         <div className="grid grid-cols-2 gap-3">
           <SelectField
@@ -175,8 +181,12 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
           >
             Yopish
           </Button>
-          <Button type="submit" className="flex-1" disabled={addMut.isPending}>
-            To'lovni qo'shish
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={addMut.isPending || remaining <= 0}
+          >
+            {remaining <= 0 ? "To'liq to'langan" : "To'lovni qo'shish"}
           </Button>
         </div>
       </form>
@@ -194,7 +204,9 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Yuklanmoqda...</p>
         ) : transactions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Hali to'lov qilinmagan</p>
+          <p className="text-sm text-muted-foreground">
+            Hali to'lov qilinmagan
+          </p>
         ) : (
           <ul className="space-y-1">
             {transactions.map((t) => (

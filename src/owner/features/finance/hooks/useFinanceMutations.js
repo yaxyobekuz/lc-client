@@ -31,22 +31,6 @@ export const useGroupFeeUpsertMutation = (options = {}) => {
   });
 };
 
-export const useRegenerateMutation = (options = {}) => {
-  const invalidate = useInvalidate();
-  return useMutation({
-    mutationFn: (body) => financeAPI.regenerate(body).then((r) => r.data.data),
-    onSuccess: (data, vars, ctx) => {
-      invalidate();
-      toast.success("Generatsiya yakunlandi");
-      options.onSuccess?.(data, vars, ctx);
-    },
-    onError: (err) => {
-      apiErrorToast(err);
-      options.onError?.(err);
-    },
-  });
-};
-
 export const useAddTransactionMutation = (options = {}) => {
   const invalidate = useInvalidate();
   return useMutation({
@@ -70,22 +54,6 @@ export const useRemoveTransactionMutation = (options = {}) => {
     onSuccess: (data, vars, ctx) => {
       invalidate();
       toast.success("To'lov bekor qilindi");
-      options.onSuccess?.(data, vars, ctx);
-    },
-    onError: (err) => {
-      apiErrorToast(err);
-      options.onError?.(err);
-    },
-  });
-};
-
-export const useRefundCreateMutation = (options = {}) => {
-  const invalidate = useInvalidate();
-  return useMutation({
-    mutationFn: (body) => financeAPI.createRefund(body).then((r) => r.data.data),
-    onSuccess: (data, vars, ctx) => {
-      invalidate();
-      toast.success("Pul o'quvchiga qaytarib berildi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

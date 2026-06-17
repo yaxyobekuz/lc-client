@@ -4,14 +4,13 @@ import useObjectState from "@/shared/hooks/useObjectState";
 import MonthPicker from "../MonthPicker";
 import { useGroupFeeUpsertMutation } from "../../hooks/useFinanceMutations";
 
-// data: { groupId, groupName, year, month, amount, effectiveFrom, lockPeriod }
+// data: { groupId, groupName, year, month, amount, lockPeriod }
 const GroupFeeEditModal = ({
   groupId,
   groupName,
   year,
   month,
   amount,
-  effectiveFrom,
   lockPeriod = false,
   close,
   setIsLoading,
@@ -21,7 +20,6 @@ const GroupFeeEditModal = ({
     year: year || now.getFullYear(),
     month: month || now.getMonth() + 1,
     amount: amount != null ? String(amount) : "",
-    effectiveFrom: effectiveFrom ? String(effectiveFrom).slice(0, 10) : "",
   });
 
   const mut = useGroupFeeUpsertMutation({
@@ -40,7 +38,6 @@ const GroupFeeEditModal = ({
       year: Number(form.year),
       month: Number(form.month),
       amount: Number(form.amount) || 0,
-      effectiveFrom: form.effectiveFrom || null,
     });
   };
 
@@ -71,15 +68,6 @@ const GroupFeeEditModal = ({
         placeholder="0"
         value={form.amount}
         onChange={(e) => form.setField("amount", e.target.value)}
-      />
-
-      <InputField
-        name="effectiveFrom"
-        type="date"
-        label="Qaysi kundan kuchga kiradi (ixtiyoriy)"
-        value={form.effectiveFrom}
-        onChange={(e) => form.setField("effectiveFrom", e.target.value)}
-        description="Bo'sh qoldirilsa - butun oyga qo'llanadi. Sana tanlansa, summa shu kundan oy oxirigacha proratsiyalanadi."
       />
 
       <div className="flex justify-end gap-2">
