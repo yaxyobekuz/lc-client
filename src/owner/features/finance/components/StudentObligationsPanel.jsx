@@ -45,14 +45,16 @@ const StudentObligationsPanel = () => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <SelectYear
           label="Yil"
+          className="flex-1"
           value={filters.year}
           onChange={(v) => filters.setField("year", Number(v))}
         />
         <SelectField
           label="Oy"
+          className="flex-1"
           value={String(filters.month)}
           onChange={(v) => filters.setField("month", v === "" ? "" : Number(v))}
           options={MONTH_FILTER_OPTIONS}
@@ -60,6 +62,7 @@ const StudentObligationsPanel = () => {
         <SelectField
           searchable
           label="Guruh"
+          className="flex-1"
           value={filters.groupId}
           onChange={(v) => filters.setField("groupId", v)}
           options={groupOptions}
