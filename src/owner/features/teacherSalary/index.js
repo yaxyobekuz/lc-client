@@ -7,6 +7,3 @@ export { default as SalaryConfigsPage } from "./pages/SalaryConfigsPage";
 
 // API
 export { teacherSalaryAPI } from "./api/teacherSalary.api";
-
-// Hooks (cross-feature: Statistika sahifasi uchun)
-export { default as useSalaryReportQuery } from "./hooks/useSalaryReportQuery";

@@ -37,8 +37,4 @@ export const teacherSalaryAPI = {
     http.patch(ENDPOINTS.teacherSalary.adjustmentById(id), body),
   removeAdjustment: (id) =>
     http.delete(ENDPOINTS.teacherSalary.adjustmentById(id)),
-
-  // Hisobot
-  reportMonthly: (params) =>
-    http.get(ENDPOINTS.teacherSalary.reportMonthly, { params }),
 };
