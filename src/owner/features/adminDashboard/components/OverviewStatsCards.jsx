@@ -21,14 +21,14 @@ const OverviewStatsCards = ({ data }) => {
         label="O'quvchilar"
         value={data.studentsCount}
         hint="Faol o'quvchilar"
-        to="/owner/users?tab=student"
+        to="/owner/users/students"
       />
       <StatCard
         icon={Users}
         label="O'qituvchilar"
         value={data.teachersCount}
         hint="Faol o'qituvchilar"
-        to="/owner/users?tab=teacher"
+        to="/owner/users"
       />
       <StatCard
         icon={Layers}
@@ -52,7 +52,7 @@ const OverviewStatsCards = ({ data }) => {
         value={data.newStudentsThisMonth}
         tone="positive"
         hint="Shu oy qo'shilganlar"
-        to="/owner/users?tab=student"
+        to="/owner/users/students"
       />
       <StatCard
         icon={UserMinus}
@@ -60,7 +60,7 @@ const OverviewStatsCards = ({ data }) => {
         value={data.lostStudentsThisMonth}
         tone="negative"
         hint="Shu oy guruhdan chiqqanlar"
-        to="/owner/users?tab=student"
+        to="/owner/users/students"
       />
     </div>
   );

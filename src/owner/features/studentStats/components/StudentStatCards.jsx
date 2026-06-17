@@ -36,7 +36,7 @@ const StudentStatCards = ({ data }) => {
         label="Faol o'quvchilar"
         value={data.activeCount}
         hint="Jami faol o'quvchilar"
-        to="/owner/users?tab=student"
+        to="/owner/users/students"
       />
       <StatCard
         icon={UserPlus}
