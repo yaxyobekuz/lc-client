@@ -27,4 +27,13 @@ export const groupsAPI = {
     http.post(`/groups/${id}/replace-teacher`, body),
 
   history: (id, params) => http.get(ENDPOINTS.groups.history(id), { params }),
+
+  // O'qituvchi dars berish DAVRLARI (manba haqiqati - timeline)
+  teacherPeriods: (id) => http.get(ENDPOINTS.groups.teacherPeriods(id)),
+  createTeacherPeriod: (id, body) =>
+    http.post(ENDPOINTS.groups.teacherPeriods(id), body),
+  updateTeacherPeriod: (id, pid, body) =>
+    http.patch(ENDPOINTS.groups.teacherPeriodById(id, pid), body),
+  removeTeacherPeriod: (id, pid) =>
+    http.delete(ENDPOINTS.groups.teacherPeriodById(id, pid)),
 };

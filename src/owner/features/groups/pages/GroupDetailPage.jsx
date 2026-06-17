@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Archive,
   CalendarCheck,
+  CalendarRange,
   MoreHorizontal,
 } from "lucide-react";
 
@@ -35,6 +36,7 @@ import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
 import GroupReplaceTeacherModal from "../components/modals/GroupReplaceTeacherModal";
+import TeacherPeriodsModal from "../components/modals/TeacherPeriodsModal";
 import { StudentFreezeModal } from "@/owner/features/studentFreezes";
 import { UserPasswordModal } from "@/owner/features/users";
 
@@ -118,6 +120,12 @@ const GroupDetailPage = () => {
               >
                 <Pencil className="size-4" />
                 Tahrirlash
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => openModal(MODAL.GROUP_TEACHER_PERIODS, { group })}
+              >
+                <CalendarRange className="size-4" />
+                O'qituvchi davrlari
               </DropdownMenuItem>
               {!isFinished && (
                 <DropdownMenuItem
@@ -225,6 +233,13 @@ const GroupDetailPage = () => {
         className="max-w-3xl max-h-[90vh] overflow-y-auto"
       >
         <GroupReplaceTeacherModal />
+      </ModalWrapper>
+      <ModalWrapper
+        name={MODAL.GROUP_TEACHER_PERIODS}
+        title="O'qituvchi dars berish davrlari"
+        className="max-w-lg"
+      >
+        <TeacherPeriodsModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.STUDENT_FREEZE} title="O'quvchini muzlatish">
         <StudentFreezeModal />
