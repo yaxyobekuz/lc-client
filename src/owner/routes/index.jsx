@@ -75,6 +75,7 @@ import {
   TeacherObligationsPage,
   TeacherSalaryHistoryPage,
   SalaryConfigsPage,
+  SalaryGroupDetailPage,
 } from "@/owner/features/teacherSalary";
 import { ProfilePage } from "@/owner/features/profile";
 import { StudentStatsPage } from "@/owner/features/studentStats";
@@ -192,6 +193,11 @@ const OwnerRoutes = () => (
     <Route
       path="finance/teacher-salaries/teacher/:teacherId"
       element={<TeacherSalaryHistoryPage />}
+    />
+    {/* Guruh maosh-davri detali (Maosh belgilash ro'yxatidan ochiladi) */}
+    <Route
+      path="finance/teacher-salaries/group/:groupId"
+      element={<SalaryGroupDetailPage />}
     />
 
     {/* Eski havolalar (redirect) */}
