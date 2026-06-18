@@ -26,11 +26,6 @@ const makeMutation = (mutationFn, successMsg) => (options = {}) => {
   });
 };
 
-export const useSalaryUpsertMutation = makeMutation(
-  (body) => teacherSalaryAPI.upsertSalary(body).then((r) => r.data.data),
-  "Maosh saqlandi",
-);
-
 export const useAddSalaryPayoutMutation = makeMutation(
   (body) => teacherSalaryAPI.addTransaction(body).then((r) => r.data.data),
   "To'lov amalga oshirildi",
@@ -39,17 +34,6 @@ export const useAddSalaryPayoutMutation = makeMutation(
 export const useRemoveSalaryPayoutMutation = makeMutation(
   (id) => teacherSalaryAPI.removeTransaction(id).then((r) => r.data.data),
   "To'lov bekor qilindi",
-);
-
-export const useSalaryConfigUpsertMutation = makeMutation(
-  (body) => teacherSalaryAPI.upsertConfig(body).then((r) => r.data.data),
-  "Maosh sozlamasi saqlandi",
-);
-
-export const useSalaryConfigRemoveMutation = makeMutation(
-  ({ teacher, group }) =>
-    teacherSalaryAPI.removeConfig(teacher, group).then((r) => r.data.data),
-  "Maosh sozlamasi o'chirildi",
 );
 
 export const useAdjustmentCreateMutation = makeMutation(

@@ -1,25 +1,20 @@
-import { Pencil, CalendarRange } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import DataTable from "@/shared/components/ui/table/DataTable";
-import Button from "@/shared/components/ui/button/Button";
 import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
 import { formatMoney } from "@/shared/utils/formatMoney";
-import useModal from "@/shared/hooks/useModal";
-import { MODAL } from "@/shared/constants/modals";
+import { SALARY_TYPE_LABEL } from "../utils/status";
 
-// Maosh qoidasini o'qiladigan matnga aylantiradi.
-const ruleText = (r) => {
-  if (!r.configured) return "Belgilanmagan";
-  if (r.salaryType === "percent") return `${r.percentRate}%`;
-  if (r.salaryType === "fixed") return formatMoney(r.fixedAmount);
-  return `${r.percentRate}% + ${formatMoney(r.fixedAmount)}`;
-};
+const TYPE_TONE = { fixed: "info", percent: "success", mixed: "warning" };
 
-const SalaryConfigsTable = ({ rows = [], isLoading, empty }) => {
-  const { openModal } = useModal();
-  const open = (r) => openModal(MODAL.SALARY_CONFIG_EDIT, { config: r });
-  const openPeriods = (r) => openModal(MODAL.SALARY_RATE_PERIODS, { config: r });
-
+// Joriy oyning aktiv maoshlari. Qator bosilsa - guruh maosh-davri detali.
+const SalaryConfigsTable = ({ rows = [], isLoading, empty, onRowClick }) => {
   const headerCls = "px-4 py-2.5 text-left text-xs font-medium text-muted-foreground";
+
+  const typeBadge = (r) => (
+    <StatusBadge tone={TYPE_TONE[r.salaryType] || "info"}>
+      {SALARY_TYPE_LABEL[r.salaryType] || "-"}
+    </StatusBadge>
+  );
 
   const columns = [
     {
@@ -39,33 +34,23 @@ const SalaryConfigsTable = ({ rows = [], isLoading, empty }) => {
       cell: (r) => r.group?.name || "-",
     },
     {
-      key: "rule",
-      header: "Maosh qoidasi",
+      key: "amount",
+      header: "Maosh",
       headerClassName: headerCls,
-      cell: (r) =>
-        r.configured ? (
-          <span className="font-semibold">{ruleText(r)}</span>
-        ) : (
-          <StatusBadge tone="warning">Belgilanmagan</StatusBadge>
-        ),
+      cell: (r) => <span className="font-semibold">{formatMoney(r.expectedAmount || 0)}</span>,
     },
     {
-      key: "actions",
+      key: "type",
+      header: "Maosh turi",
+      headerClassName: headerCls,
+      cell: typeBadge,
+    },
+    {
+      key: "chevron",
       header: "",
       headerClassName: headerCls,
       className: "text-right",
-      cell: (r) => (
-        <div className="flex items-center justify-end gap-2">
-          <Button size="sm" variant="ghost" onClick={() => openPeriods(r)}>
-            <CalendarRange className="size-3.5" />
-            Davrlar
-          </Button>
-          <Button size="sm" variant="outline" onClick={() => open(r)}>
-            <Pencil className="size-3.5" />
-            {r.configured ? "O'zgartirish" : "Belgilash"}
-          </Button>
-        </div>
-      ),
+      cell: () => <ChevronRight className="ml-auto size-4 text-muted-foreground" />,
     },
   ];
 
@@ -75,23 +60,10 @@ const SalaryConfigsTable = ({ rows = [], isLoading, empty }) => {
         <span className="font-medium">
           {r.teacher?.firstName} {r.teacher?.lastName}
         </span>
-        {r.configured ? (
-          <span className="font-semibold">{ruleText(r)}</span>
-        ) : (
-          <StatusBadge tone="warning">Belgilanmagan</StatusBadge>
-        )}
+        {typeBadge(r)}
       </div>
       <p className="text-xs text-muted-foreground">{r.group?.name}</p>
-      <div className="flex gap-2">
-        <Button size="sm" variant="ghost" className="flex-1" onClick={() => openPeriods(r)}>
-          <CalendarRange className="size-3.5" />
-          Davrlar
-        </Button>
-        <Button size="sm" variant="outline" className="flex-1" onClick={() => open(r)}>
-          <Pencil className="size-3.5" />
-          {r.configured ? "O'zgartirish" : "Belgilash"}
-        </Button>
-      </div>
+      <p className="font-semibold">{formatMoney(r.expectedAmount || 0)}</p>
     </div>
   );
 
@@ -100,7 +72,8 @@ const SalaryConfigsTable = ({ rows = [], isLoading, empty }) => {
       columns={columns}
       rows={rows}
       isLoading={isLoading}
-      rowKey={(r) => `${r.teacher?._id}:${r.group?._id}`}
+      rowKey={(r) => r._id}
+      onRowClick={onRowClick}
       renderCard={renderCard}
       empty={empty}
     />
