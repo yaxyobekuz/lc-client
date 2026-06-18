@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Plus, Pencil } from "lucide-react";
+import { Plus } from "lucide-react";
 import DataTable from "@/shared/components/ui/table/DataTable";
 import Button from "@/shared/components/ui/button/Button";
 import { formatMoney } from "@/shared/utils/formatMoney";
@@ -50,9 +50,6 @@ const TeacherSalariesTable = ({ rows = [], isLoading }) => {
 
   const Actions = ({ salary }) => (
     <div className="flex justify-end gap-1">
-      <Button size="sm" variant="ghost" onClick={() => openModal(MODAL.SALARY_EDIT, { salary })}>
-        <Pencil className="size-4" />
-      </Button>
       <Button
         size="sm"
         variant="outline"

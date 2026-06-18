@@ -74,11 +74,9 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
 
   const transactions = detail.transactions || [];
 
-  // Maosh tarkibi (proratsiya, bonus, jarima)
+  // Maosh tarkibi (proratsiya)
   const proratedFixed = detail.proratedFixed || 0;
   const percentAmount = detail.percentAmount || 0;
-  const bonus = detail.bonusTotal || 0;
-  const fine = detail.fineTotal || 0;
   const factor = detail.prorationFactor ?? 1;
   const prorated = factor < 1;
   const payableDays = detail.payableDays || 0;
@@ -91,7 +89,7 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
   const fullFixed = factor > 0 ? Math.round(proratedFixed / factor) : 0;
   const fullPercent = factor > 0 ? Math.round(percentAmount / factor) : 0;
   const deducted = fullFixed - proratedFixed + (fullPercent - percentAmount);
-  const hasBreakdown = proratedFixed > 0 || percentAmount > 0 || bonus > 0 || fine > 0;
+  const hasBreakdown = proratedFixed > 0 || percentAmount > 0;
 
   return (
     <div className="space-y-5">
@@ -157,20 +155,6 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
               <p className="text-sm text-yellow-600">
                 −{formatMoney(deducted)} / -{Math.round((1 - factor) * 100)}%
               </p>
-            </div>
-          )}
-
-          {bonus > 0 && (
-            <div className="flex items-center justify-between gap-2 py-1.5">
-              <p className="text-sm text-muted-foreground">Bonus</p>
-              <p className="text-sm text-emerald-600">+{formatMoney(bonus)}</p>
-            </div>
-          )}
-
-          {fine > 0 && (
-            <div className="flex items-center justify-between gap-2 py-1.5">
-              <p className="text-sm text-muted-foreground">Jarima</p>
-              <p className="text-sm text-rose-600">−{formatMoney(fine)}</p>
             </div>
           )}
         </div>

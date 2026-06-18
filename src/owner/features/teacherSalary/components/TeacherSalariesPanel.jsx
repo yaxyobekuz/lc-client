@@ -10,7 +10,6 @@ import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery
 import { MODAL } from "@/shared/constants/modals";
 import { MONTH_OPTIONS } from "@/shared/constants/calendar";
 import TeacherSalariesTable from "./TeacherSalariesTable";
-import SalaryEditModal from "./modals/SalaryEditModal";
 import AddSalaryPayoutModal from "./modals/AddSalaryPayoutModal";
 import useTeacherSalariesQuery from "../hooks/useTeacherSalariesQuery";
 
@@ -91,9 +90,6 @@ const TeacherSalariesPanel = () => {
         <TeacherSalariesTable rows={salaries} isLoading={isLoading} />
       )}
 
-      <ModalWrapper name={MODAL.SALARY_EDIT} title="Maoshni tahrirlash" className="max-w-lg">
-        <SalaryEditModal />
-      </ModalWrapper>
       <ModalWrapper name={MODAL.SALARY_ADD_PAYOUT} title="Maosh to'lovi">
         <AddSalaryPayoutModal />
       </ModalWrapper>

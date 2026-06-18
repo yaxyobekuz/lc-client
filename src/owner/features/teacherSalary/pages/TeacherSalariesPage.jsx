@@ -14,8 +14,8 @@ const TeacherSalariesPage = () => {
     { to: BASE, label: "To'lovlar", exact: true },
     { to: `${BASE}/qoldiqlar`, label: "Qoldiqlar" },
   ];
-  // Maosh belgilash - faqat salary.manage huquqi borlarga.
-  if (has("salary.manage")) {
+  // Maosh belgilash - davrlar (TeacherGroupPeriod) orqali, groups.update huquqi borlarga.
+  if (has("groups.update")) {
     items.push({ to: `${BASE}/maosh-belgilash`, label: "Maosh belgilash" });
   }
 

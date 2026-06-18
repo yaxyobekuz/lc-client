@@ -35,13 +35,3 @@ export const useRemoveSalaryPayoutMutation = makeMutation(
   (id) => teacherSalaryAPI.removeTransaction(id).then((r) => r.data.data),
   "To'lov bekor qilindi",
 );
-
-export const useAdjustmentCreateMutation = makeMutation(
-  (body) => teacherSalaryAPI.createAdjustment(body).then((r) => r.data.data),
-  "Saqlandi",
-);
-
-export const useAdjustmentRemoveMutation = makeMutation(
-  (id) => teacherSalaryAPI.removeAdjustment(id).then((r) => r.data.data),
-  "O'chirildi",
-);
