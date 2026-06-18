@@ -2,8 +2,6 @@
 import {
   Users,
   Layers,
-  UserPlus,
-  UserMinus,
   GraduationCap,
   CalendarCheck,
 } from "lucide-react";
@@ -45,22 +43,6 @@ const OverviewStatsCards = ({ data }) => {
         tone="info"
         hint="Bugun belgilangan davomat"
         to="/owner/attendance"
-      />
-      <StatCard
-        icon={UserPlus}
-        label="Yangi o'quvchilar (oy)"
-        value={data.newStudentsThisMonth}
-        tone="positive"
-        hint="Shu oy qo'shilganlar"
-        to="/owner/users/students"
-      />
-      <StatCard
-        icon={UserMinus}
-        label="Ketgan o'quvchilar (oy)"
-        value={data.lostStudentsThisMonth}
-        tone="negative"
-        hint="Shu oy guruhdan chiqqanlar"
-        to="/owner/users/students"
       />
     </div>
   );
