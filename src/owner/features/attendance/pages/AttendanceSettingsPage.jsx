@@ -45,9 +45,6 @@ const AttendanceSettingsPage = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Davomat sozlamalari</h1>
-        <p className="text-sm text-muted-foreground">
-          Ogohlantirish chegaralari
-        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-4">

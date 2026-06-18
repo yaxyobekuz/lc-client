@@ -46,9 +46,6 @@ const FeedbackListPage = () => {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold">Feedback'lar</h1>
-          <p className="text-sm text-muted-foreground">
-            Foydalanuvchi murojaatlari{total ? ` · ${total} ta` : ""}
-          </p>
         </div>
         <div className="flex items-center gap-2">
           <Button asChild variant="outline" size="sm">

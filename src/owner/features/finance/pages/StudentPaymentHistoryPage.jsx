@@ -33,7 +33,6 @@ const StudentPaymentHistoryPage = () => {
         <BackLink to="/owner/finance/student-payments" />
         <div>
           <h1 className="text-2xl font-semibold">{fullName}</h1>
-          <p className="text-sm text-muted-foreground">To'lovlar tarixi</p>
         </div>
       </header>
 

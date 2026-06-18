@@ -18,10 +18,6 @@ const StudentRetentionPage = () => {
     <div className="space-y-4">
       <header>
         <h1 className="text-2xl font-semibold">Chiqib ketish tahlili</h1>
-        <p className="text-sm text-muted-foreground">
-          O'quvchilar qancha o'qib, qaysi sabab bilan va qaysi o'qituvchidan ko'proq
-          chiqib ketayotganini ko'rsatadi
-        </p>
       </header>
 
       <TabsLinks items={items} />

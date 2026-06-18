@@ -27,7 +27,6 @@ const TeacherSalaryHistoryPage = () => {
         <BackLink to="/owner/finance/teacher-salaries" />
         <div>
           <h1 className="text-2xl font-semibold">{fullName}</h1>
-          <p className="text-sm text-muted-foreground">Maosh to'lovlari tarixi</p>
         </div>
       </header>
 

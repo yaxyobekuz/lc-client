@@ -50,9 +50,6 @@ const FeedbackTypesListPage = () => {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-xl font-semibold">Feedback turlari</h1>
-            <p className="text-sm text-muted-foreground">
-              Murojaat turlarini boshqarish
-            </p>
           </div>
           <Button onClick={openCreate}>
             <Plus className="size-4" />

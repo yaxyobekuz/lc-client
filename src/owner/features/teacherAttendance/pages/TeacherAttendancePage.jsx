@@ -98,9 +98,6 @@ const TeacherAttendancePage = () => {
       <header className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold">O'qituvchilar davomati</h1>
-          <p className="text-sm text-muted-foreground">
-            Default - barchasi "Keldi". Faqat kelmaganlarni belgilang.
-          </p>
         </div>
         <div className="flex items-end gap-3">
           <div className="w-[170px]">

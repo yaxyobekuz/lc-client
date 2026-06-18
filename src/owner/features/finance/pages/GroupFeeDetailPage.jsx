@@ -52,7 +52,6 @@ const GroupFeeDetailPage = () => {
           <BackLink to="/owner/finance/group-fees" />
           <div>
             <h1 className="text-2xl font-semibold">{group?.name || "Guruh to'lovi"}</h1>
-            <p className="text-sm text-muted-foreground">Oylik to'lov tarixi</p>
           </div>
         </div>
         <Button onClick={() => openEdit(null)}>

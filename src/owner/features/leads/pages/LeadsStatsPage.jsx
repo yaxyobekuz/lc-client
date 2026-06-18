@@ -42,9 +42,6 @@ const LeadsStatsPage = () => {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Lidlar statistikasi</h1>
-          <p className="text-sm text-muted-foreground">
-            Voronka, manba samaradorligi va konversiya tahlili
-          </p>
         </div>
         <div className="flex flex-wrap items-end gap-2">
           {preset === "month" && (

@@ -28,9 +28,6 @@ const TeacherNotificationsListPage = () => {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Yuborilgan xabarlar</h1>
-          <p className="text-sm text-muted-foreground">
-            O'quvchilarga yuborgan xabarlaringiz{total ? ` · ${total} ta` : ""}
-          </p>
         </div>
         <Button onClick={() => openModal(MODAL.NOTIFICATION_SEND)}>
           <Plus className="size-4" />

@@ -65,9 +65,6 @@ const GroupFeesPage = () => {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Guruh to'lovi</h1>
-          <p className="text-sm text-muted-foreground">
-            Har bir guruhning tanlangan oydagi to'lov miqdori
-          </p>
         </div>
         <MonthPicker
           year={filters.year}

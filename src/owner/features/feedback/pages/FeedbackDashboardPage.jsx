@@ -49,9 +49,6 @@ const FeedbackDashboardPage = () => {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-xl font-semibold">Feedback hisoboti</h1>
-            <p className="text-sm text-muted-foreground">
-              Murojaatlar statistikasi va taqsimoti
-            </p>
           </div>
           <TimeRangeFilter
             preset={range.preset}

@@ -21,9 +21,6 @@ const TeacherFinancePage = () => {
     <div className="space-y-5">
       <header>
         <h1 className="text-2xl font-semibold">Moliya</h1>
-        <p className="text-sm text-muted-foreground">
-          Oylik maoshingiz, bonus va jarimalaringiz
-        </p>
       </header>
 
       {isLoading ? (

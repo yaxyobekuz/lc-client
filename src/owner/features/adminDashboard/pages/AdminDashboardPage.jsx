@@ -27,9 +27,6 @@ const AdminDashboardPage = () => {
       <header className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold">Boshqaruv paneli</h1>
-          <p className="text-sm text-muted-foreground">
-            Umumiy biznes ko'rsatkichlari va analitika
-          </p>
         </div>
         <div className="flex items-center gap-3">
           <SystemNotificationBell />

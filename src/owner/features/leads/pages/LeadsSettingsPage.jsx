@@ -20,9 +20,6 @@ const LeadsSettingsPage = () => {
     <div className="space-y-4">
       <header>
         <h1 className="text-2xl font-semibold">Lid sozlamalari</h1>
-        <p className="text-sm text-muted-foreground">
-          Manba, yo'nalish va rad etish sabablarini boshqaring
-        </p>
       </header>
 
       <TabsLinks items={items} />

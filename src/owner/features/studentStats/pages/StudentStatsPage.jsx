@@ -17,9 +17,6 @@ const StudentStatsPage = () => {
     <div className="space-y-5">
       <header>
         <h1 className="text-2xl font-semibold">O'quvchilar statistikasi</h1>
-        <p className="text-sm text-muted-foreground">
-          Ro'yxatga olish dinamikasi va o'qish muddati tahlili
-        </p>
       </header>
 
       {isError ? (

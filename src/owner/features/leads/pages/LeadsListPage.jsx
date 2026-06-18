@@ -60,9 +60,6 @@ const LeadsListPage = () => {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Lidlar</h1>
-          <p className="text-sm text-muted-foreground">
-            Potensial mijozlar{total ? ` · ${total} ta` : ""}
-          </p>
         </div>
         <Button onClick={() => openModal(MODAL.LEAD_CREATE)}>
           <Plus className="size-4" />
