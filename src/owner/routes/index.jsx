@@ -186,8 +186,8 @@ const OwnerRoutes = () => (
     {/* O'qituvchi maoshlari - tablar route darajasida */}
     <Route path="finance/teacher-salaries" element={<TeacherSalariesPage />}>
       <Route index element={<TeacherSalariesPanel />} />
-      <Route path="berilishi-kerak" element={<TeacherObligationsPage />} />
-      <Route path="sozlamalar" element={<SalaryConfigsPage />} />
+      <Route path="qoldiqlar" element={<TeacherObligationsPage />} />
+      <Route path="maosh-belgilash" element={<SalaryConfigsPage />} />
     </Route>
     <Route
       path="finance/teacher-salaries/teacher/:teacherId"
@@ -197,7 +197,7 @@ const OwnerRoutes = () => (
     {/* Eski havolalar (redirect) */}
     <Route
       path="finance/salary-configs"
-      element={<Navigate to="/owner/finance/teacher-salaries/sozlamalar" replace />}
+      element={<Navigate to="/owner/finance/teacher-salaries/maosh-belgilash" replace />}
     />
     <Route
       path="finance/obligations"
