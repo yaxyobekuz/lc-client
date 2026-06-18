@@ -1,11 +1,10 @@
 // Icons
-import { Wallet, HandCoins, Gift, AlertTriangle, Clock } from "lucide-react";
+import { Wallet, HandCoins, Clock } from "lucide-react";
 
 // Components
 import StatCard from "@/shared/components/ui/card/StatCard";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 import SalaryMonthCard from "../components/SalaryMonthCard";
-import AdjustmentsCard from "../components/AdjustmentsCard";
 
 // Hooks
 import useMyFinanceQuery from "../hooks/useMyFinanceQuery";
@@ -14,7 +13,6 @@ const TeacherFinancePage = () => {
   const { data, isLoading } = useMyFinanceQuery();
 
   const items = data?.items || [];
-  const adjustments = data?.adjustments || [];
   const summary = data?.summary;
 
   return (
@@ -27,8 +25,8 @@ const TeacherFinancePage = () => {
         <div className="p-8 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : (
         <>
-          {/* Umumiy ko'rsatkichlar - mobil 2 ustun, sm 3, lg 5 */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {/* Umumiy ko'rsatkichlar - mobil 1 ustun, sm dan 3 ustun */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <StatCard
               label="Jami hisoblangan"
               value={summary?.totalExpected ?? 0}
@@ -50,26 +48,7 @@ const TeacherFinancePage = () => {
               isMoney
               tone={summary?.totalRemaining ? "warn" : "default"}
             />
-            <StatCard
-              label="Jami bonus"
-              value={summary?.totalBonus ?? 0}
-              icon={Gift}
-              isMoney
-              tone="positive"
-            />
-            <StatCard
-              label="Jami jarima"
-              value={summary?.totalFine ?? 0}
-              icon={AlertTriangle}
-              isMoney
-              tone={summary?.totalFine ? "negative" : "default"}
-            />
           </div>
-
-          {/* Faol bonus / jarima qoidalari */}
-          {adjustments.length > 0 && (
-            <AdjustmentsCard adjustments={adjustments} />
-          )}
 
           {/* Oylar bo'yicha maosh tarixi */}
           <section className="space-y-3">

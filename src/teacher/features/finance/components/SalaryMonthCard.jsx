@@ -8,16 +8,12 @@ import { statusMeta, methodLabel } from "../utils/status";
 
 const monthLabel = (m) => MONTH_LABELS[m - 1] || m;
 
-// Bir oylik maosh yozuvi: bazaviy daromad, bonus, jarima, kutilgan/to'langan/qoldiq
-// va to'lovlar tarixi. Mobil: 2 ustun; sm dan boshlab 3 ustun.
+// Bir oylik maosh yozuvi: kutilgan/to'langan/qoldiq va to'lovlar tarixi.
 const SalaryMonthCard = ({ salary }) => {
   const meta = statusMeta(salary.status);
   const expected = salary.expectedAmount || 0;
   const paid = salary.paidAmount || 0;
   const remaining = Math.max(0, expected - paid);
-  const bonus = salary.bonusTotal || 0;
-  const fine = salary.fineTotal || 0;
-  const base = salary.baseEarnings || 0;
   const txs = salary.transactions || [];
 
   return (
@@ -32,26 +28,6 @@ const SalaryMonthCard = ({ salary }) => {
           </p>
         </div>
         <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
-      </div>
-
-      {/* Tarkib: baza / bonus / jarima */}
-      <div className="mt-3 grid grid-cols-3 gap-2 rounded-md bg-muted/40 p-2 text-sm">
-        <div>
-          <p className="text-[11px] text-muted-foreground">Asosiy</p>
-          <p className="font-medium tabular-nums">{formatMoney(base)}</p>
-        </div>
-        <div>
-          <p className="text-[11px] text-muted-foreground">Bonus</p>
-          <p className="font-medium tabular-nums text-emerald-600">
-            {bonus ? `+${formatMoney(bonus)}` : "-"}
-          </p>
-        </div>
-        <div>
-          <p className="text-[11px] text-muted-foreground">Jarima</p>
-          <p className="font-medium tabular-nums text-rose-600">
-            {fine ? `−${formatMoney(fine)}` : "-"}
-          </p>
-        </div>
       </div>
 
       {/* Yakuniy: kutilgan / to'langan / qoldiq */}

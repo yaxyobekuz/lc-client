@@ -8,7 +8,3 @@ export const SALARY_STATUS = {
 export const statusMeta = (status) => SALARY_STATUS[status] || SALARY_STATUS.unpaid;
 
 export const methodLabel = (m) => (m === "cash" ? "Naqd" : "Karta");
-
-// Bonus/jarima qoidasi tavsifi: "10% (foiz)" yoki "50 000 so'm (fiksa)"
-export const adjustmentScopeLabel = (a) =>
-  a.scope === "permanent" ? "Doimiy" : `${a.month}-oy, ${a.year}`;
