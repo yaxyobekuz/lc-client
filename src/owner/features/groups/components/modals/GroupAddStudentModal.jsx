@@ -83,7 +83,6 @@ const GroupAddStudentModal = ({
         type="date"
         name="joinedAt"
         label="Boshlash sanasi"
-        description="Shu sanadan boshlab har bir oy uchun qarz avtomatik yoziladi."
         value={joinedAt}
         max={joinedAt > todayInput() ? joinedAt : todayInput()}
         onChange={(e) => setField("joinedAt", e.target.value)}

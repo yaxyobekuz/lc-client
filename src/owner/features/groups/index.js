@@ -8,3 +8,12 @@ export { groupsAPI } from "./api/groups.api";
 
 export { default as useGroupsListQuery } from "./hooks/useGroupsListQuery";
 export { default as useGroupQuery } from "./hooks/useGroupQuery";
+
+// O'qituvchi dars berish/maosh davrlari (moliya feature'i ham ishlatadi)
+export {
+  useTeacherPeriodsQuery,
+  useTeacherPeriodCreateMutation,
+  useTeacherPeriodUpdateMutation,
+  useTeacherPeriodRemoveMutation,
+} from "./hooks/useTeacherPeriods";
+export { default as TeacherSinglePicker } from "./components/TeacherSinglePicker";

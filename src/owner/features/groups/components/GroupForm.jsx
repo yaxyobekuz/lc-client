@@ -1,14 +1,21 @@
+// React
+import { useMemo } from "react";
+
 // Hooks
 import useObjectState from "@/shared/hooks/useObjectState";
+import useUsersListQuery from "@/owner/features/users/hooks/useUsersListQuery";
 
 // Sonner
 import { toast } from "sonner";
 
 // Components
 import InputField from "@/shared/components/ui/input/InputField";
+import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 import GroupScheduleField from "./GroupScheduleField";
-import TeacherSinglePicker from "./TeacherSinglePicker";
+
+// Constants
+import { ROLES } from "@/shared/constants/roles";
 
 // Utils
 import { toDateInput } from "@/shared/utils/formatDate";
@@ -37,7 +44,6 @@ const buildInitial = (group) => ({
     : group
       ? ""
       : toDateInput(new Date()),
-  durationMonths: group?.durationMonths ?? "",
   // Oylik narx - faqat yangi guruh yaratishda (joriy oy GroupFee summasi).
   monthlyPrice: "",
 });
@@ -58,11 +64,24 @@ const GroupForm = ({
     schedule,
     teacher,
     startDate,
-    durationMonths,
     monthlyPrice,
     scheduleEffectiveFrom,
     setField,
   } = useObjectState(buildInitial(initial));
+
+  // O'qituvchi tanlash uchun ro'yxat - faqat yangi guruh yaratishda kerak.
+  const { data: teachersData } = useUsersListQuery({
+    role: ROLES.TEACHER,
+    limit: 100,
+  });
+  const teacherOptions = useMemo(
+    () =>
+      (teachersData?.data || []).map((t) => ({
+        value: t._id,
+        label: `${t.firstName} ${t.lastName || ""}`.trim(),
+      })),
+    [teachersData],
+  );
 
   // Tahrirlashda jadval HOZIRGI versiyadan o'zgartirilganmi - shunda "amal qilish
   // sanasi" maydonini ko'rsatamiz (yangi versiya shu sanadan boshlab amal qiladi).
@@ -132,7 +151,6 @@ const GroupForm = ({
       name: trimmedName,
       schedule,
       startDate: startDate || null,
-      durationMonths: durationMonths === "" ? null : Number(durationMonths),
     };
     // Jadval o'zgartirilgan bo'lsa - yangi versiya qaysi sanadan amal qilishini
     // yuboramiz (server eski versiyani tarix uchun saqlaydi).
@@ -163,7 +181,7 @@ const GroupForm = ({
         disabled={isLoading}
       />
 
-      {/* 2-qator: dars boshlanish sanasi + kurs davomiyligi */}
+      {/* 2-qator: dars boshlanish sanasi + o'qituvchi (faqat yangi guruhda) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <InputField
           type="date"
@@ -173,16 +191,21 @@ const GroupForm = ({
           onChange={(e) => setField("startDate", e.target.value)}
           disabled={isLoading}
         />
-        <InputField
-          type="number"
-          name="durationMonths"
-          label="Kurs davomiyligi (oy)"
-          placeholder="Masalan: 10"
-          min="0"
-          value={durationMonths}
-          onChange={(e) => setField("durationMonths", e.target.value)}
-          disabled={isLoading}
-        />
+        {!isEdit && (
+          <SelectField
+            searchable
+            name="teacher"
+            label="O'qituvchi"
+            required
+            value={teacher}
+            onChange={(v) => setField("teacher", v)}
+            options={teacherOptions}
+            placeholder="O'qituvchi tanlang"
+            searchPlaceholder="O'qituvchi qidirish..."
+            emptyText="O'qituvchi topilmadi"
+            disabled={isLoading}
+          />
+        )}
       </div>
 
       {/* Oylik narx - faqat yangi guruh yaratishda (keyin Moliyadan tahrirlanadi) */}
@@ -195,50 +218,31 @@ const GroupForm = ({
           value={monthlyPrice}
           onChange={(e) => setField("monthlyPrice", e.target.value)}
           disabled={isLoading}
-          description="Ixtiyoriy - keyin Moliya bo'limidan ham belgilash mumkin"
         />
       )}
 
-      {/* 3-qator: jadval va o'qituvchi. Tahrirlashda o'qituvchi ko'rsatilmaydi -
-          u faqat "Almashtirish" orqali o'zgartiriladi, shu sabab jadval to'liq enga. */}
-      <div
-        className={
-          isEdit
-            ? "grid grid-cols-1 gap-3"
-            : "grid grid-cols-1 md:grid-cols-2 gap-3"
-        }
-      >
-        <div className="space-y-3">
-          <GroupScheduleField
-            value={schedule}
-            onChange={(next) => setField("schedule", next)}
-            disabled={isLoading}
-          />
-          {scheduleChanged && (
-            <div className="rounded-md border border-amber-200 bg-amber-50 p-3 space-y-2">
-              <InputField
-                type="date"
-                name="scheduleEffectiveFrom"
-                label="Yangi jadval qaysi sanadan amal qiladi?"
-                value={scheduleEffectiveFrom}
-                onChange={(e) =>
-                  setField("scheduleEffectiveFrom", e.target.value)
-                }
-                disabled={isLoading}
-              />
-              <p className="text-[11px] text-amber-700">
-                Eski jadval shu sanagacha bo'lgan davomat hisobida saqlanib
-                qoladi - tarixiy dars soni o'zgarmaydi.
-              </p>
-            </div>
-          )}
-        </div>
-        {!isEdit && (
-          <TeacherSinglePicker
-            value={teacher}
-            onChange={(next) => setField("teacher", next)}
-            disabled={isLoading}
-          />
+      {/* 3-qator: dars jadvali (to'liq enga) */}
+      <div className="space-y-3">
+        <GroupScheduleField
+          value={schedule}
+          onChange={(next) => setField("schedule", next)}
+          disabled={isLoading}
+        />
+        {scheduleChanged && (
+          <div className="rounded-md border border-amber-200 bg-amber-50 p-3 space-y-2">
+            <InputField
+              type="date"
+              name="scheduleEffectiveFrom"
+              label="Yangi jadval qaysi sanadan amal qiladi?"
+              value={scheduleEffectiveFrom}
+              onChange={(e) => setField("scheduleEffectiveFrom", e.target.value)}
+              disabled={isLoading}
+            />
+            <p className="text-[11px] text-amber-700">
+              Eski jadval shu sanagacha bo'lgan davomat hisobida saqlanib qoladi
+              - tarixiy dars soni o'zgarmaydi.
+            </p>
+          </div>
         )}
       </div>
 

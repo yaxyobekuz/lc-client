@@ -19,7 +19,7 @@ const fmt = (v) => {
   return `${d}.${m}.${y}`;
 };
 
-// group: { _id, name } — guruhning o'qituvchi dars berish davrlari (kun-darajali).
+// group: { _id, name } - guruhning o'qituvchi dars berish davrlari (kun-darajali).
 // endDate EXCLUSIVE saqlanadi - ko'rsatishda "gacha" (chiqib ketgan kuni).
 const TeacherPeriodsModal = ({ group, close }) => {
   const groupId = group?._id;
@@ -97,7 +97,7 @@ const TeacherPeriodsModal = ({ group, close }) => {
                   {p.teacher?.firstName} {p.teacher?.lastName}
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  {fmt(p.startDate)} — {fmt(p.endDate)}
+                  {fmt(p.startDate)} - {fmt(p.endDate)}
                 </span>
               </div>
               <div className="flex items-center gap-3">
