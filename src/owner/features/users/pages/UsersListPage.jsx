@@ -34,18 +34,18 @@ const UsersListPage = () => {
     <div className="space-y-4">
       <header className="flex items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">Foydalanuvchilar</h1>
-        <div className="flex items-center gap-2">
-          <ArchiveToggle value={archived} onChange={setArchived} />
-          {!archived && (
-            <Button onClick={() => openModal(MODAL.USER_CREATE, { defaultRole: currentRole })}>
-              <Plus className="size-4" />
-              Yangi foydalanuvchi
-            </Button>
-          )}
-        </div>
+        {!archived && (
+          <Button onClick={() => openModal(MODAL.USER_CREATE, { defaultRole: currentRole })}>
+            <Plus className="size-4" />
+            Yangi foydalanuvchi
+          </Button>
+        )}
       </header>
 
-      <TabsLinks items={items} />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <TabsLinks items={items} />
+        <ArchiveToggle value={archived} onChange={setArchived} />
+      </div>
       <Outlet context={{ archived }} />
 
       <ModalWrapper name={MODAL.USER_CREATE} title="Yangi foydalanuvchi">
