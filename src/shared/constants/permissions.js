@@ -66,5 +66,4 @@ export const PERMISSIONS = Object.freeze({
   // Teacher salary (O'qituvchi maoshlari)
   SALARY_READ: "salary.read",
   SALARY_PAY: "salary.pay",
-  SALARY_MANAGE: "salary.manage",
 });

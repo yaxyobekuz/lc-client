@@ -179,7 +179,5 @@ export const ENDPOINTS = Object.freeze({
     obligations: "/teacher-salary/obligations",
     transactions: "/teacher-salary/transactions",
     transactionById: (id) => `/teacher-salary/transactions/${id}`,
-    adjustments: "/teacher-salary/adjustments",
-    adjustmentById: (id) => `/teacher-salary/adjustments/${id}`,
   },
 });
