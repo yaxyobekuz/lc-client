@@ -23,6 +23,14 @@ export const groupsAPI = {
   transferStudent: (id, studentId, targetGroupId, joinedAt) =>
     http.post(ENDPOINTS.groups.transfer(id, studentId), { targetGroupId, joinedAt }),
 
+  // O'quvchining o'qish davrlari (membership)
+  studentMemberships: (id, studentId) =>
+    http.get(ENDPOINTS.groups.studentMemberships(id, studentId)),
+  updateMembership: (id, membershipId, body) =>
+    http.patch(ENDPOINTS.groups.membershipById(id, membershipId), body),
+  removeMembership: (id, membershipId) =>
+    http.delete(ENDPOINTS.groups.membershipById(id, membershipId)),
+
   history: (id, params) => http.get(ENDPOINTS.groups.history(id), { params }),
 
   // O'qituvchi dars berish DAVRLARI (manba haqiqati - timeline)

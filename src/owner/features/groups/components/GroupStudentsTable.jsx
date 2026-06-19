@@ -9,6 +9,7 @@ import {
   Snowflake,
   KeyRound,
   MoreVertical,
+  CalendarRange,
 } from "lucide-react";
 
 // Components
@@ -150,6 +151,18 @@ const GroupStudentsTable = ({ group }) => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="min-w-[12rem]">
+                      <DropdownMenuItem
+                        onSelect={() =>
+                          openModal(MODAL.GROUP_STUDENT_PERIODS, {
+                            group,
+                            student: s,
+                          })
+                        }
+                      >
+                        <CalendarRange className="size-4" />
+                        O'qish davrlari
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem
                         className="text-cyan-700 focus:text-cyan-800"
                         onSelect={() =>

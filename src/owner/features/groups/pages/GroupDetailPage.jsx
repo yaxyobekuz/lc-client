@@ -7,6 +7,7 @@ import {
   Trash2,
   CheckCircle2,
   Archive,
+  ArchiveRestore,
   CalendarCheck,
   CalendarRange,
   MoreHorizontal,
@@ -31,7 +32,7 @@ import GroupPermanentDeleteModal from "../components/modals/GroupPermanentDelete
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
-import TeacherPeriodsModal from "../components/modals/TeacherPeriodsModal";
+import GroupStudentPeriodsModal from "../components/modals/GroupStudentPeriodsModal";
 import { StudentFreezeModal } from "@/owner/features/studentFreezes";
 import { UserPasswordModal } from "@/owner/features/users";
 
@@ -39,6 +40,7 @@ import { UserPasswordModal } from "@/owner/features/users";
 import useModal from "@/shared/hooks/useModal";
 import useGoBack from "@/shared/hooks/useGoBack";
 import useGroupQuery from "../hooks/useGroupQuery";
+import useGroupRestoreMutation from "../hooks/useGroupRestoreMutation";
 
 // Constants
 import { MODAL } from "@/shared/constants/modals";
@@ -52,6 +54,7 @@ const GroupDetailPage = () => {
   const { openModal } = useModal();
   const goBack = useGoBack("/owner/groups");
   const { data: group, isLoading, isError } = useGroupQuery(id);
+  const restoreMut = useGroupRestoreMutation();
 
   if (isLoading) {
     return (
@@ -77,6 +80,8 @@ const GroupDetailPage = () => {
   }
 
   const isFinished = group.status === "finished";
+  const isArchived = !group.isActive;
+  const fmtDate = (v) => (v ? String(v).slice(0, 10).split("-").reverse().join(".") : "");
 
   return (
     <div className="space-y-4">
@@ -89,18 +94,32 @@ const GroupDetailPage = () => {
           {isFinished && (
             <Badge className="bg-amber-100 text-amber-700">Yakunlangan</Badge>
           )}
+          {isArchived && (
+            <Badge className="bg-gray-200 text-gray-700">Arxivlangan</Badge>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
-          {!isFinished && (
+          {isArchived ? (
             <Button
-              onClick={() =>
-                navigate(`/owner/attendance/mark?groupId=${group._id}`)
-              }
+              variant="outline"
+              disabled={restoreMut.isPending}
+              onClick={() => restoreMut.mutate(group._id)}
             >
-              <CalendarCheck className="size-4" />
-              Davomat belgilash
+              <ArchiveRestore className="size-4" />
+              Arxivdan chiqarish
             </Button>
+          ) : (
+            !isFinished && (
+              <Button
+                onClick={() =>
+                  navigate(`/owner/attendance/mark?groupId=${group._id}`)
+                }
+              >
+                <CalendarCheck className="size-4" />
+                Davomat belgilash
+              </Button>
+            )
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -117,7 +136,9 @@ const GroupDetailPage = () => {
                 Tahrirlash
               </DropdownMenuItem>
               <DropdownMenuItem
-                onSelect={() => openModal(MODAL.GROUP_TEACHER_PERIODS, { group })}
+                onSelect={() =>
+                  navigate(`/owner/finance/teacher-salaries/group/${id}`)
+                }
               >
                 <CalendarRange className="size-4" />
                 O'qituvchi davrlari
@@ -132,13 +153,15 @@ const GroupDetailPage = () => {
                 </DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="text-amber-600 focus:text-amber-700"
-                onSelect={() => openModal(MODAL.GROUP_DELETE, { group })}
-              >
-                <Archive className="size-4" />
-                Arxivlash
-              </DropdownMenuItem>
+              {!isArchived && (
+                <DropdownMenuItem
+                  className="text-amber-600 focus:text-amber-700"
+                  onSelect={() => openModal(MODAL.GROUP_DELETE, { group })}
+                >
+                  <Archive className="size-4" />
+                  Arxivlash
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 className="text-red-600 focus:text-red-700"
                 onSelect={() =>
@@ -152,6 +175,14 @@ const GroupDetailPage = () => {
           </DropdownMenu>
         </div>
       </div>
+
+      {isArchived && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          Guruh <span className="font-medium">{fmtDate(group.archivedAt)}</span>{" "}
+          sanasida arxivlangan. To'lov, davomat va davr amallari to'xtatilgan.
+          O'zgartirish uchun avval arxivdan chiqaring.
+        </div>
+      )}
 
       <TabsLinks
         items={[
@@ -194,11 +225,11 @@ const GroupDetailPage = () => {
         <GroupRemoveStudentModal />
       </ModalWrapper>
       <ModalWrapper
-        name={MODAL.GROUP_TEACHER_PERIODS}
-        title="O'qituvchi dars berish davrlari"
+        name={MODAL.GROUP_STUDENT_PERIODS}
+        title="O'qish davrlari"
         className="max-w-lg"
       >
-        <TeacherPeriodsModal />
+        <GroupStudentPeriodsModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.STUDENT_FREEZE} title="O'quvchini muzlatish">
         <StudentFreezeModal />
