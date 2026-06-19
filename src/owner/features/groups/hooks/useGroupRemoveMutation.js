@@ -14,10 +14,11 @@ import { qk } from "@/shared/lib/query/keys";
 const useGroupRemoveMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id) => groupsAPI.remove(id).then((r) => r.data),
+    mutationFn: ({ id, archivedAt }) =>
+      groupsAPI.remove(id, { archivedAt }).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.groups.all() });
-      toast.success("Guruh o'chirildi");
+      toast.success("Guruh arxivlandi");
       options.onSuccess?.(data, vars, ctx);
     },
     onError: (err) => {

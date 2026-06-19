@@ -124,7 +124,7 @@ const GroupCard = ({ group, archived = false }) => {
                 <span className="font-medium text-foreground">
                   Arxivlangan:
                 </span>{" "}
-                {formatDateUzLong(group.finishedAt)}
+                {formatDateUzLong(group.archivedAt || group.finishedAt)}
               </div>
             </div>
           )}
