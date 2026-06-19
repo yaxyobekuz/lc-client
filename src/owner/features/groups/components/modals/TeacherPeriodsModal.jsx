@@ -120,15 +120,12 @@ const TeacherPeriodsModal = ({ group, close }) => {
       )}
 
       {form.visible && (
-        <form onSubmit={submit} className="space-y-3 rounded-lg border p-3">
+        <form onSubmit={submit} className="space-y-3 rounded-lg border p-3 bg-gray-50">
           {!form.editId && (
-            <div>
-              <p className="mb-1 text-sm font-medium">O'qituvchi</p>
-              <TeacherSinglePicker
-                value={form.teacher}
-                onChange={(id) => form.setField("teacher", id)}
-              />
-            </div>
+            <TeacherSinglePicker
+              value={form.teacher}
+              onChange={(id) => form.setField("teacher", id)}
+            />
           )}
           <InputField
             name="startDate"
@@ -144,7 +141,6 @@ const TeacherPeriodsModal = ({ group, close }) => {
             label="Tugash sanasi (bo'sh = hozir ham dars bermoqda)"
             value={form.endDate}
             onChange={(e) => form.setField("endDate", e.target.value)}
-            description="Bu kun chiqib ketgan kun hisoblanadi (oxirgi ish kuni - bir kun oldin)."
           />
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => form.setField("visible", false)}>
