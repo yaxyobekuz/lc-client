@@ -23,9 +23,6 @@ export const groupsAPI = {
   transferStudent: (id, studentId, targetGroupId, joinedAt) =>
     http.post(ENDPOINTS.groups.transfer(id, studentId), { targetGroupId, joinedAt }),
 
-  replaceTeacher: (id, body) =>
-    http.post(`/groups/${id}/replace-teacher`, body),
-
   history: (id, params) => http.get(ENDPOINTS.groups.history(id), { params }),
 
   // O'qituvchi dars berish DAVRLARI (manba haqiqati - timeline)

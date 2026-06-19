@@ -2,19 +2,12 @@
 import { Link } from "react-router-dom";
 
 // Icons
-import { RefreshCw, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 // Components
-import Button from "@/shared/components/ui/button/Button";
 import Card from "@/shared/components/ui/card/Card";
 import GroupStatsPanel from "../GroupStatsPanel";
 import GroupHistoryList from "../GroupHistoryList";
-
-// Hooks
-import useModal from "@/shared/hooks/useModal";
-
-// Constants
-import { MODAL } from "@/shared/constants/modals";
 
 // Utils
 import { DAY_LABELS_FULL_UZ, sortSchedule } from "@/shared/utils/formatSchedule";
@@ -22,9 +15,9 @@ import { formatDateUz } from "@/shared/utils/formatDate";
 
 // Guruh "Ma'lumot" tab'i: O'qituvchilar, Dars jadvali + statistika
 // (Davomat, Baho) kartalari. Avval sahifa boshida turardi, endi tab ichida.
+// O'qituvchini belgilash/almashtirish endi "Maosh belgilash" sahifasida
+// davrlar (TeacherGroupPeriod) orqali - bu yerda faqat ko'rsatiladi.
 const GroupInfoTab = ({ group }) => {
-  const { openModal } = useModal();
-
   const teachers = group.teachers || [];
   const isFinished = group.status === "finished";
 
@@ -49,35 +42,17 @@ const GroupInfoTab = ({ group }) => {
           ) : (
             <div className="space-y-1">
               {teachers.map((t) => (
-                <div
+                <Link
                   key={t._id}
-                  className="flex items-center justify-between gap-2"
+                  to={`/owner/users/${t._id}`}
+                  className="group/teacher flex min-w-0 items-center gap-1 font-medium text-foreground transition-colors hover:text-primary"
+                  title="O'qituvchi detaliga o'tish"
                 >
-                  <Link
-                    to={`/owner/users/${t._id}`}
-                    className="group/teacher flex min-w-0 items-center gap-1 font-medium text-foreground transition-colors hover:text-primary"
-                    title="O'qituvchi detaliga o'tish"
-                  >
-                    <span className="truncate">
-                      {t.firstName} {t.lastName || ""}
-                    </span>
-                    <ChevronRight className="size-4 shrink-0 text-muted-foreground transition-transform group-hover/teacher:translate-x-0.5 group-hover/teacher:text-primary" />
-                  </Link>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="shrink-0"
-                    onClick={() =>
-                      openModal(MODAL.GROUP_REPLACE_TEACHER, {
-                        group,
-                        teacher: t,
-                      })
-                    }
-                  >
-                    <RefreshCw className="size-3.5" />
-                    Almashtirish
-                  </Button>
-                </div>
+                  <span className="truncate">
+                    {t.firstName} {t.lastName || ""}
+                  </span>
+                  <ChevronRight className="size-4 shrink-0 text-muted-foreground transition-transform group-hover/teacher:translate-x-0.5 group-hover/teacher:text-primary" />
+                </Link>
               ))}
             </div>
           )}

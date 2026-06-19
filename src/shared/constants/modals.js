@@ -48,7 +48,6 @@ export const MODAL = Object.freeze({
   STUDENT_ADD_TO_GROUP: "student:addToGroup",
   GROUP_TRANSFER_STUDENT: "group:transferStudent",
   GROUP_REMOVE_STUDENT: "group:removeStudent",
-  GROUP_REPLACE_TEACHER: "group:replaceTeacher",
 
   // Student panel: guruhdan chiqarilganlik xabari
   STUDENT_REMOVED_NOTICE: "student:removedNotice",
