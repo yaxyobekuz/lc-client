@@ -40,7 +40,7 @@ const SystemNotificationBell = ({ className = "" }) => {
         title="Bildirishnomalar"
         onClick={() => setOpen(true)}
         aria-label={`Bildirishnomalar (${count} o'qilmagan)`}
-        className={`relative inline-flex items-center justify-center size-8 rounded-full transition hover:bg-muted ${className}`}
+        className={`relative bg-white inline-flex items-center justify-center size-10 rounded-full border transition hover:bg-background ${className}`}
       >
         <Bell strokeWidth={1.5} className="size-5" />
         {count > 0 && (

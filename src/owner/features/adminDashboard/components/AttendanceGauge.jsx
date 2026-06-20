@@ -41,7 +41,7 @@ const AttendanceGauge = ({ gauge }) => {
         </svg>
         <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
           <span className="text-3xl font-bold tabular-nums text-zinc-900">
-            {hasData ? `${rate}%` : "—"}
+            {hasData ? `${rate}%` : "-"}
           </span>
           <span className="text-xs text-zinc-500">
             {hasData ? `${gauge.total} ta belgilangan` : "Ma'lumot yo'q"}

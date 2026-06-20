@@ -65,7 +65,7 @@ const GroupStudentPeriodsModal = ({ group, student, close }) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">
-          {student?.firstName} {student?.lastName} — o'qish davrlari
+          {student?.firstName} {student?.lastName} - o'qish davrlari
         </span>
         {!form.visible && (
           <Button size="sm" onClick={openAdd}>

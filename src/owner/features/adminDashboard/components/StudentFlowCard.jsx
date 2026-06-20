@@ -5,7 +5,7 @@ const StudentFlowCard = ({ items = [] }) => {
   const max = Math.max(1, ...items.flatMap((it) => [it.joined || 0, it.left || 0]));
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-zinc-200/80 bg-white p-5">
+    <div className="rounded-2xl border border-zinc-200/80 bg-white p-5">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-zinc-900">O'quvchilar oqimi</h2>
         <div className="flex gap-3 text-xs text-zinc-500">
@@ -13,7 +13,7 @@ const StudentFlowCard = ({ items = [] }) => {
             <span className="size-2.5 rounded-full bg-primary" /> Yangi
           </span>
           <span className="flex items-center gap-1">
-            <span className="size-2.5 rounded-full bg-rose-300" /> Ketgan
+            <span className="size-2.5 rounded-full bg-rose-400" /> Ketgan
           </span>
         </div>
       </div>
@@ -31,7 +31,7 @@ const StudentFlowCard = ({ items = [] }) => {
                     it.netGrowth > 0
                       ? "font-semibold text-emerald-600"
                       : it.netGrowth < 0
-                        ? "font-semibold text-rose-500"
+                        ? "font-semibold text-rose-600"
                         : "font-medium text-zinc-500"
                   }
                 >
@@ -48,7 +48,7 @@ const StudentFlowCard = ({ items = [] }) => {
                 </div>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
                   <div
-                    className="h-full rounded-full bg-rose-300 transition-all"
+                    className="h-full rounded-full bg-rose-400 transition-all"
                     style={{ width: `${((it.left || 0) / max) * 100}%` }}
                   />
                 </div>
