@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 
 // Icons
 import {
-  ArrowRightLeft,
   Trash2,
   Send,
-  Snowflake,
   KeyRound,
   MoreVertical,
   CalendarRange,
@@ -78,12 +76,6 @@ const GroupStudentsTable = ({ group }) => {
                 >
                   {s.firstName} {s.lastName}
                 </Link>
-                {s.frozen && (
-                  <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2 py-0.5 text-xs font-medium text-cyan-700">
-                    <Snowflake className="size-3" />
-                    Muzlatilgan
-                  </span>
-                )}
               </td>
               <td className="px-4 py-3 text-gray-600">
                 <span
@@ -161,19 +153,6 @@ const GroupStudentsTable = ({ group }) => {
                       >
                         <CalendarRange className="size-4" />
                         O'qish davrlari
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className="text-cyan-700 focus:text-cyan-800"
-                        onSelect={() =>
-                          openModal(MODAL.STUDENT_FREEZE, {
-                            studentId: s._id,
-                            studentName: `${s.firstName} ${s.lastName}`,
-                          })
-                        }
-                      >
-                        <Snowflake className="size-4" />
-                        Muzlatish
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem

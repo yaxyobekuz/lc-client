@@ -134,8 +134,8 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
         const next = { ...prev };
         for (let i = lo; i <= hi && i < data.rows.length; i++) {
           const r = data.rows[i];
-          // auto-exempt va muzlatilgan qatorlarga tegmaymiz (setAll bilan bir xil)
-          if (!r || r.defaultStatus === "exempt" || r.frozen) continue;
+          // auto-exempt qatorlarga tegmaymiz (setAll bilan bir xil)
+          if (!r || r.defaultStatus === "exempt") continue;
           next[String(r.student._id)] = {
             status: drag.status,
             reason: "",
@@ -165,10 +165,10 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
     const rows = data?.rows || [];
     if (rows.length === 0 || !data?.isClassDay) return undefined;
 
-    // Fokusdagi qatorga bitta status beradi (frozen/exempt qatorlarga tegmaydi)
+    // Fokusdagi qatorga bitta status beradi (exempt qatorlarga tegmaydi)
     const setStatusAt = (index, status) => {
       const r = rows[index];
-      if (!r || r.frozen || r.defaultStatus === "exempt") return;
+      if (!r || r.defaultStatus === "exempt") return;
       const sid = String(r.student._id);
       setState((prev) => ({
         ...prev,
@@ -180,7 +180,7 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
       setState((prev) => {
         const next = { ...prev };
         for (const r of rows) {
-          if (r.defaultStatus === "exempt" || r.frozen) continue;
+          if (r.defaultStatus === "exempt") continue;
           next[String(r.student._id)] = { status, reason: "", lateMinutes: 0 };
         }
         return next;
@@ -198,7 +198,6 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
         setState((cur) => {
           const items = [];
           for (const r of rows) {
-            if (r.frozen) continue;
             const sid = String(r.student._id);
             const c = cur[sid] || { status: "" };
             if (!c.status) continue;
@@ -282,8 +281,8 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
       const next = { ...prev };
       for (const r of data.rows) {
         const sid = String(r.student._id);
-        // exempt default va muzlatilgan o'quvchilarga tegmaymiz
-        if (r.defaultStatus === "exempt" || r.frozen) continue;
+        // exempt default o'quvchilarga tegmaymiz
+        if (r.defaultStatus === "exempt") continue;
         next[sid] = {
           status,
           reason: "",
@@ -301,7 +300,6 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
     const items = [];
     for (const r of data.rows) {
       const sid = String(r.student._id);
-      if (r.frozen) continue; // muzlatilgan o'quvchi yuborilmaydi
       const cur = state[sid] || { status: "" };
       if (!cur.status) continue;
       if (r.attendance && isSame(initial[sid], cur)) continue;
@@ -394,13 +392,12 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
           const sid = String(r.student._id);
           const cur = state[sid] || {};
           const isFocused = i === focusedIndex;
-          // Sudrash oralig'idami (auto-exempt va muzlatilgan qatorlar chiqariladi)
+          // Sudrash oralig'idami (auto-exempt qatorlar chiqariladi)
           const inDrag =
             !!drag &&
             i >= dragLo &&
             i <= dragHi &&
-            r.defaultStatus !== "exempt" &&
-            !r.frozen;
+            r.defaultStatus !== "exempt";
           return (
             <div
               key={sid}
@@ -437,19 +434,13 @@ const AttendanceGrid = ({ data, onSubmit, isSubmitting = false }) => {
                 </div>
               </div>
               <div className="sm:flex-1">
-                {r.frozen ? (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-cyan-50 px-2.5 py-1 text-xs font-medium text-cyan-700">
-                    ❄ Muzlatilgan
-                  </span>
-                ) : (
-                  <AttendanceMarker
-                    value={cur}
-                    onChange={(v) => setState((prev) => ({ ...prev, [sid]: v }))}
-                    onRangeStart={(s) => startDrag(i, s)}
-                    previewStatus={inDrag ? drag.status : null}
-                    disabled={isSubmitting || locked}
-                  />
-                )}
+                <AttendanceMarker
+                  value={cur}
+                  onChange={(v) => setState((prev) => ({ ...prev, [sid]: v }))}
+                  onRangeStart={(s) => startDrag(i, s)}
+                  previewStatus={inDrag ? drag.status : null}
+                  disabled={isSubmitting || locked}
+                />
               </div>
             </div>
           );

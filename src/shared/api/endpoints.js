@@ -88,10 +88,6 @@ export const ENDPOINTS = Object.freeze({
     base: "/teacher-attendance",
     bulk: "/teacher-attendance/bulk",
   },
-  studentFreezes: {
-    base: "/student-freezes",
-    byId: (id) => `/student-freezes/${id}`,
-  },
   attendanceExemptions: {
     base: "/attendance-exemptions",
     byId: (id) => `/attendance-exemptions/${id}`,

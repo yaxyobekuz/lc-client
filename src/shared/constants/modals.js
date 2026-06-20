@@ -59,7 +59,6 @@ export const MODAL = Object.freeze({
   ATTENDANCE_EXEMPTION_EDIT: "attendanceExemption:edit",
   ATTENDANCE_EXEMPTION_DELETE: "attendanceExemption:delete",
 
-  STUDENT_FREEZE: "student:freeze",
 
   // Notifications + Feedback (Bo'lak 7)
   NOTIFICATION_SEND: "notification:send",

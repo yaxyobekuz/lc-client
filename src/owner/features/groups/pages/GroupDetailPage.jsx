@@ -33,7 +33,6 @@ import GroupPermanentDeleteModal from "../components/modals/GroupPermanentDelete
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
 import GroupStudentPeriodsModal from "../components/modals/GroupStudentPeriodsModal";
-import { StudentFreezeModal } from "@/owner/features/studentFreezes";
 import { UserPasswordModal } from "@/owner/features/users";
 
 // Hooks
@@ -224,9 +223,6 @@ const GroupDetailPage = () => {
         className="max-w-lg"
       >
         <GroupStudentPeriodsModal />
-      </ModalWrapper>
-      <ModalWrapper name={MODAL.STUDENT_FREEZE} title="O'quvchini muzlatish">
-        <StudentFreezeModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.USER_PASSWORD} title="Login va parol">
         <UserPasswordModal />

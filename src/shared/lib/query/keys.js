@@ -94,10 +94,6 @@ export const qk = Object.freeze({
     byStudent: (studentId) => ["attendanceExemptions", "byStudent", studentId],
     one: (id) => ["attendanceExemptions", "detail", id],
   },
-  studentFreezes: {
-    all: () => ["studentFreezes"],
-    byStudent: (studentId) => ["studentFreezes", "byStudent", studentId],
-  },
   attendanceSettings: {
     one: () => ["attendanceSettings"],
   },
