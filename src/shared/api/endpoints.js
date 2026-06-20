@@ -147,6 +147,7 @@ export const ENDPOINTS = Object.freeze({
   adminDashboard: {
     overview: "/admin-dashboard/overview",
     studentFlow: "/admin-dashboard/student-flow",
+    cashflow: "/admin-dashboard/cashflow",
     studentStats: "/admin-dashboard/student-stats",
     retention: "/admin-dashboard/retention",
     churnedStudents: "/admin-dashboard/churned-students",
