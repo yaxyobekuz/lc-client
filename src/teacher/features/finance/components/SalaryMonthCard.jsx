@@ -3,6 +3,7 @@ import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
 
 // Utils
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import { MONTH_LABELS } from "@/shared/constants/calendar";
 import { statusMeta, methodLabel } from "../utils/status";
 
@@ -61,7 +62,7 @@ const SalaryMonthCard = ({ salary }) => {
                 {formatMoney(t.amount)}
               </span>
               <span className="text-xs text-muted-foreground">
-                {methodLabel(t.method)} · {String(t.paidAt).slice(0, 10)}
+                {methodLabel(t.method)} · {formatDateUz(t.paidAt)}
               </span>
             </li>
           ))}

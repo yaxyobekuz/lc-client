@@ -6,17 +6,14 @@ import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import {
   useTeacherPeriodsQuery,
   useTeacherPeriodRemoveMutation,
 } from "@/owner/features/groups";
 import SalaryPeriodFormModal from "./modals/SalaryPeriodFormModal";
 
-const fmtDate = (v) => {
-  if (!v) return "hozir";
-  const [y, m, d] = String(v).slice(0, 10).split("-");
-  return `${d}.${m}.${y}`;
-};
+const fmtDate = (v) => (v ? formatDateUz(v) : "hozir");
 const rateText = (p) => {
   const type = p.salaryType || "fixed";
   const fixed = Number(p.fixedAmount) || 0;

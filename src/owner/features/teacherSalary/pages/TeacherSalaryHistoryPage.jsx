@@ -3,6 +3,7 @@ import BackLink from "@/shared/components/ui/link/BackLink";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import { MONTH_LABELS } from "@/shared/constants/calendar";
 import useTeacherSalaryHistoryQuery from "../hooks/useTeacherSalaryHistoryQuery";
 import { statusMeta } from "../utils/status";
@@ -130,7 +131,7 @@ const SalaryMonthCard = ({ salary }) => {
             >
               <span className="font-medium">{formatMoney(t.amount)}</span>
               <span className="text-xs text-muted-foreground">
-                {methodLabel(t.method)} · {String(t.paidAt).slice(0, 10)}
+                {methodLabel(t.method)} · {formatDateUz(t.paidAt)}
               </span>
             </li>
           ))}

@@ -13,7 +13,7 @@ import {
   useRemoveTransactionMutation,
 } from "../../hooks/useFinanceMutations";
 import { statusMeta } from "../../utils/status";
-import { formatDateUZ } from "@/shared/utils/date.utils";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import { Badge } from "@/shared/components/shadcn/badge";
 
 const METHODS = [
@@ -126,7 +126,7 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
         <div className="flex items-center justify-between gap-2 py-1.5">
           <p className="text-sm text-muted-foreground">Guruhga qo'shilgan</p>
           <p className="text-sm">
-            {joinedAt ? ` ${formatDateUZ(joinedAt)}` : ""}
+            {joinedAt ? ` ${formatDateUz(joinedAt)}` : ""}
           </p>
         </div>
 
@@ -221,7 +221,7 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
                   </Badge>
                   <span className="font-medium">{formatMoney(t.amount)}</span>
                   <span className="text-xs text-muted-foreground">
-                    {formatDateUZ(t.paidAt)}
+                    {formatDateUz(t.paidAt)}
                   </span>
                 </div>
 

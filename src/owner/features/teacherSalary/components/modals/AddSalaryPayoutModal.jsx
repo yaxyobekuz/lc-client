@@ -6,6 +6,7 @@ import SelectField from "@/shared/components/ui/select/SelectField";
 import Button from "@/shared/components/ui/button/Button";
 import useObjectState from "@/shared/hooks/useObjectState";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import useTeacherSalaryQuery from "../../hooks/useTeacherSalaryQuery";
 import {
   useAddSalaryPayoutMutation,
@@ -19,12 +20,7 @@ const METHODS = [
 
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
-// ISO sanani DD.MM.YYYY ko'rinishiga (TZ siljishisiz)
-const fmtDate = (d) => {
-  if (!d) return "";
-  const [y, m, day] = String(d).slice(0, 10).split("-");
-  return day && m && y ? `${day}.${m}.${y}` : "";
-};
+const fmtDate = (d) => (d ? formatDateUz(d) : "");
 
 // salary - karta orqali uzatiladi (ModalWrapper data)
 const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
@@ -230,7 +226,7 @@ const AddSalaryPayoutModal = ({ salary, close, setIsLoading }) => {
                   <span className="font-medium">{formatMoney(t.amount)}</span>
                   <span className="text-xs text-muted-foreground">
                     {t.method === "cash" ? "Naqd" : "Karta"} ·{" "}
-                    {String(t.paidAt).slice(0, 10)}
+                    {formatDateUz(t.paidAt)}
                   </span>
                 </div>
                 {confirmId === t._id ? (

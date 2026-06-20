@@ -18,6 +18,7 @@ import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import TabsLinks from "@/shared/components/ui/tabs/TabsLinks";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -81,7 +82,7 @@ const GroupDetailPage = () => {
 
   const isFinished = group.status === "finished";
   const isArchived = !group.isActive;
-  const fmtDate = (v) => (v ? String(v).slice(0, 10).split("-").reverse().join(".") : "");
+  const fmtDate = (v) => (v ? formatDateUz(v) : "");
 
   return (
     <div className="space-y-4">

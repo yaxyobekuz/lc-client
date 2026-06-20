@@ -4,6 +4,7 @@ import InputField from "@/shared/components/ui/input/InputField";
 import StatusBadge from "@/shared/components/ui/badge/StatusBadge";
 import EmptyState from "@/shared/components/ui/feedback/EmptyState";
 import useObjectState from "@/shared/hooks/useObjectState";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import useStudentMembershipsQuery from "../../hooks/useStudentMembershipsQuery";
 import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
 import {
@@ -12,11 +13,7 @@ import {
 } from "../../hooks/useMembershipMutations";
 
 const dateKey = (v) => (v ? String(v).slice(0, 10) : "");
-const fmtDate = (v) => {
-  if (!v) return "hozir";
-  const [y, m, d] = String(v).slice(0, 10).split("-");
-  return `${d}.${m}.${y}`;
-};
+const fmtDate = (v) => (v ? formatDateUz(v) : "hozir");
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
 // group + student - ModalWrapper data orqali. O'quvchining shu guruhdagi o'qish

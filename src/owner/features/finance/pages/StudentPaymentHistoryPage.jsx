@@ -8,6 +8,7 @@ import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { formatMoney } from "@/shared/utils/formatMoney";
+import { formatDateUz } from "@/shared/utils/formatDate";
 import { MONTH_LABELS } from "@/shared/constants/calendar";
 import useStudentPaymentHistoryQuery from "../hooks/useStudentPaymentHistoryQuery";
 import AddPaymentModal from "../components/modals/AddPaymentModal";
@@ -143,7 +144,7 @@ const PaymentMonthCard = ({ payment }) => {
             >
               <span className="font-medium">{formatMoney(t.amount)}</span>
               <span className="text-xs text-muted-foreground">
-                {methodLabel(t.method)} · {String(t.paidAt).slice(0, 10)}
+                {methodLabel(t.method)} · {formatDateUz(t.paidAt)}
               </span>
             </li>
           ))}

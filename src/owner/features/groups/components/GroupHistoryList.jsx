@@ -3,7 +3,7 @@ import useGroupHistoryQuery from "../hooks/useGroupHistoryQuery";
 
 // Utils
 import { formatPhone } from "@/shared/utils/formatPhone";
-import { formatDateUZ } from "@/shared/utils/date.utils";
+import { formatDateUz } from "@/shared/utils/formatDate";
 
 const REASON_LABEL = {
   removed: "Chiqarildi",
@@ -12,7 +12,7 @@ const REASON_LABEL = {
 };
 
 // "21-may, 2026" ko'rinishida formatlash
-const fmtDate = (iso) => (iso ? formatDateUZ(iso) : "-");
+const fmtDate = (iso) => (iso ? formatDateUz(iso) : "-");
 
 const GroupHistoryList = ({ groupId }) => {
   const { data, isLoading } = useGroupHistoryQuery(groupId, { limit: 50 });
