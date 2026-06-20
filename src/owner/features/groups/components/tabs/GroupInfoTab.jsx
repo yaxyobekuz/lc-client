@@ -19,18 +19,16 @@ import { formatDateUz } from "@/shared/utils/formatDate";
 // davrlar (TeacherGroupPeriod) orqali - bu yerda faqat ko'rsatiladi.
 const GroupInfoTab = ({ group }) => {
   const teachers = group.teachers || [];
-  const isFinished = group.status === "finished";
 
   return (
     <div className="space-y-4 pt-3">
-      {(group.startDate || group.durationMonths) && (
+      {(group.startDate || group.endDate || group.durationMonths) && (
         <p className="text-sm text-muted-foreground">
           {group.startDate && `Boshlanish: ${formatDateUz(group.startDate)}`}
-          {group.startDate && group.durationMonths ? " · " : ""}
+          {group.startDate && group.endDate ? " · " : ""}
+          {group.endDate ? `Tugash: ${formatDateUz(group.endDate)}` : ""}
+          {(group.startDate || group.endDate) && group.durationMonths ? " · " : ""}
           {group.durationMonths ? `Davomiylik: ${group.durationMonths} oy` : ""}
-          {isFinished && group.finishedAt
-            ? ` · Yakunlandi: ${formatDateUz(group.finishedAt)}`
-            : ""}
         </p>
       )}
 

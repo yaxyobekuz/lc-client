@@ -27,7 +27,7 @@ const GroupPermanentDeleteModal = ({ group, close, isLoading, setIsLoading }) =>
     <div className="space-y-4">
       <p className="text-sm">
         <span className="font-semibold">{group?.name}</span> guruhi butunlay
-        o'chiriladi. Bog'liq barcha ma'lumotlar ko'rinmaydi.
+        o'chiriladi. Faqat bo'sh guruhni (o'quvchi va to'lovsiz) o'chirish mumkin.
       </p>
 
       <div className="flex gap-2">

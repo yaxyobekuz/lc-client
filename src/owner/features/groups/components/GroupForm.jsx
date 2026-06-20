@@ -44,6 +44,8 @@ const buildInitial = (group) => ({
     : group
       ? ""
       : toDateInput(new Date()),
+  // Kurs tugash sanasi - default bo'sh (= aktiv). Belgilansa kurs avto tugaydi.
+  endDate: group?.endDate ? toDateInput(group.endDate) : "",
   // Oylik narx - faqat yangi guruh yaratishda (joriy oy GroupFee summasi).
   monthlyPrice: "",
 });
@@ -64,6 +66,7 @@ const GroupForm = ({
     schedule,
     teacher,
     startDate,
+    endDate,
     monthlyPrice,
     scheduleEffectiveFrom,
     setField,
@@ -146,11 +149,16 @@ const GroupForm = ({
       toast.error("O'qituvchi tanlang");
       return;
     }
+    if (startDate && endDate && endDate < startDate) {
+      toast.error("Kurs tugash sanasi boshlanish sanasidan oldin bo'lmasin");
+      return;
+    }
 
     const payload = {
       name: trimmedName,
       schedule,
       startDate: startDate || null,
+      endDate: endDate || null,
     };
     // Jadval o'zgartirilgan bo'lsa - yangi versiya qaysi sanadan amal qilishini
     // yuboramiz (server eski versiyani tarix uchun saqlaydi).
@@ -181,7 +189,7 @@ const GroupForm = ({
         disabled={isLoading}
       />
 
-      {/* 2-qator: dars boshlanish sanasi + o'qituvchi (faqat yangi guruhda) */}
+      {/* 2-qator: dars boshlanish + kurs tugash sanasi */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <InputField
           type="date"
@@ -191,7 +199,21 @@ const GroupForm = ({
           onChange={(e) => setField("startDate", e.target.value)}
           disabled={isLoading}
         />
-        {!isEdit && (
+        <InputField
+          type="date"
+          name="endDate"
+          label="Kurs tugash sanasi"
+          min={startDate || undefined}
+          value={endDate}
+          onChange={(e) => setField("endDate", e.target.value)}
+          disabled={isLoading}
+          description="Bo'sh — kurs aktiv. Belgilansa, shu kundan kurs avtomatik tugaydi (o'qituvchi va o'quvchi davrlari yopiladi)."
+        />
+      </div>
+
+      {/* O'qituvchi + oylik narx - faqat yangi guruh yaratishda */}
+      {!isEdit && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <SelectField
             searchable
             name="teacher"
@@ -205,20 +227,16 @@ const GroupForm = ({
             emptyText="O'qituvchi topilmadi"
             disabled={isLoading}
           />
-        )}
-      </div>
-
-      {/* Oylik narx - faqat yangi guruh yaratishda (keyin Moliyadan tahrirlanadi) */}
-      {!isEdit && (
-        <InputField
-          type="money"
-          name="monthlyPrice"
-          label="Oylik to'lov (so'm)"
-          placeholder="Masalan: 500 000"
-          value={monthlyPrice}
-          onChange={(e) => setField("monthlyPrice", e.target.value)}
-          disabled={isLoading}
-        />
+          <InputField
+            type="money"
+            name="monthlyPrice"
+            label="Oylik to'lov (so'm)"
+            placeholder="Masalan: 500 000"
+            value={monthlyPrice}
+            onChange={(e) => setField("monthlyPrice", e.target.value)}
+            disabled={isLoading}
+          />
+        </div>
       )}
 
       {/* 3-qator: dars jadvali (to'liq enga) */}

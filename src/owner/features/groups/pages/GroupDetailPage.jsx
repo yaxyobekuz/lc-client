@@ -5,9 +5,6 @@ import { useParams, useNavigate, Outlet } from "react-router-dom";
 import {
   Pencil,
   Trash2,
-  CheckCircle2,
-  Archive,
-  ArchiveRestore,
   CalendarCheck,
   CalendarRange,
   MoreHorizontal,
@@ -27,8 +24,6 @@ import {
   DropdownMenuSeparator,
 } from "@/shared/components/shadcn/dropdown-menu";
 import GroupEditModal from "../components/modals/GroupEditModal";
-import GroupDeleteModal from "../components/modals/GroupDeleteModal";
-import GroupFinishModal from "../components/modals/GroupFinishModal";
 import GroupPermanentDeleteModal from "../components/modals/GroupPermanentDeleteModal";
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
@@ -39,7 +34,6 @@ import { UserPasswordModal } from "@/owner/features/users";
 import useModal from "@/shared/hooks/useModal";
 import useGoBack from "@/shared/hooks/useGoBack";
 import useGroupQuery from "../hooks/useGroupQuery";
-import useGroupRestoreMutation from "../hooks/useGroupRestoreMutation";
 
 // Constants
 import { MODAL } from "@/shared/constants/modals";
@@ -53,7 +47,6 @@ const GroupDetailPage = () => {
   const { openModal } = useModal();
   const goBack = useGoBack("/owner/groups");
   const { data: group, isLoading, isError } = useGroupQuery(id);
-  const restoreMut = useGroupRestoreMutation();
 
   if (isLoading) {
     return (
@@ -78,9 +71,12 @@ const GroupDetailPage = () => {
     );
   }
 
-  const isFinished = group.status === "finished";
-  const isArchived = !group.isActive;
+  // Kurs tugagan (arxiv) = endDate o'tgan yoki isActive=false (kunlik job).
   const fmtDate = (v) => (v ? formatDateUz(v) : "");
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const endKey = group.endDate ? String(group.endDate).slice(0, 10) : null;
+  const isEnded = !group.isActive || (endKey && endKey <= todayKey);
+  const canDelete = (group.studentsCount || 0) === 0;
 
   return (
     <div className="space-y-4">
@@ -90,35 +86,21 @@ const GroupDetailPage = () => {
 
           <h1 className="text-2xl font-semibold">{group.name}</h1>
           <Badge variant="secondary">{group.studentsCount} o'quvchi</Badge>
-          {isFinished && (
-            <Badge className="bg-amber-100 text-amber-700">Yakunlangan</Badge>
-          )}
-          {isArchived && (
-            <Badge className="bg-gray-200 text-gray-700">Arxivlangan</Badge>
+          {isEnded && (
+            <Badge className="bg-gray-200 text-gray-700">Tugagan</Badge>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          {isArchived ? (
+          {!isEnded && (
             <Button
-              variant="outline"
-              disabled={restoreMut.isPending}
-              onClick={() => restoreMut.mutate(group._id)}
+              onClick={() =>
+                navigate(`/owner/attendance/mark?groupId=${group._id}`)
+              }
             >
-              <ArchiveRestore className="size-4" />
-              Arxivdan chiqarish
+              <CalendarCheck className="size-4" />
+              Davomat belgilash
             </Button>
-          ) : (
-            !isFinished && (
-              <Button
-                onClick={() =>
-                  navigate(`/owner/attendance/mark?groupId=${group._id}`)
-                }
-              >
-                <CalendarCheck className="size-4" />
-                Davomat belgilash
-              </Button>
-            )
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -142,44 +124,35 @@ const GroupDetailPage = () => {
                 <CalendarRange className="size-4" />
                 O'qituvchi davrlari
               </DropdownMenuItem>
-              {!isFinished && (
-                <DropdownMenuItem
-                  className="text-emerald-600 focus:text-emerald-700"
-                  onSelect={() => openModal(MODAL.GROUP_FINISH, { group })}
-                >
-                  <CheckCircle2 className="size-4" />
-                  Kursni yakunlash
-                </DropdownMenuItem>
+              {canDelete && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="text-red-600 focus:text-red-700"
+                    onSelect={() =>
+                      openModal(MODAL.GROUP_PERMANENT_DELETE, { group })
+                    }
+                  >
+                    <Trash2 className="size-4" />
+                    O'chirish
+                  </DropdownMenuItem>
+                </>
               )}
-              <DropdownMenuSeparator />
-              {!isArchived && (
-                <DropdownMenuItem
-                  className="text-amber-600 focus:text-amber-700"
-                  onSelect={() => openModal(MODAL.GROUP_DELETE, { group })}
-                >
-                  <Archive className="size-4" />
-                  Arxivlash
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem
-                className="text-red-600 focus:text-red-700"
-                onSelect={() =>
-                  openModal(MODAL.GROUP_PERMANENT_DELETE, { group })
-                }
-              >
-                <Trash2 className="size-4" />
-                O'chirish
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
 
-      {isArchived && (
+      {isEnded && (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          Guruh <span className="font-medium">{fmtDate(group.archivedAt)}</span>{" "}
-          sanasida arxivlangan. To'lov, davomat va davr amallari to'xtatilgan.
-          O'zgartirish uchun avval arxivdan chiqaring.
+          Kurs{" "}
+          {endKey && (
+            <>
+              <span className="font-medium">{fmtDate(group.endDate)}</span> sanasida
+            </>
+          )}{" "}
+          tugagan. To'lov, davomat va davr amallari to'xtatilgan. Davom ettirish
+          uchun "Tahrirlash"da tugash sanasini o'zgartiring yoki bo'shating.
         </div>
       )}
 
@@ -198,12 +171,6 @@ const GroupDetailPage = () => {
         className="max-w-4xl"
       >
         <GroupEditModal />
-      </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_DELETE} title="Guruhni arxivlash">
-        <GroupDeleteModal />
-      </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_FINISH} title="Kursni yakunlash">
-        <GroupFinishModal />
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_PERMANENT_DELETE} title="Guruhni butunlay o'chirish">
         <GroupPermanentDeleteModal />
