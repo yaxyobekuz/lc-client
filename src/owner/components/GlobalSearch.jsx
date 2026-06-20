@@ -30,7 +30,7 @@ const isMac =
   typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 const SHORTCUT_LABEL = isMac ? "⌘K" : "Ctrl+K";
 
-const GlobalSearch = () => {
+const GlobalSearch = ({ renderTrigger }) => {
   const [open, setOpen] = useState(false);
   // Foydalanuvchi yozayotgan matn - server qidiruvi shu asosida ishlaydi (debounce bilan)
   const [term, setTerm] = useState("");
@@ -95,27 +95,31 @@ const GlobalSearch = () => {
 
   return (
     <>
-      {/* Sidebar ichidagi trigger tugmasi */}
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        title="Qidirish"
-        aria-label="Qidirish"
-        className={cn(
-          "flex items-center gap-2 w-full rounded-md border border-sidebar-border bg-sidebar-accent/30 hover:bg-sidebar-accent text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors",
-          isCollapsed ? "h-8 justify-center px-1.5" : "h-9 px-2.5 text-sm",
-        )}
-      >
-        <Search className="size-4 shrink-0" strokeWidth={1.75} />
-        {!isCollapsed && (
-          <>
-            <span className="flex-1 text-left truncate">Qidiruv...</span>
-            <kbd className="ml-auto inline-flex items-center gap-0.5 rounded border border-sidebar-border bg-sidebar px-1 py-0.5 text-[10px] font-medium text-sidebar-foreground/60">
-              {SHORTCUT_LABEL}
-            </kbd>
-          </>
-        )}
-      </button>
+      {/* Trigger - tashqaridan berilishi mumkin (topbar), aks holda sidebar tugmasi */}
+      {renderTrigger ? (
+        renderTrigger({ open: () => setOpen(true), shortcut: SHORTCUT_LABEL })
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          title="Qidirish"
+          aria-label="Qidirish"
+          className={cn(
+            "flex items-center gap-2 w-full rounded-md border border-sidebar-border bg-sidebar-accent/30 hover:bg-sidebar-accent text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors",
+            isCollapsed ? "h-8 justify-center px-1.5" : "h-9 px-2.5 text-sm",
+          )}
+        >
+          <Search className="size-4 shrink-0" strokeWidth={1.75} />
+          {!isCollapsed && (
+            <>
+              <span className="flex-1 text-left truncate">Qidiruv...</span>
+              <kbd className="ml-auto inline-flex items-center gap-0.5 rounded border border-sidebar-border bg-sidebar px-1 py-0.5 text-[10px] font-medium text-sidebar-foreground/60">
+                {SHORTCUT_LABEL}
+              </kbd>
+            </>
+          )}
+        </button>
+      )}
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent className="max-w-xl p-0 gap-0 overflow-hidden [&>button[type=button]]:hidden">
