@@ -1,13 +1,21 @@
 import useObjectState from "@/shared/hooks/useObjectState";
 import SystemNotificationBell from "@/shared/components/systemNotification/SystemNotificationBell";
 
-import OverviewStatsCards from "../components/OverviewStatsCards";
-import StudentFlowChart from "../components/StudentFlowChart";
-import WeekdayActivityHeatmap from "../components/WeekdayActivityHeatmap";
+import DashboardStatCards from "../components/DashboardStatCards";
+import WeeklyActivityChart from "../components/WeeklyActivityChart";
+import AttendanceGauge from "../components/AttendanceGauge";
+import RecentPaymentsList from "../components/RecentPaymentsList";
+import TopTeachersList from "../components/TopTeachersList";
+import MonthlySummaryCard from "../components/MonthlySummaryCard";
+import StudentFlowCard from "../components/StudentFlowCard";
 import PeriodPicker from "../components/PeriodPicker";
 
 import useOverviewQuery from "../hooks/useOverviewQuery";
 import useStudentFlowQuery from "../hooks/useStudentFlowQuery";
+
+const SkeletonBlock = ({ className = "" }) => (
+  <div className={`animate-pulse rounded-2xl bg-zinc-100 ${className}`} />
+);
 
 const AdminDashboardPage = () => {
   const now = new Date();
@@ -18,15 +26,15 @@ const AdminDashboardPage = () => {
 
   const periodParams = { year: period.year, month: period.month };
 
-  const { data: overview, isLoading: overviewLoading } =
-    useOverviewQuery(periodParams);
+  const { data: overview, isLoading } = useOverviewQuery(periodParams);
   const { data: studentFlow } = useStudentFlowQuery({ months: 6 });
 
   return (
     <div className="space-y-5">
-      <header className="flex items-center justify-between gap-3 flex-wrap">
+      <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">Boshqaruv paneli</h1>
+          <h1 className="text-2xl font-semibold text-zinc-900">Boshqaruv paneli</h1>
+          <p className="text-sm text-zinc-500">Markaz ko'rsatkichlarini bir joyda kuzating</p>
         </div>
         <div className="flex items-center gap-3">
           <SystemNotificationBell />
@@ -38,18 +46,41 @@ const AdminDashboardPage = () => {
         </div>
       </header>
 
-      {overviewLoading ? (
-        <div className="p-8 text-center text-muted-foreground">
-          Yuklanmoqda...
+      {isLoading ? (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <SkeletonBlock key={i} className="h-36" />
+            ))}
+          </div>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <SkeletonBlock className="h-64 lg:col-span-2" />
+            <SkeletonBlock className="h-64" />
+          </div>
         </div>
       ) : (
-        <OverviewStatsCards data={overview} />
-      )}
+        <>
+          <DashboardStatCards data={overview} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <StudentFlowChart items={studentFlow || []} />
-        <WeekdayActivityHeatmap items={overview?.weekdayActivity || []} />
-      </div>
+          {/* Asosiy qator: chap (chart) + o'ng (so'nggi to'lovlar) */}
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <WeeklyActivityChart items={overview?.weekdayActivity || []} />
+            </div>
+            <RecentPaymentsList items={overview?.recentPayments || []} />
+          </div>
+
+          {/* Pastki qator: davomat gauge + o'qituvchilar + oylik xulosa */}
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <AttendanceGauge gauge={overview?.attendanceGauge} />
+            <TopTeachersList items={overview?.topTeachers || []} />
+            <MonthlySummaryCard data={overview} />
+          </div>
+
+          {/* O'quvchilar oqimi (kengaytirilgan) */}
+          <StudentFlowCard items={studentFlow || []} />
+        </>
+      )}
     </div>
   );
 };
