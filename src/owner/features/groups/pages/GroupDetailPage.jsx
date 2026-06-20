@@ -31,7 +31,6 @@ import GroupDeleteModal from "../components/modals/GroupDeleteModal";
 import GroupFinishModal from "../components/modals/GroupFinishModal";
 import GroupPermanentDeleteModal from "../components/modals/GroupPermanentDeleteModal";
 import GroupAddStudentModal from "../components/modals/GroupAddStudentModal";
-import GroupTransferStudentModal from "../components/modals/GroupTransferStudentModal";
 import GroupRemoveStudentModal from "../components/modals/GroupRemoveStudentModal";
 import GroupStudentPeriodsModal from "../components/modals/GroupStudentPeriodsModal";
 import { StudentFreezeModal } from "@/owner/features/studentFreezes";
@@ -212,12 +211,6 @@ const GroupDetailPage = () => {
       </ModalWrapper>
       <ModalWrapper name={MODAL.GROUP_ADD_STUDENT} title="O'quvchi qo'shish">
         <GroupAddStudentModal />
-      </ModalWrapper>
-      <ModalWrapper
-        name={MODAL.GROUP_TRANSFER_STUDENT}
-        title="Boshqa guruhga ko'chirish"
-      >
-        <GroupTransferStudentModal />
       </ModalWrapper>
       <ModalWrapper
         name={MODAL.GROUP_REMOVE_STUDENT}

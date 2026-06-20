@@ -175,17 +175,6 @@ const GroupStudentsTable = ({ group }) => {
                         <Snowflake className="size-4" />
                         Muzlatish
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onSelect={() =>
-                          openModal(MODAL.GROUP_TRANSFER_STUDENT, {
-                            groupId: group._id,
-                            student: s,
-                          })
-                        }
-                      >
-                        <ArrowRightLeft className="size-4" />
-                        Boshqa guruhga ko'chirish
-                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         className="text-red-600 focus:text-red-700"
