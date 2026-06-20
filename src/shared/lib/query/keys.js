@@ -146,6 +146,7 @@ export const qk = Object.freeze({
   adminDashboard: {
     overview: (params) => ["adminDashboard", "overview", params],
     studentFlow: (params) => ["adminDashboard", "studentFlow", params],
+    cashflow: (params) => ["adminDashboard", "cashflow", params],
     studentStats: (params) => ["adminDashboard", "studentStats", params],
     retention: (params) => ["adminDashboard", "retention", params],
     churnedStudents: (params) => ["adminDashboard", "churnedStudents", params],

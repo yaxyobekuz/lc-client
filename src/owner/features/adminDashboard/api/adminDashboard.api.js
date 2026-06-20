@@ -6,4 +6,6 @@ export const adminDashboardAPI = {
     http.get(ENDPOINTS.adminDashboard.overview, { params }),
   studentFlow: (params) =>
     http.get(ENDPOINTS.adminDashboard.studentFlow, { params }),
+  cashflow: (params) =>
+    http.get(ENDPOINTS.adminDashboard.cashflow, { params }),
 };
