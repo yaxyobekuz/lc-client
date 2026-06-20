@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, GraduationCap, User, Users } from "lucide-react";
+import { Search, GraduationCap, User, Users, Clock, X } from "lucide-react";
 
 import {
   Dialog,
@@ -24,11 +24,19 @@ import { cn } from "@/shared/utils/cn";
 import { formatPhone } from "@/shared/utils/formatPhone";
 
 import useGlobalSearchQuery from "../hooks/useGlobalSearchQuery";
+import useRecentSearches from "../hooks/useRecentSearches";
 import { SEARCH_INDEX } from "../navigation/searchIndex";
 
 const isMac =
   typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 const SHORTCUT_LABEL = isMac ? "⌘K" : "Ctrl+K";
+
+// So'nggi qidiruv yozuvi ikonkasi - turi bo'yicha
+const RECENT_ICON = {
+  student: GraduationCap,
+  teacher: User,
+  group: Users,
+};
 
 const GlobalSearch = ({ renderTrigger }) => {
   const [open, setOpen] = useState(false);
@@ -41,6 +49,8 @@ const GlobalSearch = ({ renderTrigger }) => {
   const isMobile = useIsMobile();
   const isCollapsed = state === "collapsed" && !isSidebarMobile;
 
+  const { recent, addRecent, clearRecent } = useRecentSearches();
+
   const canSearchData = has("users.read");
   const { data: results, isFetching } = useGlobalSearchQuery(
     canSearchData ? debouncedTerm : "",
@@ -51,16 +61,6 @@ const GlobalSearch = ({ renderTrigger }) => {
     () => SEARCH_INDEX.filter((it) => !it.permission || has(it.permission)),
     [has],
   );
-
-  // Sahifalarni kategoriyaga ajratish (Command Group uchun)
-  const grouped = useMemo(() => {
-    const map = new Map();
-    for (const it of items) {
-      if (!map.has(it.category)) map.set(it.category, []);
-      map.get(it.category).push(it);
-    }
-    return Array.from(map.entries());
-  }, [items]);
 
   // Ctrl+K / Cmd+K global listener
   useEffect(() => {
@@ -80,7 +80,9 @@ const GlobalSearch = ({ renderTrigger }) => {
     if (!next) setTerm("");
   };
 
-  const go = (url) => {
+  // Ochilgan yozuvni so'nggilar ro'yxatiga yozib, sahifaga o'tamiz
+  const go = (url, entry) => {
+    if (entry) addRecent(entry);
     setOpen(false);
     navigate(url);
     if (isMobile && isSidebarMobile) toggleSidebar();
@@ -89,9 +91,22 @@ const GlobalSearch = ({ renderTrigger }) => {
   const students = results?.students || [];
   const teachers = results?.teachers || [];
   const groups = results?.groups || [];
-  const hasDataResults =
-    students.length > 0 || teachers.length > 0 || groups.length > 0;
   const searching = term.trim().length >= 2;
+
+  // Qidiruv matniga mos sahifalar (faqat qidirilayotganda)
+  const matchedPages = useMemo(() => {
+    if (!searching) return [];
+    const q = term.trim().toLowerCase();
+    return items.filter((it) =>
+      `${it.title} ${it.description} ${it.keywords}`.toLowerCase().includes(q),
+    );
+  }, [items, searching, term]);
+
+  const hasAnyResult =
+    students.length > 0 ||
+    teachers.length > 0 ||
+    groups.length > 0 ||
+    matchedPages.length > 0;
 
   return (
     <>
@@ -127,10 +142,7 @@ const GlobalSearch = ({ renderTrigger }) => {
           <DialogDescription className="sr-only">
             O'quvchi, o'qituvchi, guruh yoki sahifa nomini yozing
           </DialogDescription>
-          <Command
-            shouldFilter={false}
-            className="rounded-md"
-          >
+          <Command shouldFilter={false} className="rounded-md">
             <CommandInput
               value={term}
               onValueChange={setTerm}
@@ -138,136 +150,226 @@ const GlobalSearch = ({ renderTrigger }) => {
               autoFocus
             />
             <CommandList className="max-h-[420px]">
-              <CommandEmpty>
-                {searching && isFetching
-                  ? "Qidirilmoqda..."
-                  : "Hech narsa topilmadi"}
-              </CommandEmpty>
+              {searching && (
+                <CommandEmpty>
+                  {isFetching ? "Qidirilmoqda..." : "Hech narsa topilmadi"}
+                </CommandEmpty>
+              )}
+
+              {/* Bo'sh holat: faqat so'nggi 5 ta qidiruv */}
+              {!searching && recent.length > 0 && (
+                <CommandGroup
+                  heading={
+                    <div className="flex items-center justify-between">
+                      <span>So'nggi qidiruvlar</span>
+                      <button
+                        type="button"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          clearRecent();
+                        }}
+                        className="inline-flex items-center gap-1 text-[11px] font-normal text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <X className="size-3" strokeWidth={1.75} />
+                        Tozalash
+                      </button>
+                    </div>
+                  }
+                >
+                  {recent.map((it) => {
+                    const Icon = RECENT_ICON[it.type] || Clock;
+                    return (
+                      <CommandItem
+                        key={`recent-${it.id}`}
+                        value={`recent-${it.id}`}
+                        onSelect={() => go(it.url, it)}
+                        className="flex items-center gap-3 py-2"
+                      >
+                        <Icon
+                          className="size-4 shrink-0 text-muted-foreground"
+                          strokeWidth={1.75}
+                        />
+                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                          <span className="font-medium text-sm truncate">
+                            {it.title}
+                          </span>
+                          {it.subtitle && (
+                            <span className="text-xs text-muted-foreground truncate">
+                              {it.subtitle}
+                            </span>
+                          )}
+                        </div>
+                      </CommandItem>
+                    );
+                  })}
+                </CommandGroup>
+              )}
 
               {/* Server natijalari: o'quvchilar */}
-              {students.length > 0 && (
+              {searching && students.length > 0 && (
                 <CommandGroup heading="O'quvchilar">
-                  {students.map((s) => (
-                    <CommandItem
-                      key={`student-${s._id}`}
-                      value={`student-${s._id}`}
-                      onSelect={() => go(`/owner/users/${s._id}`)}
-                      className="flex items-center gap-3 py-2"
-                    >
-                      <GraduationCap
-                        className="size-4 shrink-0 text-muted-foreground"
-                        strokeWidth={1.75}
-                      />
-                      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                        <span className="font-medium text-sm truncate">
-                          {s.firstName} {s.lastName}
-                        </span>
-                        <span className="text-xs text-muted-foreground truncate">
-                          {formatPhone(s.phone) || "Telefon yo'q"}
-                        </span>
-                      </div>
-                    </CommandItem>
-                  ))}
+                  {students.map((s) => {
+                    const title = `${s.firstName} ${s.lastName}`;
+                    const subtitle = formatPhone(s.phone) || "Telefon yo'q";
+                    const url = `/owner/users/${s._id}`;
+                    return (
+                      <CommandItem
+                        key={`student-${s._id}`}
+                        value={`student-${s._id}`}
+                        onSelect={() =>
+                          go(url, {
+                            id: `student-${s._id}`,
+                            type: "student",
+                            title,
+                            subtitle,
+                            url,
+                          })
+                        }
+                        className="flex items-center gap-3 py-2"
+                      >
+                        <GraduationCap
+                          className="size-4 shrink-0 text-muted-foreground"
+                          strokeWidth={1.75}
+                        />
+                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                          <span className="font-medium text-sm truncate">
+                            {title}
+                          </span>
+                          <span className="text-xs text-muted-foreground truncate">
+                            {subtitle}
+                          </span>
+                        </div>
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
               )}
 
               {/* Server natijalari: guruhlar */}
-              {groups.length > 0 && (
+              {searching && groups.length > 0 && (
                 <CommandGroup heading="Guruhlar">
-                  {groups.map((g) => (
-                    <CommandItem
-                      key={`group-${g._id}`}
-                      value={`group-${g._id}`}
-                      onSelect={() => go(`/owner/groups/${g._id}`)}
-                      className="flex items-center gap-3 py-2"
-                    >
-                      <Users
-                        className="size-4 shrink-0 text-muted-foreground"
-                        strokeWidth={1.75}
-                      />
-                      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                        <span className="font-medium text-sm truncate">
-                          {g.name}
-                        </span>
-                        <span className="text-xs text-muted-foreground truncate">
-                          {g.studentsCount} o'quvchi
-                        </span>
-                      </div>
-                    </CommandItem>
-                  ))}
+                  {groups.map((g) => {
+                    const subtitle = `${g.studentsCount} o'quvchi`;
+                    const url = `/owner/groups/${g._id}`;
+                    return (
+                      <CommandItem
+                        key={`group-${g._id}`}
+                        value={`group-${g._id}`}
+                        onSelect={() =>
+                          go(url, {
+                            id: `group-${g._id}`,
+                            type: "group",
+                            title: g.name,
+                            subtitle,
+                            url,
+                          })
+                        }
+                        className="flex items-center gap-3 py-2"
+                      >
+                        <Users
+                          className="size-4 shrink-0 text-muted-foreground"
+                          strokeWidth={1.75}
+                        />
+                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                          <span className="font-medium text-sm truncate">
+                            {g.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground truncate">
+                            {subtitle}
+                          </span>
+                        </div>
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
               )}
 
               {/* Server natijalari: o'qituvchilar */}
-              {teachers.length > 0 && (
+              {searching && teachers.length > 0 && (
                 <CommandGroup heading="O'qituvchilar">
-                  {teachers.map((t) => (
-                    <CommandItem
-                      key={`teacher-${t._id}`}
-                      value={`teacher-${t._id}`}
-                      onSelect={() => go(`/owner/users/${t._id}`)}
-                      className="flex items-center gap-3 py-2"
-                    >
-                      <User
-                        className="size-4 shrink-0 text-muted-foreground"
-                        strokeWidth={1.75}
-                      />
-                      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                        <span className="font-medium text-sm truncate">
-                          {t.firstName} {t.lastName}
-                        </span>
-                        <span className="text-xs text-muted-foreground truncate">
-                          {formatPhone(t.phone) || "Telefon yo'q"}
-                        </span>
-                      </div>
-                    </CommandItem>
-                  ))}
+                  {teachers.map((t) => {
+                    const title = `${t.firstName} ${t.lastName}`;
+                    const subtitle = formatPhone(t.phone) || "Telefon yo'q";
+                    const url = `/owner/users/${t._id}`;
+                    return (
+                      <CommandItem
+                        key={`teacher-${t._id}`}
+                        value={`teacher-${t._id}`}
+                        onSelect={() =>
+                          go(url, {
+                            id: `teacher-${t._id}`,
+                            type: "teacher",
+                            title,
+                            subtitle,
+                            url,
+                          })
+                        }
+                        className="flex items-center gap-3 py-2"
+                      >
+                        <User
+                          className="size-4 shrink-0 text-muted-foreground"
+                          strokeWidth={1.75}
+                        />
+                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                          <span className="font-medium text-sm truncate">
+                            {title}
+                          </span>
+                          <span className="text-xs text-muted-foreground truncate">
+                            {subtitle}
+                          </span>
+                        </div>
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
               )}
 
-              {/* Statik sahifalar - faqat ma'lumot natijalari bo'lmasa, joyni egallab ketmasin */}
-              {(!searching || !hasDataResults) &&
-                grouped.map(([category, list]) => {
-                  // qidiruv matniga mos sahifalarni ko'rsatamiz (oddiy substring)
-                  const filtered = searching
-                    ? list.filter((it) =>
-                        `${it.title} ${it.description} ${it.keywords}`
-                          .toLowerCase()
-                          .includes(term.trim().toLowerCase()),
-                      )
-                    : list;
-                  if (filtered.length === 0) return null;
-                  return (
-                    <CommandGroup key={category} heading={category}>
-                      {filtered.map((it) => {
-                        const Icon = it.icon;
-                        return (
-                          <CommandItem
-                            key={it.url}
-                            value={it.url}
-                            onSelect={() => go(it.url)}
-                            className="flex items-start gap-3 py-2"
-                          >
-                            {Icon && (
-                              <Icon
-                                className="size-4 mt-0.5 shrink-0 text-muted-foreground"
-                                strokeWidth={1.75}
-                              />
-                            )}
-                            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                              <span className="font-medium text-sm truncate">
-                                {it.title}
-                              </span>
-                              <span className="text-xs text-muted-foreground truncate">
-                                {it.description}
-                              </span>
-                            </div>
-                          </CommandItem>
-                        );
-                      })}
-                    </CommandGroup>
-                  );
-                })}
+              {/* Statik sahifalar - faqat qidiruv ishlatilganda */}
+              {searching && matchedPages.length > 0 && (
+                <CommandGroup heading="Sahifalar">
+                  {matchedPages.map((it) => {
+                    const Icon = it.icon;
+                    return (
+                      <CommandItem
+                        key={it.url}
+                        value={it.url}
+                        onSelect={() =>
+                          go(it.url, {
+                            id: `page-${it.url}`,
+                            type: "page",
+                            title: it.title,
+                            subtitle: it.description,
+                            url: it.url,
+                          })
+                        }
+                        className="flex items-start gap-3 py-2"
+                      >
+                        {Icon && (
+                          <Icon
+                            className="size-4 mt-0.5 shrink-0 text-muted-foreground"
+                            strokeWidth={1.75}
+                          />
+                        )}
+                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                          <span className="font-medium text-sm truncate">
+                            {it.title}
+                          </span>
+                          <span className="text-xs text-muted-foreground truncate">
+                            {it.description}
+                          </span>
+                        </div>
+                      </CommandItem>
+                    );
+                  })}
+                </CommandGroup>
+              )}
+
+              {/* Bo'sh holat, so'nggilar ham yo'q: yo'naltiruvchi matn */}
+              {!searching && recent.length === 0 && (
+                <div className="px-4 py-10 text-center text-sm text-muted-foreground">
+                  O'quvchi, o'qituvchi, guruh yoki sahifa nomini yozing
+                </div>
+              )}
             </CommandList>
             <div className="flex items-center justify-between gap-2 border-t px-3 py-2 text-[11px] text-muted-foreground bg-gray-50">
               <span>
@@ -279,8 +381,12 @@ const GlobalSearch = ({ renderTrigger }) => {
               </span>
               <span>
                 {searching
-                  ? "O'quvchi · guruh · sahifa"
-                  : `${items.length} ta sahifa`}
+                  ? hasAnyResult
+                    ? "O'quvchi · guruh · sahifa"
+                    : ""
+                  : recent.length > 0
+                    ? `${recent.length} ta so'nggi`
+                    : ""}
               </span>
             </div>
           </Command>
