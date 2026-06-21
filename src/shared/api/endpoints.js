@@ -168,6 +168,26 @@ export const ENDPOINTS = Object.freeze({
     discountById: (id) => `/finance/discounts/${id}`,
   },
 
+  // O'quvchi depoziti (garov)
+  deposits: {
+    studentSummary: (sid) => `/deposits/students/${sid}`,
+    studentHistory: (sid) => `/deposits/students/${sid}/history`,
+    topup: "/deposits/topup",
+    withdraw: "/deposits/withdraw",
+    apply: "/deposits/apply",
+    transactions: "/deposits/transactions",
+    transactionById: (id) => `/deposits/transactions/${id}`,
+    report: "/deposits/report",
+  },
+
+  // Moliyaviy hisob-kitob (umumiy hisobotlar)
+  financeReport: {
+    summary: "/finance-report/summary",
+    trend: "/finance-report/trend",
+    groupBreakdown: "/finance-report/group-breakdown",
+    ledger: "/finance-report/ledger",
+  },
+
   // Teacher salary (O'qituvchi maoshlari)
   teacherSalary: {
     salaries: "/teacher-salary/salaries",

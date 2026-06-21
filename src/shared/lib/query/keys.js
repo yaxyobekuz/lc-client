@@ -165,6 +165,24 @@ export const qk = Object.freeze({
     report: (params) => ["finance", "report", params],
   },
 
+  // O'quvchi depoziti (garov)
+  deposits: {
+    all: () => ["deposits"],
+    studentSummary: (sid) => ["deposits", "studentSummary", sid],
+    studentHistory: (sid) => ["deposits", "studentHistory", sid],
+    transactions: (params) => ["deposits", "transactions", params],
+    report: (params) => ["deposits", "report", params],
+  },
+
+  // Moliyaviy hisob-kitob (umumiy hisobotlar)
+  financeReport: {
+    all: () => ["financeReport"],
+    summary: (params) => ["financeReport", "summary", params],
+    trend: (params) => ["financeReport", "trend", params],
+    groupBreakdown: (params) => ["financeReport", "groupBreakdown", params],
+    ledger: (params) => ["financeReport", "ledger", params],
+  },
+
   // Teacher salary (O'qituvchi maoshlari)
   teacherSalary: {
     all: () => ["teacherSalary"],

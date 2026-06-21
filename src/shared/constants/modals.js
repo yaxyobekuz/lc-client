@@ -90,6 +90,10 @@ export const MODAL = Object.freeze({
   DISCOUNT_EDIT: "finance:discountEdit",
   DISCOUNT_DELETE: "finance:discountDelete",
 
+  // Depozit (garov)
+  DEPOSIT_ADD: "deposit:add",
+  DEPOSIT_WITHDRAW: "deposit:withdraw",
+
   // Teacher salary (O'qituvchi maoshlari)
   SALARY_ADD_PAYOUT: "salary:addPayout",
   SALARY_PERIOD_CREATE: "salary:periodCreate",
