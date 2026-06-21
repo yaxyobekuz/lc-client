@@ -207,7 +207,6 @@ const GroupForm = ({
           value={endDate}
           onChange={(e) => setField("endDate", e.target.value)}
           disabled={isLoading}
-          description="Bo'sh — kurs aktiv. Belgilansa, shu kundan kurs avtomatik tugaydi (o'qituvchi va o'quvchi davrlari yopiladi)."
         />
       </div>
 
