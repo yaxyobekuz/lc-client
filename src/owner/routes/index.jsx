@@ -70,6 +70,12 @@ import {
   DiscountsPage,
 } from "@/owner/features/finance";
 import {
+  DepositsPage,
+  DepositsTransactionsPanel,
+  DepositsReportPanel,
+  UserDepositPanel,
+} from "@/owner/features/deposits";
+import {
   TeacherSalariesPage,
   TeacherSalariesPanel,
   TeacherObligationsPage,
@@ -77,6 +83,7 @@ import {
   SalaryConfigsPage,
   SalaryGroupDetailPage,
 } from "@/owner/features/teacherSalary";
+import { FinanceReportPage } from "@/owner/features/financeReport";
 import { ProfilePage } from "@/owner/features/profile";
 import { StudentStatsPage } from "@/owner/features/studentStats";
 import {
@@ -110,6 +117,7 @@ const OwnerRoutes = () => (
       <Route path="davomat" element={<UserAttendancePanel />} />
       <Route path="baholar" element={<UserGradesPanel />} />
       <Route path="ozod" element={<UserExemptionsPanel />} />
+      <Route path="depozit" element={<UserDepositPanel />} />
       <Route path="tarix" element={<UserHistoryPanel />} />
     </Route>
     <Route path="students/stats" element={<StudentStatsPage />} />
@@ -167,8 +175,11 @@ const OwnerRoutes = () => (
 
     <Route path="settings/attendance" element={<AttendanceSettingsPage />} />
 
-    {/* Moliya - bazaviy URL o'quvchi to'lovlariga yo'naltiriladi */}
-    <Route path="finance" element={<Navigate to="/owner/finance/student-payments" replace />} />
+    {/* Moliya - bazaviy URL moliyaviy hisob-kitobga yo'naltiriladi */}
+    <Route path="finance" element={<Navigate to="/owner/finance/accounting" replace />} />
+
+    {/* Moliyaviy hisob-kitob - umumiy hisobot sahifasi */}
+    <Route path="finance/accounting" element={<FinanceReportPage />} />
 
     {/* O'quvchi to'lovlari - tablar route darajasida */}
     <Route path="finance/student-payments" element={<StudentPaymentsPage />}>
@@ -183,6 +194,12 @@ const OwnerRoutes = () => (
     <Route path="finance/group-fees" element={<GroupFeesPage />} />
     <Route path="finance/group-fees/:groupId" element={<GroupFeeDetailPage />} />
     <Route path="finance/discounts" element={<DiscountsPage />} />
+
+    {/* Depozitlar - 2 tab (tranzaksiyalar + hisobotlar) */}
+    <Route path="finance/deposits" element={<DepositsPage />}>
+      <Route index element={<DepositsTransactionsPanel />} />
+      <Route path="hisobotlar" element={<DepositsReportPanel />} />
+    </Route>
 
     {/* O'qituvchi maoshlari - tablar route darajasida */}
     <Route path="finance/teacher-salaries" element={<TeacherSalariesPage />}>
