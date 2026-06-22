@@ -43,7 +43,7 @@ const UserProfileCard = ({ profile }) => {
   const age = profile.age ?? calculateAge(profile.birthDate);
 
   return (
-    <Card className="rounded-2xl border-border/60 p-5 shadow-sm xs:p-6">
+    <Card>
       <div className="flex items-center gap-4">
         <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-2xl font-semibold uppercase text-primary ring-1 ring-primary/10">
           {initial}
@@ -74,7 +74,7 @@ const UserProfileCard = ({ profile }) => {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 border-t border-border/60 pt-6 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 border-t pt-6 sm:grid-cols-2">
         <InfoRow icon={AtSign} label="Login" value={`@${profile.username}`} />
         <InfoRow icon={Phone} label="Telefon" value={formatPhone(profile.phone)} />
         {!isStudent && (

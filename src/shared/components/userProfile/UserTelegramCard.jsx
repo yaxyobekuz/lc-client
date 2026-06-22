@@ -4,7 +4,7 @@ import { Send } from "lucide-react";
 const UserTelegramCard = ({ telegram }) => {
   if (!telegram) {
     return (
-      <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
+      <Card>
         <div className="flex items-center gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted/60 text-muted-foreground">
             <Send className="size-4" />
@@ -23,7 +23,7 @@ const UserTelegramCard = ({ telegram }) => {
     .join(" ");
 
   return (
-    <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
+    <Card>
       <div className="flex items-start gap-3">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
           <Send className="size-5" />

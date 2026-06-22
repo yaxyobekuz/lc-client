@@ -6,7 +6,7 @@ import GroupScheduleLines from "./GroupScheduleLines";
 
 const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
   return (
-    <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
+    <Card>
       <div className="mb-4 flex items-center justify-between gap-2">
         <h3 className="flex items-center gap-2 font-semibold text-foreground">
           <Users className="size-4 text-muted-foreground" />
@@ -50,7 +50,7 @@ const UserTaughtGroupsList = ({ groups = [], ownerLinks = false }) => {
             );
 
             const cardClass =
-              "block rounded-xl border border-border/60 p-3.5 transition-colors";
+              "block rounded-md border p-3.5 transition-colors";
 
             return ownerLinks ? (
               <Link
