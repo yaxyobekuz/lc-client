@@ -6,13 +6,11 @@ import Badge from "@/shared/components/ui/badge/Badge";
 import TabsLinks from "@/shared/components/ui/tabs/TabsLinks";
 import ModalWrapper from "@/shared/components/ui/modal/ModalWrapper";
 
-import GroupTransferStudentModal from "@/owner/features/groups/components/modals/GroupTransferStudentModal";
 import StudentAddToGroupModal from "@/owner/features/groups/components/modals/StudentAddToGroupModal";
 import UserEditModal from "../components/UserEditModal";
 import UserDeleteModal from "../components/UserDeleteModal";
 import UserPermanentDeleteModal from "../components/UserPermanentDeleteModal";
 import UserPasswordModal from "../components/UserPasswordModal";
-import GroupRemoveStudentConfirmModal from "../components/GroupRemoveStudentConfirmModal";
 import {
   ExemptionCreateModal,
   ExemptionDeleteModal,
@@ -130,16 +128,12 @@ const UserDetailPage = () => {
         <UserPasswordModal />
       </ModalWrapper>
 
-      {/* Guruh modallari */}
-      <ModalWrapper name={MODAL.STUDENT_ADD_TO_GROUP} title="O'quvchini guruhga qo'shish">
-        <StudentAddToGroupModal />
-      </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_TRANSFER_STUDENT} title="Boshqa guruhga ko'chirish">
-        <GroupTransferStudentModal />
-      </ModalWrapper>
-      <ModalWrapper name={MODAL.GROUP_REMOVE_STUDENT} title="O'quvchini guruhdan chiqarish">
-        <GroupRemoveStudentConfirmModal />
-      </ModalWrapper>
+      {/* O'quvchini guruhga qo'shish */}
+      {isStudent && (
+        <ModalWrapper name={MODAL.STUDENT_ADD_TO_GROUP} title="O'quvchini guruhga qo'shish">
+          <StudentAddToGroupModal />
+        </ModalWrapper>
+      )}
 
       {/* Davomatdan ozod modallari */}
       {isStudent && (

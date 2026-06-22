@@ -44,7 +44,6 @@ export const MODAL = Object.freeze({
   GROUP_PERMANENT_DELETE: "group:permanentDelete",
   GROUP_ADD_STUDENT: "group:addStudent",
   STUDENT_ADD_TO_GROUP: "student:addToGroup",
-  GROUP_TRANSFER_STUDENT: "group:transferStudent",
   GROUP_REMOVE_STUDENT: "group:removeStudent",
   GROUP_STUDENT_PERIODS: "group:studentPeriods",
 

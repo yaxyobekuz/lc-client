@@ -1,39 +1,19 @@
 import { Link } from "react-router-dom";
-import {
-  ArrowRightLeft,
-  CalendarDays,
-  Trash2,
-  Users,
-  Plus,
-} from "lucide-react";
+import { CalendarDays, Users, Plus } from "lucide-react";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
-import useModal from "@/shared/hooks/useModal";
-import { MODAL } from "@/shared/constants/modals";
 import { formatDateUz } from "@/shared/utils/formatDate";
 import GroupScheduleLines from "./GroupScheduleLines";
 
+// Guruhga qo'shish onAddToGroup berilganda ko'rsatiladi (owner). Ko'chirish/chiqarish
+// va o'qish davrlari guruh detail sahifasi orqali boshqariladi.
 const UserActiveGroupsList = ({
-  studentId,
   activeGroups = [],
-  readonly = false,
   ownerLinks = false,
+  onAddToGroup,
 }) => {
-  const { openModal } = useModal();
-
-  // O'quvchining hozirgi guruh id'lari - qo'shishda takror chiqmasligi uchun
-  const activeGroupIds = activeGroups
-    .map((m) => m.group?._id)
-    .filter(Boolean);
-
-  const openAdd = () =>
-    openModal(MODAL.STUDENT_ADD_TO_GROUP, {
-      studentId,
-      excludeGroupIds: activeGroupIds,
-    });
-
   return (
-    <Card className="rounded-2xl border-border/60 p-5 shadow-sm">
+    <Card>
       <div className="mb-4 space-y-3">
         <h3 className="flex items-center gap-2 font-semibold text-foreground">
           <Users className="size-4 shrink-0 text-muted-foreground" />
@@ -44,12 +24,12 @@ const UserActiveGroupsList = ({
             </span>
           )}
         </h3>
-        {!readonly && activeGroups.length > 0 && (
+        {onAddToGroup && activeGroups.length > 0 && (
           <Button
             type="button"
             variant="outline"
             size="sm"
-            onClick={openAdd}
+            onClick={onAddToGroup}
             className="w-full"
           >
             <Plus className="size-4" />
@@ -63,12 +43,12 @@ const UserActiveGroupsList = ({
           <p className="text-sm text-muted-foreground">
             Hech qaysi guruhga biriktirilmagan
           </p>
-          {!readonly && (
+          {onAddToGroup && (
             <Button
               type="button"
               variant="outline"
               size="sm"
-              onClick={openAdd}
+              onClick={onAddToGroup}
               className="w-full"
             >
               <Plus className="size-4" />
@@ -83,7 +63,7 @@ const UserActiveGroupsList = ({
             return (
               <div
                 key={m.membershipId || g._id}
-                className="rounded-xl border border-border/60 p-3.5 transition-colors hover:bg-muted/30"
+                className="rounded-md border p-3.5 transition-colors hover:bg-muted/30"
               >
                 <div className="flex items-center justify-between gap-3">
                   {ownerLinks ? (
@@ -97,40 +77,6 @@ const UserActiveGroupsList = ({
                     <p className="truncate font-semibold text-foreground">
                       {g.name}
                     </p>
-                  )}
-                  {!readonly && (
-                    <div className="flex shrink-0 items-center gap-1">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          openModal(MODAL.GROUP_TRANSFER_STUDENT, {
-                            groupId: g._id,
-                            student: { _id: studentId },
-                          })
-                        }
-                      >
-                        <ArrowRightLeft className="size-4" />
-                        Ko'chirish
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="text-red-600 hover:bg-red-50 hover:text-red-700"
-                        onClick={() =>
-                          openModal(MODAL.GROUP_REMOVE_STUDENT, {
-                            groupId: g._id,
-                            studentId,
-                            groupName: g.name,
-                            isLast: activeGroups.length === 1,
-                          })
-                        }
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
-                    </div>
                   )}
                 </div>
 

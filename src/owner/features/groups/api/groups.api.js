@@ -11,14 +11,10 @@ export const groupsAPI = {
 
   addStudent: (id, studentId, joinedAt, leftAt) =>
     http.post(ENDPOINTS.groups.students(id), { studentId, joinedAt, leftAt }),
-  updateMembership: (id, studentId, body) =>
-    http.patch(ENDPOINTS.groups.studentById(id, studentId), body),
   removeStudent: (id, studentId, reasonId) =>
     http.delete(ENDPOINTS.groups.studentById(id, studentId), {
       data: reasonId ? { reasonId } : {},
     }),
-  transferStudent: (id, studentId, targetGroupId, joinedAt) =>
-    http.post(ENDPOINTS.groups.transfer(id, studentId), { targetGroupId, joinedAt }),
 
   // O'quvchining o'qish davrlari (membership)
   studentMemberships: (id, studentId) =>

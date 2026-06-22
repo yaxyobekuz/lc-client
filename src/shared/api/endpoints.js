@@ -47,7 +47,6 @@ export const ENDPOINTS = Object.freeze({
     byId: (id) => `/groups/${id}`,
     students: (id) => `/groups/${id}/students`,
     studentById: (id, sid) => `/groups/${id}/students/${sid}`,
-    transfer: (id, sid) => `/groups/${id}/students/${sid}/transfer`,
     studentMemberships: (id, sid) => `/groups/${id}/students/${sid}/memberships`,
     membershipById: (id, mid) => `/groups/${id}/memberships/${mid}`,
     history: (id) => `/groups/${id}/history`,

@@ -54,11 +54,7 @@ const StudentProfilePage = () => {
         </div>
         <div className="space-y-5">
           <UserTelegramCard telegram={profile.telegram} />
-          <UserActiveGroupsList
-            studentId={profile._id}
-            activeGroups={profile.activeGroups || []}
-            readonly
-          />
+          <UserActiveGroupsList activeGroups={profile.activeGroups || []} />
         </div>
       </div>
 

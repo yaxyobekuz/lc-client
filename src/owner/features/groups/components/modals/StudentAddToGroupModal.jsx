@@ -1,24 +1,21 @@
+// O'quvchi detail sahifasi uchun: o'quvchi belgilangan, GURUH tanlanadi.
+// (Guruh detaildagi GroupAddStudentModal'dan farqi - u yerda o'quvchi tanlanadi.)
+import { useQueryClient } from "@tanstack/react-query";
+
 // Hooks
 import useObjectState from "@/shared/hooks/useObjectState";
+import useGroupsListQuery from "../../hooks/useGroupsListQuery";
+import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
 
 // Components
 import Button from "@/shared/components/ui/button/Button";
 import SelectField from "@/shared/components/ui/select/SelectField";
 import InputField from "@/shared/components/ui/input/InputField";
 
-// Hooks
-import useGroupsListQuery from "@/owner/features/groups/hooks/useGroupsListQuery";
-import useGroupAddStudentMutation from "../../hooks/useGroupAddStudentMutation";
-
 // Utils
 import { todayInput, toDateInput } from "@/shared/utils/formatDate";
+import { qk } from "@/shared/lib/query/keys";
 
-/**
- * StudentAddToGroupModal - o'quvchi detalidan turib uni guruhga qo'shadi.
- * GroupAddStudentModal'ning teskarisi: bu yerda o'quvchi tayin, GURUH tanlanadi.
- *
- * Props (openModal payload'idan): studentId, excludeGroupIds (allaqachon a'zo).
- */
 const StudentAddToGroupModal = ({
   studentId,
   excludeGroupIds = [],
@@ -26,28 +23,38 @@ const StudentAddToGroupModal = ({
   isLoading,
   setIsLoading,
 }) => {
-  const { groupId, joinedAt, setField, setFields, resetState } = useObjectState({
-    groupId: "",
-    joinedAt: todayInput(),
-  });
+  const qc = useQueryClient();
 
-  // Faqat faol (arxivlanmagan, yakunlanmagan) guruhlar
-  const { data, isLoading: loadingGroups } = useGroupsListQuery({
-    archived: "0",
-    limit: 200,
-  });
+  // leftAt (tugatgan sana) ixtiyoriy: bo'sh bo'lsa o'quvchi "o'qimoqda".
+  const { groupId, joinedAt, leftAt, setField, setFields, resetState } =
+    useObjectState({
+      groupId: "",
+      joinedAt: todayInput(),
+      leftAt: "",
+    });
 
-  const exclude = new Set(excludeGroupIds.map(String));
-  const groups = (data?.data || []).filter(
-    (g) => g.status !== "finished" && !exclude.has(String(g._id)),
-  );
-  const options = groups.map((g) => ({
-    value: g._id,
-    label: g.name,
-  }));
+  // Faqat aktiv guruhlar (list default'i isActive: true qaytaradi).
+  const { data, isLoading: loadingGroups } = useGroupsListQuery({ limit: 200 });
+
+  const groups = data?.data || [];
+  const excluded = new Set(excludeGroupIds.map(String));
+  const available = groups.filter((g) => !excluded.has(String(g._id)));
+  const options = available.map((g) => ({ value: g._id, label: g.name }));
+
+  // Guruh tanlanganda boshlash sanasini guruh boshlangan sanaga moslaymiz.
+  const onSelectGroup = (v) => {
+    const g = available.find((x) => String(x._id) === String(v));
+    setFields({
+      groupId: v,
+      joinedAt: g?.startDate ? toDateInput(g.startDate) : todayInput(),
+    });
+  };
 
   const { mutate } = useGroupAddStudentMutation({
     onSuccess: () => {
+      // O'quvchi detail (activeGroups) va moliya yangilanishi kerak.
+      qc.invalidateQueries({ queryKey: qk.users.one(studentId) });
+      qc.invalidateQueries({ queryKey: qk.finance.all() });
       setIsLoading(false);
       resetState();
       close?.();
@@ -57,9 +64,9 @@ const StudentAddToGroupModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!groupId || !studentId) return;
+    if (!groupId || !joinedAt) return;
     setIsLoading(true);
-    mutate({ id: groupId, studentId, joinedAt: joinedAt || undefined });
+    mutate({ id: groupId, studentId, joinedAt, leftAt: leftAt || undefined });
   };
 
   return (
@@ -68,18 +75,9 @@ const StudentAddToGroupModal = ({
         searchable
         label="Guruh"
         placeholder="Guruhni tanlang"
-        emptyText="Mos guruh topilmadi"
+        emptyText="Guruh topilmadi"
         value={groupId}
-        onChange={(v) => {
-          // Guruh tanlanganda default qo'shilgan sana - guruh boshlangan sana
-          // (startDate, bo'lmasa createdAt).
-          const g = groups.find((x) => String(x._id) === String(v));
-          const startedAt = g?.startDate || g?.createdAt;
-          setFields({
-            groupId: v,
-            joinedAt: startedAt ? toDateInput(startedAt) : todayInput(),
-          });
-        }}
+        onChange={onSelectGroup}
         options={options}
         isLoading={loadingGroups}
         required
@@ -89,10 +87,23 @@ const StudentAddToGroupModal = ({
       <InputField
         type="date"
         name="joinedAt"
-        label="Guruhga qo'shilgan sana"
+        label="Boshlash sanasi"
         value={joinedAt}
         max={joinedAt > todayInput() ? joinedAt : todayInput()}
         onChange={(e) => setField("joinedAt", e.target.value)}
+        disabled={isLoading}
+        required
+      />
+
+      <InputField
+        type="date"
+        name="leftAt"
+        label="Tugatgan sana (ixtiyoriy)"
+        description="Bo'sh qoldirilsa o'quvchi hali o'qiyapti deb hisoblanadi."
+        value={leftAt}
+        min={joinedAt || undefined}
+        max={todayInput()}
+        onChange={(e) => setField("leftAt", e.target.value)}
         disabled={isLoading}
       />
 
@@ -108,7 +119,7 @@ const StudentAddToGroupModal = ({
         </Button>
         <Button
           type="submit"
-          disabled={isLoading || !groupId}
+          disabled={isLoading || !groupId || !joinedAt}
           className="flex-1"
         >
           {isLoading ? "Qo'shilmoqda..." : "Qo'shish"}

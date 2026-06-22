@@ -6,11 +6,22 @@ import {
   UserTelegramCard,
 } from "@/shared/components/userProfile";
 import UserPasswordCard from "../UserPasswordCard";
+import useModal from "@/shared/hooks/useModal";
 import { ROLES } from "@/shared/constants/roles";
+import { MODAL } from "@/shared/constants/modals";
 
 const UserProfilePanel = () => {
   const { profile } = useOutletContext();
+  const { openModal } = useModal();
   const isStudent = profile.role === ROLES.STUDENT;
+
+  const openAddToGroup = () =>
+    openModal(MODAL.STUDENT_ADD_TO_GROUP, {
+      studentId: profile._id,
+      excludeGroupIds: (profile.activeGroups || [])
+        .map((m) => m.group?._id)
+        .filter(Boolean),
+    });
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pt-4 lg:gap-6">
@@ -22,9 +33,9 @@ const UserProfilePanel = () => {
         <UserTelegramCard telegram={profile.telegram} />
         {isStudent && (
           <UserActiveGroupsList
-            studentId={profile._id}
             activeGroups={profile.activeGroups || []}
             ownerLinks
+            onAddToGroup={openAddToGroup}
           />
         )}
         {profile.role === ROLES.TEACHER && (
