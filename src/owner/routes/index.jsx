@@ -109,8 +109,8 @@ const OwnerRoutes = () => (
 
     {/* Foydalanuvchilar - tablar route darajasida (static 'students' ObjectId :id dan ustun) */}
     <Route path="users" element={<UsersListPage />}>
-      <Route index element={<UsersTab role={ROLES.TEACHER} />} />
-      <Route path="students" element={<UsersTab role={ROLES.STUDENT} />} />
+      <Route index element={<UsersTab role={ROLES.STUDENT} />} />
+      <Route path="teachers" element={<UsersTab role={ROLES.TEACHER} />} />
     </Route>
     <Route path="users/:id" element={<UserDetailPage />}>
       <Route index element={<UserProfilePanel />} />

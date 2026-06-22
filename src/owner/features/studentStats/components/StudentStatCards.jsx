@@ -22,7 +22,7 @@ const StudentStatCards = ({ data }) => {
   const trend = data.enrollmentTrend || [];
   const thisMonth = trend.length ? trend[trend.length - 1].count : 0;
 
-  // Eng katta kohorta (ko'pchilik qancha vaqt o'qiydi).
+  // Eng katta kohorta (ko'pchilik qancha vaqt ro'yxatda turgan).
   const cohorts = data.cohorts || [];
   const topCohort = cohorts.reduce(
     (best, c) => (c.count > (best?.count ?? -1) ? c : best),
@@ -36,7 +36,7 @@ const StudentStatCards = ({ data }) => {
         label="Faol o'quvchilar"
         value={data.activeCount}
         hint="Jami faol o'quvchilar"
-        to="/owner/users/students"
+        to="/owner/users"
       />
       <StatCard
         icon={UserPlus}
@@ -47,7 +47,7 @@ const StudentStatCards = ({ data }) => {
       />
       <StatCard
         icon={Clock}
-        label="O'rtacha o'qish muddati"
+        label="O'rtacha ro'yxat muddati"
         value={data.avgDurationMonths}
         suffix=" oy"
         tone="info"
@@ -58,7 +58,7 @@ const StudentStatCards = ({ data }) => {
         label="Ko'pchilik muddati"
         value={topCohort?.count ?? 0}
         tone="default"
-        hint={topCohort ? `${topCohort.label} o'qiganlar` : "-"}
+        hint={topCohort ? `${topCohort.label} ro'yxatda` : "-"}
       />
     </div>
   );

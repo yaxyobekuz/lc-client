@@ -23,11 +23,11 @@ const UsersListPage = () => {
   const [archived, setArchived] = useState(false);
   const { openModal } = useModal();
 
-  const currentRole = pathname.endsWith("/students") ? ROLES.STUDENT : ROLES.TEACHER;
+  const currentRole = pathname.endsWith("/teachers") ? ROLES.TEACHER : ROLES.STUDENT;
 
   const items = [
-    { to: BASE, label: "O'qituvchilar", exact: true },
-    { to: `${BASE}/students`, label: "O'quvchilar" },
+    { to: BASE, label: "O'quvchilar", exact: true },
+    { to: `${BASE}/teachers`, label: "O'qituvchilar" },
   ];
 
   return (
