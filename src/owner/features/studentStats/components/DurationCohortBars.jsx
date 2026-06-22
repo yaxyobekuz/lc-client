@@ -8,12 +8,14 @@ const TONES = {
   "12+": "bg-emerald-500",
 };
 
-// O'quvchilarni o'qish muddati bo'yicha guruhlash - gorizontal bar'lar.
+// O'quvchilarni ro'yxatda turgan muddati bo'yicha guruhlash - gorizontal bar'lar.
+// Muddat ro'yxatga olingan sanadan (enrolledAt) hisoblanadi, guruhga qo'shilgan
+// sanadan emas.
 const DurationCohortBars = ({ cohorts = [] }) => {
   const total = cohorts.reduce((s, c) => s + (c.count || 0), 0);
 
   return (
-    <Card title="O'qish muddati bo'yicha taqsimot">
+    <Card title="Ro'yxatda turgan muddat bo'yicha taqsimot">
       {total === 0 ? (
         <p className="py-10 text-center text-sm text-muted-foreground">
           Ma'lumot yo'q
