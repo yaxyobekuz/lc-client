@@ -9,6 +9,7 @@ import { Drawer as DrawerPrimitive } from "vaul";
 
 const Drawer = ({ shouldScaleBackground = true, ...props }) => (
   <DrawerPrimitive.Root
+    repositionInputs={false}
     shouldScaleBackground={shouldScaleBackground}
     {...props}
   />
@@ -30,23 +31,53 @@ const DrawerOverlay = React.forwardRef(({ className, ...props }, ref) => (
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
+const useKeyboardInset = (ref) => {
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    const el = ref.current;
+    if (!vv || !el) return;
+
+    const update = () => {
+      const inset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      el.style.transform = inset > 0 ? `translateY(-${inset}px)` : "";
+      el.style.maxHeight = `${vv.height}px`;
+    };
+
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+      el.style.transform = "";
+      el.style.maxHeight = "";
+    };
+  }, [ref]);
+};
+
 const DrawerContent = React.forwardRef(
-  ({ className, children, ...props }, ref) => (
-    <DrawerPortal>
-      <DrawerOverlay />
-      <DrawerPrimitive.Content
-        ref={ref}
-        className={cn(
-          "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-sm border bg-white",
-          className
-        )}
-        {...props}
-      >
-        <div className="mx-auto my-3.5 h-2 w-[100px] rounded-[2px] bg-muted" />
-        {children}
-      </DrawerPrimitive.Content>
-    </DrawerPortal>
-  )
+  ({ className, children, ...props }, ref) => {
+    const innerRef = React.useRef(null);
+    React.useImperativeHandle(ref, () => innerRef.current);
+    useKeyboardInset(innerRef);
+
+    return (
+      <DrawerPortal>
+        <DrawerOverlay />
+        <DrawerPrimitive.Content
+          ref={innerRef}
+          className={cn(
+            "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-xl border bg-white",
+            className,
+          )}
+          {...props}
+        >
+          <div className="mx-auto my-3.5 h-1 w-20 rounded-full bg-gray-200" />
+          {children}
+        </DrawerPrimitive.Content>
+      </DrawerPortal>
+    );
+  },
 );
 DrawerContent.displayName = "DrawerContent";
 
@@ -71,7 +102,7 @@ const DrawerTitle = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     className={cn(
       "text-lg font-semibold leading-none tracking-tight",
-      className
+      className,
     )}
     {...props}
   />
