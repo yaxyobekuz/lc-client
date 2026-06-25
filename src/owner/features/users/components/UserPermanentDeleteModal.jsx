@@ -29,7 +29,10 @@ const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
         <span className="font-semibold">
           {user?.firstName} {user?.lastName}
         </span>{" "}
-        butunlay o'chiriladi. Bu - arxivlash emas. Haqiqatdan ham foydalanuvchini o'chirishni xohlaysizmi?
+        butunlay o'chiriladi va tiklab bo'lmaydi. Bu - arxivlash emas. O'chirish
+        faqat foydalanuvchi hech qanday ma'lumotga (to'lov, davomat, oylik, guruh,
+        baho va h.k.) bog'liq bo'lmaganda mumkin - aks holda xatolik chiqadi.
+        Haqiqatdan ham o'chirishni xohlaysizmi?
       </p>
 
       <div className="flex gap-2">
