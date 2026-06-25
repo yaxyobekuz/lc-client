@@ -89,7 +89,7 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
       <InputField
         type="tel"
         name="phone"
-        label="Telefon"
+        label="Telefon (ixtiyoriy)"
         value={obj.phone}
         onChange={(e) => obj.setField("phone", e.target.value)}
         disabled={isLoading}

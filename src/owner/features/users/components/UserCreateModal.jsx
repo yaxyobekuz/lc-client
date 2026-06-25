@@ -52,7 +52,6 @@ const UserCreateModal = ({ defaultRole, close, isLoading, setIsLoading }) => {
     obj.firstName.trim() &&
     obj.lastName.trim() &&
     obj.username.trim() &&
-    obj.phone &&
     obj.password &&
     obj.role;
 
@@ -115,10 +114,9 @@ const UserCreateModal = ({ defaultRole, close, isLoading, setIsLoading }) => {
       <InputField
         type="tel"
         name="phone"
-        label="Telefon"
+        label="Telefon (ixtiyoriy)"
         value={obj.phone}
         onChange={(e) => obj.setField("phone", e.target.value)}
-        required
         disabled={isLoading}
       />
       <InputField
