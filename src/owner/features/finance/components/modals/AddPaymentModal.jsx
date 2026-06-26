@@ -21,6 +21,9 @@ const METHODS = [
   { value: "card", label: "Karta" },
 ];
 
+// Bir martada qabul qilinadigan maksimal summa (server ham shu chegarani tekshiradi).
+const MAX_AMOUNT = 50_000_000;
+
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
 // payment - karta orqali uzatiladi (ModalWrapper data)
@@ -60,11 +63,8 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
     e.preventDefault();
     const amount = Number(form.amount);
     if (!amount || amount <= 0) return;
-    // Plan bo'yicha ORTIQCHA to'lov qilib bo'lmaydi - faqat qoldiqqacha.
-    if (amount > remaining) {
-      toast.error(
-        `Plan qoldig'idan oshib ketadi (qoldiq: ${formatMoney(remaining)})`,
-      );
+    if (amount > MAX_AMOUNT) {
+      toast.error(`Bir martada ${formatMoney(MAX_AMOUNT)} dan ko'p kiritib bo'lmaydi`);
       return;
     }
     setIsLoading(true);
@@ -86,6 +86,8 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
   const discount = detail.discountApplied || 0;
   const joinedAt = detail.membership?.joinedAt;
   const hasBreakdown = prorationCut > 0 || discount > 0;
+  // Tanlangan oy qoldig'idan ortgan summa - keyingi oylar + garovga taqsimlanadi.
+  const overflow = Math.max(0, (Number(form.amount) || 0) - remaining);
 
   return (
     <div className="space-y-5">
@@ -158,6 +160,12 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
           value={form.amount}
           onChange={(e) => form.setField("amount", e.target.value)}
         />
+        {overflow > 0 && (
+          <p className="text-xs text-muted-foreground">
+            Ortig'i ({formatMoney(overflow)}) keyingi qoldiq oylarga, undan ortig'i
+            esa garovga (depozit) o'tadi.
+          </p>
+        )}
         <div className="grid grid-cols-2 gap-3">
           <SelectField
             label="To'lov turi"
@@ -182,12 +190,8 @@ const AddPaymentModal = ({ payment, close, setIsLoading }) => {
           >
             Yopish
           </Button>
-          <Button
-            type="submit"
-            className="flex-1"
-            disabled={addMut.isPending || remaining <= 0}
-          >
-            {remaining <= 0 ? "To'liq to'langan" : "To'lovni qo'shish"}
+          <Button type="submit" className="flex-1" disabled={addMut.isPending}>
+            To'lovni qo'shish
           </Button>
         </div>
       </form>

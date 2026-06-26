@@ -6,12 +6,14 @@ import { financeAPI } from "../api/finance.api";
 
 // Moliya o'zgarishlari ko'p query'ga ta'sir qiladi (to'lovlar, hisobot, guruh fee) →
 // barchasini invalidate qilamiz. Guruh to'lovi/chegirma o'qituvchining billed maoshini
-// ham o'zgartiradi → teacherSalary query'lari ham yangilanadi.
+// ham o'zgartiradi → teacherSalary query'lari ham yangilanadi. Ortiqcha to'lov garovga
+// (depozit) tushadi, fee kamayishi ortiqchani depozitga qaytaradi → depozit ham yangilanadi.
 const useInvalidate = () => {
   const qc = useQueryClient();
   return () => {
     qc.invalidateQueries({ queryKey: qk.finance.all() });
     qc.invalidateQueries({ queryKey: qk.teacherSalary.all() });
+    qc.invalidateQueries({ queryKey: qk.deposits.all() });
   };
 };
 
