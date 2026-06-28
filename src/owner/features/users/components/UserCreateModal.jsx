@@ -65,10 +65,11 @@ const UserCreateModal = ({ defaultRole, close, isLoading, setIsLoading }) => {
       firstName: obj.firstName.trim(),
       lastName: obj.lastName.trim(),
       username: obj.username.trim(),
-      phone: obj.phone,
       password: obj.password,
       role: obj.role,
     };
+    // Telefon ixtiyoriy: faqat kiritilgan bo'lsa yuboriladi.
+    if (obj.phone.trim()) body.phone = obj.phone.trim();
     if (obj.gender) body.gender = obj.gender;
 
     if (isStudent) {
