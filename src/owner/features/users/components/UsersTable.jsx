@@ -166,37 +166,49 @@ const UsersTable = ({
                 </td>
               )}
               <td className="px-4 py-2 text-muted-foreground">
-                {archived ? (
-                  <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 items-center">
-                    <span className="text-xs uppercase tracking-wide text-zinc-400">
-                      Boshlagan
-                    </span>
-                    <span>
-                      {u.createdAt ? formatDateUzLong(u.createdAt) : "-"}
-                    </span>
-                    <span className="text-xs uppercase tracking-wide text-zinc-400">
-                      Arxivlangan
-                    </span>
-                    <span>
-                      {u.archivedAt ? formatDateUzLong(u.archivedAt) : "-"}
-                    </span>
-                  </div>
-                ) : isStudent ? (
-                  u.createdAt ? (
-                    <div className="leading-tight">
-                      <div>{formatDateUzLong(u.createdAt)}</div>
-                      <div className="text-xs text-zinc-400">
-                        {formatEnrolledDuration(u.createdAt)}
+                {(() => {
+                  // Boshlangan sana: o'quvchi → enrolledAt, o'qituvchi → hiredAt.
+                  const start = (isStudent ? u.enrolledAt : u.hiredAt) || u.createdAt;
+                  if (archived) {
+                    return (
+                      <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 items-center">
+                        <span className="text-xs uppercase tracking-wide text-zinc-400">
+                          Boshlagan
+                        </span>
+                        <span>{start ? formatDateUzLong(start) : "-"}</span>
+                        {isStudent && (
+                          <>
+                            <span className="text-xs uppercase tracking-wide text-zinc-400">
+                              Yakunlangan
+                            </span>
+                            <span>
+                              {u.completedAt ? formatDateUzLong(u.completedAt) : "-"}
+                            </span>
+                          </>
+                        )}
+                        <span className="text-xs uppercase tracking-wide text-zinc-400">
+                          Arxivlangan
+                        </span>
+                        <span>
+                          {u.archivedAt ? formatDateUzLong(u.archivedAt) : "-"}
+                        </span>
                       </div>
-                    </div>
-                  ) : (
-                    "-"
-                  )
-                ) : u.createdAt ? (
-                  formatDateUzLong(u.createdAt)
-                ) : (
-                  "-"
-                )}
+                    );
+                  }
+                  if (isStudent) {
+                    return start ? (
+                      <div className="leading-tight">
+                        <div>{formatDateUzLong(start)}</div>
+                        <div className="text-xs text-zinc-400">
+                          {formatEnrolledDuration(u.enrolledAt, u.completedAt)}
+                        </div>
+                      </div>
+                    ) : (
+                      "-"
+                    );
+                  }
+                  return start ? formatDateUzLong(start) : "-";
+                })()}
               </td>
               <td className="px-4 py-2" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-end gap-1">

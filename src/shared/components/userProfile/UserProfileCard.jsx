@@ -6,6 +6,7 @@ import {
   Cake,
   User,
   CalendarPlus,
+  CalendarCheck,
   Clock,
   Briefcase,
 } from "lucide-react";
@@ -100,8 +101,22 @@ const UserProfileCard = ({ profile }) => {
             {profile.enrolledAt && (
               <InfoRow
                 icon={Clock}
-                label="O'qiyapti"
-                value={`${formatEnrolledDuration(profile.enrolledAt)} oldin qo'shilgan`}
+                label={profile.completedAt ? "O'qigan muddati" : "O'qiyapti"}
+                value={
+                  profile.completedAt
+                    ? formatEnrolledDuration(
+                        profile.enrolledAt,
+                        profile.completedAt,
+                      )
+                    : `${formatEnrolledDuration(profile.enrolledAt)} oldin qo'shilgan`
+                }
+              />
+            )}
+            {profile.completedAt && (
+              <InfoRow
+                icon={CalendarCheck}
+                label="Yakunlagan"
+                value={formatDateUz(profile.completedAt)}
               />
             )}
           </>

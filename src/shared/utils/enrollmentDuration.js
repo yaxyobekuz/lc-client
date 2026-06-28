@@ -29,8 +29,9 @@ export const diffYMD = (fromLike, toLike = new Date()) => {
 
 // "3 oy, 12 kun" / "1 yil, 2 oy" ko'rinishidagi qisqa o'zbekcha matn.
 // Eng katta ikkita birlikni ko'rsatadi (yil bo'lsa kun tashlanadi).
-export const formatEnrolledDuration = (enrolledAt) => {
-  const d = diffYMD(enrolledAt);
+// completedAt berilsa - muddat shu sanada muzlatiladi (yakunlaganlar uchun).
+export const formatEnrolledDuration = (enrolledAt, completedAt) => {
+  const d = diffYMD(enrolledAt, completedAt || new Date());
   if (!d) return "-";
 
   const { years, months, days } = d;

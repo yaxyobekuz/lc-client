@@ -14,8 +14,8 @@ import { qk } from "@/shared/lib/query/keys";
 const useUserRemoveMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, reasonId } = {}) =>
-      usersAPI.remove(id, { reasonId }).then((r) => r.data),
+    mutationFn: ({ id, reasonId, archiveDate } = {}) =>
+      usersAPI.remove(id, { reasonId, archiveDate }).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.users.all() });
       toast.success("O'chirildi");

@@ -22,6 +22,7 @@ const buildInitial = (user) => ({
 
   // student
   enrolledAt: toDateInput(user?.enrolledAt),
+  completedAt: toDateInput(user?.completedAt),
 
   // teacher
   hiredAt: toDateInput(user?.hiredAt),
@@ -54,6 +55,7 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
 
     if (isStudent) {
       body.enrolledAt = obj.enrolledAt || null;
+      body.completedAt = obj.completedAt || null;
     }
     if (isTeacher) {
       body.hiredAt = obj.hiredAt || null;
@@ -127,15 +129,27 @@ const UserEditModal = ({ user, close, isLoading, setIsLoading }) => {
       )}
 
       {isStudent && (
-        <InputField
-          type="date"
-          name="enrolledAt"
-          label="Ro'yxatga olingan sana"
-          value={obj.enrolledAt}
-          max={today}
-          onChange={(e) => obj.setField("enrolledAt", e.target.value)}
-          disabled={isLoading}
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <InputField
+            type="date"
+            name="enrolledAt"
+            label="Ro'yxatga olingan sana"
+            value={obj.enrolledAt}
+            max={today}
+            onChange={(e) => obj.setField("enrolledAt", e.target.value)}
+            disabled={isLoading}
+          />
+          <InputField
+            type="date"
+            name="completedAt"
+            label="Yakunlash sanasi"
+            value={obj.completedAt}
+            min={obj.enrolledAt || undefined}
+            max={today}
+            onChange={(e) => obj.setField("completedAt", e.target.value)}
+            disabled={isLoading}
+          />
+        </div>
       )}
 
       {isTeacher && (
