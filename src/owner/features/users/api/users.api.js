@@ -14,7 +14,8 @@ export const usersAPI = {
   remove: (id, body) => http.delete(ENDPOINTS.users.byId(id), { data: body }),
   restore: (id, body) =>
     http.post(`${ENDPOINTS.users.byId(id)}/restore`, body),
-  permanentRemove: (id) => http.delete(`${ENDPOINTS.users.byId(id)}/permanent`),
+  permanentRemove: (id, body) =>
+    http.delete(`${ENDPOINTS.users.byId(id)}/permanent`, { data: body }),
   groupHistory: (id, params) =>
     http.get(ENDPOINTS.users.groupHistory(id), { params }),
 };

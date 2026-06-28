@@ -14,7 +14,8 @@ import { qk } from "@/shared/lib/query/keys";
 const useUserPermanentRemoveMutation = (options = {}) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id) => usersAPI.permanentRemove(id).then((r) => r.data),
+    mutationFn: ({ id, confirmName } = {}) =>
+      usersAPI.permanentRemove(id, { confirmName }).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: qk.users.all() });
       toast.success("Butunlay o'chirildi");
