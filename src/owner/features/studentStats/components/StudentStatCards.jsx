@@ -15,15 +15,19 @@ const formatAvgDuration = (months) => {
   return parts.join(" ") || "0 oy";
 };
 
-const StudentStatCards = ({ data }) => {
+const StudentStatCards = ({ data, stats, mode = "ongoing" }) => {
   if (!data) return null;
 
   // Joriy oyda qo'shilganlar (trendning oxirgi elementi).
   const trend = data.enrollmentTrend || [];
   const thisMonth = trend.length ? trend[trend.length - 1].count : 0;
 
+  // Muddat ko'rsatkichlari tanlangan rejimga (ongoing/finished) bog'liq.
+  const avgDurationMonths = stats?.avgDurationMonths ?? 0;
+  const isFinished = mode === "finished";
+
   // Eng katta kohorta (ko'pchilik qancha vaqt ro'yxatda turgan).
-  const cohorts = data.cohorts || [];
+  const cohorts = stats?.cohorts || [];
   const topCohort = cohorts.reduce(
     (best, c) => (c.count > (best?.count ?? -1) ? c : best),
     null,
@@ -47,18 +51,22 @@ const StudentStatCards = ({ data }) => {
       />
       <StatCard
         icon={Clock}
-        label="O'rtacha ro'yxat muddati"
-        value={data.avgDurationMonths}
+        label={isFinished ? "O'rtacha yakunlash muddati" : "O'rtacha ro'yxat muddati"}
+        value={avgDurationMonths}
         suffix=" oy"
         tone="info"
-        hint={formatAvgDuration(data.avgDurationMonths)}
+        hint={formatAvgDuration(avgDurationMonths)}
       />
       <StatCard
         icon={Layers}
         label="Ko'pchilik muddati"
         value={topCohort?.count ?? 0}
         tone="default"
-        hint={topCohort ? `${topCohort.label} ro'yxatda` : "-"}
+        hint={
+          topCohort
+            ? `${topCohort.label} (${isFinished ? "yakunlagan" : "o'qiyotgan"})`
+            : "-"
+        }
       />
     </div>
   );

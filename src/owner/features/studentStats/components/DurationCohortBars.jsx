@@ -1,4 +1,5 @@
 import Card from "@/shared/components/ui/card/Card";
+import { TabsButtons } from "@/shared/components/ui/tabs/Tabs";
 
 // Har bir kohorta uchun rang (0-3 → ... → 1 yil+).
 const TONES = {
@@ -8,14 +9,27 @@ const TONES = {
   "12+": "bg-emerald-500",
 };
 
+// Rejim almashtirgich: hozir o'qiyotganlar (enrolledAt → bugun) yoki
+// yakunlaganlar (enrolledAt → yakunlash sanasi, muzlatilgan).
+const MODE_ITEMS = [
+  { value: "ongoing", label: "Hozir o'qiyotganlar" },
+  { value: "finished", label: "Yakunlaganlar" },
+];
+
 // O'quvchilarni ro'yxatda turgan muddati bo'yicha guruhlash - gorizontal bar'lar.
 // Muddat ro'yxatga olingan sanadan (enrolledAt) hisoblanadi, guruhga qo'shilgan
 // sanadan emas.
-const DurationCohortBars = ({ cohorts = [] }) => {
+const DurationCohortBars = ({ cohorts = [], mode = "ongoing", onModeChange }) => {
   const total = cohorts.reduce((s, c) => s + (c.count || 0), 0);
 
   return (
-    <Card title="Ro'yxatda turgan muddat bo'yicha taqsimot">
+    <Card>
+      <div className="flex flex-col gap-3">
+        <h2 className="font-semibold text-gray-900">
+          Ro'yxatda turgan muddat bo'yicha taqsimot
+        </h2>
+        <TabsButtons items={MODE_ITEMS} value={mode} onChange={onModeChange} />
+      </div>
       {total === 0 ? (
         <p className="py-10 text-center text-sm text-muted-foreground">
           Ma'lumot yo'q
