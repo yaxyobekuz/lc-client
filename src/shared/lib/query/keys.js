@@ -8,6 +8,8 @@ export const qk = Object.freeze({
   },
   users: {
     all: () => ["users"],
+    // Faqat ro'yxat querylari prefiksi (detail/password/history'ni qamramaydi).
+    lists: () => ["users", "list"],
     list: (params) => ["users", "list", params],
     one: (id) => ["users", "detail", id],
     password: (id) => ["users", "password", id],

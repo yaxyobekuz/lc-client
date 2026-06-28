@@ -17,7 +17,11 @@ const useUserPermanentRemoveMutation = (options = {}) => {
     mutationFn: ({ id, confirmName } = {}) =>
       usersAPI.permanentRemove(id, { confirmName }).then((r) => r.data),
     onSuccess: (data, vars, ctx) => {
-      qc.invalidateQueries({ queryKey: qk.users.all() });
+      // Faqat ro'yxat querylarini yangilaymiz. O'chirilgan foydalanuvchining
+      // detail querylariga (one/password/group-history) atayin tegmaymiz - aks
+      // holda ular yo'q foydalanuvchi uchun qayta yuklanib 404 ("Foydalanuvchi
+      // topilmadi") toast beradi. Sahifa baribir ro'yxatga yo'naltiriladi.
+      qc.invalidateQueries({ queryKey: qk.users.lists() });
       toast.success("Butunlay o'chirildi");
       options.onSuccess?.(data, vars, ctx);
     },
