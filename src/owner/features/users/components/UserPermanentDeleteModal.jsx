@@ -12,10 +12,36 @@ import useUserPermanentRemoveMutation from "../hooks/useUserPermanentRemoveMutat
 // Constants
 import { ROLES } from "@/shared/constants/roles";
 
+// Rol bo'yicha o'chiriladigan ma'lumotlar (ogohlantirish uchun). Faqat o'quvchi va
+// o'qituvchi cascade hard-delete qilinadi - ikkalasi ham 2 bosqichli tasdiqdan o'tadi.
+const CASCADE_INFO = {
+  [ROLES.STUDENT]: {
+    subject: "o'quvchi",
+    items: [
+      "To'lovlar va to'lov tranzaksiyalari",
+      "Depozit (garov) va depozit tranzaksiyalari",
+      "Guruh a'zoliklari (o'qish davrlari)",
+      "Davomat va baholar",
+      "Chegirmalar va fikr-mulohazalar",
+    ],
+    note: "O'qituvchi maoshlari avtomatik qayta hisoblanadi.",
+  },
+  [ROLES.TEACHER]: {
+    subject: "o'qituvchi",
+    items: [
+      "Maosh hisoblari va maosh to'lovlari (chiqim)",
+      "Dars berish davrlari (guruhlarga biriktirish)",
+      "O'qituvchi davomati va yo'qliklari",
+      "Fikr-mulohazalar",
+    ],
+    note: "Guruhlar va o'quvchilar saqlanadi - bu o'qituvchi guruhlardan olib tashlanadi. O'chirilgan maosh to'lovlari o'tgan oylar chiqim hisobotidan ham chiqariladi.",
+  },
+};
+
 const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
   const navigate = useNavigate();
-  const isStudent = user?.role === ROLES.STUDENT;
   const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
+  const info = CASCADE_INFO[user?.role];
 
   const obj = useObjectState({ step: 1, confirmName: "" });
 
@@ -35,15 +61,14 @@ const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
 
   const nameMatches = obj.confirmName.trim() === fullName;
 
-  // O'qituvchi/boshqa rollar: bitta bosqichli (bog'liqlik bo'lsa server bloklaydi).
-  if (!isStudent) {
+  // Kutilmagan rol (o'quvchi/o'qituvchi emas): bitta bosqichli zaxira oqim.
+  if (!info) {
     return (
       <div className="space-y-4">
         <p className="text-sm">
           <span className="font-semibold">{fullName}</span> butunlay o'chiriladi va
           tiklab bo'lmaydi. O'chirish faqat foydalanuvchi hech qanday ma'lumotga
-          (oylik, guruh, davomat va h.k.) bog'liq bo'lmaganda mumkin - aks holda
-          xatolik chiqadi.
+          bog'liq bo'lmaganda mumkin - aks holda xatolik chiqadi.
         </p>
         <div className="flex gap-2">
           <Button
@@ -69,7 +94,7 @@ const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
     );
   }
 
-  // 1-bosqich: kuchli ogohlantirish.
+  // 1-bosqich: kuchli ogohlantirish (rol bo'yicha ro'yxat).
   if (obj.step === 1) {
     return (
       <div className="space-y-4">
@@ -79,15 +104,11 @@ const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
           </p>
           <p className="mt-2">Quyidagilarning barchasi yo'q qilinadi:</p>
           <ul className="mt-1 list-inside list-disc space-y-0.5">
-            <li>To'lovlar va to'lov tranzaksiyalari</li>
-            <li>Depozit (garov) va depozit tranzaksiyalari</li>
-            <li>Guruh a'zoliklari (o'qish davrlari)</li>
-            <li>Davomat va baholar</li>
-            <li>Chegirmalar va fikr-mulohazalar</li>
+            {info.items.map((it) => (
+              <li key={it}>{it}</li>
+            ))}
           </ul>
-          <p className="mt-2">
-            O'qituvchi maoshlari avtomatik qayta hisoblanadi.
-          </p>
+          <p className="mt-2">{info.note}</p>
         </div>
 
         <div className="flex gap-2">
@@ -118,7 +139,7 @@ const UserPermanentDeleteModal = ({ user, close, isLoading, setIsLoading }) => {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Tasdiqlash uchun o'quvchining to'liq ismini yozing:{" "}
+        Tasdiqlash uchun {info.subject}ning to'liq ismini yozing:{" "}
         <span className="font-semibold text-foreground">{fullName}</span>
       </p>
 
